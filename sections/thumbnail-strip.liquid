@@ -8,7 +8,13 @@
           {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' }}
         {% endif %}
         <div class="thumbnail-strip-{{ section.id }}__overlay">
-          <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
+          <div class="thumbnail-strip-{{ section.id }}__info">
+            <div class="thumbnail-strip-{{ section.id }}__color-wrap">
+              <span class="thumbnail-strip-{{ section.id }}__dot" style="background-color: {{ block.settings.color_hex }};"></span>
+              <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
+            </div>
+            <span class="thumbnail-strip-{{ section.id }}__price">{{ block.settings.price }}</span>
+          </div>
         </div>
       </a>
     {% endfor %}
@@ -73,6 +79,27 @@
     align-items: flex-end;
   }
   
+  .thumbnail-strip-{{ section.id }}__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .thumbnail-strip-{{ section.id }}__color-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .thumbnail-strip-{{ section.id }}__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: block;
+  }
+  
   .thumbnail-strip-{{ section.id }}__text {
     color: {{ section.settings.text_color }};
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
@@ -80,6 +107,13 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
+  }
+  
+  .thumbnail-strip-{{ section.id }}__price {
+    color: {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
   }
   
   @media (max-width: 768px) {
@@ -157,6 +191,18 @@
           "default": "Black"
         },
         {
+          "type": "color",
+          "id": "color_hex",
+          "label": "Color Swatch",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "£129.99"
+        },
+        {
           "type": "url",
           "id": "product_url",
           "label": "Product Link"
@@ -168,10 +214,10 @@
     {
       "name": "Thumbnail Strip",
       "blocks": [
-        { "type": "thumbnail", "settings": { "color_name": "Black" } },
-        { "type": "thumbnail", "settings": { "color_name": "Olive" } },
-        { "type": "thumbnail", "settings": { "color_name": "Brown" } },
-        { "type": "thumbnail", "settings": { "color_name": "Beige" } }
+        { "type": "thumbnail", "settings": { "color_name": "Black", "color_hex": "#000000", "price": "£129.99" } },
+        { "type": "thumbnail", "settings": { "color_name": "Olive", "color_hex": "#556b2f", "price": "£129.99" } },
+        { "type": "thumbnail", "settings": { "color_name": "Brown", "color_hex": "#5c4033", "price": "£129.99" } },
+        { "type": "thumbnail", "settings": { "color_name": "Sand", "color_hex": "#c2b280", "price": "£129.99" } }
       ]
     }
   ]

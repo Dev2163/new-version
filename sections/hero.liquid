@@ -10,7 +10,7 @@
 
   <div class="custom-hero-{{ section.id }}__left">
     <div class="custom-hero-{{ section.id }}__vertical-text">
-      {% assign brand_letters = "O,N,E,9" | split: "," %}
+      {% assign brand_letters = section.settings.vertical_text | split: "," %}
       {% for letter in brand_letters %}
         <span>{{ letter }}</span>
       {% endfor %}
@@ -255,6 +255,12 @@
 {
   "name": "Custom Hero",
   "settings": [
+    {
+      "type": "text",
+      "id": "vertical_text",
+      "label": "Vertical Brand Text (Comma separated for stacked letters)",
+      "default": "O,N,E,9"
+    },
     {
       "type": "textarea",
       "id": "title",
