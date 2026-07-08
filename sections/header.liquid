@@ -305,15 +305,16 @@
     -webkit-backdrop-filter: none !important;
   }
   
-  /* Force dark premium background when sticky (scrolled) so it doesn't turn white */
-  .shopify-section-header-sticky #header-component,
-  sticky-header.is-sticky #header-component,
-  .shopify-section-header-sticky .header__row,
-  .shopify-section-header-sticky {
+  /* Force dark premium background when sticky (scrolled) using native theme attributes */
+  #header-component:not([data-scroll-direction="none"]) {
     background-color: rgba(10, 10, 10, 0.85) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
     border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+  }
+  
+  #header-component .header__row {
+    background-color: transparent !important;
   }
   
   #header-component, #header-component * {
