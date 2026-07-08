@@ -1,50 +1,105 @@
-<div class="custom-hero-{{ section.id }}">
-  <div class="custom-hero-{{ section.id }}__bg">
-    {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 2500 | image_tag: class: 'custom-hero-' | append: section.id | append: '__image' }}
-    {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' }}
-    {%- endif -%}
-    <div class="custom-hero-{{ section.id }}__overlay"></div>
+<div class="custom-hero-container-{{ section.id }}">
+  <!-- HERO PART -->
+  <div class="custom-hero-{{ section.id }}">
+    <div class="custom-hero-{{ section.id }}__bg">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2500 | image_tag: class: 'custom-hero-' | append: section.id | append: '__image' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' }}
+      {%- endif -%}
+      <div class="custom-hero-{{ section.id }}__overlay"></div>
+    </div>
+
+    <div class="custom-hero-{{ section.id }}__left">
+      <div class="custom-hero-{{ section.id }}__vertical-text">
+        {% assign brand_letters = section.settings.vertical_text | split: "," %}
+        {% for letter in brand_letters %}
+          <span>{{ letter }}</span>
+        {% endfor %}
+      </div>
+      <div class="custom-hero-{{ section.id }}__icon">
+        <svg width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 18 L18 8 L32 18 L18 28 Z" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
+          <circle cx="18" cy="18" r="4.5" fill="{{ section.settings.accent_color }}" />
+          <line x1="0" y1="18" x2="4" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
+          <line x1="32" y1="18" x2="36" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
+        </svg>
+      </div>
+      <div class="custom-hero-{{ section.id }}__line"></div>
+    </div>
+    
+    <div class="custom-hero-{{ section.id }}__main">
+      <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title | newline_to_br }}</h1>
+      <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+      <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
+    </div>
   </div>
 
-  <div class="custom-hero-{{ section.id }}__left">
-    <div class="custom-hero-{{ section.id }}__vertical-text">
-      {% assign brand_letters = section.settings.vertical_text | split: "," %}
-      {% for letter in brand_letters %}
-        <span>{{ letter }}</span>
+  <!-- MARQUEE PART -->
+  {% if section.settings.show_marquee %}
+  <div class="custom-marquee-{{ section.id }}">
+    <div class="custom-marquee-{{ section.id }}__track">
+      <div class="custom-marquee-{{ section.id }}__content">
+        {%- for i in (1..10) -%}
+          <span class="custom-marquee-{{ section.id }}__text">{{ section.settings.marquee_text }}</span>
+          <span class="custom-marquee-{{ section.id }}__icon">✦</span>
+        {%- endfor -%}
+      </div>
+      <div class="custom-marquee-{{ section.id }}__content">
+        {%- for i in (1..10) -%}
+          <span class="custom-marquee-{{ section.id }}__text">{{ section.settings.marquee_text }}</span>
+          <span class="custom-marquee-{{ section.id }}__icon">✦</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- THUMBNAIL STRIP PART -->
+  {% if section.blocks.size > 0 %}
+  <div class="thumbnail-strip-{{ section.id }}">
+    <div class="thumbnail-strip-{{ section.id }}__container">
+      {% for block in section.blocks %}
+        {% if block.type == 'thumbnail' %}
+        <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip-{{ section.id }}__card" {{ block.shopify_attributes }}>
+          <div class="thumbnail-strip-{{ section.id }}__image-wrapper">
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip-' | append: section.id | append: '__image' }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' }}
+            {% endif %}
+          </div>
+          <div class="thumbnail-strip-{{ section.id }}__info">
+            <div class="thumbnail-strip-{{ section.id }}__color-wrap">
+              <span class="thumbnail-strip-{{ section.id }}__dot" style="background-color: {{ block.settings.color_hex }};"></span>
+              <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
+            </div>
+            <span class="thumbnail-strip-{{ section.id }}__price">{{ block.settings.price }}</span>
+          </div>
+        </a>
+        {% endif %}
       {% endfor %}
     </div>
-    <div class="custom-hero-{{ section.id }}__icon">
-      <svg width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 18 L18 8 L32 18 L18 28 Z" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
-        <circle cx="18" cy="18" r="4.5" fill="{{ section.settings.accent_color }}" />
-        <line x1="0" y1="18" x2="4" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
-        <line x1="32" y1="18" x2="36" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
-      </svg>
-    </div>
-    <div class="custom-hero-{{ section.id }}__line"></div>
   </div>
-  
-  <div class="custom-hero-{{ section.id }}__main">
-    <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title | newline_to_br }}</h1>
-    <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
-    <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
-  </div>
+  {% endif %}
 </div>
 
 <style>
+  .custom-hero-container-{{ section.id }} {
+    width: 100%;
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+  }
+
+  /* --- HERO CSS --- */
   .custom-hero-{{ section.id }} {
     position: relative;
     width: 100%;
     height: 100vh;
     min-height: 700px;
     display: flex;
-    background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    overflow: hidden;
   }
-  
   .custom-hero-{{ section.id }}__bg {
     position: absolute;
     top: 0;
@@ -53,18 +108,15 @@
     height: 100%;
     z-index: 1;
   }
-  
   .custom-hero-{{ section.id }}__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
   }
-  
   .custom-hero-{{ section.id }}__image--placeholder {
     filter: brightness(0.7);
   }
-  
   .custom-hero-{{ section.id }}__overlay {
     position: absolute;
     top: 0;
@@ -73,7 +125,6 @@
     height: 100%;
     background: radial-gradient(circle at 75% 50%, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,1) 100%);
   }
-  
   .custom-hero-{{ section.id }}::before {
     content: '';
     position: absolute;
@@ -84,7 +135,6 @@
     background: linear-gradient(to right, rgba(10,10,10,1) 0%, rgba(10,10,10,0.85) 45%, rgba(10,10,10,0) 100%);
     z-index: 1;
   }
-  
   .custom-hero-{{ section.id }}__left {
     position: relative;
     z-index: 2;
@@ -95,7 +145,6 @@
     width: 120px;
     flex-shrink: 0;
   }
-  
   .custom-hero-{{ section.id }}__vertical-text {
     display: flex;
     flex-direction: column;
@@ -106,26 +155,21 @@
     font-family: 'Archivo Black', 'Anton', sans-serif;
     text-transform: uppercase;
     margin-bottom: 24px;
-    letter-spacing: 0px;
   }
-  
   .custom-hero-{{ section.id }}__vertical-text span {
     display: block;
     line-height: 0.85;
     margin-bottom: -2px;
   }
-  
   .custom-hero-{{ section.id }}__icon {
     margin: 24px 0;
   }
-  
   .custom-hero-{{ section.id }}__line {
     width: 1px;
     flex-grow: 1;
     max-height: 300px;
     background-color: {{ section.settings.accent_color }};
   }
-  
   .custom-hero-{{ section.id }}__main {
     position: relative;
     z-index: 2;
@@ -135,7 +179,6 @@
     padding: 40px 0;
     max-width: 800px;
   }
-  
   .custom-hero-{{ section.id }}__title {
     font-size: 4.5rem;
     font-weight: 900;
@@ -146,7 +189,6 @@
     font-family: 'Archivo Black', 'Anton', sans-serif;
     letter-spacing: 1px;
   }
-  
   .custom-hero-{{ section.id }}__subtitle {
     font-size: 1.25rem;
     color: {{ section.settings.text_secondary_color }};
@@ -154,7 +196,6 @@
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
     font-weight: 400;
   }
-  
   .custom-hero-{{ section.id }}__button {
     display: inline-block;
     background: {{ section.settings.accent_color }};
@@ -170,94 +211,210 @@
     transition: all 0.3s ease;
     letter-spacing: 1px;
   }
-  
   .custom-hero-{{ section.id }}__button:hover {
     box-shadow: 0 0 40px {{ section.settings.accent_color | color_modify: 'alpha', 0.6 }};
     transform: translateY(-2px);
     filter: brightness(1.1);
   }
-  
+
+  /* --- MARQUEE CSS --- */
+  .custom-marquee-{{ section.id }} {
+    width: 100%;
+    background-color: {{ section.settings.marquee_bg_color }};
+    overflow: hidden;
+    padding: 12px 0;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .custom-marquee-{{ section.id }}__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll-{{ section.id }} {{ section.settings.marquee_speed }}s linear infinite;
+  }
+  .custom-marquee-{{ section.id }}__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .custom-marquee-{{ section.id }}__text {
+    color: {{ section.settings.marquee_text_color }};
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    margin: 0 24px;
+  }
+  .custom-marquee-{{ section.id }}__icon {
+    color: {{ section.settings.marquee_text_color }};
+    font-size: 12px;
+  }
+  @keyframes marquee-scroll-{{ section.id }} {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* --- THUMBNAIL STRIP CSS --- */
+  .thumbnail-strip-{{ section.id }} {
+    background-color: transparent;
+    padding: 20px 40px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .thumbnail-strip-{{ section.id }}__container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .thumbnail-strip-{{ section.id }}__card {
+    flex: 1 1 25%;
+    max-width: 280px;
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .thumbnail-strip-{{ section.id }}__card:hover {
+    transform: scale(1.03);
+    border-color: {{ section.settings.accent_color }};
+    box-shadow: 0 4px 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }};
+  }
+  .thumbnail-strip-{{ section.id }}__image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    overflow: hidden;
+  }
+  .thumbnail-strip-{{ section.id }}__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .thumbnail-strip-{{ section.id }}__placeholder {
+    fill: #333;
+    background: {{ section.settings.card_bg_color }};
+  }
+  .thumbnail-strip-{{ section.id }}__info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: {{ section.settings.card_bg_color }};
+  }
+  .thumbnail-strip-{{ section.id }}__color-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .thumbnail-strip-{{ section.id }}__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: block;
+  }
+  .thumbnail-strip-{{ section.id }}__text {
+    color: {{ section.settings.text_color }};
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .thumbnail-strip-{{ section.id }}__price {
+    color: {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  /* --- RESPONSIVE CSS --- */
   @media (max-width: 1200px) {
-    .custom-hero-{{ section.id }}__title {
-      font-size: 4rem;
-    }
+    .custom-hero-{{ section.id }}__title { font-size: 4rem; }
   }
-  
   @media (max-width: 990px) {
-    .custom-hero-{{ section.id }}__title {
-      font-size: 3.5rem;
-    }
-    .custom-hero-{{ section.id }}__subtitle {
-      font-size: 1.15rem;
-    }
-    .custom-hero-{{ section.id }}__button {
-      padding: 14px 40px;
-      font-size: 1rem;
-    }
+    .custom-hero-{{ section.id }}__title { font-size: 3.5rem; }
+    .custom-hero-{{ section.id }}__subtitle { font-size: 1.15rem; }
+    .custom-hero-{{ section.id }}__button { padding: 14px 40px; font-size: 1rem; }
   }
-  
   @media (max-width: 768px) {
+    /* Hero */
     .custom-hero-{{ section.id }} {
       flex-direction: column;
       height: auto;
       min-height: 80vh;
     }
-    
     .custom-hero-{{ section.id }}::before {
       width: 100%;
       height: 60%;
       background: linear-gradient(to bottom, rgba(10,10,10,1) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,0) 100%);
     }
-    
     .custom-hero-{{ section.id }}__left {
       flex-direction: row;
       justify-content: center;
       padding: 30px 20px 10px;
       width: 100%;
     }
-    
     .custom-hero-{{ section.id }}__vertical-text {
       transform: none;
       margin-bottom: 0;
       margin-top: 0;
       margin-right: 15px;
       font-size: 32px;
+      flex-direction: row; /* Un-stack for mobile */
     }
-    
-    .custom-hero-{{ section.id }}__icon {
-      margin: 0 15px;
+    .custom-hero-{{ section.id }}__vertical-text span {
+      margin-bottom: 0;
     }
-    
-    .custom-hero-{{ section.id }}__line {
-      width: 50px;
-      height: 1px;
-      margin-top: 0;
-    }
-    
+    .custom-hero-{{ section.id }}__icon { margin: 0 15px; }
+    .custom-hero-{{ section.id }}__line { width: 50px; height: 1px; margin-top: 0; }
     .custom-hero-{{ section.id }}__main {
       padding: 20px 30px 60px;
       text-align: center;
       align-items: center;
     }
-    
-    .custom-hero-{{ section.id }}__title {
-      font-size: 3rem;
+    .custom-hero-{{ section.id }}__title { font-size: 3rem; }
+    .custom-hero-{{ section.id }}__button { align-self: center; }
+
+    /* Thumbnails */
+    .thumbnail-strip-{{ section.id }} { padding: 20px; }
+    .thumbnail-strip-{{ section.id }}__container {
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
     }
-    
-    .custom-hero-{{ section.id }}__button {
-      align-self: center;
-    }
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar { height: 4px; }
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-track { background: {{ section.settings.card_bg_color }}; }
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    .thumbnail-strip-{{ section.id }}__card { flex: 0 0 70%; scroll-snap-align: center; }
   }
 </style>
 
 {% schema %}
 {
-  "name": "Custom Hero",
+  "name": "ONE9 Complete Hero",
   "settings": [
+    {
+      "type": "header",
+      "content": "Hero Settings"
+    },
     {
       "type": "text",
       "id": "vertical_text",
-      "label": "Vertical Brand Text (Comma separated for stacked letters)",
+      "label": "Vertical Brand Text (Comma separated)",
       "default": "O,N,E,9"
     },
     {
@@ -286,18 +443,47 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Background Image"
+      "label": "Hero Image"
+    },
+    {
+      "type": "header",
+      "content": "Marquee Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_marquee",
+      "label": "Show Marquee",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "marquee_text",
+      "label": "Marquee Text",
+      "default": "BUILT DIFFERENT. WORN EVERYWHERE."
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "Marquee Speed",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colors"
     },
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Background Color",
+      "label": "Main Background Color",
       "default": "#0A0A0A"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent Color",
+      "label": "Accent / Button Color",
       "default": "#F4C430"
     },
     {
@@ -311,12 +497,73 @@
       "id": "text_secondary_color",
       "label": "Secondary Text Color",
       "default": "#B0B0B0"
+    },
+    {
+      "type": "color",
+      "id": "marquee_bg_color",
+      "label": "Marquee Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "marquee_text_color",
+      "label": "Marquee Text Color",
+      "default": "#8A7B5C"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Thumbnail Card Background",
+      "default": "#1A1A1A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "thumbnail",
+      "name": "Thumbnail Card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Jacket Image"
+        },
+        {
+          "type": "text",
+          "id": "color_name",
+          "label": "Color Name",
+          "default": "Black"
+        },
+        {
+          "type": "color",
+          "id": "color_hex",
+          "label": "Color Swatch",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "£129.99"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Product Link"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Custom Hero",
-      "category": "Custom"
+      "name": "ONE9 Complete Hero",
+      "category": "Custom",
+      "blocks": [
+        { "type": "thumbnail", "settings": { "color_name": "Black", "color_hex": "#000000", "price": "£129.99" } },
+        { "type": "thumbnail", "settings": { "color_name": "Olive", "color_hex": "#556b2f", "price": "£129.99" } },
+        { "type": "thumbnail", "settings": { "color_name": "Brown", "color_hex": "#5c4033", "price": "£129.99" } },
+        { "type": "thumbnail", "settings": { "color_name": "Sand", "color_hex": "#c2b280", "price": "£129.99" } }
+      ]
     }
   ]
 }
