@@ -335,12 +335,49 @@
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
     padding: 10px 16px !important;
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
+    opacity: 0.85;
+    transition: all 0.4s ease !important;
+    position: relative;
+    text-decoration: none !important;
   }
+  
+  /* Animated Underline */
+  #header-component .list-menu__item::after,
+  #header-component .header__menu-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 5px;
+    left: 50%;
+    background-color: #FFFFFF;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(-50%);
+  }
+  
   #header-component .list-menu__item:hover,
   #header-component .header__menu-item:hover {
     opacity: 1;
+  }
+  
+  #header-component .list-menu__item:hover::after,
+  #header-component .header__menu-item:hover::after {
+    width: 60%;
+  }
+
+  /* Animated Icons */
+  #header-component .header-actions__action svg,
+  #header-component .header__icon--menu svg {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+  #header-component .header-actions__action:hover svg,
+  #header-component .header__icon--menu:hover svg {
+    transform: scale(1.15);
+  }
+
+  /* Smooth Sticky Transition */
+  shopify-section-header-sticky #header-component {
+    transition: transform 0.5s ease-in-out, background-color 0.5s ease;
   }
 
   @media screen and (min-width: 750px) {
