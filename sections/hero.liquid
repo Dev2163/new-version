@@ -170,38 +170,29 @@
   }
   
   .custom-hero-{{ section.id }}__image-col {
-    flex: 0.8;
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
   }
   
   .custom-hero-{{ section.id }}__image-glow {
     position: relative;
     width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: center;
-  }
-  
-  .custom-hero-{{ section.id }}__image-glow::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-    z-index: 1;
-    pointer-events: none;
+    justify-content: flex-end;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 65%);
   }
   
   .custom-hero-{{ section.id }}__image {
-    max-width: 100%;
-    height: auto;
-    max-height: 80vh;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
     z-index: 2;
     position: relative;
     transition: opacity 0.5s ease;
