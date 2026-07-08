@@ -297,63 +297,30 @@
 </script>
 
 <style>
-  /* ONE9 Custom Header Styles */
-  #header-component {
-    background-color: transparent !important;
-    border-bottom: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+  /* ONE9 Premium Header Styles - Clean & Native */
   
-  /* Force dark premium background when sticky (scrolled) using native theme attributes */
-  #header-component:not([data-scroll-direction="none"]) {
-    background-color: rgba(10, 10, 10, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-  }
-  
-  #header-component .header__row {
-    background-color: transparent !important;
-  }
-  
-  #header-component, #header-component * {
-    color: #FFFFFF !important;
-  }
-  
-  /* Thin Line Icons */
-  #header-component .header-actions__action svg path,
-  #header-component .header-actions__action svg circle,
-  #header-component .header__icon--menu svg path,
-  #header-component .header__icon--menu svg line {
-    stroke: #FFFFFF !important;
-    stroke-width: 1.2px !important;
-    fill: none !important;
-  }
-  #header-component .header-actions__action svg,
-  #header-component .header__icon--menu svg {
-    width: 22px !important;
-    height: 22px !important;
-  }
-  
-  /* Small Uppercase Sans-Serif Navigation */
-  #header-component .list-menu__item,
-  #header-component .header__menu-item,
-  #header-component .list-menu__item span,
-  #header-component .header__menu-item span {
+  /* 1. Typography: Small Uppercase Sans-Serif */
+  header-component .list-menu__item,
+  header-component .header__menu-item,
+  header-component .list-menu__item span,
+  header-component .header__menu-item span {
     font-size: 11px !important;
     font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
     opacity: 0.9;
-    transition: all 0.4s ease !important;
+    transition: all 0.4s ease;
     text-decoration: none !important;
   }
-  
-  /* Animated Underline */
-  #header-component .list-menu__item::after,
-  #header-component .header__menu-item::after {
+
+  /* 2. Hover Animations: Underline */
+  header-component .list-menu__item,
+  header-component .header__menu-item {
+    position: relative;
+  }
+  header-component .list-menu__item::after,
+  header-component .header__menu-item::after {
     content: '';
     position: absolute;
     width: 0;
@@ -364,74 +331,57 @@
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     transform: translateX(-50%);
   }
-  
-  #header-component .list-menu__item:hover,
-  #header-component .header__menu-item:hover,
-  #header-component .list-menu__item:hover span,
-  #header-component .header__menu-item:hover span {
+  header-component .list-menu__item:hover,
+  header-component .header__menu-item:hover,
+  header-component .list-menu__item:hover span,
+  header-component .header__menu-item:hover span {
     opacity: 1;
   }
-  
-  #header-component .list-menu__item:hover::after,
-  #header-component .header__menu-item:hover::after {
+  header-component .list-menu__item:hover::after,
+  header-component .header__menu-item:hover::after {
     width: 60%;
   }
 
-  /* Animated Icons */
-  #header-component .header-actions__action svg,
-  #header-component .header__icon--menu svg {
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  /* 3. Icon Styling & Animation */
+  header-component .header__icon svg path,
+  header-component .header__icon svg circle,
+  header-component .header__icon svg line,
+  header-component .header-actions__action svg path,
+  header-component .header-actions__action svg circle {
+    stroke: #FFFFFF !important;
+    stroke-width: 1.2px !important;
+    fill: none !important;
   }
-  #header-component .header-actions__action:hover svg,
-  #header-component .header__icon--menu:hover svg {
+  header-component .header__icon svg,
+  header-component .header-actions__action svg {
+    width: 22px !important;
+    height: 22px !important;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  header-component .header__icon:hover svg,
+  header-component .header-actions__action:hover svg {
     transform: scale(1.15);
   }
 
-  @media screen and (min-width: 750px) {
-    #header-component .header__row {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      width: 100%;
-      padding: 20px 40px !important;
-    }
-    
-    /* Left: Logo */
-    #header-component .header__heading,
-    #header-component .header__heading-link {
-      display: flex !important;
-    }
-    #header-component .header__heading {
-      flex: 1;
-      justify-content: flex-start;
-      margin: 0 !important;
-    }
-    
-    /* Hide Hamburger Menu on Desktop */
-    #header-component .header__icon--menu {
-      display: none !important;
-    }
-    
-    /* Center: Navigation */
-    #header-component header-menu,
-    #header-component .header__inline-menu {
-      display: flex !important;
-      justify-content: center !important;
-      flex: 2;
-    }
-    #header-component .list-menu--inline {
-      display: flex !important;
-      justify-content: center !important;
-      gap: 30px;
-    }
-    
-    /* Right: Actions */
-    #header-component .header-actions {
-      display: flex !important;
-      justify-content: flex-end !important;
-      flex: 1;
-      gap: 20px;
-    }
+  /* 4. Sticky Header Premium Background */
+  #shopify-section-header.shopify-section-header-sticky header-component,
+  header-component[data-scroll-direction="up"],
+  header-component[data-scroll-direction="down"] {
+    background-color: rgba(10, 10, 10, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+  }
+  
+  #shopify-section-header.shopify-section-header-sticky .header__row,
+  header-component[data-scroll-direction="up"] .header__row,
+  header-component[data-scroll-direction="down"] .header__row {
+    background-color: transparent !important;
+  }
+  
+  /* Make sure text and icons are always white */
+  header-component, header-component * {
+    color: #FFFFFF !important;
   }
 </style>
 
