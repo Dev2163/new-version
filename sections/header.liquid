@@ -389,19 +389,20 @@
       padding: 0 40px !important;
     }
     
-    /* Hide default logo since ONE9 vertical text acts as logo */
+    /* Left: Logo */
     #header-component .header__heading,
     #header-component .header__heading-link {
-      display: none !important;
-    }
-    
-    /* Left: Hamburger Menu */
-    #header-component .header__icon--menu {
       display: flex !important;
-      align-items: center;
-      margin-left: -12px;
+    }
+    #header-component .header__heading {
       flex: 1;
       justify-content: flex-start;
+      margin: 0 !important;
+    }
+    
+    /* Hide Hamburger Menu on Desktop */
+    #header-component .header__icon--menu {
+      display: none !important;
     }
     
     /* Center: Navigation */
