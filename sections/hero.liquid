@@ -1,51 +1,51 @@
-<div class="custom-hero">
-  <div class="custom-hero__bg">
+<div class="custom-hero-{{ section.id }}">
+  <div class="custom-hero-{{ section.id }}__bg">
     {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 2500 | image_tag: class: 'custom-hero__image' }}
+      {{ section.settings.image | image_url: width: 2500 | image_tag: class: 'custom-hero-' | append: section.id | append: '__image' }}
     {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero__image custom-hero__image--placeholder' }}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' }}
     {%- endif -%}
-    <div class="custom-hero__overlay"></div>
+    <div class="custom-hero-{{ section.id }}__overlay"></div>
   </div>
 
-  <div class="custom-hero__left">
-    <div class="custom-hero__vertical-text">
+  <div class="custom-hero-{{ section.id }}__left">
+    <div class="custom-hero-{{ section.id }}__vertical-text">
       {% assign brand_letters = "O,N,E,9" | split: "," %}
       {% for letter in brand_letters %}
         <span>{{ letter }}</span>
       {% endfor %}
     </div>
-    <div class="custom-hero__icon">
+    <div class="custom-hero-{{ section.id }}__icon">
       <svg width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 18 L18 8 L32 18 L18 28 Z" stroke="#F4C430" stroke-width="2.5" fill="none" />
-        <circle cx="18" cy="18" r="4.5" fill="#F4C430" />
-        <line x1="0" y1="18" x2="4" y2="18" stroke="#F4C430" stroke-width="2.5" />
-        <line x1="32" y1="18" x2="36" y2="18" stroke="#F4C430" stroke-width="2.5" />
+        <path d="M4 18 L18 8 L32 18 L18 28 Z" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
+        <circle cx="18" cy="18" r="4.5" fill="{{ section.settings.accent_color }}" />
+        <line x1="0" y1="18" x2="4" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
+        <line x1="32" y1="18" x2="36" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
       </svg>
     </div>
-    <div class="custom-hero__line"></div>
+    <div class="custom-hero-{{ section.id }}__line"></div>
   </div>
   
-  <div class="custom-hero__main">
-    <h1 class="custom-hero__title">{{ section.settings.title | newline_to_br }}</h1>
-    <p class="custom-hero__subtitle">{{ section.settings.subtitle }}</p>
-    <a href="{{ section.settings.button_link }}" class="custom-hero__button">{{ section.settings.button_text }}</a>
+  <div class="custom-hero-{{ section.id }}__main">
+    <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title | newline_to_br }}</h1>
+    <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+    <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
   </div>
 </div>
 
 <style>
-  .custom-hero {
+  .custom-hero-{{ section.id }} {
     position: relative;
     width: 100%;
     height: 100vh;
     min-height: 700px;
     display: flex;
-    background-color: #0A0A0A;
-    color: #FFFFFF;
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
     overflow: hidden;
   }
   
-  .custom-hero__bg {
+  .custom-hero-{{ section.id }}__bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -54,18 +54,18 @@
     z-index: 1;
   }
   
-  .custom-hero__image {
+  .custom-hero-{{ section.id }}__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
   }
   
-  .custom-hero__image--placeholder {
+  .custom-hero-{{ section.id }}__image--placeholder {
     filter: brightness(0.7);
   }
   
-  .custom-hero__overlay {
+  .custom-hero-{{ section.id }}__overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -74,7 +74,7 @@
     background: radial-gradient(circle at 75% 50%, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,1) 100%);
   }
   
-  .custom-hero::before {
+  .custom-hero-{{ section.id }}::before {
     content: '';
     position: absolute;
     top: 0;
@@ -85,7 +85,7 @@
     z-index: 1;
   }
   
-  .custom-hero__left {
+  .custom-hero-{{ section.id }}__left {
     position: relative;
     z-index: 2;
     display: flex;
@@ -96,49 +96,38 @@
     flex-shrink: 0;
   }
   
-  .custom-hero__vertical-text {
+  .custom-hero-{{ section.id }}__vertical-text {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     font-size: 40px;
     font-weight: 900;
-    color: #F4C430;
+    color: {{ section.settings.accent_color }};
     font-family: 'Archivo Black', 'Anton', sans-serif;
     text-transform: uppercase;
-  }
-  
-  .custom-hero__vertical-text span {
-    display: block;
-    line-height: 0.9;
-    margin-bottom: 2px;
-    transform: rotate(90deg); /* Or just stack as letters, the prompt said rotated 90 deg */
-  }
-  
-  /* Applying full rotation to the container instead of individual letters to match standard "rotated 90 deg" design */
-  .custom-hero__vertical-text {
     transform: rotate(-90deg);
-    flex-direction: row;
     margin-bottom: 60px;
     margin-top: 20px;
     letter-spacing: 2px;
   }
-  .custom-hero__vertical-text span {
-    transform: none;
-    margin-bottom: 0;
+  
+  .custom-hero-{{ section.id }}__vertical-text span {
+    display: block;
+    line-height: 0.9;
   }
   
-  .custom-hero__icon {
+  .custom-hero-{{ section.id }}__icon {
     margin: 24px 0;
   }
   
-  .custom-hero__line {
+  .custom-hero-{{ section.id }}__line {
     width: 1px;
     flex-grow: 1;
     max-height: 300px;
-    background-color: #F4C430;
+    background-color: {{ section.settings.accent_color }};
   }
   
-  .custom-hero__main {
+  .custom-hero-{{ section.id }}__main {
     position: relative;
     z-index: 2;
     display: flex;
@@ -148,87 +137,87 @@
     max-width: 800px;
   }
   
-  .custom-hero__title {
-    font-size: 4.5rem; /* ~72px */
+  .custom-hero-{{ section.id }}__title {
+    font-size: 4.5rem;
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
     margin: 0 0 24px 0;
-    color: #FFFFFF;
+    color: {{ section.settings.text_color }};
     font-family: 'Archivo Black', 'Anton', sans-serif;
     letter-spacing: 1px;
   }
   
-  .custom-hero__subtitle {
-    font-size: 1.25rem; /* ~20px */
-    color: #B0B0B0;
+  .custom-hero-{{ section.id }}__subtitle {
+    font-size: 1.25rem;
+    color: {{ section.settings.text_secondary_color }};
     margin: 0 0 48px 0;
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
     font-weight: 400;
   }
   
-  .custom-hero__button {
+  .custom-hero-{{ section.id }}__button {
     display: inline-block;
-    background: #F4C430;
+    background: {{ section.settings.accent_color }};
     color: #000000;
     text-transform: uppercase;
     font-weight: 800;
     font-size: 1.125rem;
     padding: 16px 52px;
     text-decoration: none;
-    border-radius: 4px; /* rounded-rect */
-    box-shadow: 0 0 30px rgba(244, 196, 48, 0.4);
+    border-radius: 4px;
+    box-shadow: 0 0 30px {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};
     align-self: flex-start;
     transition: all 0.3s ease;
     letter-spacing: 1px;
   }
   
-  .custom-hero__button:hover {
-    box-shadow: 0 0 40px rgba(244, 196, 48, 0.6);
+  .custom-hero-{{ section.id }}__button:hover {
+    box-shadow: 0 0 40px {{ section.settings.accent_color | color_modify: 'alpha', 0.6 }};
     transform: translateY(-2px);
-    background: #F8D050;
+    filter: brightness(1.1);
   }
   
   @media (max-width: 1200px) {
-    .custom-hero__title {
+    .custom-hero-{{ section.id }}__title {
       font-size: 4rem;
     }
   }
   
   @media (max-width: 990px) {
-    .custom-hero__title {
+    .custom-hero-{{ section.id }}__title {
       font-size: 3.5rem;
     }
-    .custom-hero__subtitle {
+    .custom-hero-{{ section.id }}__subtitle {
       font-size: 1.15rem;
     }
-    .custom-hero__button {
+    .custom-hero-{{ section.id }}__button {
       padding: 14px 40px;
       font-size: 1rem;
     }
   }
   
   @media (max-width: 768px) {
-    .custom-hero {
+    .custom-hero-{{ section.id }} {
       flex-direction: column;
       height: auto;
       min-height: 80vh;
     }
     
-    .custom-hero::before {
+    .custom-hero-{{ section.id }}::before {
       width: 100%;
       height: 60%;
       background: linear-gradient(to bottom, rgba(10,10,10,1) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,0) 100%);
     }
     
-    .custom-hero__left {
+    .custom-hero-{{ section.id }}__left {
       flex-direction: row;
       justify-content: center;
       padding: 30px 20px 10px;
       width: 100%;
     }
     
-    .custom-hero__vertical-text {
+    .custom-hero-{{ section.id }}__vertical-text {
       transform: none;
       margin-bottom: 0;
       margin-top: 0;
@@ -236,27 +225,27 @@
       font-size: 32px;
     }
     
-    .custom-hero__icon {
+    .custom-hero-{{ section.id }}__icon {
       margin: 0 15px;
     }
     
-    .custom-hero__line {
+    .custom-hero-{{ section.id }}__line {
       width: 50px;
       height: 1px;
       margin-top: 0;
     }
     
-    .custom-hero__main {
+    .custom-hero-{{ section.id }}__main {
       padding: 20px 30px 60px;
       text-align: center;
       align-items: center;
     }
     
-    .custom-hero__title {
+    .custom-hero-{{ section.id }}__title {
       font-size: 3rem;
     }
     
-    .custom-hero__button {
+    .custom-hero-{{ section.id }}__button {
       align-self: center;
     }
   }
@@ -293,6 +282,30 @@
       "type": "image_picker",
       "id": "image",
       "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#F4C430"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Primary Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_secondary_color",
+      "label": "Secondary Text Color",
+      "default": "#B0B0B0"
     }
   ],
   "presets": [

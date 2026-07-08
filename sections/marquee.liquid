@@ -1,24 +1,24 @@
-<div class="custom-marquee">
-  <div class="custom-marquee__track">
-    <div class="custom-marquee__content">
+<div class="custom-marquee-{{ section.id }}">
+  <div class="custom-marquee-{{ section.id }}__track">
+    <div class="custom-marquee-{{ section.id }}__content">
       {%- for i in (1..10) -%}
-        <span class="custom-marquee__text">{{ section.settings.text }}</span>
-        <span class="custom-marquee__icon">✦</span>
+        <span class="custom-marquee-{{ section.id }}__text">{{ section.settings.text }}</span>
+        <span class="custom-marquee-{{ section.id }}__icon">✦</span>
       {%- endfor -%}
     </div>
-    <div class="custom-marquee__content">
+    <div class="custom-marquee-{{ section.id }}__content">
       {%- for i in (1..10) -%}
-        <span class="custom-marquee__text">{{ section.settings.text }}</span>
-        <span class="custom-marquee__icon">✦</span>
+        <span class="custom-marquee-{{ section.id }}__text">{{ section.settings.text }}</span>
+        <span class="custom-marquee-{{ section.id }}__icon">✦</span>
       {%- endfor -%}
     </div>
   </div>
 </div>
 
 <style>
-  .custom-marquee {
+  .custom-marquee-{{ section.id }} {
     width: 100%;
-    background-color: #111111;
+    background-color: {{ section.settings.bg_color }};
     overflow: hidden;
     padding: 12px 0;
     position: relative;
@@ -26,20 +26,20 @@
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
   
-  .custom-marquee__track {
+  .custom-marquee-{{ section.id }}__track {
     display: flex;
     width: max-content;
-    animation: marquee-scroll {{ section.settings.speed }}s linear infinite;
+    animation: marquee-scroll-{{ section.id }} {{ section.settings.speed }}s linear infinite;
   }
   
-  .custom-marquee__content {
+  .custom-marquee-{{ section.id }}__content {
     display: flex;
     align-items: center;
     justify-content: space-around;
   }
   
-  .custom-marquee__text {
-    color: #8A7B5C;
+  .custom-marquee-{{ section.id }}__text {
+    color: {{ section.settings.text_color }};
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
     font-size: 13px;
     font-weight: 600;
@@ -49,12 +49,12 @@
     margin: 0 24px;
   }
   
-  .custom-marquee__icon {
-    color: #8A7B5C;
+  .custom-marquee-{{ section.id }}__icon {
+    color: {{ section.settings.text_color }};
     font-size: 12px;
   }
   
-  @keyframes marquee-scroll {
+  @keyframes marquee-scroll-{{ section.id }} {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
@@ -78,6 +78,18 @@
       "max": 60,
       "step": 2,
       "default": 30
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text and Icon Color",
+      "default": "#8A7B5C"
     }
   ],
   "presets": [

@@ -1,14 +1,14 @@
-<div class="thumbnail-strip">
-  <div class="thumbnail-strip__container">
+<div class="thumbnail-strip-{{ section.id }}">
+  <div class="thumbnail-strip-{{ section.id }}__container">
     {% for block in section.blocks %}
-      <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip__card" {{ block.shopify_attributes }}>
+      <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip-{{ section.id }}__card" {{ block.shopify_attributes }}>
         {% if block.settings.image != blank %}
-          {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip__image' }}
+          {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip-' | append: section.id | append: '__image' }}
         {% else %}
-          {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip__image thumbnail-strip__placeholder' }}
+          {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' }}
         {% endif %}
-        <div class="thumbnail-strip__overlay">
-          <span class="thumbnail-strip__text">{{ block.settings.color_name }}</span>
+        <div class="thumbnail-strip-{{ section.id }}__overlay">
+          <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
         </div>
       </a>
     {% endfor %}
@@ -16,14 +16,14 @@
 </div>
 
 <style>
-  .thumbnail-strip {
-    background-color: #0A0A0A;
+  .thumbnail-strip-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
     padding: 20px 40px;
     width: 100%;
     box-sizing: border-box;
   }
   
-  .thumbnail-strip__container {
+  .thumbnail-strip-{{ section.id }}__container {
     display: flex;
     justify-content: center;
     gap: 24px;
@@ -31,11 +31,11 @@
     margin: 0 auto;
   }
   
-  .thumbnail-strip__card {
+  .thumbnail-strip-{{ section.id }}__card {
     flex: 1 1 25%;
     max-width: 280px;
     aspect-ratio: 1 / 1;
-    background-color: #1A1A1A;
+    background-color: {{ section.settings.card_bg_color }};
     border: 1px solid rgba(255,255,255,0.05);
     border-radius: 8px;
     overflow: hidden;
@@ -45,24 +45,24 @@
     text-decoration: none;
   }
   
-  .thumbnail-strip__card:hover {
+  .thumbnail-strip-{{ section.id }}__card:hover {
     transform: scale(1.02);
-    border-color: #F4C430;
-    box-shadow: 0 4px 20px rgba(244, 196, 48, 0.15);
+    border-color: {{ section.settings.accent_color }};
+    box-shadow: 0 4px 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }};
   }
   
-  .thumbnail-strip__image {
+  .thumbnail-strip-{{ section.id }}__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
   
-  .thumbnail-strip__placeholder {
+  .thumbnail-strip-{{ section.id }}__placeholder {
     fill: #333;
-    background: #1A1A1A;
+    background: {{ section.settings.card_bg_color }};
   }
   
-  .thumbnail-strip__overlay {
+  .thumbnail-strip-{{ section.id }}__overlay {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -73,8 +73,8 @@
     align-items: flex-end;
   }
   
-  .thumbnail-strip__text {
-    color: #FFFFFF;
+  .thumbnail-strip-{{ section.id }}__text {
+    color: {{ section.settings.text_color }};
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -83,27 +83,27 @@
   }
   
   @media (max-width: 768px) {
-    .thumbnail-strip {
+    .thumbnail-strip-{{ section.id }} {
       padding: 20px;
     }
-    .thumbnail-strip__container {
+    .thumbnail-strip-{{ section.id }}__container {
       justify-content: flex-start;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       padding-bottom: 10px;
       -webkit-overflow-scrolling: touch;
     }
-    .thumbnail-strip__container::-webkit-scrollbar {
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar {
       height: 4px;
     }
-    .thumbnail-strip__container::-webkit-scrollbar-track {
-      background: #1A1A1A; 
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-track {
+      background: {{ section.settings.card_bg_color }}; 
     }
-    .thumbnail-strip__container::-webkit-scrollbar-thumb {
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-thumb {
       background: #333; 
       border-radius: 4px;
     }
-    .thumbnail-strip__card {
+    .thumbnail-strip-{{ section.id }}__card {
       flex: 0 0 70%;
       scroll-snap-align: center;
     }
@@ -113,7 +113,32 @@
 {% schema %}
 {
   "name": "Thumbnail Strip",
-  "settings": [],
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Hover Accent Color",
+      "default": "#F4C430"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
   "blocks": [
     {
       "type": "thumbnail",
