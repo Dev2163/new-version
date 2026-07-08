@@ -298,14 +298,19 @@
 
 <style>
   /* ONE9 Custom Header Styles */
+  #shopify-section-header {
+    position: absolute !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+  }
+  
   #header-component {
-    background-color: rgba(10, 10, 10, 0.4) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-    position: sticky !important;
-    top: 0;
-    z-index: 100;
+    background-color: transparent !important;
+    border-bottom: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   #header-component, #header-component * {
     color: #FFFFFF !important;
@@ -328,16 +333,16 @@
   
   /* Small Uppercase Sans-Serif Navigation */
   #header-component .list-menu__item,
-  #header-component .header__menu-item {
+  #header-component .header__menu-item,
+  #header-component .list-menu__item span,
+  #header-component .header__menu-item span {
     font-size: 11px !important;
     font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
-    padding: 10px 16px !important;
-    opacity: 0.85;
+    opacity: 0.9;
     transition: all 0.4s ease !important;
-    position: relative;
     text-decoration: none !important;
   }
   
@@ -356,7 +361,9 @@
   }
   
   #header-component .list-menu__item:hover,
-  #header-component .header__menu-item:hover {
+  #header-component .header__menu-item:hover,
+  #header-component .list-menu__item:hover span,
+  #header-component .header__menu-item:hover span {
     opacity: 1;
   }
   
@@ -375,21 +382,16 @@
     transform: scale(1.15);
   }
 
-  /* Smooth Sticky Transition */
-  shopify-section-header-sticky #header-component {
-    transition: transform 0.5s ease-in-out, background-color 0.5s ease;
-  }
-
   @media screen and (min-width: 750px) {
     #header-component .header__row {
       display: flex !important;
       justify-content: space-between !important;
       align-items: center !important;
       width: 100%;
-      padding: 0 40px !important;
+      padding: 20px 40px !important;
     }
     
-    /* Left: Logo */
+    /* Left: Logo (Hidden but takes up space for perfect centering) */
     #header-component .header__heading,
     #header-component .header__heading-link {
       display: flex !important;
@@ -398,6 +400,7 @@
       flex: 1;
       justify-content: flex-start;
       margin: 0 !important;
+      visibility: hidden !important;
     }
     
     /* Hide Hamburger Menu on Desktop */
