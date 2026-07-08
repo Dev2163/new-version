@@ -2,19 +2,19 @@
   <div class="thumbnail-strip-{{ section.id }}__container">
     {% for block in section.blocks %}
       <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip-{{ section.id }}__card" {{ block.shopify_attributes }}>
-        {% if block.settings.image != blank %}
-          {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip-' | append: section.id | append: '__image' }}
-        {% else %}
-          {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' }}
-        {% endif %}
-        <div class="thumbnail-strip-{{ section.id }}__overlay">
-          <div class="thumbnail-strip-{{ section.id }}__info">
-            <div class="thumbnail-strip-{{ section.id }}__color-wrap">
-              <span class="thumbnail-strip-{{ section.id }}__dot" style="background-color: {{ block.settings.color_hex }};"></span>
-              <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
-            </div>
-            <span class="thumbnail-strip-{{ section.id }}__price">{{ block.settings.price }}</span>
+        <div class="thumbnail-strip-{{ section.id }}__image-wrapper">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip-' | append: section.id | append: '__image' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' }}
+          {% endif %}
+        </div>
+        <div class="thumbnail-strip-{{ section.id }}__info">
+          <div class="thumbnail-strip-{{ section.id }}__color-wrap">
+            <span class="thumbnail-strip-{{ section.id }}__dot" style="background-color: {{ block.settings.color_hex }};"></span>
+            <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
           </div>
+          <span class="thumbnail-strip-{{ section.id }}__price">{{ block.settings.price }}</span>
         </div>
       </a>
     {% endfor %}
@@ -40,21 +40,28 @@
   .thumbnail-strip-{{ section.id }}__card {
     flex: 1 1 25%;
     max-width: 280px;
-    aspect-ratio: 1 / 1;
-    background-color: {{ section.settings.card_bg_color }};
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
     overflow: hidden;
     position: relative;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
+    display: flex;
+    flex-direction: column;
   }
   
   .thumbnail-strip-{{ section.id }}__card:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
     border-color: {{ section.settings.accent_color }};
     box-shadow: 0 4px 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }};
+  }
+  
+  .thumbnail-strip-{{ section.id }}__image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    overflow: hidden;
   }
   
   .thumbnail-strip-{{ section.id }}__image {
@@ -68,22 +75,14 @@
     background: {{ section.settings.card_bg_color }};
   }
   
-  .thumbnail-strip-{{ section.id }}__overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    display: flex;
-    align-items: flex-end;
-  }
-  
   .thumbnail-strip-{{ section.id }}__info {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: {{ section.settings.card_bg_color }};
   }
   
   .thumbnail-strip-{{ section.id }}__color-wrap {

@@ -98,22 +98,21 @@
   
   .custom-hero-{{ section.id }}__vertical-text {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    font-size: 40px;
+    font-size: 44px;
     font-weight: 900;
     color: {{ section.settings.accent_color }};
     font-family: 'Archivo Black', 'Anton', sans-serif;
     text-transform: uppercase;
-    transform: rotate(-90deg);
-    margin-bottom: 60px;
-    margin-top: 20px;
-    letter-spacing: 2px;
+    margin-bottom: 24px;
+    letter-spacing: 0px;
   }
   
   .custom-hero-{{ section.id }}__vertical-text span {
     display: block;
-    line-height: 0.9;
+    line-height: 0.85;
+    margin-bottom: -2px;
   }
   
   .custom-hero-{{ section.id }}__icon {
