@@ -12,10 +12,26 @@
       </div>
       <div class="custom-hero-{{ section.id }}__icon">
         <svg width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 18 L18 8 L32 18 L18 28 Z" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
-          <circle cx="18" cy="18" r="4.5" fill="{{ section.settings.accent_color }}" />
-          <line x1="0" y1="18" x2="4" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
-          <line x1="32" y1="18" x2="36" y2="18" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" />
+          <!-- Top dots -->
+          <circle cx="18" cy="3" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="11" cy="4.5" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="25" cy="4.5" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="5" cy="9" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="31" cy="9" r="1.5" fill="{{ section.settings.accent_color }}" />
+          
+          <!-- Blinking Eye Group -->
+          <g class="eye-blink-anim">
+            <path d="M2 18 Q18 6 34 18 Q18 30 2 18 Z" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
+            <circle cx="18" cy="18" r="4.5" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
+            <circle cx="18" cy="18" r="2" fill="{{ section.settings.accent_color }}" />
+          </g>
+
+          <!-- Bottom dots -->
+          <circle cx="18" cy="33" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="11" cy="31.5" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="25" cy="31.5" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="5" cy="27" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="31" cy="27" r="1.5" fill="{{ section.settings.accent_color }}" />
         </svg>
       </div>
       <div class="custom-hero-{{ section.id }}__line"></div>
@@ -147,12 +163,23 @@
   }
   .custom-hero-{{ section.id }}__vertical-text span {
     display: block;
-    line-height: 0.8;
-    margin-bottom: 2px;
+    line-height: 0.7;
+    margin-bottom: 0px;
   }
   .custom-hero-{{ section.id }}__icon {
     margin: 24px 0;
   }
+  
+  .eye-blink-anim {
+    transform-origin: 18px 18px;
+    animation: eyeBlink 4s infinite;
+  }
+  
+  @keyframes eyeBlink {
+    0%, 93%, 100% { transform: scaleY(1); }
+    96.5% { transform: scaleY(0.1); }
+  }
+  
   .custom-hero-{{ section.id }}__line {
     width: 1px;
     flex-grow: 1;
