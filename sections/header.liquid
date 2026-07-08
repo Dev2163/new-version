@@ -399,6 +399,38 @@
     transform: scale(1.15);
   }
   
+  /* 6. Dropdown Menu Enhancements */
+  .menu-list__list-item {
+    position: relative; /* Ensure the submenu positions relative to the parent link */
+  }
+  
+  .menu-list__submenu {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: max-content !important;
+    min-width: 320px;
+    padding: 25px !important;
+    border-radius: 4px;
+    background-color: rgba(10, 10, 10, 0.98) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+  }
+
+  /* Force 2-Column Grid for Dropdown Items */
+  .menu-list__submenu .mega-menu__list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 40px !important;
+    row-gap: 12px !important;
+  }
+  
+  /* Reset internal padding to look clean */
+  .menu-list__submenu .mega-menu__list li {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
   /* Make sure text and icons are always white */
   header-component, header-component * {
     color: #FFFFFF !important;
