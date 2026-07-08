@@ -299,29 +299,93 @@
 <style>
   /* ONE9 Custom Header Styles */
   #header-component {
-    background-color: #0A0A0A !important;
-    border-bottom: none !important;
+    background-color: rgba(10, 10, 10, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 100;
   }
   #header-component, #header-component * {
     color: #FFFFFF !important;
   }
+  
+  /* Thin Line Icons */
   #header-component .header-actions__action svg path,
-  #header-component .header-actions__action svg circle {
+  #header-component .header-actions__action svg circle,
+  #header-component .header__icon--menu svg path,
+  #header-component .header__icon--menu svg line {
     stroke: #FFFFFF !important;
+    stroke-width: 1.2px !important;
+    fill: none !important;
+  }
+  #header-component .header-actions__action svg,
+  #header-component .header__icon--menu svg {
+    width: 22px !important;
+    height: 22px !important;
   }
   
+  /* Small Uppercase Sans-Serif Navigation */
+  #header-component .list-menu__item,
+  #header-component .header__menu-item {
+    font-size: 11px !important;
+    font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 500 !important;
+    padding: 10px 16px !important;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+  #header-component .list-menu__item:hover,
+  #header-component .header__menu-item:hover {
+    opacity: 1;
+  }
+
   @media screen and (min-width: 750px) {
-    #header-component .header__columns {
-      grid-template-areas: 'left center right' !important;
-      grid-template-columns: auto 1fr auto !important;
+    #header-component .header__row {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100%;
+      padding: 0 40px !important;
     }
+    
+    /* Hide default logo since ONE9 vertical text acts as logo */
+    #header-component .header__heading,
+    #header-component .header__heading-link {
+      display: none !important;
+    }
+    
+    /* Left: Hamburger Menu */
     #header-component .header__icon--menu {
       display: flex !important;
+      align-items: center;
+      margin-left: -12px;
+      flex: 1;
+      justify-content: flex-start;
     }
-    #header-component header-menu {
+    
+    /* Center: Navigation */
+    #header-component header-menu,
+    #header-component .header__inline-menu {
       display: flex !important;
       justify-content: center !important;
-      width: 100%;
+      flex: 2;
+    }
+    #header-component .list-menu--inline {
+      display: flex !important;
+      justify-content: center !important;
+      gap: 30px;
+    }
+    
+    /* Right: Actions */
+    #header-component .header-actions {
+      display: flex !important;
+      justify-content: flex-end !important;
+      flex: 1;
+      gap: 20px;
     }
   }
 </style>
