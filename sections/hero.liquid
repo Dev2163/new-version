@@ -33,13 +33,15 @@
       
       <!-- Image Column -->
       <div class="custom-hero-{{ section.id }}__image-col">
-        {%- if section.settings.image != blank -%}
-          {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image' %}
-          {{ section.settings.image | image_url: width: 1200 | image_tag: class: hero_img_class }}
-        {%- else -%}
-          {% assign hero_img_class_placeholder = 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' %}
-          {{ 'lifestyle-1' | placeholder_svg_tag: hero_img_class_placeholder }}
-        {%- endif -%}
+        <div class="custom-hero-{{ section.id }}__image-glow">
+          {%- if section.settings.image != blank -%}
+            {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image' %}
+            {{ section.settings.image | image_url: width: 1200 | image_tag: class: hero_img_class, id: 'heroMainImage' }}
+          {%- else -%}
+            {% assign hero_img_class_placeholder = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image custom-hero-' | append: section.id | append: '__image--placeholder' %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: hero_img_class_placeholder }}
+          {%- endif -%}
+        </div>
       </div>
       
     </div>
@@ -135,17 +137,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 44px;
+    font-size: 60px;
     font-weight: 900;
     color: {{ section.settings.accent_color }};
     font-family: 'Archivo Black', 'Anton', sans-serif;
     text-transform: uppercase;
     margin-bottom: 24px;
+    letter-spacing: -2px;
   }
   .custom-hero-{{ section.id }}__vertical-text span {
     display: block;
-    line-height: 0.85;
-    margin-bottom: -2px;
+    line-height: 0.8;
+    margin-bottom: 2px;
   }
   .custom-hero-{{ section.id }}__icon {
     margin: 24px 0;
@@ -174,14 +177,38 @@
     padding: 40px;
   }
   
-  .custom-hero-{{ section.id }}__image-col img {
+  .custom-hero-{{ section.id }}__image-glow {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .custom-hero-{{ section.id }}__image-glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .custom-hero-{{ section.id }}__image {
     max-width: 100%;
     height: auto;
     max-height: 80vh;
     object-fit: contain;
+    z-index: 2;
+    position: relative;
+    transition: opacity 0.5s ease;
   }
+  
   .custom-hero-{{ section.id }}__title {
-    font-size: 4.5rem;
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
@@ -189,6 +216,7 @@
     color: {{ section.settings.text_color }};
     font-family: 'Archivo Black', 'Anton', sans-serif;
     letter-spacing: 1px;
+    white-space: pre-line;
   }
   .custom-hero-{{ section.id }}__subtitle {
     font-size: 1.25rem;
@@ -585,3 +613,32 @@
   ]
 }
 {% endschema %}
+
+{% if section.blocks.size > 0 %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const heroImage = document.getElementById('heroMainImage');
+    if (!heroImage) return;
+
+    const images = [];
+    {% for block in section.blocks %}
+      {% if block.type == 'thumbnail' and block.settings.image != blank %}
+        images.push("{{ block.settings.image | image_url: width: 1200 }}");
+      {% endif %}
+    {% endfor %}
+
+    if (images.length > 1) {
+      let currentIndex = 0;
+      setInterval(() => {
+        heroImage.style.opacity = '0.7';
+        setTimeout(() => {
+          currentIndex = (currentIndex + 1) % images.length;
+          heroImage.src = images[currentIndex];
+          heroImage.srcset = images[currentIndex];
+          heroImage.style.opacity = '1';
+        }, 500); // Wait for fade out
+      }, 4000); // Change image every 4 seconds
+    }
+  });
+</script>
+{% endif %}
