@@ -34,9 +34,11 @@
       <!-- Image Column -->
       <div class="custom-hero-{{ section.id }}__image-col">
         {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'custom-hero-' | append: section.id | append: '__image' }}
+          {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image' %}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: class: hero_img_class }}
         {%- else -%}
-          {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' }}
+          {% assign hero_img_class_placeholder = 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: hero_img_class_placeholder }}
         {%- endif -%}
       </div>
       
@@ -72,9 +74,11 @@
         <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip-{{ section.id }}__card" {{ block.shopify_attributes }}>
           <div class="thumbnail-strip-{{ section.id }}__image-wrapper">
             {% if block.settings.image != blank %}
-              {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip-' | append: section.id | append: '__image' }}
+              {% assign thumb_img_class = 'thumbnail-strip-' | append: section.id | append: '__image' %}
+              {{ block.settings.image | image_url: width: 400 | image_tag: class: thumb_img_class }}
             {% else %}
-              {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' }}
+              {% assign thumb_placeholder_class = 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' %}
+              {{ 'product-1' | placeholder_svg_tag: thumb_placeholder_class }}
             {% endif %}
           </div>
           <div class="thumbnail-strip-{{ section.id }}__info">
@@ -154,16 +158,16 @@
   }
   
   .custom-hero-{{ section.id }}__main {
-    flex: 1;
+    flex: 1.2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 40px;
-    max-width: 800px;
+    max-width: 900px;
   }
   
   .custom-hero-{{ section.id }}__image-col {
-    flex: 1;
+    flex: 0.8;
     display: flex;
     justify-content: center;
     align-items: center;
