@@ -296,6 +296,36 @@
   }
 </script>
 
+<style>
+  /* ONE9 Custom Header Styles */
+  #header-component {
+    background-color: #0A0A0A !important;
+    border-bottom: none !important;
+  }
+  #header-component, #header-component * {
+    color: #FFFFFF !important;
+  }
+  #header-component .header-actions__action svg path,
+  #header-component .header-actions__action svg circle {
+    stroke: #FFFFFF !important;
+  }
+  
+  @media screen and (min-width: 750px) {
+    #header-component .header__columns {
+      grid-template-areas: 'left center right' !important;
+      grid-template-columns: auto 1fr auto !important;
+    }
+    #header-component .header__icon--menu {
+      display: flex !important;
+    }
+    #header-component header-menu {
+      display: flex !important;
+      justify-content: center !important;
+      width: 100%;
+    }
+  }
+</style>
+
 <header-component
   id="header-component"
   class="{{ class }}"

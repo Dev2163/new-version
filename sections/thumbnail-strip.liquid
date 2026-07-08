@@ -1,0 +1,154 @@
+<div class="thumbnail-strip">
+  <div class="thumbnail-strip__container">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip__card" {{ block.shopify_attributes }}>
+        {% if block.settings.image != blank %}
+          {{ block.settings.image | image_url: width: 400 | image_tag: class: 'thumbnail-strip__image' }}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'thumbnail-strip__image thumbnail-strip__placeholder' }}
+        {% endif %}
+        <div class="thumbnail-strip__overlay">
+          <span class="thumbnail-strip__text">{{ block.settings.color_name }}</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .thumbnail-strip {
+    background-color: #0A0A0A;
+    padding: 20px 40px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .thumbnail-strip__container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .thumbnail-strip__card {
+    flex: 1 1 25%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+    background-color: #1A1A1A;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .thumbnail-strip__card:hover {
+    transform: scale(1.02);
+    border-color: #F4C430;
+    box-shadow: 0 4px 20px rgba(244, 196, 48, 0.15);
+  }
+  
+  .thumbnail-strip__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .thumbnail-strip__placeholder {
+    fill: #333;
+    background: #1A1A1A;
+  }
+  
+  .thumbnail-strip__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .thumbnail-strip__text {
+    color: #FFFFFF;
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  @media (max-width: 768px) {
+    .thumbnail-strip {
+      padding: 20px;
+    }
+    .thumbnail-strip__container {
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .thumbnail-strip__container::-webkit-scrollbar {
+      height: 4px;
+    }
+    .thumbnail-strip__container::-webkit-scrollbar-track {
+      background: #1A1A1A; 
+    }
+    .thumbnail-strip__container::-webkit-scrollbar-thumb {
+      background: #333; 
+      border-radius: 4px;
+    }
+    .thumbnail-strip__card {
+      flex: 0 0 70%;
+      scroll-snap-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Thumbnail Strip",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "thumbnail",
+      "name": "Thumbnail",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "color_name",
+          "label": "Color Name",
+          "default": "Black"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Product Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Thumbnail Strip",
+      "blocks": [
+        { "type": "thumbnail", "settings": { "color_name": "Black" } },
+        { "type": "thumbnail", "settings": { "color_name": "Olive" } },
+        { "type": "thumbnail", "settings": { "color_name": "Brown" } },
+        { "type": "thumbnail", "settings": { "color_name": "Beige" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
