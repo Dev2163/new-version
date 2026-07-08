@@ -1,16 +1,9 @@
 <div class="custom-hero-container-{{ section.id }}">
   <!-- HERO PART -->
   <div class="custom-hero-{{ section.id }}">
-    <div class="custom-hero-{{ section.id }}__bg">
-      {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 2500 | image_tag: class: 'custom-hero-' | append: section.id | append: '__image' }}
-      {%- else -%}
-        {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' }}
-      {%- endif -%}
-      <div class="custom-hero-{{ section.id }}__overlay"></div>
-    </div>
-
-    <div class="custom-hero-{{ section.id }}__left">
+    
+    <!-- Far Left Sidebar -->
+    <div class="custom-hero-{{ section.id }}__sidebar">
       <div class="custom-hero-{{ section.id }}__vertical-text">
         {% assign brand_letters = section.settings.vertical_text | split: "," %}
         {% for letter in brand_letters %}
@@ -28,10 +21,25 @@
       <div class="custom-hero-{{ section.id }}__line"></div>
     </div>
     
-    <div class="custom-hero-{{ section.id }}__main">
-      <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title | newline_to_br }}</h1>
-      <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
-      <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
+    <!-- Main Content Row (Flex reversed if image is left) -->
+    <div class="custom-hero-{{ section.id }}__content-row {% if section.settings.image_position == 'left' %}image-left{% endif %}">
+      
+      <!-- Text Column -->
+      <div class="custom-hero-{{ section.id }}__main">
+        <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title | newline_to_br }}</h1>
+        <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
+      </div>
+      
+      <!-- Image Column -->
+      <div class="custom-hero-{{ section.id }}__image-col">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'custom-hero-' | append: section.id | append: '__image' }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-hero-' | append: section.id | append: '__image custom-hero-' | append: section.id | append: '__image--placeholder' }}
+        {%- endif -%}
+      </div>
+      
     </div>
   </div>
 
@@ -95,47 +103,11 @@
   .custom-hero-{{ section.id }} {
     position: relative;
     width: 100%;
-    height: 100vh;
     min-height: 700px;
     display: flex;
     color: {{ section.settings.text_color }};
   }
-  .custom-hero-{{ section.id }}__bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
-  .custom-hero-{{ section.id }}__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-  .custom-hero-{{ section.id }}__image--placeholder {
-    filter: brightness(0.7);
-  }
-  .custom-hero-{{ section.id }}__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 75% 50%, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,1) 100%);
-  }
-  .custom-hero-{{ section.id }}::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 65%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(10,10,10,1) 0%, rgba(10,10,10,0.85) 45%, rgba(10,10,10,0) 100%);
-    z-index: 1;
-  }
-  .custom-hero-{{ section.id }}__left {
+  .custom-hero-{{ section.id }}__sidebar {
     position: relative;
     z-index: 2;
     display: flex;
@@ -145,6 +117,16 @@
     width: 120px;
     flex-shrink: 0;
   }
+  .custom-hero-{{ section.id }}__content-row {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .custom-hero-{{ section.id }}__content-row.image-left {
+    flex-direction: row-reverse;
+  }
+  
   .custom-hero-{{ section.id }}__vertical-text {
     display: flex;
     flex-direction: column;
@@ -170,14 +152,29 @@
     max-height: 300px;
     background-color: {{ section.settings.accent_color }};
   }
+  
   .custom-hero-{{ section.id }}__main {
-    position: relative;
-    z-index: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px 0;
+    padding: 40px;
     max-width: 800px;
+  }
+  
+  .custom-hero-{{ section.id }}__image-col {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  
+  .custom-hero-{{ section.id }}__image-col img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
   }
   .custom-hero-{{ section.id }}__title {
     font-size: 4.5rem;
@@ -444,6 +441,22 @@
       "type": "image_picker",
       "id": "image",
       "label": "Hero Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
     },
     {
       "type": "header",
