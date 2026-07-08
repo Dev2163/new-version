@@ -26,7 +26,7 @@
       
       <!-- Text Column -->
       <div class="custom-hero-{{ section.id }}__main">
-        <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title | newline_to_br }}</h1>
+        <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title }}</h1>
         <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
         <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
       </div>
@@ -208,7 +208,7 @@
   }
   
   .custom-hero-{{ section.id }}__title {
-    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
@@ -216,6 +216,7 @@
     color: {{ section.settings.text_color }};
     font-family: 'Archivo Black', 'Anton', sans-serif;
     letter-spacing: 1px;
+    white-space: pre-line;
   }
   .custom-hero-{{ section.id }}__subtitle {
     font-size: 1.25rem;
