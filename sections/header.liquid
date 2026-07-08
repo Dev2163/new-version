@@ -297,9 +297,42 @@
 </script>
 
 <style>
-  /* ONE9 Premium Header Styles - Clean & Native */
+  /* ONE9 Premium Header Styles - Ultimate Fix */
   
-  /* 1. Typography: Small Uppercase Sans-Serif */
+  /* 1. Force the wrapper to be fixed, transparent, and overlay the site */
+  #shopify-section-header,
+  #shopify-section-header .header-wrapper,
+  #shopify-section-header sticky-header,
+  #shopify-section-header .header__row {
+    position: fixed !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Reset inner positioning so it doesn't collapse */
+  #shopify-section-header .header-wrapper,
+  #shopify-section-header sticky-header,
+  #shopify-section-header .header__row {
+    position: relative !important;
+  }
+
+  /* 2. Premium Dark Sticky Background (Only when scrolled) */
+  #shopify-section-header.shopify-section-header-sticky header-component,
+  header-component[data-scroll-direction="up"],
+  header-component[data-scroll-direction="down"],
+  sticky-header.is-sticky header-component {
+    background-color: rgba(10, 10, 10, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+  }
+
+  /* 3. Typography: Small Uppercase Sans-Serif */
   header-component .list-menu__item,
   header-component .header__menu-item,
   header-component .list-menu__item span,
@@ -312,9 +345,10 @@
     opacity: 0.9;
     transition: all 0.4s ease;
     text-decoration: none !important;
+    color: #FFFFFF !important;
   }
 
-  /* 2. Hover Animations: Underline */
+  /* 4. Hover Animations: Underline */
   header-component .list-menu__item,
   header-component .header__menu-item {
     position: relative;
@@ -342,7 +376,7 @@
     width: 60%;
   }
 
-  /* 3. Icon Styling & Animation */
+  /* 5. Icon Styling & Animation */
   header-component .header__icon svg path,
   header-component .header__icon svg circle,
   header-component .header__icon svg line,
@@ -361,22 +395,6 @@
   header-component .header__icon:hover svg,
   header-component .header-actions__action:hover svg {
     transform: scale(1.15);
-  }
-
-  /* 4. Sticky Header Premium Background */
-  #shopify-section-header.shopify-section-header-sticky header-component,
-  header-component[data-scroll-direction="up"],
-  header-component[data-scroll-direction="down"] {
-    background-color: rgba(10, 10, 10, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-  }
-  
-  #shopify-section-header.shopify-section-header-sticky .header__row,
-  header-component[data-scroll-direction="up"] .header__row,
-  header-component[data-scroll-direction="down"] .header__row {
-    background-color: transparent !important;
   }
   
   /* Make sure text and icons are always white */
