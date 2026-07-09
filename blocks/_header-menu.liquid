@@ -318,6 +318,37 @@
 
   .menu-list__link-title {
     padding-inline: calc(var(--gap-xl) / 2);
+    position: relative;
+    display: inline-block;
+  }
+
+  .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0%;
+    height: 1.5px;
+    background-color: #F4C430;
+    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), left 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .menu-list__list-item:hover .menu-list__link,
+  .menu-list__list-item:focus-within .menu-list__link {
+    color: #F4C430 !important;
+  }
+
+  .menu-list__list-item:hover .menu-list__link-title::after,
+  .menu-list__list-item:focus-within .menu-list__link-title::after {
+    width: 60%;
+    left: 20%;
+  }
+
+  /* Active/current page link - keep gold underline always visible */
+  .menu-list__link--active .menu-list__link-title::after {
+    width: 60%;
+    left: 20%;
+    background-color: #F4C430;
   }
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
