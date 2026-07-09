@@ -435,6 +435,18 @@
       color: #F4C430 !important;
     }
     
+    /* Show search icon on the right on mobile */
+    #header-component .header__column--right .search-action--hidden-on-drawer {
+      display: flex !important;
+    }
+    
+    /* Hide duplicate search button in the left/center column on mobile to prevent overlapping logo */
+    #header-component .header__column--left .search-action,
+    #header-component .header__column--center,
+    #header-component .search-action--hidden-on-menu {
+      display: none !important;
+    }
+    
     /* Make icons/hamburger white */
     #header-component svg path,
     #header-component svg circle,
@@ -454,26 +466,27 @@
       display: block !important;
       position: relative !important;
       width: 100% !important;
-      height: 540px !important;
-      min-height: 540px !important;
+      height: 560px !important;
+      min-height: 560px !important;
       background-color: #0A0A0A !important;
       overflow: hidden !important;
     }
 
-    /* Keep vertical ONE9 branding on far-left but smaller, not overlapping */
+    /* Keep vertical ONE9 branding on far-left but smaller, not overlapping, cleared from header */
     .custom-hero-{{ section.id }}__sidebar {
       position: absolute !important;
       left: 0 !important;
       top: 0 !important;
       bottom: 0 !important;
       width: 50px !important;
-      padding: 24px 0 !important;
+      padding: 76px 0 24px 0 !important; /* Top padding 76px clears the fixed header! */
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
       justify-content: flex-start !important;
       z-index: 5 !important;
       background: transparent !important;
+      box-sizing: border-box !important;
     }
     
     .custom-hero-{{ section.id }}__vertical-text {
@@ -505,11 +518,11 @@
     
     .custom-hero-{{ section.id }}__line {
       width: 1px !important;
-      height: 90px !important;
+      height: 100px !important;
       background-color: {{ section.settings.accent_color }} !important;
     }
 
-    /* Model image occupies upper-right portion */
+    /* Model image occupies upper-right portion with safe crops */
     .custom-hero-{{ section.id }}__content-row {
       display: block !important;
       position: relative !important;
@@ -521,8 +534,8 @@
       position: absolute !important;
       top: 0 !important;
       right: 0 !important;
-      width: 68% !important;
-      height: 60% !important;
+      width: 72% !important; /* Slightly wider to show model details */
+      height: 65% !important; /* Taller to prevent cutting off model's head */
       z-index: 1 !important;
       padding: 0 !important;
       margin: 0 !important;
@@ -558,17 +571,17 @@
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
-      object-position: center top !important;
+      object-position: center 15% !important; /* Focuses crop slightly lower to keep head visible */
     }
 
-    /* Headline on the left/lower section */
+    /* Headline on the left/lower section, safe spacing from sidebar */
     .custom-hero-{{ section.id }}__main {
       position: absolute !important;
       bottom: 0 !important;
       left: 0 !important;
       width: 100% !important;
       z-index: 4 !important;
-      padding: 0px 20px 48px 62px !important; /* Left padding 62px keeps text from overlapping vertical sidebar */
+      padding: 0px 20px 48px 72px !important; /* Left padding 72px avoids sidebar completely */
       box-sizing: border-box !important;
       display: flex !important;
       flex-direction: column !important;
@@ -578,7 +591,7 @@
 
     .custom-hero-{{ section.id }}__title {
       font-size: 24px !important;
-      line-height: 1.1 !important;
+      line-height: 1.15 !important;
       margin-bottom: 12px !important;
       text-transform: uppercase !important;
       font-family: 'Archivo Black', 'Anton', sans-serif !important;
