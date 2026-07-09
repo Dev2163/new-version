@@ -80,6 +80,147 @@
   </div>
 </div>
 
+<style>
+  /* ===== ONE9 Premium Product Card Hover Animations ===== */
+
+  /* Card container — smooth transitions */
+  .ui-test-product-list .product-card {
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+  }
+
+  .ui-test-product-list .product-card__content {
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+  }
+
+  /* Card hover — lift + gold glow border */
+  .ui-test-product-list .product-card:hover {
+    transform: translateY(-8px);
+    z-index: 2;
+  }
+
+  .ui-test-product-list .product-card:hover .product-card__content {
+    border-color: rgba(244, 196, 48, 0.35) !important;
+    box-shadow: 
+      0 8px 32px rgba(0,0,0,0.4),
+      0 0 20px rgba(244, 196, 48, 0.12),
+      inset 0 0 60px rgba(244, 196, 48, 0.03);
+    background-color: rgba(255,255,255,0.03) !important;
+  }
+
+  /* Image zoom on hover */
+  .ui-test-product-list .product-card img {
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+  }
+
+  .ui-test-product-list .product-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(1.05);
+  }
+
+  /* Product title — gold color transition on hover */
+  .ui-test-product-list .product-card .product-title,
+  .ui-test-product-list .product-card [class*="title"] a,
+  .ui-test-product-list .product-card [class*="title"] span {
+    transition: color 0.35s ease, text-shadow 0.35s ease;
+  }
+
+  .ui-test-product-list .product-card:hover .product-title,
+  .ui-test-product-list .product-card:hover [class*="title"] a,
+  .ui-test-product-list .product-card:hover [class*="title"] span {
+    color: #F4C430 !important;
+    text-shadow: 0 0 8px rgba(244, 196, 48, 0.3);
+  }
+
+  /* Price — subtle gold highlight on hover */
+  .ui-test-product-list .product-card .price,
+  .ui-test-product-list .product-card [class*="price"] {
+    transition: color 0.35s ease;
+  }
+
+  .ui-test-product-list .product-card:hover .price,
+  .ui-test-product-list .product-card:hover [class*="price"] {
+    color: #F4C430 !important;
+  }
+
+  /* Swatch dots — scale up on card hover */
+  .ui-test-product-list .product-card .swatch__item,
+  .ui-test-product-list .product-card [class*="swatch"] button {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ui-test-product-list .product-card:hover .swatch__item,
+  .ui-test-product-list .product-card:hover [class*="swatch"] button {
+    transform: scale(1.15);
+    box-shadow: 0 0 6px rgba(244, 196, 48, 0.3);
+  }
+
+  /* Quick-add button — gold accent on hover */
+  .ui-test-product-list .product-card .quick-add-button,
+  .ui-test-product-list .product-card [class*="quick-add"] button {
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ui-test-product-list .product-card:hover .quick-add-button,
+  .ui-test-product-list .product-card:hover [class*="quick-add"] button {
+    background-color: #F4C430 !important;
+    color: #000 !important;
+    box-shadow: 0 0 16px rgba(244, 196, 48, 0.4);
+  }
+
+  /* Section header — premium VIEW ALL link styling */
+  .ui-test-product-list .section-resource-list__header a {
+    color: #F4C430 !important;
+    text-decoration: none;
+    transition: text-shadow 0.3s ease, letter-spacing 0.3s ease;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ui-test-product-list .section-resource-list__header a:hover {
+    text-shadow: 0 0 10px rgba(244, 196, 48, 0.6);
+    letter-spacing: 2px;
+  }
+
+  /* Staggered card entrance animation */
+  @keyframes one9-card-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .ui-test-product-list .resource-list__item {
+    animation: one9-card-fade-in 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+
+  .ui-test-product-list .resource-list__item:nth-child(1) { animation-delay: 0.05s; }
+  .ui-test-product-list .resource-list__item:nth-child(2) { animation-delay: 0.15s; }
+  .ui-test-product-list .resource-list__item:nth-child(3) { animation-delay: 0.25s; }
+  .ui-test-product-list .resource-list__item:nth-child(4) { animation-delay: 0.35s; }
+  .ui-test-product-list .resource-list__item:nth-child(5) { animation-delay: 0.45s; }
+  .ui-test-product-list .resource-list__item:nth-child(6) { animation-delay: 0.55s; }
+
+  /* Mobile responsive adjustments */
+  @media screen and (max-width: 749px) {
+    .ui-test-product-list .product-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .ui-test-product-list .product-card:hover img {
+      transform: scale(1.04);
+    }
+  }
+</style>
+
 {% schema %}
 {
   "name": "t:names.product_list",
