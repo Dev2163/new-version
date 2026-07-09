@@ -324,28 +324,6 @@
         "padding-block-end": 72
       }
     },
-    "hero_w7HaTj": {
-      "type": "hero",
-      "name": "t:names.hero",
-      "settings": {
-        "vertical_text": "O,N,E,9",
-        "title": "INSULATED JACKET\nFOR EVERYDAY WEAR",
-        "subtitle": "Engineered for warmth. Designed for movement.",
-        "button_text": "SHOP NOW",
-        "button_link": "",
-        "image_position": "right",
-        "show_marquee": true,
-        "marquee_text": "BUILT DIFFERENT. WORN EVERYWHERE.",
-        "marquee_speed": 30,
-        "bg_color": "#0a0a0a",
-        "accent_color": "#f4c430",
-        "text_color": "#ffffff",
-        "text_secondary_color": "#b0b0b0",
-        "marquee_bg_color": "#111111",
-        "marquee_text_color": "#8a7b5c",
-        "card_bg_color": "#1a1a1a"
-      }
-    },
     "section_npVphq": {
       "type": "section",
       "blocks": {
@@ -1258,7 +1236,6 @@
   "order": [
     "hero_p9CmMG",
     "product_list_themegen",
-    "hero_w7HaTj",
     "section_npVphq",
     "section_Ea3hn6"
   ]
