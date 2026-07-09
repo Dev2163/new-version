@@ -14,6 +14,7 @@
     section-resource-list
     spacing-style
     gap-style
+    {% if section.settings.card_orientation == 'horizontal' %}ui-test-product-list--horizontal{% endif %}
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
@@ -219,6 +220,68 @@
       transform: scale(1.04);
     }
   }
+
+  /* ===== Horizontal Card Layout Custom overrides (Streetwear Footwear Picks Style) ===== */
+  .ui-test-product-list--horizontal .product-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .ui-test-product-list--horizontal .product-card__content {
+    display: grid !important;
+    grid-template-columns: 1.2fr 1fr !important;
+    column-gap: 24px !important;
+    align-items: center !important;
+    padding: 16px !important;
+    background-color: #0A0A0A !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Force image to take left column and span all rows */
+  .ui-test-product-list--horizontal .product-card__content > :is(slideshow-component, .product-card-gallery, [class*="gallery"], [data-testid="gallery"], product-card-gallery, div:has(img)) {
+    grid-column: 1 !important;
+    grid-row: 1 / span 10 !important;
+    width: 100% !important;
+    max-height: 200px !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  .ui-test-product-list--horizontal .product-card__content > :is(slideshow-component, .product-card-gallery, [class*="gallery"], [data-testid="gallery"], product-card-gallery, div:has(img)) img {
+    object-fit: contain !important;
+    max-height: 200px !important;
+    width: 100% !important;
+  }
+
+  /* Force all other details to stack in the right column */
+  .ui-test-product-list--horizontal .product-card__content > :not(:is(slideshow-component, .product-card-gallery, [class*="gallery"], [data-testid="gallery"], product-card-gallery, div:has(img), .quick-add-button)) {
+    grid-column: 2 !important;
+    margin: 0 !important;
+    padding: 4px 0 !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Custom swatches spacing */
+  .ui-test-product-list--horizontal .product-card__content [class*="swatches"],
+  .ui-test-product-list--horizontal .product-card__content .swatches {
+    margin-top: 12px !important;
+  }
+
+  /* Mobile responsiveness for horizontal layout */
+  @media screen and (max-width: 749px) {
+    .ui-test-product-list--horizontal .product-card__content {
+      grid-template-columns: 1fr 1fr !important;
+      column-gap: 12px !important;
+      padding: 10px !important;
+    }
+  }
 </style>
 
 {% schema %}
@@ -244,6 +307,22 @@
       "type": "collection",
       "id": "collection",
       "label": "t:settings.collection"
+    },
+    {
+      "type": "select",
+      "id": "card_orientation",
+      "label": "Card Orientation",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "Vertical (Standard)"
+        },
+        {
+          "value": "horizontal",
+          "label": "Horizontal (Streetwear Style)"
+        }
+      ],
+      "default": "vertical"
     },
     {
       "type": "select",
