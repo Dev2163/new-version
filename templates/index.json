@@ -7,6 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
+
 {
   "sections": {
     "hero_p9CmMG": {
@@ -72,34 +73,50 @@
     "footwear_picks_section": {
       "type": "footwear-picks",
       "blocks": {
-        "product_Pe6XW7": {
-          "type": "product",
-          "settings": {
-            "product": "unisex-sundowner-denim-sneaker-1"
-          }
-        },
         "product_1": {
           "type": "product",
           "settings": {
-            "product": "native-bombay-blues"
+            "product": ""
           }
         },
         "product_2": {
           "type": "product",
           "settings": {
-            "product": "unisex-sundowner-denim-sneaker"
+            "product": ""
           }
         }
       },
       "block_order": [
-        "product_Pe6XW7",
         "product_1",
         "product_2"
       ],
       "settings": {
         "heading": "FOOTWEAR PICKS",
-        "view_all_text": "VIEW ALL",
-        "view_all_link": ""
+        "view_all_text": "VIEW ALL"
+      }
+    },
+    "zodiac_strip_section": {
+      "type": "zodiac-strip",
+      "blocks": {
+        "sign_1": { "type": "sign", "settings": { "sign_name": "Aries" } },
+        "sign_2": { "type": "sign", "settings": { "sign_name": "Taurus" } },
+        "sign_3": { "type": "sign", "settings": { "sign_name": "Gemini" } },
+        "sign_4": { "type": "sign", "settings": { "sign_name": "Cancer" } },
+        "sign_5": { "type": "sign", "settings": { "sign_name": "Leo" } },
+        "sign_6": { "type": "sign", "settings": { "sign_name": "Virgo" } },
+        "sign_7": { "type": "sign", "settings": { "sign_name": "Libra" } },
+        "sign_8": { "type": "sign", "settings": { "sign_name": "Scorpio" } },
+        "sign_9": { "type": "sign", "settings": { "sign_name": "Sagittarius" } },
+        "sign_10": { "type": "sign", "settings": { "sign_name": "Capricorn" } },
+        "sign_11": { "type": "sign", "settings": { "sign_name": "Aquarius" } },
+        "sign_12": { "type": "sign", "settings": { "sign_name": "Pisces" } }
+      },
+      "block_order": [
+        "sign_1", "sign_2", "sign_3", "sign_4", "sign_5", "sign_6",
+        "sign_7", "sign_8", "sign_9", "sign_10", "sign_11", "sign_12"
+      ],
+      "settings": {
+        "heading": "FIND YOUR SIGN"
       }
     },
     "product_list_themegen": {
@@ -339,7 +356,6 @@
       "name": "t:names.products_grid",
       "settings": {
         "collection": "asset-pack-52731543554-example-products",
-        "card_orientation": "vertical",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 4,
@@ -356,6 +372,28 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 72,
         "padding-block-end": 72
+      }
+    },
+    "hero_w7HaTj": {
+      "type": "hero",
+      "name": "t:names.hero",
+      "settings": {
+        "vertical_text": "O,N,E,9",
+        "title": "INSULATED JACKET\nFOR EVERYDAY WEAR",
+        "subtitle": "Engineered for warmth. Designed for movement.",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "image_position": "right",
+        "show_marquee": true,
+        "marquee_text": "BUILT DIFFERENT. WORN EVERYWHERE.",
+        "marquee_speed": 30,
+        "bg_color": "#0a0a0a",
+        "accent_color": "#f4c430",
+        "text_color": "#ffffff",
+        "text_secondary_color": "#b0b0b0",
+        "marquee_bg_color": "#111111",
+        "marquee_text_color": "#8a7b5c",
+        "card_bg_color": "#1a1a1a"
       }
     },
     "section_npVphq": {
@@ -1270,7 +1308,9 @@
   "order": [
     "hero_p9CmMG",
     "footwear_picks_section",
+    "zodiac_strip_section",
     "product_list_themegen",
+    "hero_w7HaTj",
     "section_npVphq",
     "section_Ea3hn6"
   ]
