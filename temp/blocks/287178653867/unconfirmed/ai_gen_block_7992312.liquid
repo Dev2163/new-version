@@ -1,6 +1,698 @@
+{% doc %}
+  @prompt
+    Build a "Footwear Picks" product showcase section for ONE9 Shopify store, 
+    fully admin-editable and with premium hover animations.
+    
+    SECTION STRUCTURE (Admin-Editable via Shopify Theme Editor):
+    - Section title: "FOOTWEAR PICKS" (editable text field)
+    - "VIEW ALL" link top-right, gold color (#F4C430), links to a collection 
+      (editable URL/collection picker)
+    - Product cards: use Shopify's native product picker block (not hardcoded), 
+      so admin can select any product from inventory and it auto-pulls:
+      - Product image (featured image)
+      - Product title
+      - Price (from variant, live-synced — NEVER hardcoded)
+      - Color swatch (from variant metafield/option, auto-populated)
+    - Number of cards: admin should be able to add/remove cards (2-4 recommended), 
+      using Shopify block repeater pattern
+    
+    CARD LAYOUT (per product):
+    - Background: #111111, rounded corners (12px), thin border (#2A2A2A, 1px)
+    - Product image: centered, ~65% of card height, transparent/dark background 
+      blending with card
+    - Below image: product title (white, bold, 16px, 2-line max with ellipsis overflow)
+    - Price: gold (#F4C430), bold, 15px, directly below title
+    - Color swatch: small circle (14px), positioned below price, outlined border, 
+      filled with actual product color (from swatch/variant data)
+    - Card padding: 20px all sides
+    
+    HOVER ANIMATION (premium showcase effect):
+    1. On card hover:
+       - Card background lightens slightly (#111111 → #1A1A1A), transition 0.3s ease
+       - Border color shifts from #2A2A2A → gold (#F4C430) at 40% opacity
+       - Subtle gold glow appears around card edge: 
+         box-shadow: 0 0 24px rgba(244, 196, 48, 0.15)
+       - Product image scales up slightly: transform: scale(1.05), 
+         transition 0.4s cubic-bezier(0.25, 1, 0.5, 1)
+       - Product image gets a subtle upward float: translateY(-6px) combined with scale
+    2. On price hover/card hover:
+       - Price text gets soft gold text-shadow glow: 
+         text-shadow: 0 0 8px rgba(244,196,48,0.6)
+    3. Color swatch on hover:
+       - Scale up 1.15x with ring/glow outline in gold
+    
+    QUICK-ADD INTERACTION (optional, best UX practice):
+    - On card hover, reveal a small "Quick View" or "Add to Cart" pill button 
+      that fades/slides up from bottom of image area
+    - Button style: gold fill, black text, rounded, small (matches SHOP NOW CTA style)
+    
+    RESPONSIVE BEHAVIOR:
+    - Desktop: 2-4 column grid (based on admin block count)
+    - Mobile: horizontal scroll-snap carousel, cards ~160px width, 
+      partial next-card peek for scroll affordance
+    
+    ADMIN CONTROLS TO EXPOSE IN SCHEMA:
+    - Section heading (text field)
+    - "View All" button text + link (collection picker)
+    - Number of product cards (block repeater, admin adds/removes)
+    - Each card: product picker (pulls live title/price/image/swatch automatically 
+      — no manual price entry to avoid £0.00 bugs)
+    - Color scheme picker (to match existing dark theme tokens)
+    - Toggle: enable/disable "Quick Add" button
+    
+    CRITICAL RULE:
+    - Price must ALWAYS pull from {{ product.price | money }} or 
+      {{ product.selected_or_first_available_variant.price | money }} — 
+      never hardcode price values, to prevent the £0.00 display bug seen earlier.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-footwear-picks-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-footwear-picks-container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-footwear-picks-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-footwear-picks-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.heading_color }};
+    margin: 0;
+    letter-spacing: 1px;
+  }
+
+  .ai-footwear-picks-view-all-{{ ai_gen_id }} {
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ block.settings.view_all_color }};
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-footwear-picks-view-all-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  .ai-footwear-picks-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.desktop_columns }}, 1fr);
+    gap: {{ block.settings.card_gap }}px;
+  }
+
+  .ai-footwear-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-footwear-card-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.card_hover_background }};
+    border-color: {{ block.settings.card_hover_border_color }};
+    box-shadow: 0 0 24px {{ block.settings.card_hover_glow }};
+  }
+
+  .ai-footwear-card-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .ai-footwear-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .ai-footwear-card-{{ ai_gen_id }}:hover .ai-footwear-card-image-{{ ai_gen_id }} {
+    transform: scale(1.05) translateY(-6px);
+  }
+
+  .ai-footwear-card-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-footwear-card-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-footwear-card-info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-footwear-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.product_title_color }};
+    margin: 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.6em;
+  }
+
+  .ai-footwear-card-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+    margin: 0;
+    transition: text-shadow 0.3s ease;
+  }
+
+  .ai-footwear-card-{{ ai_gen_id }}:hover .ai-footwear-card-price-{{ ai_gen_id }} {
+    text-shadow: 0 0 8px {{ block.settings.price_glow }};
+  }
+
+  .ai-footwear-card-swatch-{{ ai_gen_id }} {
+    width: {{ block.settings.swatch_size }}px;
+    height: {{ block.settings.swatch_size }}px;
+    border-radius: 50%;
+    border: 1px solid {{ block.settings.swatch_border_color }};
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 4px;
+  }
+
+  .ai-footwear-card-{{ ai_gen_id }}:hover .ai-footwear-card-swatch-{{ ai_gen_id }} {
+    transform: scale(1.15);
+    box-shadow: 0 0 8px {{ block.settings.swatch_glow }};
+  }
+
+  .ai-footwear-quick-add-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: {{ block.settings.card_padding }}px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    background-color: {{ block.settings.quick_add_bg }};
+    color: {{ block.settings.quick_add_text_color }};
+    padding: 10px 24px;
+    border-radius: {{ block.settings.quick_add_radius }}px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  .ai-footwear-card-{{ ai_gen_id }}:hover .ai-footwear-quick-add-{{ ai_gen_id }} {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .ai-footwear-quick-add-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.quick_add_hover_bg }};
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-footwear-picks-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .ai-footwear-card-image-wrapper-{{ ai_gen_id }} {
+      height: 200px;
+    }
+
+    .ai-footwear-picks-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.7 }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-footwear-picks-grid-{{ ai_gen_id }} {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ai-footwear-card-{{ ai_gen_id }} {
+      min-width: 160px;
+      max-width: 160px;
+      scroll-snap-align: start;
+    }
+
+    .ai-footwear-card-image-wrapper-{{ ai_gen_id }} {
+      height: 140px;
+    }
+
+    .ai-footwear-card-title-{{ ai_gen_id }} {
+      font-size: 13px;
+    }
+
+    .ai-footwear-card-price-{{ ai_gen_id }} {
+      font-size: 13px;
+    }
+
+    .ai-footwear-picks-header-{{ ai_gen_id }} {
+      margin-bottom: 24px;
+    }
+  }
+{% endstyle %}
+
+<footwear-picks-{{ ai_gen_id }} class="ai-footwear-picks-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-footwear-picks-container-{{ ai_gen_id }}">
+    <div class="ai-footwear-picks-header-{{ ai_gen_id }}">
+      {% if block.settings.section_title != blank %}
+        <h2 class="ai-footwear-picks-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+      {% endif %}
+      {% if block.settings.view_all_link != blank %}
+        <a href="{{ block.settings.view_all_link }}" class="ai-footwear-picks-view-all-{{ ai_gen_id }}">
+          {{ block.settings.view_all_text }}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="ai-footwear-picks-grid-{{ ai_gen_id }}">
+      {% if block.settings.products != blank %}
+        {% for product in block.settings.products %}
+          <div class="ai-footwear-card-{{ ai_gen_id }}">
+            <div class="ai-footwear-card-image-wrapper-{{ ai_gen_id }}">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="ai-footwear-card-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                >
+              {% else %}
+                <div class="ai-footwear-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="ai-footwear-card-info-{{ ai_gen_id }}">
+              <h3 class="ai-footwear-card-title-{{ ai_gen_id }}">
+                {{ product.title }}
+              </h3>
+
+              <div class="ai-footwear-card-price-{{ ai_gen_id }}">
+                {{ product.selected_or_first_available_variant.price | money }}
+              </div>
+
+              {% assign color_option = product.options_with_values | where: 'name', 'Color' | first %}
+              {% if color_option and color_option.values.size > 0 %}
+                {% assign first_color = color_option.values.first %}
+                <div
+                  class="ai-footwear-card-swatch-{{ ai_gen_id }}"
+                  style="background-color: {{ first_color | downcase }};"
+                  title="{{ first_color }}"
+                ></div>
+              {% elsif block.settings.default_swatch_color != blank %}
+                <div
+                  class="ai-footwear-card-swatch-{{ ai_gen_id }}"
+                  style="background-color: {{ block.settings.default_swatch_color }};"
+                ></div>
+              {% endif %}
+            </div>
+
+            {% if block.settings.enable_quick_add %}
+              <a
+                href="{{ product.url }}"
+                class="ai-footwear-quick-add-{{ ai_gen_id }}"
+              >
+                {{ block.settings.quick_add_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..4) %}
+          <div class="ai-footwear-card-{{ ai_gen_id }}">
+            <div class="ai-footwear-card-image-wrapper-{{ ai_gen_id }}">
+              <div class="ai-footwear-card-image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            </div>
+
+            <div class="ai-footwear-card-info-{{ ai_gen_id }}">
+              <h3 class="ai-footwear-card-title-{{ ai_gen_id }}">
+                Product title
+              </h3>
+
+              <div class="ai-footwear-card-price-{{ ai_gen_id }}">
+                £0.00
+              </div>
+
+              {% if block.settings.default_swatch_color != blank %}
+                <div
+                  class="ai-footwear-card-swatch-{{ ai_gen_id }}"
+                  style="background-color: {{ block.settings.default_swatch_color }};"
+                ></div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</footwear-picks-{{ ai_gen_id }}>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Footwear picks",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "FOOTWEAR PICKS"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "View all link"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Link text",
+      "default": "VIEW ALL"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Link URL"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color",
+      "label": "Link color",
+      "default": "#F4C430"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products",
+      "limit": 4,
+      "info": "Select 2-4 products to display"
+    },
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card spacing",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_hover_background",
+      "label": "Hover background",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border color",
+      "default": "#2A2A2A"
+    },
+    {
+      "type": "color",
+      "id": "card_hover_border_color",
+      "label": "Hover border color",
+      "default": "rgba(244, 196, 48, 0.4)"
+    },
+    {
+      "type": "color",
+      "id": "card_hover_glow",
+      "label": "Hover glow color",
+      "default": "rgba(244, 196, 48, 0.15)"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#F4C430"
+    },
+    {
+      "type": "color",
+      "id": "price_glow",
+      "label": "Price glow color",
+      "default": "rgba(244, 196, 48, 0.6)"
+    },
+    {
+      "type": "header",
+      "content": "Color swatch"
+    },
+    {
+      "type": "range",
+      "id": "swatch_size",
+      "label": "Swatch size",
+      "min": 10,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "swatch_border_color",
+      "label": "Border color",
+      "default": "#404040"
+    },
+    {
+      "type": "color",
+      "id": "swatch_glow",
+      "label": "Hover glow color",
+      "default": "rgba(244, 196, 48, 0.5)"
+    },
+    {
+      "type": "color",
+      "id": "default_swatch_color",
+      "label": "Default swatch color",
+      "info": "Used when product has no Color option"
+    },
+    {
+      "type": "header",
+      "content": "Quick add button"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Enable quick add button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quick_add_button_text",
+      "label": "Button text",
+      "default": "Quick View"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_bg",
+      "label": "Background",
+      "default": "#F4C430"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_hover_bg",
+      "label": "Hover background",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "quick_add_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footwear picks"
+    }
+  ]
+}
 {% endschema %}
