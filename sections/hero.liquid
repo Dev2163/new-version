@@ -439,10 +439,20 @@
       color: #F4C430 !important;
     }
     
-    /* Show search icon on the right on mobile */
-    #header-component .header__column--right .search-action {
+    /* Hide duplicate search button in the left/center column on mobile to prevent overlapping logo */
+    #header-component .search-action--hidden-on-menu,
+    #header-component .header__column--left .search-action,
+    #header-component .header__column--center .search-action {
+      display: none !important;
+    }
+    
+    /* Show and force the regular search icon to the right column grid area (rightA) on mobile */
+    #header-component .search-action:not(.search-action--hidden-on-menu) {
       display: flex !important;
       grid-area: rightA !important;
+      position: static !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
     
     /* Prevent search icon button from absolute positioning/centering on mobile view */
@@ -452,13 +462,6 @@
       transform: none !important;
       left: auto !important;
       margin: 0 !important;
-    }
-    
-    /* Hide duplicate search button in the left/center column on mobile to prevent overlapping logo */
-    #header-component .header__column--left .search-action,
-    #header-component .header__column--center,
-    #header-component .search-action--hidden-on-menu {
-      display: none !important;
     }
     
     /* Make icons/hamburger white */
