@@ -41,6 +41,34 @@
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    <script>
+      (function() {
+        const isHomepage = {{ template == 'index' | json }};
+        const forceSplash = new URLSearchParams(window.location.search).get('test_splash') === 'true';
+        if (isHomepage || forceSplash) {
+          try {
+            if (!forceSplash && sessionStorage.getItem('one9_splash_shown')) {
+              document.documentElement.classList.add('one9-splash-skip');
+            }
+          } catch(e) {}
+        } else {
+          document.documentElement.classList.add('one9-splash-skip');
+        }
+      })();
+    </script>
+    <style>
+      html.one9-splash-skip #one9-splash-screen {
+        display: none !important;
+      }
+      html.one9-splash-skip body.one9-splash-active {
+        overflow: auto !important;
+        position: relative !important;
+        height: auto !important;
+        width: auto !important;
+      }
+    </style>
+    {% section 'splashscreen' %}
+
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
