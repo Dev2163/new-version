@@ -532,7 +532,7 @@
     
     .custom-hero-{{ section.id }}__image-col {
       position: absolute !important;
-      top: 0 !important;
+      top: 60px !important; /* Pushed down below fixed header to prevent cutting off model's head */
       right: 0 !important;
       width: 72% !important; /* Slightly wider to show model details */
       height: 65% !important; /* Taller to prevent cutting off model's head */
@@ -640,9 +640,20 @@
       gap: 16px !important;
     }
     
-    /* Hide scrollbar */
-    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar {
+    /* Hide scrollbar completely across all browsers */
+    .thumbnail-strip-{{ section.id }}__container {
+      -ms-overflow-style: none !important; /* IE/Edge */
+      scrollbar-width: none !important; /* Firefox */
+    }
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar,
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-thumb,
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-track,
+    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-button {
       display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+      opacity: 0 !important;
     }
     
     /* Rounded variant cards */
