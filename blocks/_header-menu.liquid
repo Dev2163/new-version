@@ -395,7 +395,7 @@
 
   /*
     High specificity selectors to subdue non-hovered links without javascript.
-    If the need for js-generated `hovered` and `focused` classes arises for another reason we can simplify these.
+    ONE9 Custom: Override to use gold color + glow for hovered link.
   */
   .menu-list:where(:has(.menu-list__list-item:hover)),
   .menu-list:where(:has(.menu-list__list-item:focus-within)),
@@ -409,7 +409,10 @@
   .menu-list:not(:has(.menu-list__list-item:hover)) .menu-list__link--active,
   .menu-list .menu-list__list-item:where(:hover, :focus-within) .menu-list__link,
   .menu-list .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] {
-    color: var(--menu-top-level-font-color);
+    color: #F4C430 !important;
+    text-shadow: 
+      0 0 8px rgba(244, 196, 48, 0.8),
+      0 0 16px rgba(244, 196, 48, 0.4) !important;
   }
 
   .overflow-menu::part(list) {
