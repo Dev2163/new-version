@@ -1,58 +1,69 @@
 {% liquid
   assign heading = section.settings.heading | default: 'FOOTWEAR PICKS'
   assign view_all_text = section.settings.view_all_text | default: 'VIEW ALL'
-  assign view_all_link = section.settings.view_all_link
+  assign view_all_link = section.settings.view_all_link | default: '/collections/all'
 %}
 
-<div class="footwear-picks section-padding">
-  <div class="footwear-picks__header">
-    <h2 class="footwear-picks__heading">{{ heading }}</h2>
-    {% if view_all_link != blank %}
+<div class="footwear-picks-wrapper">
+  <div class="footwear-picks section-padding">
+    <div class="footwear-picks__header">
+      <h2 class="footwear-picks__heading">{{ heading }}</h2>
       <a href="{{ view_all_link }}" class="footwear-picks__view-all">{{ view_all_text }}</a>
-    {% endif %}
-  </div>
+    </div>
 
-  <div class="footwear-picks__grid">
-    {% for block in section.blocks %}
-      {% assign product = block.settings.product %}
-      <div class="footwear-picks__card" {{ block.shopify_attributes }}>
-        {% if product != blank %}
-          <a href="{{ product.url }}" class="footwear-picks__image-link">
-            <img
-              src="{{ product.featured_image | image_url: width: 600 }}"
-              alt="{{ product.featured_image.alt | default: product.title }}"
-              loading="lazy"
-              class="footwear-picks__image"
-            >
-          </a>
-          <div class="footwear-picks__info">
-            <p class="footwear-picks__title">{{ product.title }}</p>
-            <p class="footwear-picks__price">{{ product.price | money }}</p>
-            {% if product.options_with_values.size > 0 %}
-              <div class="footwear-picks__swatches">
-                {% for value in product.options_with_values.first.values %}
-                  <span
-                    class="footwear-picks__swatch"
-                    style="background-color: {{ value | handle }};"
-                    title="{{ value }}"
-                  ></span>
-                {% endfor %}
-              </div>
-            {% endif %}
-          </div>
-        {% else %}
-          <div class="footwear-picks__placeholder">
-            <p>Select a product in the theme editor →</p>
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
+    <div class="footwear-picks__grid">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        <div class="footwear-picks__card" {{ block.shopify_attributes }}>
+          {% if product != blank %}
+            <a href="{{ product.url }}" class="footwear-picks__image-link">
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | default: product.title }}"
+                loading="lazy"
+                class="footwear-picks__image"
+              >
+            </a>
+            <div class="footwear-picks__info">
+              <p class="footwear-picks__title">{{ product.title }}</p>
+              <p class="footwear-picks__price">{{ product.price | money }}</p>
+              {% if product.options_with_values.size > 0 %}
+                <div class="footwear-picks__swatches">
+                  {% for value in product.options_with_values.first.values %}
+                    {% if value.swatch %}
+                      {% render 'swatch', swatch: value.swatch, label: value.name %}
+                    {% else %}
+                      <span
+                        class="footwear-picks__swatch"
+                        style="background-color: {{ value.name | handle }};"
+                        title="{{ value.name }}"
+                      ></span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="footwear-picks__placeholder">
+              <p>Select a product in the theme editor →</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
 
 {% stylesheet %}
-  .footwear-picks {
+  .footwear-picks-wrapper {
     background-color: #0A0A0A;
+    width: 100%;
+  }
+
+  .footwear-picks {
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+    padding-inline: var(--page-margin, 20px);
     padding-block: 40px;
   }
 
@@ -85,8 +96,8 @@
 
   .footwear-picks__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
   }
 
   .footwear-picks__card {
@@ -97,6 +108,8 @@
     display: flex;
     gap: 16px;
     align-items: center;
+    max-width: 480px;
+    width: 100%;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
@@ -136,13 +149,22 @@
     text-shadow: 0 0 8px rgba(244, 196, 48, 0.6);
   }
 
-  .footwear-picks__swatch {
+  .footwear-picks__swatches {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .footwear-picks__swatch,
+  .footwear-picks__swatches .swatch {
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 1px solid #555;
-    margin-right: 6px;
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    border-radius: 50% !important;
+    border: 1px solid #555 !important;
+    margin: 0 !important;
   }
 
   .footwear-picks__placeholder {
