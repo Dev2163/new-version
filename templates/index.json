@@ -7,7 +7,6 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-
 {
   "sections": {
     "hero_p9CmMG": {
@@ -73,26 +72,34 @@
     "footwear_picks_section": {
       "type": "footwear-picks",
       "blocks": {
+        "product_Pe6XW7": {
+          "type": "product",
+          "settings": {
+            "product": "unisex-sundowner-denim-sneaker-1"
+          }
+        },
         "product_1": {
           "type": "product",
           "settings": {
-            "product": ""
+            "product": "native-bombay-blues"
           }
         },
         "product_2": {
           "type": "product",
           "settings": {
-            "product": ""
+            "product": "unisex-sundowner-denim-sneaker"
           }
         }
       },
       "block_order": [
+        "product_Pe6XW7",
         "product_1",
         "product_2"
       ],
       "settings": {
         "heading": "FOOTWEAR PICKS",
-        "view_all_text": "VIEW ALL"
+        "view_all_text": "VIEW ALL",
+        "view_all_link": ""
       }
     },
     "product_list_themegen": {
@@ -332,6 +339,7 @@
       "name": "t:names.products_grid",
       "settings": {
         "collection": "asset-pack-52731543554-example-products",
+        "card_orientation": "vertical",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 4,
