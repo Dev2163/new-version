@@ -1,0 +1,202 @@
+{% liquid
+  assign heading = section.settings.heading | default: 'FOOTWEAR PICKS'
+  assign view_all_text = section.settings.view_all_text | default: 'VIEW ALL'
+  assign view_all_link = section.settings.view_all_link
+%}
+
+<div class="footwear-picks section-padding">
+  <div class="footwear-picks__header">
+    <h2 class="footwear-picks__heading">{{ heading }}</h2>
+    {% if view_all_link != blank %}
+      <a href="{{ view_all_link }}" class="footwear-picks__view-all">{{ view_all_text }}</a>
+    {% endif %}
+  </div>
+
+  <div class="footwear-picks__grid">
+    {% for block in section.blocks %}
+      {% assign product = block.settings.product %}
+      <div class="footwear-picks__card" {{ block.shopify_attributes }}>
+        {% if product != blank %}
+          <a href="{{ product.url }}" class="footwear-picks__image-link">
+            <img
+              src="{{ product.featured_image | image_url: width: 600 }}"
+              alt="{{ product.featured_image.alt | default: product.title }}"
+              loading="lazy"
+              class="footwear-picks__image"
+            >
+          </a>
+          <div class="footwear-picks__info">
+            <p class="footwear-picks__title">{{ product.title }}</p>
+            <p class="footwear-picks__price">{{ product.price | money }}</p>
+            {% if product.options_with_values.size > 0 %}
+              <div class="footwear-picks__swatches">
+                {% for value in product.options_with_values.first.values %}
+                  <span
+                    class="footwear-picks__swatch"
+                    style="background-color: {{ value | handle }};"
+                    title="{{ value }}"
+                  ></span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="footwear-picks__placeholder">
+            <p>Select a product in the theme editor →</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .footwear-picks {
+    background-color: #0A0A0A;
+    padding-block: 40px;
+  }
+
+  .footwear-picks__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .footwear-picks__heading {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .footwear-picks__view-all {
+    color: #F4C430;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: text-shadow 0.3s ease;
+  }
+
+  .footwear-picks__view-all:hover {
+    text-shadow: 0 0 10px rgba(244, 196, 48, 0.7);
+  }
+
+  .footwear-picks__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .footwear-picks__card {
+    background-color: #111111;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .footwear-picks__card:hover {
+    background-color: #1A1A1A;
+    border-color: rgba(244, 196, 48, 0.4);
+    box-shadow: 0 0 24px rgba(244, 196, 48, 0.15);
+  }
+
+  .footwear-picks__image {
+    width: 130px;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .footwear-picks__card:hover .footwear-picks__image {
+    transform: scale(1.05) translateY(-6px);
+  }
+
+  .footwear-picks__title {
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .footwear-picks__price {
+    color: #F4C430;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+    transition: text-shadow 0.3s ease;
+  }
+
+  .footwear-picks__card:hover .footwear-picks__price {
+    text-shadow: 0 0 8px rgba(244, 196, 48, 0.6);
+  }
+
+  .footwear-picks__swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid #555;
+    margin-right: 6px;
+  }
+
+  .footwear-picks__placeholder {
+    color: #888;
+    font-size: 13px;
+    padding: 30px 0;
+    text-align: center;
+    width: 100%;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footwear Picks",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FOOTWEAR PICKS"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View All button text",
+      "default": "VIEW ALL"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All link (collection page)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footwear Picks",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -7,6 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
+
 {
   "sections": {
     "hero_p9CmMG": {
@@ -67,6 +68,31 @@
         "marquee_bg_color": "#111111",
         "marquee_text_color": "#8a7b5c",
         "card_bg_color": "#1a1a1a"
+      }
+    },
+    "footwear_picks_section": {
+      "type": "footwear-picks",
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2"
+      ],
+      "settings": {
+        "heading": "FOOTWEAR PICKS",
+        "view_all_text": "VIEW ALL"
       }
     },
     "product_list_themegen": {
@@ -1257,6 +1283,7 @@
   },
   "order": [
     "hero_p9CmMG",
+    "footwear_picks_section",
     "product_list_themegen",
     "hero_w7HaTj",
     "section_npVphq",
