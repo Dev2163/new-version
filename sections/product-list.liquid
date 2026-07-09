@@ -2,6 +2,14 @@
 
 {% liquid
   assign max_items = section.settings.max_products
+  assign is_horizontal = false
+  if section.settings.card_orientation == 'horizontal'
+    assign is_horizontal = true
+  endif
+  assign collection_handle = section.settings.collection.handle | downcase
+  if collection_handle contains 'footwear' or collection_handle contains 'shoes' or collection_handle contains 'picks'
+    assign is_horizontal = true
+  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -14,7 +22,7 @@
     section-resource-list
     spacing-style
     gap-style
-    {% if section.settings.card_orientation == 'horizontal' %}ui-test-product-list--horizontal{% endif %}
+    {% if is_horizontal %}ui-test-product-list--horizontal{% endif %}
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
