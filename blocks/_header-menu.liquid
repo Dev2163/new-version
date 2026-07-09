@@ -318,11 +318,13 @@
 
   /* Increase specificity to override any theme sticky header rules */
   html body .menu-list__link span,
-  html body .menu-list__link-title {
+  html body .menu-list__link-title,
+  #shopify-section-header.shopify-section-header-sticky .menu-list__link span,
+  sticky-header.is-sticky .menu-list__link span {
     padding-inline: calc(var(--gap-xl) / 2);
     position: relative;
     display: inline-block;
-    transition: color 0.35s ease, text-shadow 0.35s ease;
+    transition: color 0.35s ease, text-shadow 0.35s ease !important;
   }
 
   html body .menu-list__link-title::after,
@@ -342,7 +344,11 @@
   html body .menu-list__list-item:hover .menu-list__link span,
   html body .menu-list__list-item:focus-within .menu-list__link span,
   html body .menu-list__list-item:hover .menu-list__link-title,
-  html body .menu-list__list-item:focus-within .menu-list__link-title {
+  html body .menu-list__list-item:focus-within .menu-list__link-title,
+  #shopify-section-header.shopify-section-header-sticky .menu-list__list-item:hover .menu-list__link,
+  #shopify-section-header.shopify-section-header-sticky .menu-list__list-item:hover .menu-list__link span,
+  sticky-header.is-sticky .menu-list__list-item:hover .menu-list__link,
+  sticky-header.is-sticky .menu-list__list-item:hover .menu-list__link span {
     color: #F4C430 !important;
     text-shadow: 
       0 0 8px rgba(244, 196, 48, 0.8),
