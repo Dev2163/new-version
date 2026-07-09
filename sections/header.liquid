@@ -325,6 +325,24 @@
     position: absolute !important;
   }
 
+  @media screen and (max-width: 749px) {
+    #shopify-section-header .header__columns {
+      display: grid !important;
+      grid-template-columns: 1fr auto 1fr !important;
+      grid-template-areas: 'left center right' !important;
+      width: 100% !important;
+    }
+
+    #shopify-section-header .header-actions,
+    #shopify-section-header .header-actions__action,
+    #shopify-section-header .search-action,
+    #shopify-section-header shopify-account {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+  }
+
   /* 2. Premium Dark Sticky Background (Only when scrolled) */
   #shopify-section-header.shopify-section-header-sticky header-component,
   header-component[data-scroll-direction="up"],
