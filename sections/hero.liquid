@@ -412,57 +412,6 @@
       background-color: #0A0A0A !important;
       border-bottom: 1px solid rgba(255,255,255,0.05) !important;
     }
-
-    #header-component .header__columns {
-      position: relative !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-    }
-    
-    /* Center the logo on mobile header */
-    #header-component .header-logo {
-      position: absolute !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      margin: 0 !important;
-      color: #F4C430 !important; /* Gold logo */
-      font-family: 'Archivo Black', 'Anton', sans-serif !important;
-      font-weight: 900 !important;
-      text-transform: uppercase !important;
-      font-size: 22px !important;
-      letter-spacing: -0.5px !important;
-      z-index: 10 !important;
-    }
-    
-    #header-component .header-logo * {
-      color: #F4C430 !important;
-    }
-    
-    /* Hide duplicate search button in the left/center column on mobile to prevent overlapping logo */
-    #header-component .search-action--hidden-on-menu,
-    #header-component .header__column--left .search-action,
-    #header-component .header__column--center .search-action {
-      display: none !important;
-    }
-    
-    /* Show and force the regular search icon to the right column grid area (rightA) on mobile */
-    #header-component .search-action:not(.search-action--hidden-on-menu) {
-      display: flex !important;
-      grid-area: rightA !important;
-      position: static !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-    
-    /* Prevent search icon button from absolute positioning/centering on mobile view */
-    #header-component .search-action button,
-    #header-component button[aria-label="Search"] {
-      position: static !important;
-      transform: none !important;
-      left: auto !important;
-      margin: 0 !important;
-    }
     
     /* Make icons/hamburger white */
     #header-component svg path,
