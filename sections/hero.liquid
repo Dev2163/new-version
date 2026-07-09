@@ -444,6 +444,15 @@
       display: flex !important;
     }
     
+    /* Prevent search icon button from absolute positioning/centering on mobile view */
+    #header-component .search-action button,
+    #header-component button[aria-label="Search"] {
+      position: static !important;
+      transform: none !important;
+      left: auto !important;
+      margin: 0 !important;
+    }
+    
     /* Hide duplicate search button in the left/center column on mobile to prevent overlapping logo */
     #header-component .header__column--left .search-action,
     #header-component .header__column--center,
