@@ -1,0 +1,411 @@
+{%- if section.settings.enabled -%}
+  {%- assign show_splash = false -%}
+  {%- if template == 'index' or section.settings.show_on_all_pages -%}
+    {%- assign show_splash = true -%}
+  {%- endif -%}
+
+  {%- if show_splash -%}
+    <div id="one9-splash-screen" class="one9-splash" style="background-color: {{ section.settings.bg_color }};">
+      <div class="one9-splash-content">
+        {%- assign logo_text = section.settings.logo_text | default: 'ONE9' -%}
+        <h1 class="one9-splash-logo" style="color: {{ section.settings.logo_color }};">
+          {%- if logo_text == 'ONE9' -%}
+            <span class="letter" style="--letter-idx: 0;">O</span>
+            <span class="letter" style="--letter-idx: 1;">N</span>
+            <span class="letter" style="--letter-idx: 2;">E</span>
+            <span class="letter" style="--letter-idx: 3;">9</span>
+          {%- else -%}
+            {%- assign logo_chars = logo_text | split: "" -%}
+            {%- for char in logo_chars -%}
+              <span class="letter" style="--letter-idx: {{ forloop.index0 }}">{{ char }}</span>
+            {%- endfor -%}
+          {%- endif -%}
+        </h1>
+        
+        <div class="one9-splash-line-wrapper">
+          <div class="one9-splash-line" style="background-color: {{ section.settings.line_color }};"></div>
+        </div>
+
+        <p class="one9-splash-tagline" style="color: {{ section.settings.tagline_color }};">
+          {{ section.settings.tagline_text }}
+        </p>
+
+        <div class="one9-splash-dots">
+          <span class="dot" style="--dot-idx: 0; background-color: {{ section.settings.logo_color }};"></span>
+          <span class="dot" style="--dot-idx: 1; background-color: {{ section.settings.logo_color }};"></span>
+          <span class="dot" style="--dot-idx: 2; background-color: {{ section.settings.logo_color }};"></span>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap');
+
+      /* Prevent scrolling while active */
+      body.one9-splash-active {
+        overflow: hidden !important;
+        height: 100vh !important;
+        width: 100vw !important;
+        position: fixed !important;
+      }
+
+      .one9-splash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        z-index: 9999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        pointer-events: auto;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 400ms cubic-bezier(0.25, 1, 0.5, 1),
+                    visibility 400ms cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      .one9-splash-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1);
+        transform: scale(1);
+        text-align: center;
+        padding: 20px;
+        width: 100%;
+        max-width: 600px;
+      }
+
+      /* Logo styling */
+      .one9-splash-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Archivo Black', 'Anton', sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 48px; /* Mobile */
+        line-height: 1;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+
+      @media (min-width: 769px) {
+        .one9-splash-logo {
+          font-size: 80px; /* Desktop */
+        }
+      }
+
+      .one9-splash-logo .letter {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: one9FadeSlideUp 600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        animation-delay: calc(var(--letter-idx) * 100ms);
+      }
+
+      @keyframes one9FadeSlideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Thin Line styling */
+      .one9-splash-line-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 16px;
+        margin-bottom: 20px;
+      }
+
+      .one9-splash-line {
+        width: 60px;
+        height: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: one9DrawLine 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation-delay: 600ms;
+      }
+
+      @keyframes one9DrawLine {
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      /* Tagline styling */
+      .one9-splash-tagline {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0 0 28px 0;
+        padding: 0;
+        opacity: 0;
+        animation: one9FadeInTagline 400ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        animation-delay: 900ms;
+      }
+
+      @keyframes one9FadeInTagline {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Dots Loading Indicator */
+      .one9-splash-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        opacity: 0;
+        animation: one9FadeInDots 300ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        animation-delay: 1300ms;
+      }
+
+      .one9-splash-dots .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: one9PulseDot 1000ms ease-in-out infinite;
+        animation-delay: calc(1300ms + var(--dot-idx) * 150ms);
+      }
+
+      @keyframes one9FadeInDots {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes one9PulseDot {
+        0%, 100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.3);
+        }
+      }
+
+      /* Exit Transitions */
+      .one9-splash--exiting {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      .one9-splash--exiting .one9-splash-content {
+        transform: scale(1.05);
+      }
+
+      /* Skip style for repeat visits */
+      html.one9-splash-skip #one9-splash-screen {
+        display: none !important;
+      }
+      html.one9-splash-skip body.one9-splash-active {
+        overflow: auto !important;
+        position: relative !important;
+        height: auto !important;
+        width: auto !important;
+      }
+    </style>
+
+    <script>
+      (function() {
+        const showOnce = {{ section.settings.show_once_per_session | default: true }};
+        const testMode = {{ section.settings.test_mode | default: false }};
+        const showOnAllPages = {{ section.settings.show_on_all_pages | default: false }};
+        
+        // Fast URL parameter check
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceSplash = urlParams.get('test_splash') === 'true';
+
+        // Check if we should skip the splash screen
+        if (!forceSplash && !testMode) {
+          if (showOnce && sessionStorage.getItem('one9_splash_shown')) {
+            document.documentElement.classList.add('one9-splash-skip');
+            return;
+          }
+        }
+
+        // Apply scroll lock to body
+        document.body.classList.add('one9-splash-active');
+
+        const splash = document.getElementById('one9-splash-screen');
+        const startTime = Date.now();
+        const minDuration = 1800; // Phase 1-4 ends at 1.8s
+        const maxDuration = {{ section.settings.max_wait_time | default: 2500 }};
+        
+        let exitTriggered = false;
+
+        function triggerExit() {
+          if (exitTriggered) return;
+          exitTriggered = true;
+
+          // Set session storage flag if not in test/force modes
+          if (showOnce && !testMode && !forceSplash) {
+            try {
+              sessionStorage.setItem('one9_splash_shown', 'true');
+            } catch (e) {
+              console.warn('sessionStorage is disabled or unavailable:', e);
+            }
+          }
+
+          if (splash) {
+            splash.classList.add('one9-splash--exiting');
+            
+            // Release body lock
+            document.body.classList.remove('one9-splash-active');
+
+            // Cleanup DOM display
+            setTimeout(() => {
+              splash.style.display = 'none';
+            }, 400); // matches the transition duration
+          }
+        }
+
+        // Wait for page load
+        window.addEventListener('load', () => {
+          const elapsedTime = Date.now() - startTime;
+          if (elapsedTime >= minDuration) {
+            triggerExit();
+          } else {
+            setTimeout(triggerExit, minDuration - elapsedTime);
+          }
+        });
+
+        // Backup in case load event already fired
+        if (document.readyState === 'complete') {
+          const elapsedTime = Date.now() - startTime;
+          if (elapsedTime >= minDuration) {
+            triggerExit();
+          } else {
+            setTimeout(triggerExit, minDuration - elapsedTime);
+          }
+        }
+
+        // Safety fallback: maximum display duration
+        setTimeout(() => {
+          if (!exitTriggered) {
+            console.log('ONE9 Splash: Max wait time reached, forcing exit.');
+            triggerExit();
+          }
+        }, maxDuration);
+
+        // Shopify Theme Editor Customizer Events
+        if (window.Shopify && window.Shopify.designMode) {
+          // Listen for selection in the theme customizer sidebar
+          document.addEventListener('shopify:section:select', (e) => {
+            if (e.target.id === 'shopify-section-{{ section.id }}' || e.detail.sectionId === '{{ section.id }}') {
+              // Reset and show splash screen for editing
+              document.documentElement.classList.remove('one9-splash-skip');
+              document.body.classList.add('one9-splash-active');
+              if (splash) {
+                splash.style.display = 'flex';
+                splash.classList.remove('one9-splash--exiting');
+                exitTriggered = false;
+              }
+            }
+          });
+
+          // Listen for deselection in the theme customizer sidebar
+          document.addEventListener('shopify:section:deselect', (e) => {
+            if (e.target.id === 'shopify-section-{{ section.id }}' || e.detail.sectionId === '{{ section.id }}') {
+              triggerExit();
+            }
+          });
+        }
+      })();
+    </script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Splash Screen",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable Splash Screen",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_once_per_session",
+      "label": "Show only once per session",
+      "default": true,
+      "info": "Uses session storage so repeat visits don't trigger the animation."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_all_pages",
+      "label": "Show on all pages",
+      "default": false,
+      "info": "By default, the splash screen only displays on the homepage."
+    },
+    {
+      "type": "checkbox",
+      "id": "test_mode",
+      "label": "Test Mode",
+      "default": false,
+      "info": "Forces the splash screen to display on every reload (bypasses session check)."
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "ONE9"
+    },
+    {
+      "type": "text",
+      "id": "tagline_text",
+      "label": "Tagline Text",
+      "default": "BUILT DIFFERENT. WORN EVERYWHERE."
+    },
+    {
+      "type": "range",
+      "id": "max_wait_time",
+      "label": "Max Wait Time (ms)",
+      "min": 1500,
+      "max": 6000,
+      "step": 500,
+      "default": 2500,
+      "info": "Maximum duration the splash screen can display before forcing exit if the page load is slow."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "logo_color",
+      "label": "Logo Color",
+      "default": "#F4C430"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line Color",
+      "default": "#F4C430"
+    },
+    {
+      "type": "color",
+      "id": "tagline_color",
+      "label": "Tagline Color",
+      "default": "#8A7B5C"
+    }
+  ]
+}
+{% endschema %}
