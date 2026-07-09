@@ -3,38 +3,38 @@
   <div class="custom-hero-{{ section.id }}">
     
     <!-- Far Left Sidebar -->
-    <div class="custom-hero-{{ section.id }}__sidebar">
-      <div class="custom-hero-{{ section.id }}__vertical-text">
+    <div class="one9-vertical-brand">
+      <div class="letter-container" style="display: flex; flex-direction: column; align-items: center;">
         {% assign brand_letters = section.settings.vertical_text | split: "," %}
         {% for letter in brand_letters %}
-          <span>{{ letter }}</span>
+          <span class="letter">{{ letter }}</span>
         {% endfor %}
       </div>
-      <div class="custom-hero-{{ section.id }}__icon">
-        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="zodiac-icon">
+        <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Top dots -->
-          <circle cx="22" cy="7" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="15" cy="8.5" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="29" cy="8.5" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="9" cy="13" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="35" cy="13" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="22" cy="7" r="1.5" fill="#F4C430" />
+          <circle cx="15" cy="8.5" r="1.5" fill="#F4C430" />
+          <circle cx="29" cy="8.5" r="1.5" fill="#F4C430" />
+          <circle cx="9" cy="13" r="1.5" fill="#F4C430" />
+          <circle cx="35" cy="13" r="1.5" fill="#F4C430" />
           
           <!-- Blinking Eye Group -->
           <g class="eye-blink-anim">
-            <path d="M6 22 Q22 6 38 22 Q22 38 6 22 Z" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
-            <circle cx="22" cy="22" r="4.5" stroke="{{ section.settings.accent_color }}" stroke-width="2.5" fill="none" />
-            <circle cx="22" cy="22" r="2" fill="{{ section.settings.accent_color }}" />
+            <path d="M6 22 Q22 6 38 22 Q22 38 6 22 Z" stroke="#F4C430" stroke-width="2.5" fill="none" />
+            <circle cx="22" cy="22" r="4.5" stroke="#F4C430" stroke-width="2.5" fill="none" />
+            <circle cx="22" cy="22" r="2" fill="#F4C430" />
           </g>
 
           <!-- Bottom dots -->
-          <circle cx="22" cy="37" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="15" cy="35.5" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="29" cy="35.5" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="9" cy="31" r="1.5" fill="{{ section.settings.accent_color }}" />
-          <circle cx="35" cy="31" r="1.5" fill="{{ section.settings.accent_color }}" />
+          <circle cx="22" cy="37" r="1.5" fill="#F4C430" />
+          <circle cx="15" cy="35.5" r="1.5" fill="#F4C430" />
+          <circle cx="29" cy="35.5" r="1.5" fill="#F4C430" />
+          <circle cx="9" cy="31" r="1.5" fill="#F4C430" />
+          <circle cx="35" cy="31" r="1.5" fill="#F4C430" />
         </svg>
       </div>
-      <div class="custom-hero-{{ section.id }}__line"></div>
+      <div class="gold-line"></div>
     </div>
     
     <!-- Main Content Row (Flex reversed if image is left) -->
@@ -115,6 +115,8 @@
 </div>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&display=swap');
+
   .custom-hero-container-{{ section.id }} {
     width: 100%;
     background-color: {{ section.settings.bg_color }};
@@ -129,16 +131,46 @@
     display: flex;
     color: {{ section.settings.text_color }};
   }
-  .custom-hero-{{ section.id }}__sidebar {
-    position: relative;
-    z-index: 2;
+
+  /* Premium Absolute Brand Sidebar */
+  .one9-vertical-brand {
+    position: absolute;
+    left: 28px;
+    top: 110px;
+    z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 80px 40px;
-    width: 120px;
-    flex-shrink: 0;
+    color: #F4C430;
   }
+
+  .one9-vertical-brand .letter {
+    font-family: "Orbitron", "Rajdhani", sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(244, 196, 48, 0.18);
+    display: block;
+  }
+
+  .one9-vertical-brand .zodiac-icon {
+    width: 28px;
+    height: 28px;
+    margin-top: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .one9-vertical-brand .gold-line {
+    width: 2px;
+    height: 130px;
+    background: #F4C430;
+    box-shadow: 0 0 8px rgba(244, 196, 48, 0.22);
+  }
+
   .custom-hero-{{ section.id }}__content-row {
     flex: 1;
     display: flex;
@@ -147,27 +179,6 @@
   }
   .custom-hero-{{ section.id }}__content-row.image-left {
     flex-direction: row-reverse;
-  }
-  
-  .custom-hero-{{ section.id }}__vertical-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 60px;
-    font-weight: 900;
-    color: {{ section.settings.accent_color }};
-    font-family: 'Archivo Black', 'Anton', sans-serif;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    letter-spacing: -2px;
-  }
-  .custom-hero-{{ section.id }}__vertical-text span {
-    display: block;
-    line-height: 0.85;
-    margin-bottom: 2px;
-  }
-  .custom-hero-{{ section.id }}__icon {
-    margin: 32px 0;
   }
   
   .eye-blink-anim {
@@ -180,19 +191,12 @@
     96.5% { transform: scaleY(0.1); }
   }
   
-  .custom-hero-{{ section.id }}__line {
-    width: 1px;
-    flex-grow: 1;
-    max-height: 300px;
-    background-color: {{ section.settings.accent_color }};
-  }
-  
   .custom-hero-{{ section.id }}__main {
     flex: 1.2;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px;
+    padding: 40px 40px 40px 140px; /* Generous left padding to clear absolute brand sidebar */
     max-width: 900px;
   }
   
@@ -473,53 +477,45 @@
     }
 
     /* Keep vertical ONE9 branding on far-left but smaller, not overlapping, cleared from header */
-    .custom-hero-{{ section.id }}__sidebar {
+    .one9-vertical-brand {
       position: absolute !important;
-      left: 0 !important;
-      top: 0 !important;
-      bottom: 0 !important;
-      width: 50px !important;
-      padding: 76px 0 24px 0 !important; /* Top padding 76px clears the fixed header! */
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
+      left: 16px !important;
+      top: 76px !important; /* Pushed down below fixed header to prevent cutoff */
       z-index: 5 !important;
-      background: transparent !important;
-      box-sizing: border-box !important;
-    }
-    
-    .custom-hero-{{ section.id }}__vertical-text {
-      flex-direction: column !important;
-      font-size: 18px !important;
-      margin-bottom: 8px !important;
-      transform: none !important;
-      letter-spacing: 0 !important;
-      gap: 1px !important;
-    }
-    
-    .custom-hero-{{ section.id }}__vertical-text span {
-      margin-bottom: 2px !important;
-      margin-right: 0 !important;
-      line-height: 0.95 !important;
-    }
-    
-    .custom-hero-{{ section.id }}__icon {
-      margin: 8px 0 !important;
       display: flex !important;
+      flex-direction: column !important;
       align-items: center !important;
-      justify-content: center !important;
+      width: 40px !important;
+      padding: 0 !important;
     }
     
-    .custom-hero-{{ section.id }}__icon svg {
-      width: 24px !important;
-      height: 24px !important;
+    .one9-vertical-brand .letter-container {
+      margin-bottom: 8px !important;
     }
     
-    .custom-hero-{{ section.id }}__line {
+    .one9-vertical-brand .letter {
+      font-size: 20px !important; /* Smaller on mobile */
+      line-height: 0.95 !important;
+      text-shadow: 0 0 8px rgba(244, 196, 48, 0.18) !important;
+    }
+    
+    .one9-vertical-brand .zodiac-icon {
+      width: 20px !important;
+      height: 20px !important;
+      margin-top: 12px !important;
+      margin-bottom: 8px !important;
+    }
+    
+    .one9-vertical-brand .zodiac-icon svg {
+      width: 20px !important;
+      height: 20px !important;
+    }
+    
+    .one9-vertical-brand .gold-line {
       width: 1px !important;
-      height: 100px !important;
-      background-color: {{ section.settings.accent_color }} !important;
+      height: 90px !important;
+      background-color: #F4C430 !important;
+      box-shadow: 0 0 6px rgba(244, 196, 48, 0.22) !important;
     }
 
     /* Model image occupies upper-right portion with safe crops */
