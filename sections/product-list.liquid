@@ -6,9 +6,11 @@
   if section.settings.card_orientation == 'horizontal'
     assign is_horizontal = true
   endif
-  assign collection_handle = section.settings.collection.handle | downcase
-  if collection_handle contains 'footwear' or collection_handle contains 'shoes' or collection_handle contains 'picks'
-    assign is_horizontal = true
+  if section.settings.collection != blank
+    assign collection_handle = section.settings.collection.handle | downcase
+    if collection_handle contains 'footwear' or collection_handle contains 'shoes' or collection_handle contains 'picks'
+      assign is_horizontal = true
+    endif
   endif
 %}
 
@@ -34,7 +36,7 @@
   </div>
 
   {% capture list_items %}
-    {% if section.settings.collection != blank and shop.products_count != 0 %}
+    {% if section.settings.collection != blank and section.settings.collection.all_products_count > 0 and shop.products_count != 0 %}
       {% paginate section.settings.collection.products by max_items %}
         {% for product in section.settings.collection.products limit: max_items %}
           <div
