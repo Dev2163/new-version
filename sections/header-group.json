@@ -6,7 +6,7 @@
       "type": "header",
       "blocks": {
         "header-logo": {
-          "type": "header-logo",
+          "type": "_header-logo",
           "static": true,
           "settings": {
             "hide_logo_on_home_page": false,
