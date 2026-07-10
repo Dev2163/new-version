@@ -7,7 +7,6 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-
 {
   "sections": {
     "hero_p9CmMG": {
@@ -92,31 +91,128 @@
       ],
       "settings": {
         "heading": "FOOTWEAR PICKS",
-        "view_all_text": "VIEW ALL"
+        "view_all_text": "VIEW ALL",
+        "view_all_link": ""
       }
     },
     "zodiac_strip_section": {
       "type": "zodiac-strip",
       "blocks": {
-        "sign_1": { "type": "sign", "settings": { "sign_name": "Aries" } },
-        "sign_2": { "type": "sign", "settings": { "sign_name": "Taurus" } },
-        "sign_3": { "type": "sign", "settings": { "sign_name": "Gemini" } },
-        "sign_4": { "type": "sign", "settings": { "sign_name": "Cancer" } },
-        "sign_5": { "type": "sign", "settings": { "sign_name": "Leo" } },
-        "sign_6": { "type": "sign", "settings": { "sign_name": "Virgo" } },
-        "sign_7": { "type": "sign", "settings": { "sign_name": "Libra" } },
-        "sign_8": { "type": "sign", "settings": { "sign_name": "Scorpio" } },
-        "sign_9": { "type": "sign", "settings": { "sign_name": "Sagittarius" } },
-        "sign_10": { "type": "sign", "settings": { "sign_name": "Capricorn" } },
-        "sign_11": { "type": "sign", "settings": { "sign_name": "Aquarius" } },
-        "sign_12": { "type": "sign", "settings": { "sign_name": "Pisces" } }
+        "sign_1": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Aries",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_2": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Taurus",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_3": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Gemini",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_4": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Cancer",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_5": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Leo",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_6": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Virgo",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_7": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Libra",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_8": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Scorpio",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_9": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Sagittarius",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_10": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Capricorn",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_11": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Aquarius",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_12": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Pisces",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        }
       },
       "block_order": [
-        "sign_1", "sign_2", "sign_3", "sign_4", "sign_5", "sign_6",
-        "sign_7", "sign_8", "sign_9", "sign_10", "sign_11", "sign_12"
+        "sign_1",
+        "sign_2",
+        "sign_3",
+        "sign_4",
+        "sign_5",
+        "sign_6",
+        "sign_7",
+        "sign_8",
+        "sign_9",
+        "sign_10",
+        "sign_11",
+        "sign_12"
       ],
       "settings": {
-        "heading": "FIND YOUR SIGN"
+        "heading": "FIND YOUR SIGN",
+        "accent_color": "#f4c430",
+        "bg_color": "#0a0a0a"
       }
     },
     "best_sellers_section": {
@@ -124,7 +220,11 @@
       "settings": {
         "heading": "BEST SELLERS",
         "view_all_text": "VIEW ALL PRODUCTS",
-        "products_limit": 6
+        "view_all_link": "",
+        "collection": "",
+        "products_limit": 6,
+        "accent_color": "#f4c430",
+        "bg_color": "#0a0a0a"
       }
     },
     "product_list_themegen": {
@@ -364,6 +464,7 @@
       "name": "t:names.products_grid",
       "settings": {
         "collection": "asset-pack-52731543554-example-products",
+        "card_orientation": "vertical",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 4,
@@ -384,6 +485,7 @@
     },
     "hero_w7HaTj": {
       "type": "hero",
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "vertical_text": "O,N,E,9",
