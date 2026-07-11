@@ -2,49 +2,51 @@
   <!-- HERO PART -->
   <div class="custom-hero-{{ section.id }}">
     
-    <!-- Far Left Sidebar -->
-    <div class="one9-vertical-brand">
-      <div class="letter-container" style="display: flex; flex-direction: column; align-items: center;">
-        {% assign brand_letters = section.settings.vertical_text | split: "," %}
-        {% for letter in brand_letters %}
-          <span class="letter">{{ letter }}</span>
-        {% endfor %}
-      </div>
-      <div class="zodiac-icon">
-        <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Top dots -->
-          <circle cx="22" cy="7" r="1.5" fill="#F4C430" />
-          <circle cx="15" cy="8.5" r="1.5" fill="#F4C430" />
-          <circle cx="29" cy="8.5" r="1.5" fill="#F4C430" />
-          <circle cx="9" cy="13" r="1.5" fill="#F4C430" />
-          <circle cx="35" cy="13" r="1.5" fill="#F4C430" />
-          
-          <!-- Blinking Eye Group -->
-          <g class="eye-blink-anim">
-            <path d="M6 22 Q22 6 38 22 Q22 38 6 22 Z" stroke="#F4C430" stroke-width="2.5" fill="none" />
-            <circle cx="22" cy="22" r="4.5" stroke="#F4C430" stroke-width="2.5" fill="none" />
-            <circle cx="22" cy="22" r="2" fill="#F4C430" />
-          </g>
-
-          <!-- Bottom dots -->
-          <circle cx="22" cy="37" r="1.5" fill="#F4C430" />
-          <circle cx="15" cy="35.5" r="1.5" fill="#F4C430" />
-          <circle cx="29" cy="35.5" r="1.5" fill="#F4C430" />
-          <circle cx="9" cy="31" r="1.5" fill="#F4C430" />
-          <circle cx="35" cy="31" r="1.5" fill="#F4C430" />
-        </svg>
-      </div>
-      <div class="gold-line"></div>
-    </div>
-    
     <!-- Main Content Row (Flex reversed if image is left) -->
     <div class="custom-hero-{{ section.id }}__content-row {% if section.settings.image_position == 'left' %}image-left{% endif %}">
       
-      <!-- Text Column -->
-      <div class="custom-hero-{{ section.id }}__main">
-        <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title }}</h1>
-        <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
-        <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
+      <div class="custom-hero-{{ section.id }}__left-wrapper">
+        <!-- Far Left Sidebar -->
+        <div class="one9-vertical-brand">
+          <div class="letter-container" style="display: flex; flex-direction: column; align-items: center;">
+            {% assign brand_letters = section.settings.vertical_text | split: "," %}
+            {% for letter in brand_letters %}
+              <span class="letter">{{ letter }}</span>
+            {% endfor %}
+          </div>
+          <div class="zodiac-icon">
+            <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Top dots -->
+              <circle cx="22" cy="7" r="1.5" fill="#F4C430" />
+              <circle cx="15" cy="8.5" r="1.5" fill="#F4C430" />
+              <circle cx="29" cy="8.5" r="1.5" fill="#F4C430" />
+              <circle cx="9" cy="13" r="1.5" fill="#F4C430" />
+              <circle cx="35" cy="13" r="1.5" fill="#F4C430" />
+              
+              <!-- Blinking Eye Group -->
+              <g class="eye-blink-anim">
+                <path d="M6 22 Q22 6 38 22 Q22 38 6 22 Z" stroke="#F4C430" stroke-width="2.5" fill="none" />
+                <circle cx="22" cy="22" r="4.5" stroke="#F4C430" stroke-width="2.5" fill="none" />
+                <circle cx="22" cy="22" r="2" fill="#F4C430" />
+              </g>
+
+              <!-- Bottom dots -->
+              <circle cx="22" cy="37" r="1.5" fill="#F4C430" />
+              <circle cx="15" cy="35.5" r="1.5" fill="#F4C430" />
+              <circle cx="29" cy="35.5" r="1.5" fill="#F4C430" />
+              <circle cx="9" cy="31" r="1.5" fill="#F4C430" />
+              <circle cx="35" cy="31" r="1.5" fill="#F4C430" />
+            </svg>
+          </div>
+          <div class="gold-line"></div>
+        </div>
+        
+        <!-- Text Column -->
+        <div class="custom-hero-{{ section.id }}__main">
+          <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title }}</h1>
+          <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+          <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
+        </div>
       </div>
       
       <!-- Image Column -->
@@ -132,16 +134,22 @@
     color: {{ section.settings.text_color }};
   }
 
-  /* Premium Absolute Brand Sidebar */
+  .custom-hero-{{ section.id }}__left-wrapper {
+    flex: 1.2;
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center vertically relative to each other */
+    padding-left: 28px; /* Left padding for the whole block */
+    max-width: 900px;
+  }
+
   .one9-vertical-brand {
-    position: absolute;
-    left: 28px;
-    top: 110px;
-    z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #F4C430;
+    margin-right: 48px; /* Space between sidebar and text */
+    flex-shrink: 0;
   }
 
   .one9-vertical-brand .letter {
@@ -150,15 +158,18 @@
     font-weight: 800;
     line-height: 0.9;
     letter-spacing: 1px;
+    color: transparent;
+    -webkit-text-stroke: 1.5px #F4C430;
     text-shadow: 0 0 10px rgba(244, 196, 48, 0.18);
     display: block;
+    text-transform: uppercase;
   }
 
   .one9-vertical-brand .zodiac-icon {
     width: 28px;
     height: 28px;
-    margin-top: 20px;
-    margin-bottom: 16px;
+    margin-top: 24px;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -166,7 +177,7 @@
 
   .one9-vertical-brand .gold-line {
     width: 2px;
-    height: 130px;
+    height: 160px; /* Slightly longer to match image */
     background: #F4C430;
     box-shadow: 0 0 8px rgba(244, 196, 48, 0.22);
   }
@@ -192,12 +203,11 @@
   }
   
   .custom-hero-{{ section.id }}__main {
-    flex: 1.2;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px 40px 40px 140px; /* Generous left padding to clear absolute brand sidebar */
-    max-width: 900px;
+    padding: 40px 40px 40px 0; /* Left padding removed as wrapper handles it */
   }
   
   .custom-hero-{{ section.id }}__image-col {
