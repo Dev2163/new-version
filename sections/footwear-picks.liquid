@@ -95,19 +95,13 @@
   }
 
   .footwear-picks__grid {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 40px !important;
+    text-align: center !important;
     width: 100% !important;
-    margin: 0 auto !important;
   }
 
   @media screen and (max-width: 900px) {
     .footwear-picks__grid {
-      flex-direction: column;
-      align-items: center;
+      /* Reset if needed, but text-align center still works */
     }
     .footwear-picks__card {
       width: 100%;
@@ -119,7 +113,10 @@
     border: 1px solid #2A2A2A;
     border-radius: 16px;
     padding: 40px;
-    display: flex;
+    display: inline-flex;
+    text-align: left; /* Keep internal text left-aligned */
+    vertical-align: top;
+    margin: 0 20px 40px 20px; /* 40px gap equivalent */
     gap: 36px;
     align-items: center;
     width: 100%;
