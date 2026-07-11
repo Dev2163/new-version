@@ -1,6 +1,58 @@
 
 {
   "sections": {
+    "trust_badges_section": {
+      "type": "trust-badges",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "title": "FREE SHIPPING",
+            "subtitle": "On orders over £100",
+            "icon": "none",
+            "custom_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12\" /></svg>"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "title": "EASY RETURNS",
+            "subtitle": "30-day return policy",
+            "icon": "none",
+            "custom_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" /></svg>"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "title": "SECURE CHECKOUT",
+            "subtitle": "100% secure payments",
+            "icon": "none",
+            "custom_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z\" /></svg>"
+          }
+        },
+        "badge_4": {
+          "type": "badge",
+          "settings": {
+            "title": "COD / UPI / CARDS",
+            "subtitle": "Multiple payment options",
+            "icon": "none",
+            "custom_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z\" /></svg>"
+          }
+        }
+      },
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "badge_4"
+      ],
+      "settings": {
+        "bg_color": "#000000",
+        "text_color": "#FFFFFF",
+        "icon_color": "#F4C430"
+      }
+    },
     "hero_p9CmMG": {
       "type": "hero",
       "blocks": {
@@ -43,7 +95,7 @@
       "name": "t:names.hero",
       "settings": {
         "vertical_text": "O,N,E,9",
-        "title": "INSULATED JACKET\nFOR EVERYDAY WEAR",
+        "title": "Wear your\nuniverse",
         "subtitle": "Engineered for warmth. Designed for movement.",
         "button_text": "SHOP NOW",
         "button_link": "",
@@ -83,31 +135,130 @@
       ],
       "settings": {
         "heading": "FOOTWEAR PICKS",
-        "view_all_text": "VIEW ALL"
+        "view_all_text": "VIEW ALL",
+        "view_all_link": ""
       }
     },
     "zodiac_strip_section": {
       "type": "zodiac-strip",
       "blocks": {
-        "sign_1": { "type": "sign", "settings": { "sign_name": "Aries" } },
-        "sign_2": { "type": "sign", "settings": { "sign_name": "Taurus" } },
-        "sign_3": { "type": "sign", "settings": { "sign_name": "Gemini" } },
-        "sign_4": { "type": "sign", "settings": { "sign_name": "Cancer" } },
-        "sign_5": { "type": "sign", "settings": { "sign_name": "Leo" } },
-        "sign_6": { "type": "sign", "settings": { "sign_name": "Virgo" } },
-        "sign_7": { "type": "sign", "settings": { "sign_name": "Libra" } },
-        "sign_8": { "type": "sign", "settings": { "sign_name": "Scorpio" } },
-        "sign_9": { "type": "sign", "settings": { "sign_name": "Sagittarius" } },
-        "sign_10": { "type": "sign", "settings": { "sign_name": "Capricorn" } },
-        "sign_11": { "type": "sign", "settings": { "sign_name": "Aquarius" } },
-        "sign_12": { "type": "sign", "settings": { "sign_name": "Pisces" } }
+
+        "sign_1": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Aries",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_2": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Taurus",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_3": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Gemini",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_4": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Cancer",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_5": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Leo",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_6": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Virgo",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_7": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Libra",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_8": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Scorpio",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_9": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Sagittarius",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_10": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Capricorn",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_11": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Aquarius",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        },
+        "sign_12": {
+          "type": "sign",
+          "settings": {
+            "sign_name": "Pisces",
+            "sign_link": "",
+            "custom_icon_svg": ""
+          }
+        }
       },
       "block_order": [
-        "sign_1", "sign_2", "sign_3", "sign_4", "sign_5", "sign_6",
-        "sign_7", "sign_8", "sign_9", "sign_10", "sign_11", "sign_12"
+        "sign_1",
+        "sign_2",
+        "sign_3",
+        "sign_4",
+        "sign_5",
+        "sign_6",
+        "sign_7",
+        "sign_8",
+        "sign_9",
+        "sign_10",
+        "sign_11",
+        "sign_12"
       ],
       "settings": {
-        "heading": "FIND YOUR SIGN"
+        "heading": "FIND YOUR SIGN",
+        "accent_color": "#f4c430",
+        "bg_color": "#0a0a0a"
+
       }
     },
     "best_sellers_section": {
@@ -115,7 +266,11 @@
       "settings": {
         "heading": "BEST SELLERS",
         "view_all_text": "VIEW ALL PRODUCTS",
-        "products_limit": 6
+        "view_all_link": "",
+        "collection": "",
+        "products_limit": 6,
+        "accent_color": "#f4c430",
+        "bg_color": "#0a0a0a"
       }
     },
     "product_list_themegen": {
@@ -355,6 +510,7 @@
       "name": "t:names.products_grid",
       "settings": {
         "collection": "asset-pack-52731543554-example-products",
+        "card_orientation": "vertical",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 4,
@@ -375,6 +531,7 @@
     },
     "hero_w7HaTj": {
       "type": "hero",
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "vertical_text": "O,N,E,9",
@@ -1306,6 +1463,7 @@
   },
   "order": [
     "hero_p9CmMG",
+    "trust_badges_section",
     "footwear_picks_section",
     "zodiac_strip_section",
     "best_sellers_section",
