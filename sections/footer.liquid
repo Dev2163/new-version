@@ -91,6 +91,8 @@
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr 1fr 1.4fr;
     gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
     animation: footerFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
@@ -122,19 +124,20 @@
   }
 
   .footer-logo {
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 900;
     margin: 0 0 16px 0;
     letter-spacing: 2px;
-    color: transparent;
-    -webkit-text-stroke: 1.5px #F4C430;
+    color: #F4C430;
+    font-family: "Orbitron", "Rajdhani", sans-serif;
     text-transform: uppercase;
     transition: all 0.4s ease;
     cursor: default;
+    text-shadow: 0 0 15px rgba(244, 196, 48, 0.25);
   }
 
   .footer-logo:hover {
-    text-shadow: 0 0 15px rgba(244, 196, 48, 0.5);
+    text-shadow: 0 0 20px rgba(244, 196, 48, 0.6);
     transform: scale(1.02);
   }
 
