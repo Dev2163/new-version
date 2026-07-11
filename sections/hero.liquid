@@ -239,18 +239,19 @@
   }
   
   .custom-hero-{{ section.id }}__title {
-    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-size: {{ section.settings.heading_size }}px;
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
     margin: 0 0 24px 0;
-    color: {{ section.settings.text_color }};
-    font-family: 'Archivo Black', 'Anton', sans-serif;
+    color: #F4C430;
+    font-family: "Orbitron", "Rajdhani", sans-serif;
     letter-spacing: 1px;
     white-space: pre-line;
+    text-shadow: 0 0 15px rgba(244, 196, 48, 0.25);
   }
   .custom-hero-{{ section.id }}__subtitle {
-    font-size: 1.25rem;
+    font-size: {{ section.settings.subheading_size }}px;
     color: {{ section.settings.text_secondary_color }};
     margin: 0 0 48px 0;
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
@@ -710,10 +711,30 @@
       "default": "INSULATED JACKET\nFOR EVERYDAY WEAR"
     },
     {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size (Desktop)",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
       "type": "textarea",
       "id": "subtitle",
       "label": "Subheading",
       "default": "Engineered for warmth. Designed for movement."
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading Size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 20
     },
     {
       "type": "text",
