@@ -244,15 +244,15 @@
     line-height: 1.05;
     text-transform: uppercase;
     margin: 0 0 24px 0;
-    color: #F4C430;
+    color: {{ section.settings.heading_color }};
     font-family: "Orbitron", "Rajdhani", sans-serif;
     letter-spacing: 1px;
     white-space: pre-line;
-    text-shadow: 0 0 15px rgba(244, 196, 48, 0.25);
+    text-shadow: 0 0 15px {{ section.settings.heading_color | color_modify: 'alpha', 0.25 }};
   }
   .custom-hero-{{ section.id }}__subtitle {
     font-size: {{ section.settings.subheading_size }}px;
-    color: {{ section.settings.text_secondary_color }};
+    color: {{ section.settings.subheading_color }};
     margin: 0 0 48px 0;
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
     font-weight: 400;
@@ -721,6 +721,12 @@
       "default": 56
     },
     {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#F4C430"
+    },
+    {
       "type": "textarea",
       "id": "subtitle",
       "label": "Subheading",
@@ -735,6 +741,12 @@
       "step": 1,
       "unit": "px",
       "default": 20
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#B0B0B0"
     },
     {
       "type": "text",
