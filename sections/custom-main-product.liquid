@@ -3,10 +3,7 @@
   <div class="cp-sidebar">
     <div class="cp-vertical-brand">
       <div class="cp-text-group">
-        <span class="letter">O</span>
-        <span class="letter">N</span>
-        <span class="letter">E</span>
-        <span class="letter">9</span>
+        ONE9
       </div>
       <div class="cp-zodiac-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#F4C430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -40,9 +37,13 @@
           <div class="cp-thumbnails">
             {% for media in product.media %}
               <div class="cp-thumb {% if forloop.first %}is-active{% endif %}" data-media-id="{{ media.id }}" onclick="switchImage('{{ media | image_url: width: 1000 }}')">
-                {{ media | image_url: width: 150 | image_tag: loading: 'lazy' }}
+                {{ media | image_url: width: 150, height: 150, crop: 'center' | image_tag: loading: 'lazy' }}
               </div>
             {% endfor %}
+            <!-- Scroll Arrow Mock -->
+            <div class="cp-thumb-scroll">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#888" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
           </div>
           <div class="cp-main-image">
             {{ product.featured_media | image_url: width: 1000 | image_tag: class: 'main-img-view', loading: 'eager', id: 'MainProductImage' }}
@@ -235,18 +236,16 @@
     height: 100%;
   }
   .cp-text-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-  .cp-text-group .letter {
+    transform: rotate(90deg);
     font-family: "Orbitron", "Rajdhani", sans-serif;
     font-size: 28px;
     font-weight: 900;
     color: #F4C430;
     text-shadow: 0 0 10px rgba(244, 196, 48, 0.4);
+    white-space: nowrap;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    letter-spacing: 4px;
   }
   .cp-zodiac-icon {
     margin-bottom: 24px;
@@ -313,8 +312,8 @@
   .cp-thumbnails {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    width: 100px;
+    gap: 12px;
+    width: 90px;
     flex-shrink: 0;
   }
   .cp-thumb {
@@ -324,6 +323,7 @@
     cursor: pointer;
     background: #111;
     transition: border-color 0.3s;
+    height: 90px;
   }
   .cp-thumb.is-active, .cp-thumb:hover {
     border-color: #F4C430;
@@ -337,6 +337,19 @@
   }
   .cp-thumb.is-active img {
     opacity: 1;
+  }
+  .cp-thumb-scroll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    cursor: pointer;
+    background: #111;
+    border-radius: 8px;
+    border: 1px solid #222;
+  }
+  .cp-thumb-scroll:hover {
+    border-color: #F4C430;
   }
   .cp-main-image {
     flex-grow: 1;
@@ -653,14 +666,27 @@
     margin-top: 60px;
     border-top: 1px solid #1A1A1A;
     padding-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .trust-item {
     display: flex;
     align-items: center;
     gap: 16px;
+    flex: 1;
+    position: relative;
+    padding: 0 20px;
+  }
+  .trust-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 40px;
+    width: 1px;
+    background-color: #333;
   }
   .trust-text {
     font-size: 12px;
