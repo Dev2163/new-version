@@ -1,197 +1,104 @@
+<div class="footer-utilities-wrapper">
+  <div class="page-width">
+    <div class="payment-icons-bar">
+      <!-- Standard SVG logs for payments -->
+      <div class="payment-icon upi-icon">
+        <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.5 18.5L8.5 24.5H2.5L6.5 18.5V5.5H12.5V18.5Z" fill="#fff"/>
+          <path d="M26.5 18.5L22.5 24.5H16.5L20.5 18.5V5.5H32.5C36 5.5 38 7 38 10C38 13.5 35 15.5 31.5 15.5H26.5V18.5ZM26.5 10.5V12.5H30.5C31.5 12.5 32.5 11.5 32.5 10.5C32.5 9.5 31.5 8.5 30.5 8.5H26.5V10.5Z" fill="#fff"/>
+          <path d="M46.5 24.5H40.5L45.5 5.5H51.5L46.5 24.5Z" fill="#fff"/>
+          <path d="M57 15L64 5.5L60 24.5L57 15Z" fill="#00A24A"/>
+          <path d="M64 5.5L72 5.5L64 15L64 5.5Z" fill="#F37021"/>
+        </svg>
+      </div>
+      
+      <div class="payment-icon visa-icon">
+        <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M37.5 5.5L34 24.5H28.5L32 5.5H37.5ZM66.5 5.5H71.5L68 24.5H63L59.5 12L58.5 5.5H64.5L65.5 16.5L66.5 5.5ZM51.5 5.5C55 5.5 57 7 57 9.5C57 14 51.5 15.5 51.5 18C51.5 19 53 19.5 54.5 19.5C56 19.5 57.5 19 58.5 18L57.5 24.5C55.5 25.5 53 25.5 51 25.5C47.5 25.5 45.5 23.5 45.5 21C45.5 16.5 51 15.5 51 13C51 12 49.5 11 48 11C46.5 11 45 11.5 43.5 12.5L44.5 6.5C46.5 5.5 49 5.5 51.5 5.5ZM17.5 5.5H25C26.5 5.5 27 6.5 27.5 7.5L32 24.5H26L25 21.5H19L17.5 24.5H12L17.5 5.5ZM20 17H24L22.5 10L20 17Z" fill="#fff"/>
+        </svg>
+      </div>
 
+      <div class="payment-icon mastercard-icon">
+        <svg viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="15" cy="15" r="10" fill="#EB001B"/>
+          <circle cx="28" cy="15" r="10" fill="#F79E1B"/>
+          <path d="M21.5 22.5C19.5 20.5 18.5 18 18.5 15C18.5 12 19.5 9.5 21.5 7.5C23.5 9.5 24.5 12 24.5 15C24.5 18 23.5 20.5 21.5 22.5Z" fill="#FF5F00"/>
+          <text x="45" y="20" fill="#fff" font-family="Arial, sans-serif" font-weight="bold" font-size="16">mastercard</text>
+        </svg>
+      </div>
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
-  {{ section.shopify_attributes }}
->
-  <div
-    class="utilities utilities--blocks-{{ section.blocks.size }} spacing-style"
-    style="{% render 'spacing-style', settings: section.settings %} --border-width: {{ section.settings.divider_thickness }}px; --gap: {{ section.settings.gap }}px;"
-    data-testid="footer-utilities"
-  >
-    {% content_for 'blocks' %}
+      <div class="payment-icon rupay-icon">
+        <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 24.5H12L16 14.5H9L5 24.5Z" fill="#F37021"/>
+          <path d="M12 24.5H19L23 14.5H16L12 24.5Z" fill="#00A24A"/>
+          <text x="28" y="20" fill="#fff" font-family="Arial, sans-serif" font-weight="900" font-size="20" font-style="italic">RuPay</text>
+          <path d="M85 10L90 15L85 20" stroke="#00A24A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M88 10L93 15L88 20" stroke="#F37021" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="payment-icon cod-icon">
+        <div class="cod-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F4C430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg>
+          <span>CASH ON DELIVERY</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 {% stylesheet %}
-  .utilities {
-    width: 100%;
+  .footer-utilities-wrapper {
+    background-color: #050505; /* Slightly darker than main footer */
+    border-top: 1px solid #1A1A1A;
+    padding: 20px 0;
+  }
+
+  .payment-icons-bar {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: var(--gap);
-    text-wrap: nowrap;
-    border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-foreground-muted);
-
-    @media screen and (min-width: 750px) {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      justify-content: center;
-      gap: var(--gap);
-      align-items: center;
-      text-align: left;
-    }
+    flex-wrap: wrap;
+    gap: 40px;
   }
 
-  .utilities a {
-    color: var(--color-foreground-muted);
+  .payment-icon svg {
+    height: 35px;
+    width: auto;
   }
 
-  .utilities > * {
-    text-align: center;
-
-    @media screen and (min-width: 750px) {
-      text-align: left;
-      justify-self: start;
-    }
+  .cod-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #F4C430;
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: #F4C430;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
   }
 
-  /* Dynamic positioning based on number of blocks */
-  @media screen and (min-width: 750px) {
-    /* 1 block: Single column, left aligned */
-    .utilities--blocks-1 {
-      grid-template-columns: 1fr;
-      justify-content: start;
-    }
+  .cod-badge svg {
+    height: 18px;
+    width: auto;
+  }
 
-    .utilities--blocks-1 > * {
-      justify-self: start;
-      text-align: left;
-    }
-
-    /* 2 blocks: Two equal columns, start and end aligned */
-    .utilities--blocks-2 {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .utilities--blocks-2 > *:nth-child(2) {
-      justify-self: end;
-      text-align: right;
-    }
-
-    /* 3 blocks: Three columns (1fr auto 1fr), start/center/end aligned */
-    .utilities--blocks-3 {
-      grid-template-columns: 1fr auto 1fr;
-    }
-
-    .utilities--blocks-3 > *:nth-child(2) {
-      justify-self: center;
-      text-align: center;
-    }
-
-    .utilities--blocks-3 > *:nth-child(3) {
-      justify-self: end;
-      text-align: right;
+  @media screen and (max-width: 768px) {
+    .payment-icons-bar {
+      gap: 20px;
     }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:names.policies_and_links",
-  "tag": "div",
-  "class": "footer-utilities",
-  "max_blocks": 3,
-  "enabled_on": {
-    "groups": ["footer"]
-  },
-  "settings": [
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "divider_thickness",
-      "label": "t:settings.divider_thickness",
-      "min": 0,
-      "max": 5,
-      "step": 0.5,
-      "unit": "px",
-      "default": 1
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    }
-  ],
-  "blocks": [
-    {
-      "type": "footer-copyright"
-    },
-    {
-      "type": "footer-policy-list"
-    },
-    {
-      "type": "social-links"
-    }
-  ],
+  "name": "Custom Footer Utilities",
+  "settings": [],
   "presets": [
     {
-      "name": "t:names.policies_and_links",
-      "category": "t:categories.footer",
-      "blocks": {
-        "copyright": {
-          "type": "footer-copyright"
-        },
-        "policy_list": {
-          "type": "footer-policy-list"
-        },
-        "social_icons": {
-          "type": "social-links"
-        }
-      },
-      "block_order": ["copyright", "policy_list", "social_icons"]
+      "name": "Custom Footer Utilities"
     }
   ]
 }
