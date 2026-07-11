@@ -96,19 +96,18 @@
 
   .footwear-picks__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 32px;
   }
 
   .footwear-picks__card {
     background-color: #111111;
     border: 1px solid #2A2A2A;
     border-radius: 12px;
-    padding: 28px;
+    padding: 32px;
     display: flex;
-    gap: 20px;
+    gap: 28px;
     align-items: center;
-    max-width: 520px;
     width: 100%;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
@@ -120,7 +119,7 @@
   }
 
   .footwear-picks__image {
-    width: 160px;
+    width: 240px;
     height: auto;
     object-fit: contain;
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
@@ -133,15 +132,15 @@
   .footwear-picks__title {
     color: #FFFFFF;
     font-weight: 600;
-    font-size: 17px;
-    margin-bottom: 6px;
+    font-size: 20px;
+    margin-bottom: 8px;
   }
 
   .footwear-picks__price {
     color: #F4C430;
     font-weight: 700;
-    font-size: 16px;
-    margin-bottom: 8px;
+    font-size: 18px;
+    margin-bottom: 12px;
     transition: text-shadow 0.3s ease;
   }
 
@@ -158,10 +157,10 @@
   .footwear-picks__swatch,
   .footwear-picks__swatches .swatch {
     display: inline-block;
-    width: 16px !important;
-    height: 16px !important;
-    min-width: 16px !important;
-    min-height: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
     border-radius: 50% !important;
     border: 1px solid #555 !important;
     margin: 0 !important;
