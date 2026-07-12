@@ -228,7 +228,8 @@
     height: 100%;
     display: flex;
     justify-content: flex-end;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 40%, transparent 75%);
+    align-items: flex-end;
+    background: radial-gradient(circle at 60% 50%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 25%, transparent 55%);
   }
   
   .custom-hero-{{ section.id }}__image {
@@ -240,7 +241,7 @@
     position: relative;
     transition: opacity 0.5s ease;
     transform: scale(0.85);
-    transform-origin: right bottom;
+    transform-origin: bottom right;
   }
   
   .custom-hero-{{ section.id }}__title {
