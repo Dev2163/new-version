@@ -100,6 +100,9 @@
               {% assign thumb_placeholder_class = 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' %}
               {{ 'product-1' | placeholder_svg_tag: thumb_placeholder_class }}
             {% endif %}
+            <div class="thumbnail-strip-{{ section.id }}__hover-name">
+              {{ block.settings.product_name | default: 'Libra Balance Oversized Tee' }}
+            </div>
           </div>
           <div class="thumbnail-strip-{{ section.id }}__info">
             <div class="thumbnail-strip-{{ section.id }}__color-wrap">
@@ -648,6 +651,27 @@
       aspect-ratio: 1 / 1.15 !important;
       overflow: hidden !important;
       width: 100% !important;
+      position: relative !important;
+    }
+
+    .thumbnail-strip-{{ section.id }}__hover-name {
+      position: absolute !important;
+      inset: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(0, 0, 0, 0.7) !important;
+      color: #FFFFFF !important;
+      padding: 20px !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      text-align: center !important;
+      opacity: 0 !important;
+      transition: opacity 0.3s ease !important;
+    }
+    
+    .thumbnail-strip-{{ section.id }}__card:hover .thumbnail-strip-{{ section.id }}__hover-name {
+      opacity: 1 !important;
     }
     
     .thumbnail-strip-{{ section.id }}__info {
@@ -862,6 +886,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Jacket Image"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Libra Balance Oversized Tee"
         },
         {
           "type": "text",
