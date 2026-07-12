@@ -183,24 +183,13 @@
     display: flex;
     overflow-x: auto;
     gap: 20px;
-    padding-bottom: 20px;
     scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    scrollbar-color: var(--best-sellers-accent) #1A1A1A;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
   }
 
   .best-sellers__grid::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .best-sellers__grid::-webkit-scrollbar-track {
-    background: #1A1A1A;
-    border-radius: 4px;
-  }
-  
-  .best-sellers__grid::-webkit-scrollbar-thumb {
-    background: var(--best-sellers-accent);
-    border-radius: 4px;
+    display: none; /* Chrome, Safari and Opera */
   }
 
   @media screen and (min-width: 750px) {
