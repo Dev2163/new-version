@@ -2,7 +2,7 @@
   assign heading = section.settings.heading | default: 'BEST SELLERS'
   assign view_all_text = section.settings.view_all_text | default: 'VIEW ALL PRODUCTS'
   assign view_all_link = section.settings.view_all_link | default: '/collections/all'
-  assign products_limit = section.settings.products_limit | default: 6
+  assign products_limit = section.settings.products_limit | default: 7
   assign accent_color = section.settings.accent_color | default: '#F4C430'
   assign bg_color = section.settings.bg_color | default: '#0A0A0A'
   assign selected_collection = section.settings.collection
@@ -180,19 +180,38 @@
   }
 
   .best-sellers__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    display: flex;
+    overflow-x: auto;
     gap: 20px;
+    padding-bottom: 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--best-sellers-accent) #1A1A1A;
+  }
+
+  .best-sellers__grid::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .best-sellers__grid::-webkit-scrollbar-track {
+    background: #1A1A1A;
+    border-radius: 4px;
+  }
+  
+  .best-sellers__grid::-webkit-scrollbar-thumb {
+    background: var(--best-sellers-accent);
+    border-radius: 4px;
   }
 
   @media screen and (min-width: 750px) {
     .best-sellers__grid {
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 24px;
     }
   }
 
   .best-sellers__card {
+    flex: 0 0 180px;
+    scroll-snap-align: start;
     background-color: #111111;
     border: 1px solid #1E1E1E;
     border-radius: 16px;
@@ -201,6 +220,12 @@
     flex-direction: column;
     position: relative;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .best-sellers__card {
+      flex: 0 0 220px;
+    }
   }
 
   .best-sellers__card:hover {
@@ -389,7 +414,7 @@
       "min": 4,
       "max": 12,
       "step": 1,
-      "default": 6
+      "default": 7
     },
     {
       "type": "color",
