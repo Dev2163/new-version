@@ -70,22 +70,21 @@
   
   .thumbnail-strip-{{ section.id }}__hover-name {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
     color: #FFFFFF;
-    padding: 30px 16px 16px 16px;
-    font-size: 15px;
+    padding: 20px;
+    font-size: 16px;
     font-weight: 700;
     text-align: center;
-    transform: translateY(100%);
     opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: opacity 0.3s ease;
   }
   
   .thumbnail-strip-{{ section.id }}__card:hover .thumbnail-strip-{{ section.id }}__hover-name {
-    transform: translateY(0);
     opacity: 1;
   }
   
