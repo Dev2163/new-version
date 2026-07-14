@@ -4242,3 +4242,26 @@ h1, h2, h3, h4, h5, h6,
 .product__title h1 {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
+
+
+/* --- ONE9 Product Cards and Collection Styles --- */
+.card-wrapper, .card, .card__inner, .card__content {
+  background-color: #050505 !important;
+  color: #FFFFFF !important;
+}
+
+.card__heading, .card__heading a, .card-information__text {
+  font-family: "Orbitron", "Rajdhani", sans-serif !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
+
+.collection, .collection-list, .related-products, .product-recommendations {
+  background-color: #050505 !important;
+}
+
+.collection .title, .related-products .title, .product-recommendations .title {
+  color: #FFFFFF !important;
+}
