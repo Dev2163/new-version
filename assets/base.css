@@ -4265,3 +4265,18 @@ h1, h2, h3, h4, h5, h6,
 .collection .title, .related-products .title, .product-recommendations .title {
   color: #FFFFFF !important;
 }
+
+
+/* --- ONE9 Resource Cards (Search/Related) Styles --- */
+.resource-card {
+  background-color: #050505 !important;
+  color: #FFFFFF !important;
+}
+
+.resource-card__title, .resource-card__title a {
+  font-family: "Orbitron", "Rajdhani", sans-serif !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
