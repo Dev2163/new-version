@@ -874,15 +874,26 @@
 
   @media screen and (max-width: 768px) {
     .custom-product-wrapper {
-      flex-direction: column !important;
+      flex-direction: row !important;
     }
     .cp-sidebar {
-      display: none !important;
+      display: flex !important;
+      width: 50px !important;
+      padding-top: 20px !important;
+    }
+    .cp-vertical-brand .letter {
+      font-size: 16px !important;
+      line-height: 1.2 !important;
+    }
+    .cp-zodiac-icon svg {
+      width: 20px !important;
+      height: 20px !important;
     }
     .cp-main-container {
-      padding: 15px !important;
-      width: 100% !important;
-      max-width: 100% !important;
+      padding: 10px !important;
+      width: calc(100% - 50px) !important;
+      max-width: calc(100% - 50px) !important;
+      flex: 1 !important;
     }
     .cp-layout-grid {
       display: flex !important;
@@ -923,15 +934,15 @@
       display: none !important;
     }
     .cp-thumb {
-      height: 60px !important;
-      width: 60px !important;
+      height: 50px !important;
+      width: 50px !important;
       flex-shrink: 0 !important;
     }
     .cp-title {
-      font-size: 26px !important;
+      font-size: 22px !important;
     }
     .cp-price {
-      font-size: 20px !important;
+      font-size: 18px !important;
     }
     .cp-features-row {
       flex-direction: column !important;
