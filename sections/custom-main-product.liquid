@@ -839,41 +839,46 @@
 
   @media screen and (max-width: 768px) {
     .custom-product-wrapper {
-      flex-direction: column;
+      flex-direction: column !important;
     }
     .cp-sidebar {
       display: none !important;
     }
     .cp-main-container {
-      padding: 15px;
-      width: 100%;
+      padding: 15px !important;
+      width: 100% !important;
+      max-width: 100% !important;
     }
     .cp-layout-grid {
-      flex-direction: column;
-      gap: 20px;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
     }
-    .cp-right-col {
-      width: 100%;
-      padding: 0;
+    .cp-left-col, .cp-right-col {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0 !important;
     }
     .cp-gallery {
-      flex-direction: column-reverse;
-      gap: 15px;
-      width: 100%;
+      display: flex !important;
+      flex-direction: column-reverse !important;
+      gap: 15px !important;
+      width: 100% !important;
     }
     .cp-thumbnails {
-      flex-direction: row;
-      width: 100%;
-      overflow-x: auto;
-      flex-wrap: nowrap;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 5px;
-      gap: 10px;
+      display: flex !important;
+      flex-direction: row !important;
+      width: 100% !important;
+      overflow-x: auto !important;
+      flex-wrap: nowrap !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding-bottom: 5px !important;
+      gap: 10px !important;
     }
     .cp-thumb {
-      height: 60px;
-      width: 60px;
-      flex-shrink: 0;
+      height: 60px !important;
+      width: 60px !important;
+      flex-shrink: 0 !important;
     }
     .cp-title {
       font-size: 26px !important;
@@ -882,11 +887,11 @@
       font-size: 20px !important;
     }
     .cp-features-row {
-      flex-direction: column;
-      gap: 15px;
+      flex-direction: column !important;
+      gap: 15px !important;
     }
     .cp-trust-strip {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
     }
   }
 
