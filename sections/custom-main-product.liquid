@@ -62,12 +62,9 @@
               </div>
             {% endfor %}
           </div>
-          <div class="cp-main-image" onmousemove="zoomImage(event)" onmouseenter="showZoom()" onmouseleave="hideZoom()">
+          <div class="cp-main-image" style="background-color: #FFFFFF;" onmousemove="zoomImage(event)" onmouseenter="showZoom()" onmouseleave="hideZoom()">
             {{ product.featured_media | image_url: width: 1000 | image_tag: class: 'main-img-view', loading: 'eager', id: 'MainProductImage' }}
             <div class="cp-zoom-lens" id="ZoomLens"></div>
-            <button class="cp-zoom-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </button>
           </div>
         </div>
       </div>
@@ -422,7 +419,7 @@
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
-    background: #000000;
+    background: #FFFFFF;
     transition: border-color 0.3s;
     height: 90px;
     position: relative;
@@ -459,7 +456,7 @@
     flex-grow: 1;
     border: 1px solid #222;
     border-radius: 12px;
-    background: #000000;
+    background: #FFFFFF;
     position: relative;
     overflow: hidden;
     display: flex;
