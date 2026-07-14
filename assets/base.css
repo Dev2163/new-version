@@ -4280,3 +4280,19 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 700 !important;
   letter-spacing: 0.5px !important;
 }
+
+
+/* --- ONE9 Product Card Title Fix --- */
+.product-card, .product-card__content {
+  background-color: #050505 !important;
+}
+
+.product-card p[role="heading"],
+.product-card__content p,
+.product-card__content a.contents {
+  font-family: "Orbitron", "Rajdhani", sans-serif !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
