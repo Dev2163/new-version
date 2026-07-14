@@ -4296,3 +4296,15 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 700 !important;
   letter-spacing: 0.5px !important;
 }
+
+
+/* Force YOU MAY ALSO LIKE text color to white */
+.product-recommendations h1,
+.product-recommendations h2, 
+.product-recommendations h3, 
+.product-recommendations .text-block,
+.product-recommendations p[role="heading"],
+.product-recommendations .heading,
+.product-recommendations .display {
+  color: #FFFFFF !important;
+}
