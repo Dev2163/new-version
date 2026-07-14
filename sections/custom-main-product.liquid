@@ -249,20 +249,21 @@
   let touchendX = 0;
 
   function handleGesture() {
+    const thumbs = document.querySelector('.cp-thumbnails');
     if (touchendX < touchstartX - 50) {
-      // Swiped left (Next)
       const activeThumb = document.querySelector('.cp-thumb.is-active');
       if (activeThumb && activeThumb.nextElementSibling) {
         activeThumb.nextElementSibling.click();
-        activeThumb.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        const thumb = activeThumb.nextElementSibling;
+        if(thumbs) thumbs.scrollTo({ left: thumb.offsetLeft - thumbs.offsetWidth / 2 + thumb.offsetWidth / 2, behavior: 'smooth' });
       }
     }
     if (touchendX > touchstartX + 50) {
-      // Swiped right (Prev)
       const activeThumb = document.querySelector('.cp-thumb.is-active');
       if (activeThumb && activeThumb.previousElementSibling) {
         activeThumb.previousElementSibling.click();
-        activeThumb.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        const thumb = activeThumb.previousElementSibling;
+        if(thumbs) thumbs.scrollTo({ left: thumb.offsetLeft - thumbs.offsetWidth / 2 + thumb.offsetWidth / 2, behavior: 'smooth' });
       }
     }
   }
@@ -395,6 +396,7 @@
     max-width: 610px;
     position: sticky;
     top: 40px;
+    align-self: flex-start;
   }
   .cp-right-col {
     width: 450px;
@@ -904,8 +906,10 @@
       width: 100% !important;
       max-width: 100% !important;
       padding: 0 !important;
-      position: relative !important;
+      position: sticky !important;
       top: 0 !important;
+      background-color: #050505 !important;
+      z-index: 10 !important;
     }
     .cp-right-col {
       width: 100% !important;
