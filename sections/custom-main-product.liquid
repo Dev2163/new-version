@@ -176,7 +176,9 @@
 
 <script>
   function switchImage(url, element) {
-    document.getElementById('MainProductImage').src = url;
+    const mainImg = document.getElementById('MainProductImage');
+    mainImg.src = url;
+    mainImg.removeAttribute('srcset');
     document.querySelectorAll('.cp-thumb').forEach(t => t.classList.remove('is-active'));
     if (element) {
       element.classList.add('is-active');
