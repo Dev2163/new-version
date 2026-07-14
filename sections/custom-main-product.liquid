@@ -52,7 +52,7 @@
         <div class="cp-gallery">
           <div class="cp-thumbnails">
             {% for media in product.media limit: 5 %}
-              <div class="cp-thumb {% if forloop.first %}is-active{% endif %}" data-media-id="{{ media.id }}" onclick="switchImage('{{ media | image_url: width: 1000 }}')">
+              <div class="cp-thumb {% if forloop.first %}is-active{% endif %}" data-media-id="{{ media.id }}" onclick="switchImage('{{ media | image_url: width: 1000 }}', this)">
                 {{ media | image_url: width: 150, height: 150, crop: 'center' | image_tag: loading: 'lazy' }}
                 {% if forloop.index == 5 and product.media.size > 5 %}
                   <div class="cp-thumb-more">
@@ -175,10 +175,12 @@
 </div>
 
 <script>
-  function switchImage(url) {
+  function switchImage(url, element) {
     document.getElementById('MainProductImage').src = url;
     document.querySelectorAll('.cp-thumb').forEach(t => t.classList.remove('is-active'));
-    event.currentTarget.classList.add('is-active');
+    if (element) {
+      element.classList.add('is-active');
+    }
   }
 
   function selectVariant(btn) {
@@ -853,6 +855,46 @@
     }
     .cp-trust-strip {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .custom-product-wrapper {
+      flex-direction: column;
+    }
+    .cp-layout-grid {
+      flex-direction: column;
+      gap: 30px;
+    }
+    .cp-sidebar {
+      display: none; /* Hide brand bar on mobile */
+    }
+    .cp-main-container {
+      padding: 10px 15px;
+    }
+    .cp-gallery {
+      flex-direction: column-reverse;
+      gap: 15px;
+    }
+    .cp-thumbnails {
+      flex-direction: row;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    .cp-thumb {
+      height: 70px;
+      width: 70px;
+      flex-shrink: 0;
+    }
+    .cp-right-col {
+      width: 100%;
+    }
+    .cp-title {
+      font-size: 28px;
+    }
+    .cp-price {
+      font-size: 22px;
     }
   }
 {% endstylesheet %}
