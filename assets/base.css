@@ -4213,3 +4213,32 @@ product-recommendations:has([data-has-recommendations='false']) {
     translate: 0px var(--atc-destination, 0px);
   }
 }
+
+
+/* --- ONE9 Global Typography & Cyberpunk Theme --- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@600;700&display=swap');
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.title,
+.heading {
+  font-family: "Orbitron", "Rajdhani", sans-serif !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+}
+
+/* Global Price Formatting */
+.price, .price-item, .price__regular .price-item--regular, .price__sale .price-item--sale {
+  font-family: "Orbitron", "Rajdhani", sans-serif !important;
+  color: #F4C430 !important; /* ONE9 Gold */
+  text-shadow: 0 0 8px rgba(244, 196, 48, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+/* Add slight text glow to all primary titles to mimic ONE9 brand */
+.rich-text__blocks h2, .rich-text__blocks .h2,
+.collection-hero__title,
+.product__title h1 {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
