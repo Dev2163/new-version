@@ -11,40 +11,75 @@
   "sections": {
     "collection_slider_hero": {
       "type": "collection-slider-hero",
-      "settings": {
-        "bg_color": "#000000",
-        "text_color": "#ffffff"
-      },
       "blocks": {
         "slide_1": {
           "type": "slide",
           "settings": {
+            "product": "",
+            "custom_image": "shopify://shop_images/7_2_a05053ab_thumbnail_4096.png",
             "custom_title": "NIKE AIR MAX",
-            "bg_text": "NIKE"
+            "bg_text": "TENXU"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
+            "product": "",
+            "custom_image": "shopify://shop_images/7_1_b9e6fde8_thumbnail_4096_f0b43dd4-d000-4df2-8bc6-992f8fd8eddf.png",
             "custom_title": "NIKE RUNNER",
-            "bg_text": "NIKE"
+            "bg_text": "TENXU"
           }
         }
       },
       "block_order": [
         "slide_1",
         "slide_2"
-      ]
+      ],
+      "settings": {
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "accent_color": "#ffd700",
+        "left_title": "JUST\nDO\nIT.",
+        "left_title_size": 100
+      }
     },
     "trusted_brands": {
       "type": "trusted-brands",
-      "settings": {},
       "blocks": {
-        "brand_1": { "type": "brand", "settings": { "title": "Sachin's Legacy Sneakers" } },
-        "brand_2": { "type": "brand", "settings": { "title": "Sports Shoes" } },
-        "brand_3": { "type": "brand", "settings": { "title": "New Launches" } }
+        "brand_1": {
+          "type": "brand",
+          "settings": {
+            "title": "Sachin's Legacy Sneakers"
+          }
+        },
+        "brand_2": {
+          "type": "brand",
+          "settings": {
+            "title": "Sports Shoes"
+          }
+        },
+        "brand_3": {
+          "type": "brand",
+          "settings": {
+            "title": "New Launches"
+          }
+        }
       },
-      "block_order": ["brand_1", "brand_2", "brand_3"]
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3"
+      ],
+      "settings": {
+        "title": "Trusted By Top Companies",
+        "bg_color": "#000000",
+        "card_bg_color": "#111111",
+        "text_color": "#ffffff",
+        "accent_color": "#ffd700",
+        "logo_filter": "invert(1)",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     },
     "section": {
       "type": "section",
@@ -252,6 +287,8 @@
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 16,
