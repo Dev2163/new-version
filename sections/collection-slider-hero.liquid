@@ -32,11 +32,6 @@
       {% endfor %}
     </div>
 
-    <!-- Navigation Dots -->
-    <div class="custom-shoe-slider__nav-dots">
-      {% for block in section.blocks %}
-        <button class="nav-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
-      {% endfor %}
     </div>
   </div>
 
@@ -175,34 +170,6 @@
     background-color: transparent;
   }
 
-  /* Nav Dots */
-  .custom-shoe-slider__nav-dots {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 16px;
-    z-index: 10;
-  }
-  .nav-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .nav-dot:hover {
-    border-color: {{ section.settings.accent_color | color_modify: 'alpha', 0.8 }};
-  }
-  .nav-dot.active {
-    background: {{ section.settings.accent_color }};
-    border-color: {{ section.settings.accent_color }};
-    transform: scale(1.4);
-  }
 
   /* Right Info */
   .custom-shoe-slider__right-info {
@@ -318,24 +285,20 @@
       font-size: 18px;
     }
 
-    .custom-shoe-slider__nav-dots {
-      position: relative;
-      bottom: 0;
-      margin-top: auto;
-    }
+
   }
 </style>
 
 <script>
   function initCustomShoeSlider(sliderContainer) {
-    const dots = sliderContainer.querySelectorAll('.nav-dot');
+    const slideElements = sliderContainer.querySelectorAll('.custom-shoe-slider__bg-text');
     let currentIndex = 0;
-    const totalSlides = dots.length;
+    const totalSlides = slideElements.length;
     let autoPlayInterval;
     
     function goToSlide(index) {
       // Remove active class from all elements in this specific slider
-      sliderContainer.querySelectorAll('.slide-item, .nav-dot').forEach(el => {
+      sliderContainer.querySelectorAll('.slide-item').forEach(el => {
         el.classList.remove('active');
       });
       
@@ -343,10 +306,6 @@
       sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
         el.classList.add('active');
       });
-      
-      // Add active to the clicked dot
-      const activeDot = sliderContainer.querySelector(`.nav-dot[data-index="${index}"]`);
-      if (activeDot) activeDot.classList.add('active');
       
       currentIndex = parseInt(index);
     }
@@ -369,15 +328,6 @@
         clearInterval(autoPlayInterval);
       }
     }
-
-    // Attach click events
-    dots.forEach(dot => {
-      dot.addEventListener('click', function() {
-        const index = this.getAttribute('data-index');
-        goToSlide(index);
-        startAutoPlay(); // Reset timer on click
-      });
-    });
 
     // Pause auto-scroll on hover, resume on mouse leave
     sliderContainer.addEventListener('mouseenter', stopAutoPlay);
