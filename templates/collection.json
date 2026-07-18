@@ -19,15 +19,13 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "custom_title": "NIKE AIR MAX",
-            "bg_text": "NIKE"
+            "custom_title": "WEAR YOUR\nUNIVERSE"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "custom_title": "NIKE RUNNER",
-            "bg_text": "NIKE"
+            "custom_title": "OWN THE\nSTREETS"
           }
         }
       },

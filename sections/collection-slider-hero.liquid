@@ -1,33 +1,28 @@
-<div class="custom-shoe-slider" id="shoeSlider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+<div class="custom-shoe-slider one9-hero" id="shoeSlider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
   
-  <!-- Left Column: Static Title -->
-  <div class="custom-shoe-slider__left-title">
-    <h2>{{ section.settings.left_title }}</h2>
+  <!-- Left Column: ONE9 Vertical Sidebar -->
+  <div class="one9-sidebar">
+    <div class="one9-sidebar__text">{{ section.settings.sidebar_text }}</div>
+    <div class="one9-sidebar__icon">
+      <!-- Decorative Eye Icon -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 4.5C7 4.5 2.73 7.61 1 12.5C2.73 17.39 7 20.5 12 20.5C17 20.5 21.27 17.39 23 12.5C21.27 7.61 17 4.5 12 4.5ZM12 18C8.96 18 6.5 15.54 6.5 12.5C6.5 9.46 8.96 7 12 7C15.04 7 17.5 9.46 17.5 12.5C17.5 15.54 15.04 18 12 18ZM12 9C10.07 9 8.5 10.57 8.5 12.5C8.5 14.43 10.07 16 12 16C13.93 16 15.5 14.43 15.5 12.5C15.5 10.57 13.93 9 12 9Z" fill="{{ section.settings.accent_color }}"/>
+      </svg>
+    </div>
+    <div class="one9-sidebar__line" style="background-color: {{ section.settings.accent_color }};"></div>
   </div>
 
-  <!-- Center Area: Background Text & Images -->
-  <div class="custom-shoe-slider__center">
-    <!-- Dynamic Background Text -->
-    <div class="custom-shoe-slider__bg-text-container">
-      {% for block in section.blocks %}
-        <div class="custom-shoe-slider__bg-text slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-          {{ block.settings.bg_text }}
-        </div>
-      {% endfor %}
-    </div>
-
-    <!-- The Shoes -->
-    <div class="custom-shoe-slider__images-container">
+  <!-- Center-Left Content Area -->
+  <div class="one9-content">
+    <div class="one9-content__wrapper">
       {% for block in section.blocks %}
         {% assign slide_product = block.settings.product %}
-        {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
+        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "WEAR YOUR UNIVERSE" %}
         
-        <div class="custom-shoe-slider__shoe-image slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
-          {% if slide_image != blank %}
-            {{ slide_image | image_url: width: 1000 | image_tag: class: 'shoe-img' }}
-          {% else %}
-            {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
-          {% endif %}
+        <div class="one9-slide-info slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <h1 class="one9-title">{{ slide_title }}</h1>
+          <p class="one9-subtitle" style="color: {{ section.settings.accent_color }};">{{ section.settings.subtitle }}</p>
+          <a href="{{ slide_product.url | default: '#' }}" class="one9-btn" style="background-color: {{ section.settings.accent_color }}; box-shadow: 0 0 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};">SHOP NOW</a>
         </div>
       {% endfor %}
     </div>
@@ -40,391 +35,344 @@
     </div>
   </div>
 
-  <!-- Right Column: Dynamic Info -->
-  <div class="custom-shoe-slider__right-info">
-    <div class="custom-shoe-slider__info-container">
-      {% for block in section.blocks %}
-        {% assign slide_product = block.settings.product %}
-        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "NIKE AIR MAX PRE-DAY." %}
-        {% assign slide_price = slide_product.price | money | default: "$160" %}
-
-        <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
-          <h3 class="shoe-title">{{ slide_title }}</h3>
-          <p class="shoe-price">{{ slide_price }}</p>
-        </div>
-      {% endfor %}
-    </div>
+  <!-- Right Image Area -->
+  <div class="one9-images">
+    {% for block in section.blocks %}
+      {% assign slide_product = block.settings.product %}
+      {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
+      
+      <div class="one9-image-wrapper slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
+        {% if slide_image != blank %}
+          {{ slide_image | image_url: width: 1000 | image_tag: class: 'shoe-img', loading: 'eager' }}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
+        {% endif %}
+      </div>
+    {% endfor %}
   </div>
 
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Michroma&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-  .custom-shoe-slider {
+  .custom-shoe-slider.one9-hero {
     position: relative;
     width: 100%;
-    height: 700px;
+    height: 800px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     overflow: hidden;
-    padding: 0 8%;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
   }
 
-  /* Left Title */
-  .custom-shoe-slider__left-title {
-    flex: 1;
-    z-index: 10;
+  /* Vertical Sidebar */
+  .one9-sidebar {
+    width: 100px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
+    padding-top: 100px;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    z-index: 10;
   }
-  .custom-shoe-slider__left-title h2 {
-    font-family: 'Inter', sans-serif;
-    font-size: {{ section.settings.left_title_size }}px;
+  .one9-sidebar__text {
+    font-family: 'Orbitron', sans-serif;
+    color: {{ section.settings.accent_color }};
+    font-size: 32px;
     font-weight: 900;
-    line-height: 0.95;
-    color: {{ section.settings.text_color }};
-    margin: 0;
     text-transform: uppercase;
-    white-space: pre-line;
-    letter-spacing: -3px;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    letter-spacing: 5px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    margin-bottom: 30px;
+  }
+  .one9-sidebar__icon {
+    margin-bottom: 30px;
+  }
+  .one9-sidebar__line {
+    width: 2px;
+    height: 150px;
+    border-radius: 2px;
   }
 
-  /* Center Area */
-  .custom-shoe-slider__center {
-    flex: 2;
-    position: relative;
-    height: 100%;
+  /* Center Content */
+  .one9-content {
+    flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    padding: 0 5%;
+    position: relative;
     z-index: 5;
   }
-
-  /* Background Text - Premium Stroke Effect */
-  .custom-shoe-slider__bg-text-container {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    pointer-events: none;
-  }
-  .custom-shoe-slider__bg-text {
-    position: absolute;
-    font-family: 'Inter', sans-serif;
-    font-size: 28vw; /* Extremely large */
-    font-weight: 900;
-    color: transparent;
-    -webkit-text-stroke: 2px {{ section.settings.text_color | color_modify: 'alpha', 0.1 }};
-    text-transform: uppercase;
-    letter-spacing: -5px;
-    opacity: 0;
-    transform: scale(0.85);
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    white-space: nowrap;
-    line-height: 0.8;
-  }
-  .custom-shoe-slider__bg-text.active {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Shoe Images */
-  .custom-shoe-slider__images-container {
+  .one9-content__wrapper {
     position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 400px; /* enough space to stack text */
   }
-  .custom-shoe-slider__shoe-image {
+  
+  .one9-slide-info {
     position: absolute;
-    width: 95%;
-    max-width: 800px;
-    opacity: 0;
-    transform: translateX(150px) rotate(15deg) scale(0.9);
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .custom-shoe-slider__shoe-image.active {
-    opacity: 1;
-    transform: translateX(0) rotate(-15deg) scale(1.05); /* Match Nike tilt and slight scale up */
-  }
-  .shoe-img {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(-30px 40px 30px rgba(0,0,0,0.6)); /* Very heavy drop shadow for deep 3D effect */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .shoe-img.placeholder {
-    fill: #333;
-    background-color: transparent;
+  .one9-slide-info.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
+  }
+  /* Slide out to left when hiding, slide in from right when appearing (managed via js or simple fade) */
+  .one9-slide-info:not(.active) {
+    transform: translateY(-50%) translateX(-30px);
+  }
+
+  .one9-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: clamp(40px, 6vw, 90px);
+    font-weight: 700;
+    color: {{ section.settings.text_color }};
+    line-height: 1.1;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+    white-space: pre-line;
+    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+  }
+  
+  .one9-subtitle {
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0 0 40px 0;
+  }
+
+  .one9-btn {
+    display: inline-block;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 15px 40px;
+    border-radius: 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+  .one9-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    filter: brightness(1.1);
   }
 
   /* Nav Dots */
   .custom-shoe-slider__nav-dots {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
-    gap: 16px;
-    z-index: 10;
+    gap: 15px;
+    margin-top: 40px;
   }
   .nav-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid {{ section.settings.text_color | color_modify: 'alpha', 0.4 }};
-    background: transparent;
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border: none;
     cursor: pointer;
-    padding: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .nav-dot:hover {
-    border-color: {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
+    transition: all 0.3s ease;
   }
   .nav-dot.active {
-    background: {{ section.settings.text_color }};
-    border-color: {{ section.settings.text_color }};
-    transform: scale(1.4);
+    background: {{ section.settings.accent_color }};
+    width: 60px;
   }
 
-  /* Right Info */
-  .custom-shoe-slider__right-info {
+  /* Right Images */
+  .one9-images {
     flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    z-index: 10;
-  }
-  .custom-shoe-slider__info-container {
     position: relative;
-    width: 100%;
-    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
   }
-  .custom-shoe-slider__info-item {
+  .one9-image-wrapper {
     position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%) translateX(40px);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     opacity: 0;
-    text-align: left;
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: 0.1s;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .custom-shoe-slider__info-item.active {
+  .one9-image-wrapper.active {
     opacity: 1;
-    transform: translateY(-50%) translateX(0);
+    pointer-events: auto;
+    transform: translateX(0) scale(1);
   }
-  .shoe-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: {{ section.settings.text_color }};
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1.2;
-    max-width: 200px;
-  }
-  .shoe-price {
-    font-family: 'Inter', sans-serif;
-    font-size: 24px;
-    font-weight: 300;
-    color: {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
-    margin: 0;
+  .one9-image-wrapper:not(.active) {
+    transform: translateX(100px) scale(0.9);
   }
 
-  /* Responsive Design - Mobile Pro */
+  .shoe-img {
+    max-width: 120%;
+    max-height: 120%;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.7));
+  }
+  
+  .placeholder {
+    fill: #333;
+    width: 80%;
+  }
+
+  /* Responsive Design - Mobile */
   @media (max-width: 990px) {
-    .custom-shoe-slider {
+    .custom-shoe-slider.one9-hero {
       flex-direction: column;
-      height: auto;
-      min-height: 100svh; /* Perfect full screen on mobile */
-      padding: 100px 5% 40px;
-      justify-content: space-between;
+      height: 100svh;
+      padding: 0;
+      justify-content: center;
     }
     
-    .custom-shoe-slider__left-title {
-      width: 100%;
-      flex: none;
-      justify-content: center;
+    .one9-sidebar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: auto;
+      height: auto;
+      flex-direction: row;
+      border: none;
+      padding: 0;
+      z-index: 20;
+    }
+    .one9-sidebar__text {
+      writing-mode: horizontal-tb;
+      letter-spacing: 3px;
+      margin: 0 15px 0 0;
+      font-size: 24px;
+    }
+    .one9-sidebar__icon, .one9-sidebar__line {
+      display: none; /* Hide on mobile to save space */
+    }
+
+    .one9-content {
+      padding: 0 20px;
+      order: 2;
+      align-items: center;
       text-align: center;
-    }
-    .custom-shoe-slider__left-title h2 {
-      font-size: clamp(60px, 15vw, 120px);
-      letter-spacing: -2px;
-      white-space: normal; /* Allow wrapping on mobile */
-    }
-
-    .custom-shoe-slider__center {
-      width: 100%;
-      flex: 1; /* Allow it to take up remaining middle space */
-      height: 400px;
-      margin: 20px 0;
-    }
-    .custom-shoe-slider__shoe-image {
-      width: 100%;
-      max-width: 100%;
-    }
-    .custom-shoe-slider__shoe-image.active {
-      transform: translateX(0) rotate(-10deg) scale(1.1);
-    }
-    .shoe-img {
-      filter: drop-shadow(-10px 20px 20px rgba(0,0,0,0.6));
-    }
-    .custom-shoe-slider__bg-text {
-      font-size: 40vw; /* Even larger on mobile */
-      -webkit-text-stroke: 1px {{ section.settings.text_color | color_modify: 'alpha', 0.15 }};
-    }
-
-    .custom-shoe-slider__right-info {
-      width: 100%;
-      flex: none;
-      justify-content: center;
+      flex: 0 0 auto;
       margin-bottom: 40px;
     }
-    .custom-shoe-slider__info-container {
-      height: auto;
-      min-height: 80px;
-    }
-    .custom-shoe-slider__info-item {
-      position: absolute;
-      top: 0;
-      right: 50%;
-      transform: translateX(50%) translateY(20px);
-      text-align: center;
-    }
-    .custom-shoe-slider__info-item.active {
-      transform: translateX(50%) translateY(0);
-    }
-    .shoe-title {
-      max-width: 100%;
-      font-size: 18px;
-    }
-
-    .custom-shoe-slider__nav-dots {
+    .one9-slide-info {
       position: relative;
-      bottom: 0;
-      margin-top: auto;
+      top: auto;
+      left: auto;
+      transform: none !important;
+      display: none;
+    }
+    .one9-slide-info.active {
+      display: block;
+    }
+    .one9-content__wrapper {
+      height: auto;
+    }
+    .one9-title {
+      font-size: 40px;
+    }
+    
+    .one9-images {
+      order: 1;
+      width: 100%;
+      height: 40vh;
+      margin-top: 80px; /* push down below header */
+    }
+    .shoe-img {
+      max-width: 90%;
+    }
+    
+    .custom-shoe-slider__nav-dots {
+      justify-content: center;
     }
   }
 </style>
 
 <script>
-  function initCustomShoeSlider(sliderContainer) {
+  document.addEventListener("DOMContentLoaded", function() {
+    const sliderContainer = document.getElementById('shoeSlider-{{ section.id }}');
+    if (!sliderContainer) return;
+    initOne9Slider(sliderContainer);
+  });
+
+  document.addEventListener("shopify:section:load", function(event) {
+    if(event.target.querySelector('.one9-hero')) {
+      initOne9Slider(event.target);
+    }
+  });
+
+  function initOne9Slider(sliderContainer) {
     const dots = sliderContainer.querySelectorAll('.nav-dot');
     let currentIndex = 0;
     const totalSlides = dots.length;
     let autoPlayInterval;
-    
+
     function goToSlide(index) {
-      // Remove active class from all elements in this specific slider
-      sliderContainer.querySelectorAll('.slide-item, .nav-dot').forEach(el => {
-        el.classList.remove('active');
-      });
+      if(index < 0 || index >= totalSlides) return;
       
-      // Add active class to corresponding items
-      sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
-        el.classList.add('active');
-      });
+      sliderContainer.querySelectorAll('.slide-item.active').forEach(el => el.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
       
-      // Add active to the clicked dot
-      const activeDot = sliderContainer.querySelector(`.nav-dot[data-index="${index}"]`);
-      if (activeDot) activeDot.classList.add('active');
+      sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => el.classList.add('active'));
+      if(dots[index]) dots[index].classList.add('active');
       
-      currentIndex = parseInt(index);
+      currentIndex = index;
     }
 
     function nextSlide() {
-      if (totalSlides === 0) return;
       let nextIndex = (currentIndex + 1) % totalSlides;
       goToSlide(nextIndex);
     }
 
     function startAutoPlay() {
-      stopAutoPlay();
-      if (totalSlides > 1) {
-        autoPlayInterval = setInterval(nextSlide, 4000); // 4 seconds per slide
-      }
+      autoPlayInterval = setInterval(nextSlide, 4000);
     }
 
     function stopAutoPlay() {
-      if (autoPlayInterval) {
-        clearInterval(autoPlayInterval);
-      }
+      clearInterval(autoPlayInterval);
     }
 
-    // Attach click events
-    dots.forEach(dot => {
-      dot.addEventListener('click', function() {
-        const index = this.getAttribute('data-index');
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        stopAutoPlay();
         goToSlide(index);
-        startAutoPlay(); // Reset timer on click
+        startAutoPlay();
       });
-    });
-
-    // Pause auto-scroll on hover, resume on mouse leave
-    sliderContainer.addEventListener('mouseenter', stopAutoPlay);
-    sliderContainer.addEventListener('mouseleave', startAutoPlay);
-
-    // Handle Shopify Theme Editor events
-    sliderContainer.addEventListener('shopify:block:select', function(event) {
-      stopAutoPlay();
-      const block = event.target;
-      if (block.classList.contains('slide-item')) {
-         const index = block.getAttribute('data-block-index');
-         if(index !== null) goToSlide(index);
-      } else {
-         // Fallback if the event target is the wrapper (Shopify wraps blocks)
-         const slideItem = block.querySelector('.slide-item');
-         if (slideItem) {
-           const index = slideItem.getAttribute('data-block-index');
-           if(index !== null) goToSlide(index);
-         }
-      }
-    });
-
-    sliderContainer.addEventListener('shopify:block:deselect', function(event) {
-      startAutoPlay();
     });
 
     // Start auto-play on init
     startAutoPlay();
+    
+    // Pause on hover
+    sliderContainer.addEventListener('mouseenter', stopAutoPlay);
+    sliderContainer.addEventListener('mouseleave', startAutoPlay);
   }
-
-  document.addEventListener("DOMContentLoaded", function() {
-    const sliders = document.querySelectorAll('.custom-shoe-slider');
-    sliders.forEach(slider => initCustomShoeSlider(slider));
-  });
-
-  // Handle section reload in Theme Editor
-  document.addEventListener('shopify:section:load', function(event) {
-    const slider = event.target.querySelector('.custom-shoe-slider');
-    if (slider) {
-      initCustomShoeSlider(slider);
-    }
-  });
 </script>
 
 {% schema %}
 {
-  "name": "Carousel Shoes Hero",
+  "name": "Shoe Slider Hero (ONE9)",
   "settings": [
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#0a0a0a"
+      "default": "#000000"
     },
     {
       "type": "color",
@@ -433,20 +381,22 @@
       "default": "#ffffff"
     },
     {
-      "type": "textarea",
-      "id": "left_title",
-      "label": "Left Heading",
-      "default": "JUST\nDO\nIT."
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Yellow)",
+      "default": "#F4D03F"
     },
     {
-      "type": "range",
-      "id": "left_title_size",
-      "label": "Left Heading Size (Desktop)",
-      "min": 40,
-      "max": 150,
-      "step": 2,
-      "unit": "px",
-      "default": 100
+      "type": "text",
+      "id": "sidebar_text",
+      "label": "Sidebar Vertical Text",
+      "default": "ONE9"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Engineered for warmth. Designed for movement."
     }
   ],
   "blocks": [
@@ -457,34 +407,39 @@
         {
           "type": "product",
           "id": "product",
-          "label": "Select Product (Auto-fills Image, Title, Price)"
+          "label": "Product"
         },
         {
           "type": "image_picker",
           "id": "custom_image",
-          "label": "Custom Image (Transparent PNG recommended, overrides Product image)"
+          "label": "Custom Shoe Image (Optional)",
+          "info": "Leave blank to use product image"
         },
         {
           "type": "text",
           "id": "custom_title",
-          "label": "Custom Title (Overrides Product Title)"
-        },
-        {
-          "type": "text",
-          "id": "bg_text",
-          "label": "Background Text",
-          "default": "NIKE"
+          "label": "Custom Title",
+          "info": "Overrides product title. Example: WEAR YOUR\nUNIVERSE"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Carousel Shoes Hero",
+      "name": "Shoe Slider Hero (ONE9)",
       "blocks": [
-        { "type": "slide" },
-        { "type": "slide" },
-        { "type": "slide" }
+        {
+          "type": "slide",
+          "settings": {
+            "custom_title": "WEAR YOUR\nUNIVERSE"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "custom_title": "OWN THE\nSTREETS"
+          }
+        }
       ]
     }
   ]
