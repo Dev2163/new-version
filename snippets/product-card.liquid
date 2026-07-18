@@ -11,6 +11,22 @@
 
 {% assign block_settings = block.settings %}
 
+{%- liquid
+  assign is_shoe = false
+  if product.type == 'Shoes' or product.type == 'Shoe'
+    assign is_shoe = true
+  endif
+  for tag in product.tags
+    assign downcased_tag = tag | downcase
+    if downcased_tag == 'shoes' or downcased_tag == 'shoe'
+      assign is_shoe = true
+    endif
+  endfor
+-%}
+
+{%- if is_shoe -%}
+  {% render 'shoe-product-card', product: product %}
+{%- else -%}
 {% style %}
   {% if request.visual_preview_mode %}
     product-card[data-product-transition] {
@@ -109,6 +125,7 @@
     {{ children }}
   </div>
 </product-card>
+{%- endif -%}
 
 {% stylesheet %}
   .product-card__placeholder-image svg {
