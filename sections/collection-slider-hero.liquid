@@ -10,7 +10,7 @@
     <!-- Dynamic Background Text -->
     <div class="custom-shoe-slider__bg-text-container">
       {% for block in section.blocks %}
-        <div class="custom-shoe-slider__bg-text slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}">
+        <div class="custom-shoe-slider__bg-text slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
           {{ block.settings.bg_text }}
         </div>
       {% endfor %}
@@ -22,9 +22,9 @@
         {% assign slide_product = block.settings.product %}
         {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
         
-        <div class="custom-shoe-slider__shoe-image slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+        <div class="custom-shoe-slider__shoe-image slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
           {% if slide_image != blank %}
-            {{ slide_image | image_url: width: 800 | image_tag: class: 'shoe-img' }}
+            {{ slide_image | image_url: width: 1000 | image_tag: class: 'shoe-img' }}
           {% else %}
             {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
           {% endif %}
@@ -45,10 +45,10 @@
     <div class="custom-shoe-slider__info-container">
       {% for block in section.blocks %}
         {% assign slide_product = block.settings.product %}
-        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "NIKE AIR MAX PRE-DAY" %}
-        {% assign slide_price = slide_product.price | money | default: "$160.00" %}
+        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "NIKE AIR MAX PRE-DAY." %}
+        {% assign slide_price = slide_product.price | money | default: "$160" %}
 
-        <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}">
+        <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
           <h3 class="shoe-title">{{ slide_title }}</h3>
           <p class="shoe-price">{{ slide_price }}</p>
         </div>
@@ -65,12 +65,14 @@
   .custom-shoe-slider {
     position: relative;
     width: 100%;
-    min-height: 800px;
+    height: 100vh;
+    min-height: 700px;
+    max-height: 900px;
     display: flex;
     flex-direction: row;
     align-items: center;
     overflow: hidden;
-    padding: 0 5%;
+    padding: 0 8%;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
   }
@@ -79,23 +81,26 @@
   .custom-shoe-slider__left-title {
     flex: 1;
     z-index: 10;
+    display: flex;
+    justify-content: flex-start;
   }
   .custom-shoe-slider__left-title h2 {
     font-family: 'Inter', sans-serif;
     font-size: {{ section.settings.left_title_size }}px;
     font-weight: 300;
-    line-height: 1.1;
+    line-height: 1.05;
     color: {{ section.settings.text_color }};
     margin: 0;
     text-transform: uppercase;
     white-space: pre-line;
+    letter-spacing: -2px;
   }
 
   /* Center Area */
   .custom-shoe-slider__center {
     flex: 2;
     position: relative;
-    height: 600px;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,19 +120,20 @@
   .custom-shoe-slider__bg-text {
     position: absolute;
     font-family: 'Inter', sans-serif;
-    font-size: 200px;
+    font-size: 25vw; /* Extremely large */
     font-weight: 900;
-    color: {{ section.settings.text_color | color_modify: 'alpha', 0.05 }}; /* Faded */
+    color: {{ section.settings.text_color | color_modify: 'alpha', 0.03 }}; /* Very faint */
     text-transform: uppercase;
-    letter-spacing: 5px;
+    letter-spacing: 0;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: scale(0.9);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     white-space: nowrap;
+    line-height: 0.8;
   }
   .custom-shoe-slider__bg-text.active {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 
   /* Shoe Images */
@@ -142,21 +148,21 @@
   }
   .custom-shoe-slider__shoe-image {
     position: absolute;
-    width: 80%;
-    max-width: 600px;
+    width: 90%;
+    max-width: 800px;
     opacity: 0;
-    transform: translateX(50px) rotate(5deg);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateX(100px) rotate(10deg);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .custom-shoe-slider__shoe-image.active {
     opacity: 1;
-    transform: translateX(0) rotate(0deg);
+    transform: translateX(0) rotate(-15deg); /* Match Nike tilt */
   }
   .shoe-img {
     width: 100%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
+    filter: drop-shadow(-20px 30px 25px rgba(0,0,0,0.25)); /* Heavy drop shadow for floating effect */
   }
   .shoe-img.placeholder {
     fill: #333;
@@ -166,18 +172,18 @@
   /* Nav Dots */
   .custom-shoe-slider__nav-dots {
     position: absolute;
-    bottom: -40px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 12px;
+    gap: 16px;
     z-index: 10;
   }
   .nav-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    border: 2px solid {{ section.settings.text_color | color_modify: 'alpha', 0.5 }};
+    border: 2px solid {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
     background: transparent;
     cursor: pointer;
     padding: 0;
@@ -186,6 +192,7 @@
   .nav-dot.active {
     background: {{ section.settings.text_color }};
     border-color: {{ section.settings.text_color }};
+    transform: scale(1.3);
   }
 
   /* Right Info */
@@ -199,31 +206,33 @@
   .custom-shoe-slider__info-container {
     position: relative;
     width: 100%;
-    height: 100px;
+    height: 120px;
   }
   .custom-shoe-slider__info-item {
     position: absolute;
     top: 50%;
     right: 0;
-    transform: translateY(-50%) translateX(20px);
+    transform: translateY(-50%) translateX(30px);
     opacity: 0;
     text-align: left;
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .custom-shoe-slider__info-item.active {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
   }
   .shoe-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     color: {{ section.settings.text_color }};
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    line-height: 1.2;
+    max-width: 180px;
   }
   .shoe-price {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     color: {{ section.settings.text_color }};
     margin: 0;
@@ -266,30 +275,61 @@
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const sliderContainer = document.getElementById('shoeSlider-{{ section.id }}');
-    if (!sliderContainer) return;
-
+  function initCustomShoeSlider(sliderContainer) {
     const dots = sliderContainer.querySelectorAll('.nav-dot');
     
+    function goToSlide(index) {
+      // Remove active class from all elements in this specific slider
+      sliderContainer.querySelectorAll('.slide-item, .nav-dot').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      // Add active class to corresponding items
+      sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
+        el.classList.add('active');
+      });
+      
+      // Add active to the clicked dot
+      const activeDot = sliderContainer.querySelector(`.nav-dot[data-index="${index}"]`);
+      if (activeDot) activeDot.classList.add('active');
+    }
+
+    // Attach click events
     dots.forEach(dot => {
       dot.addEventListener('click', function() {
         const index = this.getAttribute('data-index');
-        
-        // Remove active class from all
-        sliderContainer.querySelectorAll('.slide-item, .nav-dot').forEach(el => {
-          el.classList.remove('active');
-        });
-        
-        // Add active class to corresponding items
-        sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
-          el.classList.add('active');
-        });
-        
-        // Add active to the clicked dot
-        this.classList.add('active');
+        goToSlide(index);
       });
     });
+
+    // Handle Shopify Theme Editor events
+    sliderContainer.addEventListener('shopify:block:select', function(event) {
+      const block = event.target;
+      if (block.classList.contains('slide-item')) {
+         const index = block.getAttribute('data-block-index');
+         if(index !== null) goToSlide(index);
+      } else {
+         // Fallback if the event target is the wrapper (Shopify wraps blocks)
+         const slideItem = block.querySelector('.slide-item');
+         if (slideItem) {
+           const index = slideItem.getAttribute('data-block-index');
+           if(index !== null) goToSlide(index);
+         }
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const sliders = document.querySelectorAll('.custom-shoe-slider');
+    sliders.forEach(slider => initCustomShoeSlider(slider));
+  });
+
+  // Handle section reload in Theme Editor
+  document.addEventListener('shopify:section:load', function(event) {
+    const slider = event.target.querySelector('.custom-shoe-slider');
+    if (slider) {
+      initCustomShoeSlider(slider);
+    }
   });
 </script>
 
