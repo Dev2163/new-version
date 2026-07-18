@@ -11,38 +11,58 @@
   "sections": {
     "collection_slider_hero": {
       "type": "collection-slider-hero",
-      "settings": {
-        "bg_color": "#000000",
-        "text_color": "#ffffff"
-      },
       "blocks": {
         "slide_1": {
           "type": "slide",
           "settings": {
-            "custom_title": "WEAR YOUR\nUNIVERSE"
+            "custom_title": "NIKE AIR MAX",
+            "bg_text": "NIKE"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "custom_title": "OWN THE\nSTREETS"
+            "custom_title": "NIKE RUNNER",
+            "bg_text": "NIKE"
           }
         }
       },
       "block_order": [
         "slide_1",
         "slide_2"
-      ]
+      ],
+      "settings": {
+        "bg_color": "#000000"
+      }
     },
     "trusted_brands": {
       "type": "trusted-brands",
-      "settings": {},
       "blocks": {
-        "brand_1": { "type": "brand", "settings": { "title": "Sachin's Legacy Sneakers" } },
-        "brand_2": { "type": "brand", "settings": { "title": "Sports Shoes" } },
-        "brand_3": { "type": "brand", "settings": { "title": "New Launches" } }
+        "brand_1": {
+          "type": "brand",
+          "settings": {
+            "title": "Sachin's Legacy Sneakers"
+          }
+        },
+        "brand_2": {
+          "type": "brand",
+          "settings": {
+            "title": "Sports Shoes"
+          }
+        },
+        "brand_3": {
+          "type": "brand",
+          "settings": {
+            "title": "New Launches"
+          }
+        }
       },
-      "block_order": ["brand_1", "brand_2", "brand_3"]
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3"
+      ],
+      "settings": {}
     },
     "section": {
       "type": "section",

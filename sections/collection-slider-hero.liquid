@@ -1,390 +1,458 @@
-<div class="custom-shoe-slider one9-hero" id="shoeSlider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+<div class="custom-shoe-slider" id="shoeSlider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
   
-  <!-- Left Column: ONE9 Vertical Sidebar -->
-  <div class="one9-sidebar">
-    <div class="one9-sidebar__text">{{ section.settings.sidebar_text }}</div>
-    <div class="one9-sidebar__icon">
-      <!-- Decorative Eye Icon -->
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 4.5C7 4.5 2.73 7.61 1 12.5C2.73 17.39 7 20.5 12 20.5C17 20.5 21.27 17.39 23 12.5C21.27 7.61 17 4.5 12 4.5ZM12 18C8.96 18 6.5 15.54 6.5 12.5C6.5 9.46 8.96 7 12 7C15.04 7 17.5 9.46 17.5 12.5C17.5 15.54 15.04 18 12 18ZM12 9C10.07 9 8.5 10.57 8.5 12.5C8.5 14.43 10.07 16 12 16C13.93 16 15.5 14.43 15.5 12.5C15.5 10.57 13.93 9 12 9Z" fill="{{ section.settings.accent_color }}"/>
-      </svg>
+  <!-- Vertical Sidebar (ONE9) -->
+  <div class="custom-shoe-slider__sidebar">
+    <div class="custom-shoe-slider__sidebar-inner">
+      <div class="sidebar-text">{{ section.settings.sidebar_text }}</div>
+      <div class="sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </div>
+      <div class="sidebar-line"></div>
     </div>
-    <div class="one9-sidebar__line" style="background-color: {{ section.settings.accent_color }};"></div>
   </div>
 
-  <!-- Center-Left Content Area -->
-  <div class="one9-content">
-    <div class="one9-content__wrapper">
+  <!-- Background Text -->
+  <div class="custom-shoe-slider__bg-text-container">
+    {% for block in section.blocks %}
+      <div class="custom-shoe-slider__bg-text slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        {{ block.settings.bg_text }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Content Layer (Text & Button on Left) -->
+  <div class="custom-shoe-slider__content-layer">
+    <div class="custom-shoe-slider__info-container">
       {% for block in section.blocks %}
         {% assign slide_product = block.settings.product %}
-        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "WEAR YOUR UNIVERSE" %}
+        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "WEAR YOUR\nUNIVERSE" %}
         
-        <div class="one9-slide-info slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-          <h1 class="one9-title">{{ slide_title }}</h1>
-          <p class="one9-subtitle" style="color: {{ section.settings.accent_color }};">{{ section.settings.subtitle }}</p>
-          <a href="{{ slide_product.url | default: '#' }}" class="one9-btn" style="background-color: {{ section.settings.accent_color }}; box-shadow: 0 0 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};">SHOP NOW</a>
+        <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
+          <h2 class="shoe-title">{{ slide_title | newline_to_br }}</h2>
+          
+          {% if section.settings.subtitle != blank %}
+            <p class="shoe-subtitle">{{ section.settings.subtitle }}</p>
+          {% endif %}
+          
+          <a href="{{ slide_product.url | default: '#' }}" class="shoe-btn">{{ section.settings.button_text }}</a>
         </div>
       {% endfor %}
     </div>
+  </div>
 
-    <!-- Navigation Dots -->
-    <div class="custom-shoe-slider__nav-dots">
+  <!-- Shoe Image Layer (Right) -->
+  <div class="custom-shoe-slider__image-layer">
+    <div class="custom-shoe-slider__images-container">
       {% for block in section.blocks %}
-        <button class="nav-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {% assign slide_product = block.settings.product %}
+        {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
+        
+        <div class="custom-shoe-slider__shoe-image slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
+          {% if slide_image != blank %}
+            {{ slide_image | image_url: width: 1000 | image_tag: class: 'shoe-img' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
+          {% endif %}
+        </div>
       {% endfor %}
     </div>
   </div>
 
-  <!-- Right Image Area -->
-  <div class="one9-images">
+  <!-- Navigation Dots -->
+  <div class="custom-shoe-slider__nav-dots">
     {% for block in section.blocks %}
-      {% assign slide_product = block.settings.product %}
-      {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
-      
-      <div class="one9-image-wrapper slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
-        {% if slide_image != blank %}
-          {{ slide_image | image_url: width: 1000 | image_tag: class: 'shoe-img', loading: 'eager' }}
-        {% else %}
-          {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
-        {% endif %}
-      </div>
+      <button class="nav-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
     {% endfor %}
   </div>
 
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Michroma&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
 
-  .custom-shoe-slider.one9-hero {
+  .custom-shoe-slider {
     position: relative;
     width: 100%;
-    height: 800px;
+    height: 700px; /* Adjust as needed */
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
     overflow: hidden;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    background-color: #000;
   }
 
   /* Vertical Sidebar */
-  .one9-sidebar {
-    width: 100px;
+  .custom-shoe-slider__sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    padding-top: 150px;
+  }
+  .custom-shoe-slider__sidebar-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 100px;
-    border-right: 1px solid rgba(255,255,255,0.05);
-    z-index: 10;
+    height: 100%;
   }
-  .one9-sidebar__text {
-    font-family: 'Orbitron', sans-serif;
-    color: {{ section.settings.accent_color }};
-    font-size: 32px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 5px;
+  .sidebar-text {
     writing-mode: vertical-rl;
-    text-orientation: upright;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #F0C454;
+    letter-spacing: 4px;
     margin-bottom: 30px;
   }
-  .one9-sidebar__icon {
-    margin-bottom: 30px;
+  .sidebar-icon {
+    width: 24px;
+    height: 24px;
+    color: #F0C454;
+    margin-bottom: 20px;
   }
-  .one9-sidebar__line {
+  .sidebar-line {
     width: 2px;
-    height: 150px;
-    border-radius: 2px;
+    background-color: #F0C454;
+    flex-grow: 1;
+    margin-bottom: 50px;
   }
 
-  /* Center Content */
-  .one9-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 5%;
-    position: relative;
-    z-index: 5;
-  }
-  .one9-content__wrapper {
-    position: relative;
-    height: 400px; /* enough space to stack text */
-  }
-  
-  .one9-slide-info {
+  /* Background Text */
+  .custom-shoe-slider__bg-text-container {
     position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 100%;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .one9-slide-info.active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(-50%) translateX(0);
-  }
-  /* Slide out to left when hiding, slide in from right when appearing (managed via js or simple fade) */
-  .one9-slide-info:not(.active) {
-    transform: translateY(-50%) translateX(-30px);
-  }
-
-  .one9-title {
-    font-family: 'Michroma', sans-serif;
-    font-size: clamp(40px, 6vw, 90px);
-    font-weight: 700;
-    color: {{ section.settings.text_color }};
-    line-height: 1.1;
-    margin: 0 0 20px 0;
-    text-transform: uppercase;
-    white-space: pre-line;
-    text-shadow: 0 0 20px rgba(255,255,255,0.3);
-  }
-  
-  .one9-subtitle {
-    font-size: clamp(16px, 2vw, 22px);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    margin: 0 0 40px 0;
-  }
-
-  .one9-btn {
-    display: inline-block;
-    color: #000;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    padding: 15px 40px;
-    border-radius: 4px;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-  }
-  .one9-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    filter: brightness(1.1);
-  }
-
-  /* Nav Dots */
-  .custom-shoe-slider__nav-dots {
-    display: flex;
-    gap: 15px;
-    margin-top: 40px;
-  }
-  .nav-dot {
-    width: 40px;
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .nav-dot.active {
-    background: {{ section.settings.accent_color }};
-    width: 60px;
-  }
-
-  /* Right Images */
-  .one9-images {
-    flex: 1;
-    position: relative;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
+    pointer-events: none;
   }
-  .one9-image-wrapper {
+  .custom-shoe-slider__bg-text {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-size: 25vw; 
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05);
+    text-transform: uppercase;
+    letter-spacing: -5px;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    line-height: 0.8;
+  }
+  .custom-shoe-slider__bg-text.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Content Layer */
+  .custom-shoe-slider__content-layer {
+    position: absolute;
+    left: 80px; /* offset sidebar */
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding-left: 5%;
+  }
+  .custom-shoe-slider__info-container {
+    position: relative;
+    width: 100%;
+    height: 350px;
+  }
+  .custom-shoe-slider__info-item {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) translateX(-40px);
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.1s;
+    text-align: center; /* match image */
+  }
+  .custom-shoe-slider__info-item.active {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  
+  /* Glowing Title */
+  .shoe-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(40px, 5vw, 80px);
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+    line-height: 1.1;
+    text-shadow: 0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.2);
+  }
+  
+  /* Gold Subtitle */
+  .shoe-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #F0C454;
+    margin: 0 0 40px 0;
+    letter-spacing: 0.5px;
+  }
+
+  /* Yellow Button */
+  .shoe-btn {
+    display: inline-block;
+    background-color: #F0C454;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 15px 40px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 30px rgba(240, 196, 84, 0.3);
+  }
+  .shoe-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(240, 196, 84, 0.5);
+    background-color: #fce28b;
+  }
+
+  /* Image Layer */
+  .custom-shoe-slider__image-layer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: 5;
+  }
+  .custom-shoe-slider__images-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .custom-shoe-slider__shoe-image {
     position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(100px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .one9-image-wrapper.active {
+  .custom-shoe-slider__shoe-image.active {
     opacity: 1;
-    pointer-events: auto;
-    transform: translateX(0) scale(1);
+    transform: translateX(0);
   }
-  .one9-image-wrapper:not(.active) {
-    transform: translateX(100px) scale(0.9);
-  }
-
   .shoe-img {
-    max-width: 120%;
-    max-height: 120%;
-    object-fit: contain;
-    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.7));
-  }
-  
-  .placeholder {
-    fill: #333;
-    width: 80%;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: right center;
+    mask-image: linear-gradient(to right, transparent, black 20%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 20%);
   }
 
-  /* Responsive Design - Mobile */
+  /* Nav Dots */
+  .custom-shoe-slider__nav-dots {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
+    z-index: 20;
+  }
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.4s ease;
+  }
+  .nav-dot:hover {
+    border-color: rgba(255,255,255,0.8);
+  }
+  .nav-dot.active {
+    background: #F0C454;
+    border-color: #F0C454;
+    transform: scale(1.4);
+    box-shadow: 0 0 10px rgba(240, 196, 84, 0.5);
+  }
+
+  /* Mobile Pro Styles */
   @media (max-width: 990px) {
-    .custom-shoe-slider.one9-hero {
+    .custom-shoe-slider {
       flex-direction: column;
       height: 100svh;
-      padding: 0;
-      justify-content: center;
+      padding-top: 60px;
     }
     
-    .one9-sidebar {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: auto;
-      height: auto;
-      flex-direction: row;
-      border: none;
-      padding: 0;
-      z-index: 20;
-    }
-    .one9-sidebar__text {
-      writing-mode: horizontal-tb;
-      letter-spacing: 3px;
-      margin: 0 15px 0 0;
-      font-size: 24px;
-    }
-    .one9-sidebar__icon, .one9-sidebar__line {
-      display: none; /* Hide on mobile to save space */
+    .custom-shoe-slider__sidebar {
+      display: none; /* Hide sidebar on mobile to save space */
     }
 
-    .one9-content {
-      padding: 0 20px;
-      order: 2;
-      align-items: center;
-      text-align: center;
-      flex: 0 0 auto;
-      margin-bottom: 40px;
-    }
-    .one9-slide-info {
+    .custom-shoe-slider__content-layer {
       position: relative;
-      top: auto;
-      left: auto;
-      transform: none !important;
-      display: none;
+      width: 100%;
+      left: 0;
+      height: 50%;
+      align-items: flex-end;
+      padding: 0 20px 20px;
+      z-index: 10;
     }
-    .one9-slide-info.active {
-      display: block;
-    }
-    .one9-content__wrapper {
+    .custom-shoe-slider__info-container {
       height: auto;
     }
-    .one9-title {
-      font-size: 40px;
+    .custom-shoe-slider__info-item {
+      position: relative;
+      top: 0;
+      transform: translateY(20px);
+      text-align: center;
+    }
+    .custom-shoe-slider__info-item.active {
+      transform: translateY(0);
     }
     
-    .one9-images {
-      order: 1;
+    .shoe-title {
+      font-size: clamp(32px, 8vw, 60px);
+    }
+
+    .custom-shoe-slider__image-layer {
+      position: relative;
       width: 100%;
-      height: 40vh;
-      margin-top: 80px; /* push down below header */
+      height: 50%;
+      z-index: 5;
+    }
+    .custom-shoe-slider__shoe-image {
+      justify-content: center;
     }
     .shoe-img {
-      max-width: 90%;
+      mask-image: linear-gradient(to bottom, transparent, black 20%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%);
+      object-position: center;
+      width: 100%;
+      object-fit: contain;
     }
     
-    .custom-shoe-slider__nav-dots {
-      justify-content: center;
+    .custom-shoe-slider__bg-text {
+      font-size: 35vw;
     }
   }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const sliderContainer = document.getElementById('shoeSlider-{{ section.id }}');
-    if (!sliderContainer) return;
-    initOne9Slider(sliderContainer);
-  });
-
-  document.addEventListener("shopify:section:load", function(event) {
-    if(event.target.querySelector('.one9-hero')) {
-      initOne9Slider(event.target);
-    }
-  });
-
-  function initOne9Slider(sliderContainer) {
+  function initCustomShoeSlider(sliderContainer) {
     const dots = sliderContainer.querySelectorAll('.nav-dot');
     let currentIndex = 0;
     const totalSlides = dots.length;
     let autoPlayInterval;
-
+    
     function goToSlide(index) {
-      if(index < 0 || index >= totalSlides) return;
+      sliderContainer.querySelectorAll('.slide-item, .nav-dot').forEach(el => {
+        el.classList.remove('active');
+      });
       
-      sliderContainer.querySelectorAll('.slide-item.active').forEach(el => el.classList.remove('active'));
-      dots.forEach(dot => dot.classList.remove('active'));
+      sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
+        el.classList.add('active');
+      });
       
-      sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => el.classList.add('active'));
-      if(dots[index]) dots[index].classList.add('active');
+      const activeDot = sliderContainer.querySelector(`.nav-dot[data-index="${index}"]`);
+      if (activeDot) activeDot.classList.add('active');
       
-      currentIndex = index;
+      currentIndex = parseInt(index);
     }
 
     function nextSlide() {
+      if (totalSlides === 0) return;
       let nextIndex = (currentIndex + 1) % totalSlides;
       goToSlide(nextIndex);
     }
 
     function startAutoPlay() {
-      autoPlayInterval = setInterval(nextSlide, 4000);
+      stopAutoPlay();
+      if (totalSlides > 1) {
+        autoPlayInterval = setInterval(nextSlide, 5000); 
+      }
     }
 
     function stopAutoPlay() {
-      clearInterval(autoPlayInterval);
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+      }
     }
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        stopAutoPlay();
+    dots.forEach(dot => {
+      dot.addEventListener('click', function() {
+        const index = this.getAttribute('data-index');
         goToSlide(index);
         startAutoPlay();
       });
     });
 
-    // Start auto-play on init
-    startAutoPlay();
-    
-    // Pause on hover
     sliderContainer.addEventListener('mouseenter', stopAutoPlay);
     sliderContainer.addEventListener('mouseleave', startAutoPlay);
+
+    sliderContainer.addEventListener('shopify:block:select', function(event) {
+      stopAutoPlay();
+      const block = event.target;
+      if (block.classList.contains('slide-item')) {
+         const index = block.getAttribute('data-block-index');
+         if(index !== null) goToSlide(index);
+      } else {
+         const slideItem = block.querySelector('.slide-item');
+         if (slideItem) {
+           const index = slideItem.getAttribute('data-block-index');
+           if(index !== null) goToSlide(index);
+         }
+      }
+    });
+
+    sliderContainer.addEventListener('shopify:block:deselect', function(event) {
+      startAutoPlay();
+    });
+
+    startAutoPlay();
   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const sliders = document.querySelectorAll('.custom-shoe-slider');
+    sliders.forEach(slider => initCustomShoeSlider(slider));
+  });
+
+  document.addEventListener('shopify:section:load', function(event) {
+    const slider = event.target.querySelector('.custom-shoe-slider');
+    if (slider) {
+      initCustomShoeSlider(slider);
+    }
+  });
 </script>
 
 {% schema %}
 {
-  "name": "Shoe Slider Hero (ONE9)",
+  "name": "Carousel Shoes Hero",
   "settings": [
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
       "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color (Yellow)",
-      "default": "#F4D03F"
     },
     {
       "type": "text",
@@ -397,6 +465,12 @@
       "id": "subtitle",
       "label": "Subtitle",
       "default": "Engineered for warmth. Designed for movement."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
     }
   ],
   "blocks": [
@@ -407,39 +481,34 @@
         {
           "type": "product",
           "id": "product",
-          "label": "Product"
+          "label": "Select Product (Auto-fills Image, Title, Price)"
         },
         {
           "type": "image_picker",
           "id": "custom_image",
-          "label": "Custom Shoe Image (Optional)",
-          "info": "Leave blank to use product image"
+          "label": "Custom Image (Transparent PNG recommended, overrides Product image)"
+        },
+        {
+          "type": "textarea",
+          "id": "custom_title",
+          "label": "Custom Title (Overrides Product Title)"
         },
         {
           "type": "text",
-          "id": "custom_title",
-          "label": "Custom Title",
-          "info": "Overrides product title. Example: WEAR YOUR\nUNIVERSE"
+          "id": "bg_text",
+          "label": "Background Text",
+          "default": "NIKE"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Shoe Slider Hero (ONE9)",
+      "name": "Carousel Shoes Hero",
       "blocks": [
-        {
-          "type": "slide",
-          "settings": {
-            "custom_title": "WEAR YOUR\nUNIVERSE"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "custom_title": "OWN THE\nSTREETS"
-          }
-        }
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
       ]
     }
   ]
