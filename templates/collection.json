@@ -36,30 +36,15 @@
         "slide_2"
       ]
     },
-    "shoe_categories": {
-      "type": "shoe-categories",
-      "settings": {},
-      "blocks": {
-        "cat_1": { "type": "category", "settings": { "title": "Sachin's Legacy Sneakers" } },
-        "cat_2": { "type": "category", "settings": { "title": "Sports Shoes" } },
-        "cat_3": { "type": "category", "settings": { "title": "New Launches" } }
-      },
-      "block_order": ["cat_1", "cat_2", "cat_3"]
-    },
     "trusted_brands": {
       "type": "trusted-brands",
       "settings": {},
       "blocks": {
-        "brand_1": { "type": "brand", "settings": { "title": "FILA" } },
-        "brand_2": { "type": "brand", "settings": { "title": "VANS" } },
-        "brand_3": { "type": "brand", "settings": { "title": "ADIDAS" } },
-        "brand_4": { "type": "brand", "settings": { "title": "NEW BALANCE" } },
-        "brand_5": { "type": "brand", "settings": { "title": "UNDER ARMOUR" } },
-        "brand_6": { "type": "brand", "settings": { "title": "REEBOK" } },
-        "brand_7": { "type": "brand", "settings": { "title": "CHANEL" } },
-        "brand_8": { "type": "brand", "settings": { "title": "PUMA" } }
+        "brand_1": { "type": "brand", "settings": { "title": "Sachin's Legacy Sneakers" } },
+        "brand_2": { "type": "brand", "settings": { "title": "Sports Shoes" } },
+        "brand_3": { "type": "brand", "settings": { "title": "New Launches" } }
       },
-      "block_order": ["brand_1", "brand_2", "brand_3", "brand_4", "brand_5", "brand_6", "brand_7", "brand_8"]
+      "block_order": ["brand_1", "brand_2", "brand_3"]
     },
     "section": {
       "type": "section",
@@ -281,7 +266,6 @@
   },
   "order": [
     "collection_slider_hero",
-    "shoe_categories",
     "trusted_brands",
     "section",
     "main"
