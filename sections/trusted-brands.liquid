@@ -55,10 +55,14 @@
     background: {{ section.settings.card_bg_color }};
     border-radius: 8px;
     padding: 15px 30px;
-    transition: transform 0.3s ease;
+    border: 1px solid transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
   }
   .trusted-brands__item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    border-color: {{ section.settings.accent_color }};
+    box-shadow: 0 10px 30px {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }};
   }
   .trusted-brands__logo {
     max-width: 100%;
@@ -77,6 +81,11 @@
     font-weight: 800;
     text-transform: uppercase;
     opacity: 0.7;
+    transition: color 0.3s ease, opacity 0.3s ease;
+  }
+  .trusted-brands__item:hover .trusted-brands__text-logo {
+    color: {{ section.settings.accent_color }} !important;
+    opacity: 1;
   }
   .placeholder-svg {
     fill: #666;
@@ -120,6 +129,12 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Gold Hover)",
+      "default": "#FFD700"
     },
     {
       "type": "select",
