@@ -46,7 +46,13 @@
       {% for block in section.blocks %}
         {% assign slide_product = block.settings.product %}
         {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "NIKE AIR MAX PRE-DAY." %}
-        {% assign slide_price = slide_product.price | money | default: "$160" %}
+        {% if block.settings.custom_price != blank %}
+          {% assign slide_price = block.settings.custom_price %}
+        {% elsif slide_product != blank %}
+          {% assign slide_price = slide_product.price | money %}
+        {% else %}
+          {% assign slide_price = "$160" %}
+        {% endif %}
 
         <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
           <h3 class="shoe-title">{{ slide_title }}</h3>
@@ -474,6 +480,11 @@
           "type": "text",
           "id": "custom_title",
           "label": "Custom Title (Overrides Product Title)"
+        },
+        {
+          "type": "text",
+          "id": "custom_price",
+          "label": "Custom Price (Overrides Product Price, e.g. $160)"
         },
         {
           "type": "text",
