@@ -11,7 +11,28 @@
   "sections": {
     "collection_slider_hero": {
       "type": "collection-slider-hero",
-      "settings": {}
+      "settings": {
+      },
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "custom_title": "NIKE AIR MAX",
+            "bg_text": "NIKE"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "custom_title": "NIKE RUNNER",
+            "bg_text": "NIKE"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2"
+      ]
     },
     "section": {
       "type": "section",
