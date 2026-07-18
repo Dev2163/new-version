@@ -11,12 +11,12 @@
   "sections": {
     "collection_slider_hero": {
       "type": "collection-slider-hero",
-      "settings": {
-      },
       "blocks": {
         "slide_1": {
           "type": "slide",
           "settings": {
+            "product": "",
+            "custom_image": "shopify://shop_images/10-0271_copy-min_90c2fa6b_thumbnail_4096.png",
             "custom_title": "NIKE AIR MAX",
             "bg_text": "NIKE"
           }
@@ -24,6 +24,8 @@
         "slide_2": {
           "type": "slide",
           "settings": {
+            "product": "",
+            "custom_image": "shopify://shop_images/7_2_a05053ab_thumbnail_4096.png",
             "custom_title": "NIKE RUNNER",
             "bg_text": "NIKE"
           }
@@ -32,7 +34,13 @@
       "block_order": [
         "slide_1",
         "slide_2"
-      ]
+      ],
+      "settings": {
+        "bg_color": "#f4f4f4",
+        "text_color": "#000000",
+        "left_title": "JUST\nDO\nIT.",
+        "left_title_size": 100
+      }
     },
     "section": {
       "type": "section",
@@ -240,6 +248,8 @@
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 16,
