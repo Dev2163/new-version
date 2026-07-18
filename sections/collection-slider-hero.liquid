@@ -35,27 +35,7 @@
     </div>
   </div>
 
-  <!-- Right Column: Dynamic Info -->
-  <div class="custom-shoe-slider__right-info">
-    <div class="custom-shoe-slider__info-container">
-      {% for block in section.blocks %}
-        {% assign slide_product = block.settings.product %}
-        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "NIKE AIR MAX PRE-DAY." %}
-        {% if block.settings.custom_price != blank %}
-          {% assign slide_price = block.settings.custom_price %}
-        {% elsif slide_product != blank %}
-          {% assign slide_price = slide_product.price | money %}
-        {% else %}
-          {% assign slide_price = "$160" %}
-        {% endif %}
 
-        <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
-          <h3 class="shoe-title">{{ slide_title }}</h3>
-          <p class="shoe-price">{{ slide_price }}</p>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
 
 </div>
 
@@ -177,51 +157,6 @@
   }
 
 
-  /* Right Info */
-  .custom-shoe-slider__right-info {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    z-index: 10;
-  }
-  .custom-shoe-slider__info-container {
-    position: relative;
-    width: 100%;
-    height: 120px;
-  }
-  .custom-shoe-slider__info-item {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%) translateX(40px);
-    opacity: 0;
-    text-align: left;
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: 0.1s;
-  }
-  .custom-shoe-slider__info-item.active {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-  .shoe-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: {{ section.settings.text_color }};
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1.2;
-    max-width: 200px;
-  }
-  .shoe-price {
-    font-family: 'Inter', sans-serif;
-    font-size: 24px;
-    font-weight: 300;
-    color: {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
-    margin: 0;
-  }
 
   /* Responsive Design - Mobile Pro */
   @media (max-width: 990px) {
@@ -266,30 +201,7 @@
       -webkit-text-stroke: 1px {{ section.settings.accent_color | color_modify: 'alpha', 0.3 }};
     }
 
-    .custom-shoe-slider__right-info {
-      width: 100%;
-      flex: none;
-      justify-content: center;
-      margin-bottom: 40px;
-    }
-    .custom-shoe-slider__info-container {
-      height: auto;
-      min-height: 80px;
-    }
-    .custom-shoe-slider__info-item {
-      position: absolute;
-      top: 0;
-      right: 50%;
-      transform: translateX(50%) translateY(20px);
-      text-align: center;
-    }
-    .custom-shoe-slider__info-item.active {
-      transform: translateX(50%) translateY(0);
-    }
-    .shoe-title {
-      max-width: 100%;
-      font-size: 18px;
-    }
+
 
 
   }
