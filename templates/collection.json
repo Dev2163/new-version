@@ -6,8 +6,13 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
+    "collection_slider_hero": {
+      "type": "collection-slider-hero",
+      "settings": {}
+    },
     "section": {
       "type": "section",
       "blocks": {
@@ -227,6 +232,7 @@
     }
   },
   "order": [
+    "collection_slider_hero",
     "section",
     "main"
   ]

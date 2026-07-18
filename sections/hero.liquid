@@ -209,13 +209,15 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px 40px 40px 0; /* Left padding removed as wrapper handles it */
+    align-items: center;
+    text-align: center;
+    padding: 40px;
   }
   
   .custom-hero-{{ section.id }}__image-col {
     flex: 1;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: stretch;
     padding: 0;
     position: relative;
@@ -227,21 +229,21 @@
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    background: radial-gradient(circle at 60% 50%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 25%, transparent 55%);
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 25%, transparent 55%);
   }
   
   .custom-hero-{{ section.id }}__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: right center;
+    object-fit: contain;
+    object-position: center;
     z-index: 2;
     position: relative;
     transition: opacity 0.5s ease;
-    transform: scale(0.85) translateY(-30px);
-    transform-origin: bottom right;
+    transform: scale(0.9);
+    transform-origin: center;
   }
   
   .custom-hero-{{ section.id }}__title {
@@ -255,13 +257,17 @@
     letter-spacing: 1px;
     white-space: pre-line;
     text-shadow: 0 0 15px {{ section.settings.heading_color | color_modify: 'alpha', 0.25 }};
+    text-align: center;
   }
   .custom-hero-{{ section.id }}__subtitle {
     font-size: {{ section.settings.subheading_size }}px;
-    color: {{ section.settings.subheading_color }};
+    color: {{ section.settings.accent_color }};
     margin: 0 0 48px 0;
-    font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    font-weight: 400;
+    font-family: "Orbitron", "Rajdhani", sans-serif;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px {{ section.settings.accent_color | color_modify: 'alpha', 0.2 }};
   }
   .custom-hero-{{ section.id }}__button {
     display: inline-block;
@@ -274,7 +280,7 @@
     text-decoration: none;
     border-radius: 4px;
     box-shadow: 0 0 30px {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};
-    align-self: flex-start;
+    align-self: center;
     transition: all 0.3s ease;
     letter-spacing: 1px;
   }

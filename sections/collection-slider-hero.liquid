@@ -1,0 +1,369 @@
+<div class="custom-shoe-slider" id="shoeSlider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+  
+  <!-- Left Column: Static Title -->
+  <div class="custom-shoe-slider__left-title">
+    <h2>{{ section.settings.left_title }}</h2>
+  </div>
+
+  <!-- Center Area: Background Text & Images -->
+  <div class="custom-shoe-slider__center">
+    <!-- Dynamic Background Text -->
+    <div class="custom-shoe-slider__bg-text-container">
+      {% for block in section.blocks %}
+        <div class="custom-shoe-slider__bg-text slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}">
+          {{ block.settings.bg_text }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- The Shoes -->
+    <div class="custom-shoe-slider__images-container">
+      {% for block in section.blocks %}
+        {% assign slide_product = block.settings.product %}
+        {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
+        
+        <div class="custom-shoe-slider__shoe-image slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+          {% if slide_image != blank %}
+            {{ slide_image | image_url: width: 800 | image_tag: class: 'shoe-img' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="custom-shoe-slider__nav-dots">
+      {% for block in section.blocks %}
+        <button class="nav-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Right Column: Dynamic Info -->
+  <div class="custom-shoe-slider__right-info">
+    <div class="custom-shoe-slider__info-container">
+      {% for block in section.blocks %}
+        {% assign slide_product = block.settings.product %}
+        {% assign slide_title = block.settings.custom_title | default: slide_product.title | default: "NIKE AIR MAX PRE-DAY" %}
+        {% assign slide_price = slide_product.price | money | default: "$160.00" %}
+
+        <div class="custom-shoe-slider__info-item slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}">
+          <h3 class="shoe-title">{{ slide_title }}</h3>
+          <p class="shoe-price">{{ slide_price }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+  .custom-shoe-slider {
+    position: relative;
+    width: 100%;
+    min-height: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 5%;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Left Title */
+  .custom-shoe-slider__left-title {
+    flex: 1;
+    z-index: 10;
+  }
+  .custom-shoe-slider__left-title h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: {{ section.settings.left_title_size }}px;
+    font-weight: 300;
+    line-height: 1.1;
+    color: {{ section.settings.text_color }};
+    margin: 0;
+    text-transform: uppercase;
+    white-space: pre-line;
+  }
+
+  /* Center Area */
+  .custom-shoe-slider__center {
+    flex: 2;
+    position: relative;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+
+  /* Background Text */
+  .custom-shoe-slider__bg-text-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .custom-shoe-slider__bg-text {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-size: 200px;
+    font-weight: 900;
+    color: {{ section.settings.text_color | color_modify: 'alpha', 0.05 }}; /* Faded */
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    white-space: nowrap;
+  }
+  .custom-shoe-slider__bg-text.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Shoe Images */
+  .custom-shoe-slider__images-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom-shoe-slider__shoe-image {
+    position: absolute;
+    width: 80%;
+    max-width: 600px;
+    opacity: 0;
+    transform: translateX(50px) rotate(5deg);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .custom-shoe-slider__shoe-image.active {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+  .shoe-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
+  }
+  .shoe-img.placeholder {
+    fill: #333;
+    background-color: transparent;
+  }
+
+  /* Nav Dots */
+  .custom-shoe-slider__nav-dots {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+  }
+  .nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid {{ section.settings.text_color | color_modify: 'alpha', 0.5 }};
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+  .nav-dot.active {
+    background: {{ section.settings.text_color }};
+    border-color: {{ section.settings.text_color }};
+  }
+
+  /* Right Info */
+  .custom-shoe-slider__right-info {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 10;
+  }
+  .custom-shoe-slider__info-container {
+    position: relative;
+    width: 100%;
+    height: 100px;
+  }
+  .custom-shoe-slider__info-item {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) translateX(20px);
+    opacity: 0;
+    text-align: left;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .custom-shoe-slider__info-item.active {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  .shoe-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: {{ section.settings.text_color }};
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .shoe-price {
+    font-size: 22px;
+    font-weight: 400;
+    color: {{ section.settings.text_color }};
+    margin: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 990px) {
+    .custom-shoe-slider {
+      flex-direction: column;
+      padding: 60px 5%;
+    }
+    .custom-shoe-slider__left-title,
+    .custom-shoe-slider__right-info {
+      text-align: center;
+      width: 100%;
+      flex: none;
+    }
+    .custom-shoe-slider__left-title h2 {
+      font-size: 60px;
+    }
+    .custom-shoe-slider__info-item {
+      right: 50%;
+      transform: translateY(-50%) translateX(50%);
+      text-align: center;
+    }
+    .custom-shoe-slider__info-item.active {
+      transform: translateY(-50%) translateX(50%);
+    }
+    .custom-shoe-slider__bg-text {
+      font-size: 100px;
+    }
+    .custom-shoe-slider__center {
+      height: 400px;
+      margin: 40px 0;
+    }
+    .custom-shoe-slider__nav-dots {
+      bottom: -20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const sliderContainer = document.getElementById('shoeSlider-{{ section.id }}');
+    if (!sliderContainer) return;
+
+    const dots = sliderContainer.querySelectorAll('.nav-dot');
+    
+    dots.forEach(dot => {
+      dot.addEventListener('click', function() {
+        const index = this.getAttribute('data-index');
+        
+        // Remove active class from all
+        sliderContainer.querySelectorAll('.slide-item, .nav-dot').forEach(el => {
+          el.classList.remove('active');
+        });
+        
+        // Add active class to corresponding items
+        sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
+          el.classList.add('active');
+        });
+        
+        // Add active to the clicked dot
+        this.classList.add('active');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Carousel Shoes Hero",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F4F4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "textarea",
+      "id": "left_title",
+      "label": "Left Heading",
+      "default": "JUST\nDO\nIT."
+    },
+    {
+      "type": "range",
+      "id": "left_title_size",
+      "label": "Left Heading Size (Desktop)",
+      "min": 40,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Shoe Slide",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product (Auto-fills Image, Title, Price)"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (Transparent PNG recommended, overrides Product image)"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title (Overrides Product Title)"
+        },
+        {
+          "type": "text",
+          "id": "bg_text",
+          "label": "Background Text",
+          "default": "NIKE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carousel Shoes Hero",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}
