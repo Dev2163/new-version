@@ -275,6 +275,9 @@
 <script>
   function initCustomShoeSlider(sliderContainer) {
     const dots = sliderContainer.querySelectorAll('.nav-dot');
+    let currentIndex = 0;
+    const totalSlides = dots.length;
+    let autoPlayInterval;
     
     function goToSlide(index) {
       // Remove active class from all elements in this specific slider
@@ -290,6 +293,27 @@
       // Add active to the clicked dot
       const activeDot = sliderContainer.querySelector(`.nav-dot[data-index="${index}"]`);
       if (activeDot) activeDot.classList.add('active');
+      
+      currentIndex = parseInt(index);
+    }
+
+    function nextSlide() {
+      if (totalSlides === 0) return;
+      let nextIndex = (currentIndex + 1) % totalSlides;
+      goToSlide(nextIndex);
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      if (totalSlides > 1) {
+        autoPlayInterval = setInterval(nextSlide, 4000); // 4 seconds per slide
+      }
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+      }
     }
 
     // Attach click events
@@ -297,11 +321,17 @@
       dot.addEventListener('click', function() {
         const index = this.getAttribute('data-index');
         goToSlide(index);
+        startAutoPlay(); // Reset timer on click
       });
     });
 
+    // Pause auto-scroll on hover, resume on mouse leave
+    sliderContainer.addEventListener('mouseenter', stopAutoPlay);
+    sliderContainer.addEventListener('mouseleave', startAutoPlay);
+
     // Handle Shopify Theme Editor events
     sliderContainer.addEventListener('shopify:block:select', function(event) {
+      stopAutoPlay();
       const block = event.target;
       if (block.classList.contains('slide-item')) {
          const index = block.getAttribute('data-block-index');
@@ -315,6 +345,13 @@
          }
       }
     });
+
+    sliderContainer.addEventListener('shopify:block:deselect', function(event) {
+      startAutoPlay();
+    });
+
+    // Start auto-play on init
+    startAutoPlay();
   }
 
   document.addEventListener("DOMContentLoaded", function() {
