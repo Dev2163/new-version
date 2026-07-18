@@ -7,34 +7,8 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-
 {
   "sections": {
-    "collection_slider_hero": {
-      "type": "collection-slider-hero",
-      "settings": {
-      },
-      "blocks": {
-        "slide_1": {
-          "type": "slide",
-          "settings": {
-            "custom_title": "NIKE AIR MAX",
-            "bg_text": "NIKE"
-          }
-        },
-        "slide_2": {
-          "type": "slide",
-          "settings": {
-            "custom_title": "NIKE RUNNER",
-            "bg_text": "NIKE"
-          }
-        }
-      },
-      "block_order": [
-        "slide_1",
-        "slide_2"
-      ]
-    },
     "hero_p9CmMG": {
       "type": "hero",
       "blocks": {
@@ -100,6 +74,43 @@
         "marquee_bg_color": "#111111",
         "marquee_text_color": "#8a7b5c",
         "card_bg_color": "#1a1a1a"
+      }
+    },
+    "collection_slider_hero": {
+      "type": "collection-slider-hero",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "product": "",
+            "custom_title": "NIKE AIR MAX",
+            "custom_price": "",
+            "bg_text": "NIKE"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "product": "",
+            "custom_title": "NIKE RUNNER",
+            "custom_price": "",
+            "bg_text": "NIKE"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2"
+      ],
+      "disabled": true,
+      "settings": {
+        "bg_color": "#0a0a0a",
+        "text_color": "#ffffff",
+        "accent_color": "#ffd700",
+        "left_title": "JUST\nDO\nIT.",
+        "left_title_size": 100,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "trust_badges_section": {
