@@ -1,0 +1,192 @@
+<section class="trusted-brands-section" style="background-color: {{ section.settings.bg_color }}; padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;">
+  <div class="page-width">
+    {% if section.settings.title != blank %}
+      <h3 class="trusted-brands__title" style="color: {{ section.settings.text_color }};">
+        {{ section.settings.title }}
+      </h3>
+    {% endif %}
+
+    <div class="trusted-brands__grid">
+      {% for block in section.blocks %}
+        <div class="trusted-brands__item" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.image.alt | default: block.settings.title | escape }}" loading="lazy" class="trusted-brands__logo">
+          {% else %}
+            {% if block.settings.title != blank %}
+              <span class="trusted-brands__text-logo" style="color: {{ section.settings.text_color }};">{{ block.settings.title }}</span>
+            {% else %}
+              {{ 'logo' | placeholder_svg_tag: 'placeholder-svg trusted-brands__logo' }}
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .trusted-brands-section {
+    width: 100%;
+    text-align: center;
+  }
+  .trusted-brands__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    letter-spacing: 0.5px;
+  }
+  .trusted-brands__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .trusted-brands__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(25% - 20px);
+    min-width: 120px;
+    height: 80px;
+    background: {{ section.settings.card_bg_color }};
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.3s ease;
+  }
+  .trusted-brands__item:hover {
+    transform: translateY(-3px);
+  }
+  .trusted-brands__logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: {{ section.settings.logo_filter }};
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  .trusted-brands__item:hover .trusted-brands__logo {
+    opacity: 1;
+  }
+  .trusted-brands__text-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .placeholder-svg {
+    fill: #666;
+  }
+
+  @media screen and (max-width: 768px) {
+    .trusted-brands__grid {
+      gap: 15px;
+    }
+    .trusted-brands__item {
+      width: calc(50% - 15px);
+      height: 70px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Trusted Brands",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Trusted By Top Companies"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "logo_filter",
+      "label": "Logo Filter",
+      "options": [
+        { "value": "none", "label": "Original" },
+        { "value": "grayscale(100%)", "label": "Grayscale" },
+        { "value": "invert(1)", "label": "Invert (White)" },
+        { "value": "brightness(0)", "label": "Black" }
+      ],
+      "default": "invert(1)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Brand Name (Text Fallback)",
+          "info": "Used if no image is uploaded"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trusted Brands",
+      "blocks": [
+        { "type": "brand", "settings": { "title": "FILA" } },
+        { "type": "brand", "settings": { "title": "VANS" } },
+        { "type": "brand", "settings": { "title": "ADIDAS" } },
+        { "type": "brand", "settings": { "title": "NEW BALANCE" } },
+        { "type": "brand", "settings": { "title": "UNDER ARMOUR" } },
+        { "type": "brand", "settings": { "title": "REEBOK" } },
+        { "type": "brand", "settings": { "title": "CHANEL" } },
+        { "type": "brand", "settings": { "title": "PUMA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
