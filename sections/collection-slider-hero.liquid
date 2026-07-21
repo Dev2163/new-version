@@ -20,18 +20,7 @@
     <!-- Top Area (Pagination + Main Content) -->
     <div class="ph-top-area">
       
-      <!-- Far Left Pagination -->
-      <div class="ph-pagination">
-        {% assign shoe_count = 0 %}
-        {% for block in section.blocks %}
-          {% if block.type == 'slide' %}
-            {% assign shoe_count = shoe_count | plus: 1 %}
-            <div class="ph-page-num {% if shoe_count == 1 %}is-active{% endif %}" data-index="{{ shoe_count | minus: 1 }}">
-              <span>0{{ shoe_count }}</span>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
+      <!-- Far Left Pagination (Removed) -->
 
       <!-- Left Text Content -->
       <div class="ph-left-content">
@@ -51,20 +40,7 @@
           <p class="ph-desc">{{ section.settings.description | newline_to_br }}</p>
         {% endif %}
         
-        <div class="ph-buttons">
-          {% if section.settings.btn_1_text != blank %}
-            <a href="{{ section.settings.btn_1_url }}" class="ph-btn ph-btn--primary">
-              {{ section.settings.btn_1_text }}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
-          {% endif %}
-          {% if section.settings.btn_2_text != blank %}
-            <a href="{{ section.settings.btn_2_url }}" class="ph-btn ph-btn--secondary">
-              {{ section.settings.btn_2_text }}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            </a>
-          {% endif %}
-        </div>
+        <!-- Buttons (Removed) -->
 
         <!-- Middle Features (Below buttons) -->
         <div class="ph-mid-features">
@@ -99,12 +75,7 @@
 
       <!-- Right Side Thumbnails -->
       <div class="ph-right-thumbs">
-        <div class="ph-view-360">
-          <div class="ph-360-circle">
-            <span>VIEW</span>
-            <strong>360&deg;</strong>
-          </div>
-        </div>
+        <!-- View 360 (Removed) -->
         
         <div class="ph-thumbs-list">
           {% assign thumb_index = 0 %}
@@ -256,7 +227,7 @@
   /* Top Area */
   .ph-top-area {
     display: grid;
-    grid-template-columns: 40px 1fr 1.5fr 80px;
+    grid-template-columns: 1fr 1.5fr 80px;
     align-items: center;
     gap: 1rem;
   }
