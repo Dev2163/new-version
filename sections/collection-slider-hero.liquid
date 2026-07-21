@@ -24,7 +24,7 @@
       <div class="ph-pagination">
         {% assign shoe_count = 0 %}
         {% for block in section.blocks %}
-          {% if block.type == 'shoe' %}
+          {% if block.type == 'slide' %}
             {% assign shoe_count = shoe_count | plus: 1 %}
             <div class="ph-page-num {% if shoe_count == 1 %}is-active{% endif %}" data-index="{{ shoe_count | minus: 1 }}">
               <span>0{{ shoe_count }}</span>
@@ -87,7 +87,7 @@
       <!-- Center Shoe Image -->
       <div class="ph-center-shoe">
         <div class="ph-main-image-wrap">
-          {% assign first_shoe = section.blocks | where: 'type', 'shoe' | first %}
+          {% assign first_shoe = section.blocks | where: 'type', 'slide' | first %}
           {% assign main_image = first_shoe.settings.image | default: first_shoe.settings.product.featured_image %}
           {% if main_image != blank %}
             <img src="{{ main_image | image_url: width: 1000 }}" alt="Hero Shoe" class="ph-main-image" id="PH_MainImage">
@@ -110,7 +110,7 @@
         <div class="ph-thumbs-list">
           {% assign thumb_index = 0 %}
           {% for block in section.blocks %}
-            {% if block.type == 'shoe' %}
+            {% if block.type == 'slide' %}
               {% assign thumb_img = block.settings.image | default: block.settings.product.featured_image %}
               <div class="ph-thumb {% if thumb_index == 0 %}is-active{% endif %}" data-index="{{ thumb_index }}" data-img="{{ thumb_img | image_url: width: 1000 }}" {{ block.shopify_attributes }}>
                 {% if thumb_img != blank %}
@@ -662,7 +662,7 @@
   ],
   "blocks": [
     {
-      "type": "shoe",
+      "type": "slide",
       "name": "Shoe Image",
       "limit": 8,
       "settings": [
@@ -695,9 +695,9 @@
     {
       "name": "Premium OS 2.0 Hero",
       "blocks": [
-        { "type": "shoe" },
-        { "type": "shoe" },
-        { "type": "shoe" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
         { "type": "mid_feature", "settings": { "title": "ULTRA LIGHT", "desc": "Feel the freedom" } },
         { "type": "mid_feature", "settings": { "title": "PREMIUM QUALITY", "desc": "Built to last" } },
         { "type": "mid_feature", "settings": { "title": "ALL DAY COMFORT", "desc": "Move with ease" } },
