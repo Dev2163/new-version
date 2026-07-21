@@ -1,145 +1,128 @@
-<div id="PremiumHero-{{ section.id }}" class="premium-hero" style="background-color: {{ section.settings.bg_color }};">
-  {% if section.settings.bg_image != blank %}
-    <div class="premium-hero__bg-image">
-      {{ section.settings.bg_image | image_url: width: 2000 | image_tag: class: 'premium-hero__bg-img' }}
+<div id="PremiumHero-{{ section.id }}" class="premium-hero" style="background-color: {{ section.settings.bg_color }}; --ph-accent: {{ section.settings.accent_color }}; --ph-text: {{ section.settings.text_color }};">
+  
+  <!-- Background Elements -->
+  <div class="ph-bg-elements">
+    <div class="ph-bg-text">{{ section.settings.bg_text }}</div>
+    <div class="ph-panels">
+      <div class="ph-panel"></div>
+      <div class="ph-panel"></div>
+      <div class="ph-panel"></div>
     </div>
-  {% endif %}
-
-  <!-- Center Background Elements -->
-  <div class="premium-hero__center-bg">
-    <div class="premium-hero__bg-text">ONE</div>
-    <div class="premium-hero__panels">
-      <div class="premium-hero__panel"></div>
-      <div class="premium-hero__panel"></div>
-      <div class="premium-hero__panel"></div>
-    </div>
-    <div class="premium-hero__glow-ring"></div>
-    <div class="premium-hero__glow-ring premium-hero__glow-ring--2"></div>
-    <!-- Particles -->
-    <div class="premium-hero__particles">
-      <div class="particle p1"></div>
-      <div class="particle p2"></div>
-      <div class="particle p3"></div>
-      <div class="particle p4"></div>
-      <div class="particle p5"></div>
+    <div class="ph-glow-ring"></div>
+    <div class="ph-particles">
+      <div class="particle p1"></div><div class="particle p2"></div><div class="particle p3"></div>
+      <div class="particle p4"></div><div class="particle p5"></div>
     </div>
   </div>
 
-  <div class="premium-hero__container">
+  <div class="ph-container">
     
-    <!-- Top Area -->
-    <div class="premium-hero__top-area">
+    <!-- Top Area (Pagination + Main Content) -->
+    <div class="ph-top-area">
       
-      <!-- Left Content -->
-      <div class="premium-hero__left">
+      <!-- Far Left Pagination -->
+      <div class="ph-pagination">
+        {% assign shoe_count = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'shoe' %}
+            {% assign shoe_count = shoe_count | plus: 1 %}
+            <div class="ph-page-num {% if shoe_count == 1 %}is-active{% endif %}" data-index="{{ shoe_count | minus: 1 }}">
+              <span>0{{ shoe_count }}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Left Text Content -->
+      <div class="ph-left-content">
         {% if section.settings.subtitle != blank %}
-          <div class="premium-hero__subtitle-wrap">
-            <span class="premium-hero__subtitle-line"></span>
-            <span class="premium-hero__subtitle">{{ section.settings.subtitle }}</span>
+          <div class="ph-subtitle-wrap">
+            <span class="ph-subtitle-line"></span>
+            <span class="ph-subtitle">{{ section.settings.subtitle }}</span>
           </div>
         {% endif %}
         
-        <h1 class="premium-hero__title">
-          <span class="premium-hero__title-line1">{{ section.settings.title_1 }}</span>
-          <br>
-          <span class="premium-hero__title-line2">{{ section.settings.title_2 }}</span>
+        <h1 class="ph-title">
+          <span class="ph-title-1">{{ section.settings.title_1 }}</span><br>
+          <span class="ph-title-2">{{ section.settings.title_2 }}</span>
         </h1>
         
         {% if section.settings.description != blank %}
-          <p class="premium-hero__desc">{{ section.settings.description }}</p>
+          <p class="ph-desc">{{ section.settings.description | newline_to_br }}</p>
         {% endif %}
         
-        <div class="premium-hero__buttons">
-          {% if section.settings.primary_btn_text != blank %}
-            <a href="{{ section.settings.primary_btn_url }}" class="premium-btn premium-btn--primary">
-              {{ section.settings.primary_btn_text }}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        <div class="ph-buttons">
+          {% if section.settings.btn_1_text != blank %}
+            <a href="{{ section.settings.btn_1_url }}" class="ph-btn ph-btn--primary">
+              {{ section.settings.btn_1_text }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
           {% endif %}
-          {% if section.settings.secondary_btn_text != blank %}
-            <a href="{{ section.settings.secondary_btn_url }}" class="premium-btn premium-btn--secondary">
-              {{ section.settings.secondary_btn_text }}
+          {% if section.settings.btn_2_text != blank %}
+            <a href="{{ section.settings.btn_2_url }}" class="ph-btn ph-btn--secondary">
+              {{ section.settings.btn_2_text }}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
             </a>
           {% endif %}
         </div>
 
-        <!-- Middle Features (Hardcoded Icons as per design, editable text could be added but omitted for brevity, keeping it close to the visual) -->
-        <div class="premium-hero__mid-features">
-          <div class="mid-feature">
-            <div class="mid-feature__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
-            </div>
-            <div class="mid-feature__text">
-              <strong>ULTRA LIGHT</strong>
-              <span>Feel the freedom</span>
-            </div>
-          </div>
-          <div class="mid-feature">
-            <div class="mid-feature__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-            </div>
-            <div class="mid-feature__text">
-              <strong>PREMIUM QUALITY</strong>
-              <span>Built to last</span>
-            </div>
-          </div>
-          <div class="mid-feature">
-            <div class="mid-feature__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-            </div>
-            <div class="mid-feature__text">
-              <strong>ALL DAY COMFORT</strong>
-              <span>Move with ease</span>
-            </div>
-          </div>
+        <!-- Middle Features (Below buttons) -->
+        <div class="ph-mid-features">
+          {% for block in section.blocks %}
+            {% if block.type == 'mid_feature' %}
+              <div class="ph-mid-feat" {{ block.shopify_attributes }}>
+                <div class="ph-mid-icon">
+                  {% if block.settings.icon != blank %}{{ block.settings.icon }}{% else %}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>{% endif %}
+                </div>
+                <div class="ph-mid-text">
+                  <strong>{{ block.settings.title }}</strong>
+                  <span>{{ block.settings.desc }}</span>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
 
-      <!-- Center Image -->
-      <div class="premium-hero__center">
-        {% assign first_thumb = section.blocks | where: 'type', 'thumbnail' | first %}
-        {% assign main_image = section.settings.main_image %}
-        {% if first_thumb and main_image == blank %}
-          {% assign main_image = first_thumb.settings.image %}
-        {% endif %}
-        
-        <div class="premium-hero__main-image-wrap">
-          {% if main_image != blank %}
-            {{ main_image | image_url: width: 1000 | image_tag: class: 'premium-hero__main-image', id: 'PremiumMainImage' }}
+      <!-- Center Shoe Image -->
+      <div class="ph-center-shoe">
+        <div class="ph-main-image-wrap">
+          {% assign first_shoe = section.blocks | where: 'type', 'shoe' | first %}
+          {% if first_shoe != blank and first_shoe.settings.image != blank %}
+            <img src="{{ first_shoe.settings.image | image_url: width: 1000 }}" alt="Hero Shoe" class="ph-main-image" id="PH_MainImage">
           {% else %}
-            {{ 'product-1' | placeholder_svg_tag: 'premium-hero__main-image placeholder' }}
+            {{ 'product-1' | placeholder_svg_tag: 'ph-main-image placeholder' }}
           {% endif %}
         </div>
       </div>
 
       <!-- Right Side Thumbnails -->
-      <div class="premium-hero__right">
-        <div class="premium-hero__view-360">
-          <div class="view-360-circle">
+      <div class="ph-right-thumbs">
+        <div class="ph-view-360">
+          <div class="ph-360-circle">
             <span>VIEW</span>
             <strong>360&deg;</strong>
           </div>
-          <div class="view-360-line"></div>
+          <div class="ph-360-line"></div>
         </div>
         
-        <div class="premium-hero__thumbnails">
-          {% assign thumb_count = 0 %}
+        <div class="ph-thumbs-list">
+          {% assign thumb_index = 0 %}
           {% for block in section.blocks %}
-            {% if block.type == 'thumbnail' and thumb_count < 8 %}
-              {% assign thumb_count = thumb_count | plus: 1 %}
-              <div class="premium-hero__thumb {% if forloop.first %}is-active{% endif %}" data-image-url="{{ block.settings.image | image_url: width: 1000 }}" {{ block.shopify_attributes }}>
+            {% if block.type == 'shoe' %}
+              <div class="ph-thumb {% if thumb_index == 0 %}is-active{% endif %}" data-index="{{ thumb_index }}" data-img="{{ block.settings.image | image_url: width: 1000 }}" {{ block.shopify_attributes }}>
                 {% if block.settings.image != blank %}
-                  {{ block.settings.image | image_url: width: 150 | image_tag: class: 'thumb-img' }}
+                  <img src="{{ block.settings.image | image_url: width: 150 }}" alt="Thumb" class="ph-thumb-img">
                 {% else %}
-                  {{ 'product-2' | placeholder_svg_tag: 'thumb-img placeholder' }}
+                  {{ 'product-2' | placeholder_svg_tag: 'ph-thumb-img placeholder' }}
                 {% endif %}
               </div>
+              {% assign thumb_index = thumb_index | plus: 1 %}
             {% endif %}
           {% endfor %}
           
-          <div class="premium-hero__thumb-scroll-down">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="ph-scroll-down">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </div>
         </div>
       </div>
@@ -147,137 +130,96 @@
     </div>
 
     <!-- Bottom Features -->
-    <div class="premium-hero__bottom-features">
-      <div class="premium-hero__bottom-features-inner">
-        {% for block in section.blocks %}
-          {% if block.type == 'bottom_feature' %}
-            <div class="bottom-feature" {{ block.shopify_attributes }}>
-              <div class="bottom-feature__icon">
-                {% if block.settings.custom_icon != blank %}
-                  {{ block.settings.custom_icon }}
-                {% else %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                {% endif %}
-              </div>
-              <div class="bottom-feature__text">
-                <h4>{{ block.settings.title }}</h4>
-                <p>{{ block.settings.description }}</p>
-              </div>
+    <div class="ph-bottom-features">
+      {% for block in section.blocks %}
+        {% if block.type == 'bottom_feature' %}
+          <div class="ph-bot-feat" {{ block.shopify_attributes }}>
+            <div class="ph-bot-icon">
+              {% if block.settings.icon != blank %}{{ block.settings.icon }}{% else %}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>{% endif %}
             </div>
-          {% endif %}
-        {% endfor %}
-      </div>
+            <div class="ph-bot-text">
+              <h4>{{ block.settings.title }}</h4>
+              <p>{{ block.settings.desc }}</p>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
 
   </div>
 </div>
 
 <style>
-  :root {
-    --ph-bg: {{ section.settings.bg_color }};
-    --ph-accent: {{ section.settings.accent_color }};
-    --ph-text: {{ section.settings.text_color }};
-    --ph-text-dim: {{ section.settings.text_color | color_modify: 'alpha', 0.6 }};
-    --ph-border: {{ section.settings.text_color | color_modify: 'alpha', 0.1 }};
-  }
-
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@300;400;600;700&display=swap');
 
-  #PremiumHero-{{ section.id }} {
+  .premium-hero {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: var(--ph-bg);
     color: var(--ph-text);
     font-family: 'Inter', sans-serif;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2rem 0;
+    padding: 40px 0 0 0;
   }
 
-  .premium-hero__bg-image {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    opacity: 0.3;
-  }
-  .premium-hero__bg-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Center Background Elements */
-  .premium-hero__center-bg {
+  /* Background Elements */
+  .ph-bg-elements {
     position: absolute;
     inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2;
     pointer-events: none;
+    z-index: 1;
   }
-  
-  .premium-hero__bg-text {
+  .ph-bg-text {
     position: absolute;
     font-family: 'Oswald', sans-serif;
-    font-size: clamp(150px, 35vw, 500px);
+    font-size: clamp(200px, 40vw, 600px);
     font-weight: 700;
     color: transparent;
     -webkit-text-stroke: 2px rgba(255,255,255,0.03);
-    letter-spacing: -5px;
-    line-height: 1;
-    z-index: 1;
+    letter-spacing: -10px;
+    line-height: 0.8;
   }
-
-  .premium-hero__panels {
+  .ph-panels {
     position: absolute;
     display: flex;
-    gap: 40px;
-    z-index: 2;
-    height: 100vh;
-    transform: skewX(-10deg);
+    gap: 30px;
+    height: 120vh;
+    transform: skewX(-12deg);
   }
-  .premium-hero__panel {
-    width: 80px;
+  .ph-panel {
+    width: 90px;
     height: 100%;
     background: var(--ph-accent);
-    opacity: 0.15;
-    box-shadow: 0 0 50px var(--ph-accent);
+    opacity: 0.3;
+    box-shadow: 0 0 80px var(--ph-accent);
   }
-
-  .premium-hero__glow-ring {
+  .ph-glow-ring {
     position: absolute;
     width: 800px;
-    height: 300px;
+    height: 350px;
     border: 2px solid var(--ph-accent);
     border-radius: 50%;
-    opacity: 0.2;
+    opacity: 0.25;
     transform: rotate(-15deg);
-    box-shadow: 0 0 30px var(--ph-accent), inset 0 0 30px var(--ph-accent);
-    z-index: 2;
+    box-shadow: 0 0 40px var(--ph-accent), inset 0 0 40px var(--ph-accent);
   }
-  .premium-hero__glow-ring--2 {
-    width: 1000px;
-    height: 400px;
-    opacity: 0.1;
-    transform: rotate(10deg);
-  }
-
-  .premium-hero__particles {
+  .ph-particles {
     position: absolute;
     inset: 0;
-    z-index: 3;
   }
   .particle {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
     background: var(--ph-accent);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--ph-accent);
+    box-shadow: 0 0 8px var(--ph-accent);
     animation: floatParticle 10s infinite linear;
   }
   .p1 { top: 20%; left: 30%; animation-duration: 8s; }
@@ -293,346 +235,334 @@
   }
 
   /* Main Container */
-  .premium-hero__container {
+  .ph-container {
     position: relative;
     z-index: 10;
-    max-width: 1600px;
+    max-width: 1700px;
     margin: 0 auto;
     width: 100%;
-    padding: 0 4%;
+    padding: 0 3%;
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 3rem;
   }
 
   /* Top Area */
-  .premium-hero__top-area {
+  .ph-top-area {
     display: grid;
-    grid-template-columns: 1fr 1.5fr auto;
+    grid-template-columns: 40px 1fr 1.2fr 80px;
     align-items: center;
-    gap: 2rem;
+    gap: 3rem;
+  }
+
+  /* Pagination */
+  .ph-pagination {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+  }
+  .ph-page-num {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: right;
+    padding-right: 15px;
+  }
+  .ph-page-num::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 0;
+    background: var(--ph-accent);
+    transition: 0.3s;
+  }
+  .ph-page-num.is-active {
+    color: var(--ph-accent);
+    font-weight: 700;
+  }
+  .ph-page-num.is-active::after {
+    height: 25px;
   }
 
   /* Left Content */
-  .premium-hero__left {
+  .ph-left-content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
-
-  .premium-hero__subtitle-wrap {
+  .ph-subtitle-wrap {
     display: flex;
     align-items: center;
     gap: 12px;
   }
-  .premium-hero__subtitle-line {
+  .ph-subtitle-line {
     width: 3px;
     height: 16px;
     background-color: var(--ph-accent);
   }
-  .premium-hero__subtitle {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 2px;
+  .ph-subtitle {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
     color: var(--ph-accent);
-  }
-
-  .premium-hero__title {
-    font-family: 'Oswald', sans-serif;
-    font-size: clamp(60px, 8vw, 120px);
-    line-height: 0.95;
-    margin: 0;
     text-transform: uppercase;
   }
-  .premium-hero__title-line1 {
-    color: var(--ph-text);
+  .ph-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(60px, 7vw, 130px);
+    line-height: 0.9;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -1px;
   }
-  .premium-hero__title-line2 {
-    color: var(--ph-accent);
-  }
-
-  .premium-hero__desc {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--ph-text-dim);
+  .ph-title-1 { color: var(--ph-text); }
+  .ph-title-2 { color: var(--ph-accent); }
+  .ph-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
     max-width: 400px;
     margin: 0;
   }
-
-  .premium-hero__buttons {
+  .ph-buttons {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 10px;
   }
-  .premium-btn {
+  .ph-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     padding: 14px 28px;
     border-radius: 30px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
     cursor: pointer;
   }
-  .premium-btn--primary {
+  .ph-btn--primary {
     background-color: var(--ph-accent);
-    color: var(--ph-bg);
-    box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
+    color: #000;
+    box-shadow: 0 10px 20px rgba(255, 140, 0, 0.2);
   }
-  .premium-btn--primary:hover {
+  .ph-btn--primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 25px rgba(255, 140, 0, 0.5);
+    box-shadow: 0 15px 25px rgba(255, 140, 0, 0.4);
   }
-  .premium-btn--secondary {
-    background-color: transparent;
+  .ph-btn--secondary {
+    background-color: rgba(255,255,255,0.03);
     color: var(--ph-text);
-    border: 1px solid var(--ph-border);
+    border: 1px solid rgba(255,255,255,0.15);
   }
-  .premium-btn--secondary:hover {
+  .ph-btn--secondary:hover {
     border-color: var(--ph-text);
-    background-color: rgba(255,255,255,0.05);
+    background-color: rgba(255,255,255,0.1);
   }
 
-  .premium-hero__mid-features {
+  /* Mid Features */
+  .ph-mid-features {
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     margin-top: 2rem;
-    border-top: 1px solid var(--ph-border);
-    padding-top: 2rem;
   }
-  .mid-feature {
+  .ph-mid-feat {
     display: flex;
     align-items: center;
     gap: 12px;
   }
-  .mid-feature__icon {
-    width: 40px;
-    height: 40px;
+  .ph-mid-icon {
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    border: 1px solid var(--ph-border);
+    border: 1px solid rgba(255,255,255,0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--ph-text);
   }
-  .mid-feature__text {
+  .ph-mid-icon svg { width: 16px; height: 16px; }
+  .ph-mid-text {
     display: flex;
     flex-direction: column;
     font-size: 11px;
   }
-  .mid-feature__text strong {
+  .ph-mid-text strong {
     font-weight: 700;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
-  .mid-feature__text span {
-    color: var(--ph-text-dim);
-  }
+  .ph-mid-text span { color: rgba(255,255,255,0.5); }
 
-  /* Center Image */
-  .premium-hero__center {
+  /* Center Shoe */
+  .ph-center-shoe {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    z-index: 5;
   }
-  .premium-hero__main-image-wrap {
+  .ph-main-image-wrap {
     width: 100%;
-    max-width: 800px;
-    position: relative;
-    animation: floatingShoe 6s ease-in-out infinite;
+    max-width: 850px;
+    animation: floatShoe 6s ease-in-out infinite;
   }
-  .premium-hero__main-image {
+  .ph-main-image {
     width: 100%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 30px 30px rgba(0,0,0,0.8));
+    filter: drop-shadow(0 40px 30px rgba(0,0,0,0.9));
     transform: rotate(-15deg);
-    transition: opacity 0.5s ease;
+    transition: opacity 0.4s ease;
   }
-  .premium-hero__main-image.fade-out {
-    opacity: 0;
-  }
-
-  @keyframes floatingShoe {
+  .ph-main-image.fade-out { opacity: 0; }
+  @keyframes floatShoe {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
   }
 
-  /* Right Side Thumbnails */
-  .premium-hero__right {
+  /* Right Thumbnails */
+  .ph-right-thumbs {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
   }
-  .premium-hero__view-360 {
+  .ph-view-360 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
-  .view-360-circle {
-    width: 70px;
-    height: 70px;
+  .ph-360-circle {
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
-    border: 1px solid var(--ph-text);
+    border: 1px solid rgba(255,255,255,0.3);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 9px;
     line-height: 1.2;
     letter-spacing: 1px;
   }
-  .view-360-circle strong {
-    font-size: 16px;
-  }
-  .view-360-line {
+  .ph-360-circle strong { font-size: 15px; }
+  .ph-360-line {
     width: 1px;
-    height: 30px;
-    background-color: var(--ph-border);
+    height: 35px;
+    background-color: rgba(255,255,255,0.2);
   }
-
-  .premium-hero__thumbnails {
+  .ph-thumbs-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    align-items: center;
   }
-  .premium-hero__thumb {
-    width: 60px;
-    height: 60px;
+  .ph-thumb {
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
-    border: 2px solid var(--ph-border);
-    padding: 5px;
+    border: 2px solid rgba(255,255,255,0.1);
+    padding: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: rgba(255,255,255,0.02);
+    transition: 0.3s;
+    background: rgba(255,255,255,0.03);
   }
-  .premium-hero__thumb:hover {
-    border-color: var(--ph-text-dim);
-  }
-  .premium-hero__thumb.is-active {
+  .ph-thumb:hover { border-color: rgba(255,255,255,0.3); }
+  .ph-thumb.is-active {
     border-color: var(--ph-accent);
     transform: scale(1.1);
   }
-  .thumb-img {
+  .ph-thumb-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     transform: rotate(-15deg);
   }
-  .premium-hero__thumb-scroll-down {
+  .ph-scroll-down {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 1px solid var(--ph-border);
+    border: 1px solid rgba(255,255,255,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px auto 0;
-    color: var(--ph-text-dim);
+    margin-top: 10px;
+    color: rgba(255,255,255,0.5);
     cursor: pointer;
   }
-  .premium-hero__thumb-scroll-down:hover {
-    color: var(--ph-text);
-    border-color: var(--ph-text);
+  .ph-scroll-down:hover {
+    color: #fff;
+    border-color: #fff;
   }
 
   /* Bottom Features */
-  .premium-hero__bottom-features {
+  .ph-bottom-features {
     width: 100%;
-    border-top: 1px solid var(--ph-border);
-    border-bottom: 1px solid var(--ph-border);
-    background-color: rgba(255,255,255,0.01);
-  }
-  .premium-hero__bottom-features-inner {
+    border-top: 1px solid rgba(255,255,255,0.08);
     display: flex;
     justify-content: space-between;
-    padding: 1.5rem 0;
+    padding: 2rem 0;
   }
-  .bottom-feature {
+  .ph-bot-feat {
     display: flex;
     align-items: center;
     gap: 15px;
     flex: 1;
     justify-content: center;
   }
-  .bottom-feature:not(:last-child) {
-    border-right: 1px solid var(--ph-border);
+  .ph-bot-feat:not(:last-child) {
+    border-right: 1px solid rgba(255,255,255,0.08);
   }
-  .bottom-feature__icon {
+  .ph-bot-icon {
     color: var(--ph-text);
     display: flex;
   }
-  .bottom-feature__text h4 {
-    margin: 0 0 4px 0;
+  .ph-bot-icon svg { width: 26px; height: 26px; }
+  .ph-bot-text h4 {
+    margin: 0 0 5px 0;
     font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
-  .bottom-feature__text p {
+  .ph-bot-text p {
     margin: 0;
     font-size: 12px;
-    color: var(--ph-text-dim);
+    color: rgba(255,255,255,0.5);
   }
 
   /* Responsive */
   @media (max-width: 1200px) {
-    .premium-hero__top-area {
-      grid-template-columns: 1fr 1fr auto;
-    }
-    .premium-hero__mid-features {
-      flex-wrap: wrap;
-    }
+    .ph-top-area { grid-template-columns: 1fr 1fr auto; }
+    .ph-pagination { display: none; }
+    .ph-mid-features { flex-wrap: wrap; }
   }
 
   @media (max-width: 990px) {
-    .premium-hero__top-area {
+    .ph-top-area {
       grid-template-columns: 1fr;
       text-align: center;
       gap: 3rem;
     }
-    .premium-hero__left {
-      align-items: center;
-    }
-    .premium-hero__mid-features {
-      justify-content: center;
-    }
-    .premium-hero__right {
-      flex-direction: row;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .premium-hero__thumbnails {
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .view-360-line {
-      width: 30px;
-      height: 1px;
-    }
-    .premium-hero__view-360 {
-      flex-direction: row;
-    }
-    .premium-hero__bottom-features-inner {
-      flex-direction: column;
-      gap: 2rem;
-    }
-    .bottom-feature:not(:last-child) {
-      border-right: none;
-      border-bottom: 1px solid var(--ph-border);
-      padding-bottom: 2rem;
-    }
-    .premium-hero__bg-text {
-      font-size: 150px;
-    }
+    .ph-left-content { align-items: center; }
+    .ph-mid-features { justify-content: center; }
+    .ph-right-thumbs { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+    .ph-thumbs-list { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .ph-360-line { width: 30px; height: 1px; }
+    .ph-view-360 { flex-direction: row; }
+    .ph-bottom-features { flex-direction: column; gap: 2rem; border-top: none; }
+    .ph-bot-feat:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2rem; }
   }
 </style>
 
@@ -641,8 +571,9 @@
     const section = document.getElementById('PremiumHero-{{ section.id }}');
     if (!section) return;
 
-    const mainImage = section.querySelector('#PremiumMainImage');
-    const thumbnails = section.querySelectorAll('.premium-hero__thumb');
+    const mainImage = section.querySelector('#PH_MainImage');
+    const thumbnails = section.querySelectorAll('.ph-thumb');
+    const paginations = section.querySelectorAll('.ph-page-num');
     
     if (thumbnails.length === 0) return;
 
@@ -652,24 +583,24 @@
     function goToSlide(index) {
       if (index < 0 || index >= thumbnails.length) return;
       
-      // Remove active class
+      // Update Thumbs
       thumbnails.forEach(t => t.classList.remove('is-active'));
-      
-      const targetThumb = thumbnails[index];
-      targetThumb.classList.add('is-active');
+      thumbnails[index].classList.add('is-active');
+
+      // Update Pagination
+      paginations.forEach(p => p.classList.remove('is-active'));
+      if(paginations[index]) paginations[index].classList.add('is-active');
+
       currentIndex = index;
 
-      const newImageUrl = targetThumb.getAttribute('data-image-url');
+      // Update Main Image
+      const newImageUrl = thumbnails[index].getAttribute('data-img');
       if (newImageUrl && mainImage) {
         mainImage.classList.add('fade-out');
-        
         setTimeout(() => {
           mainImage.src = newImageUrl;
-          mainImage.srcset = newImageUrl; 
-          mainImage.onload = () => {
-            mainImage.classList.remove('fade-out');
-          };
-        }, 300); // match transition time
+          mainImage.onload = () => mainImage.classList.remove('fade-out');
+        }, 300);
       }
     }
 
@@ -681,28 +612,31 @@
     function startAutoPlay() {
       stopAutoPlay();
       if (thumbnails.length > 1) {
-        autoPlayInterval = setInterval(nextSlide, 4000); // 4 seconds per slide
+        autoPlayInterval = setInterval(nextSlide, 4000);
       }
     }
 
     function stopAutoPlay() {
-      if (autoPlayInterval) {
-        clearInterval(autoPlayInterval);
-      }
+      if (autoPlayInterval) clearInterval(autoPlayInterval);
     }
 
     thumbnails.forEach((thumb, index) => {
-      thumb.addEventListener('click', function() {
+      thumb.addEventListener('click', () => {
         goToSlide(index);
-        startAutoPlay(); // Reset timer on manual click
+        startAutoPlay();
+      });
+    });
+    
+    paginations.forEach((page, index) => {
+      page.addEventListener('click', () => {
+        goToSlide(index);
+        startAutoPlay();
       });
     });
 
-    // Pause on hover
     section.addEventListener('mouseenter', stopAutoPlay);
     section.addEventListener('mouseleave', startAutoPlay);
 
-    // Initial start
     startAutoPlay();
   });
 </script>
@@ -711,121 +645,46 @@
 {
   "name": "Premium OS 2.0 Hero",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "main_image",
-      "label": "Main Hero Shoe Image (Fallback)",
-      "info": "Used if no thumbnail blocks are added."
-    },
-    {
-      "type": "image_picker",
-      "id": "bg_image",
-      "label": "Background Image (Optional)"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#0a0a0a"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color",
-      "default": "#FF8C00"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "header",
-      "content": "Left Content"
-    },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "NEW ARRIVAL"
-    },
-    {
-      "type": "text",
-      "id": "title_1",
-      "label": "Title Line 1",
-      "default": "MOVE"
-    },
-    {
-      "type": "text",
-      "id": "title_2",
-      "label": "Title Line 2",
-      "default": "DIFFERENT."
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Engineered for performance. Styled for you.\nStep into comfort. Stand out anywhere."
-    },
-    {
-      "type": "text",
-      "id": "primary_btn_text",
-      "label": "Primary Button Text",
-      "default": "SHOP NOW"
-    },
-    {
-      "type": "url",
-      "id": "primary_btn_url",
-      "label": "Primary Button URL"
-    },
-    {
-      "type": "text",
-      "id": "secondary_btn_text",
-      "label": "Secondary Button Text",
-      "default": "EXPLORE"
-    },
-    {
-      "type": "url",
-      "id": "secondary_btn_url",
-      "label": "Secondary Button URL"
-    }
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#0e0e11" },
+    { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#ff7b00" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "text", "id": "bg_text", "label": "Background Large Text", "default": "ONE" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "NEW ARRIVAL" },
+    { "type": "text", "id": "title_1", "label": "Title Line 1", "default": "MOVE" },
+    { "type": "text", "id": "title_2", "label": "Title Line 2", "default": "DIFFERENT." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Engineered for performance. Styled for you.\nStep into comfort. Stand out anywhere." },
+    { "type": "text", "id": "btn_1_text", "label": "Primary Button Text", "default": "SHOP NOW" },
+    { "type": "url", "id": "btn_1_url", "label": "Primary Button URL" },
+    { "type": "text", "id": "btn_2_text", "label": "Secondary Button Text", "default": "EXPLORE" },
+    { "type": "url", "id": "btn_2_url", "label": "Secondary Button URL" }
   ],
   "blocks": [
     {
-      "type": "thumbnail",
+      "type": "shoe",
       "name": "Shoe Image",
       "limit": 8,
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Shoe Image"
-        }
+        { "type": "image_picker", "id": "image", "label": "Shoe Image" }
+      ]
+    },
+    {
+      "type": "mid_feature",
+      "name": "Middle Feature (Limit 3)",
+      "limit": 3,
+      "settings": [
+        { "type": "html", "id": "icon", "label": "Icon (SVG HTML)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "FEATURE" },
+        { "type": "text", "id": "desc", "label": "Description", "default": "Feature description" }
       ]
     },
     {
       "type": "bottom_feature",
-      "name": "Bottom Feature",
+      "name": "Bottom Feature (Limit 4)",
       "limit": 4,
       "settings": [
-        {
-          "type": "html",
-          "id": "custom_icon",
-          "label": "Custom Icon (SVG)"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "FREE SHIPPING"
-        },
-        {
-          "type": "text",
-          "id": "description",
-          "label": "Description",
-          "default": "On all orders over $75"
-        }
+        { "type": "html", "id": "icon", "label": "Icon (SVG HTML)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "FEATURE" },
+        { "type": "text", "id": "desc", "label": "Description", "default": "Feature description" }
       ]
     }
   ],
@@ -833,30 +692,15 @@
     {
       "name": "Premium OS 2.0 Hero",
       "blocks": [
-        { "type": "thumbnail" },
-        { "type": "thumbnail" },
-        { "type": "thumbnail" },
-        {
-          "type": "bottom_feature",
-          "settings": {
-            "title": "FREE SHIPPING",
-            "description": "On all orders over $75"
-          }
-        },
-        {
-          "type": "bottom_feature",
-          "settings": {
-            "title": "EASY RETURNS",
-            "description": "30-day money back guarantee"
-          }
-        },
-        {
-          "type": "bottom_feature",
-          "settings": {
-            "title": "SECURE PAYMENT",
-            "description": "100% secure checkout"
-          }
-        }
+        { "type": "shoe" },
+        { "type": "shoe" },
+        { "type": "shoe" },
+        { "type": "mid_feature", "settings": { "title": "ULTRA LIGHT", "desc": "Feel the freedom" } },
+        { "type": "mid_feature", "settings": { "title": "PREMIUM QUALITY", "desc": "Built to last" } },
+        { "type": "mid_feature", "settings": { "title": "ALL DAY COMFORT", "desc": "Move with ease" } },
+        { "type": "bottom_feature", "settings": { "title": "FREE SHIPPING", "desc": "On all orders over $75" } },
+        { "type": "bottom_feature", "settings": { "title": "EASY RETURNS", "desc": "30-day money back guarantee" } },
+        { "type": "bottom_feature", "settings": { "title": "SECURE PAYMENT", "desc": "100% secure checkout" } }
       ]
     }
   ]
