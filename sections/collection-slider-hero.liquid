@@ -252,9 +252,9 @@
   /* Top Area */
   .ph-top-area {
     display: grid;
-    grid-template-columns: 40px 1fr 1.2fr 80px;
+    grid-template-columns: 40px 1fr 1.5fr 80px;
     align-items: center;
-    gap: 3rem;
+    gap: 1rem;
   }
 
   /* Pagination */
@@ -415,7 +415,7 @@
   }
   .ph-main-image-wrap {
     width: 100%;
-    max-width: 850px;
+    max-width: 1200px;
     animation: floatShoe 6s ease-in-out infinite;
   }
   .ph-main-image {
@@ -423,7 +423,7 @@
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 40px 30px rgba(0,0,0,0.9));
-    transform: rotate(-15deg);
+    transform: rotate(-15deg) scale(1.2);
     transition: opacity 0.4s ease;
   }
   .ph-main-image.fade-out { opacity: 0; }
@@ -569,9 +569,12 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  function initPHSlider_{{ section.id | replace: '-', '_' }}() {
     const section = document.getElementById('PremiumHero-{{ section.id }}');
     if (!section) return;
+
+    if (section.dataset.sliderInitialized) return;
+    section.dataset.sliderInitialized = 'true';
 
     const mainImage = section.querySelector('#PH_MainImage');
     const thumbnails = section.querySelectorAll('.ph-thumb');
@@ -640,7 +643,23 @@
     section.addEventListener('mouseleave', startAutoPlay);
 
     startAutoPlay();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPHSlider_{{ section.id | replace: '-', '_' }});
+  } else {
+    initPHSlider_{{ section.id | replace: '-', '_' }}();
+  }
+
+  if (window.Shopify && Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        const sec = document.getElementById('PremiumHero-{{ section.id }}');
+        if (sec) sec.dataset.sliderInitialized = ''; // reset so it can re-init
+        initPHSlider_{{ section.id | replace: '-', '_' }}();
+      }
+    });
+  }
 </script>
 
 {% schema %}
