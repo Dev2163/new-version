@@ -140,9 +140,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0 30px;
-    margin-bottom: auto;
+    padding: 30px 20px;
+    margin-bottom: 15px;
     text-decoration: none;
+    background-color: #ffffff;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
   }
 
   .dark-shoe-card__image {
@@ -151,7 +155,7 @@
     height: auto;
     object-fit: contain;
     transition: transform 0.4s ease;
-    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
+    /* Optional: filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); if they want shadow on white */
   }
   
   .dark-shoe-card:hover .dark-shoe-card__image {
@@ -168,13 +172,13 @@
   .dark-shoe-card__swatches {
     display: flex;
     gap: 8px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     align-items: center;
   }
 
   .dark-shoe-card__swatch {
-    width: 16px;
-    height: 16px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.2);
     display: inline-block;
