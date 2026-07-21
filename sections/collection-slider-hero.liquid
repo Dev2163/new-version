@@ -52,7 +52,7 @@
   .custom-shoe-slider {
     position: relative;
     width: 100%;
-    min-height: 700px;
+    min-height: 500px; /* Reduced from 700px to remove extra space */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -163,9 +163,10 @@
     .custom-shoe-slider {
       flex-direction: column;
       height: auto;
-      min-height: 100svh; /* Perfect full screen on mobile */
-      padding: 100px 5% 40px;
-      justify-content: space-between;
+      min-height: auto; /* Removed 100svh to remove extra space */
+      padding: 60px 5% 40px; /* Reduced top padding */
+      justify-content: center;
+      gap: 30px;
     }
     
     .custom-shoe-slider__left-title {
@@ -183,8 +184,8 @@
     .custom-shoe-slider__center {
       width: 100%;
       flex: 1; /* Allow it to take up remaining middle space */
-      height: 400px;
-      margin: 20px 0;
+      height: 320px; /* Reduced to avoid extra space on mobile */
+      margin: 10px 0;
     }
     .custom-shoe-slider__shoe-image {
       width: 90%;
