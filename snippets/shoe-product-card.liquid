@@ -33,16 +33,22 @@
   <div class="dark-shoe-card__details">
     <!-- Swatches -->
     <div class="dark-shoe-card__swatches">
-      {%- assign color_options = product.options_with_values | where: 'name', 'Color' -%}
-      {%- if color_options.size > 0 -%}
-        {%- for value in color_options[0].values limit: 4 -%}
-          <span class="dark-shoe-card__swatch" style="background-color: {{ value | handleize }};" title="{{ value }}"></span>
+      {%- assign related_colors = product.metafields.custom.related_colors.value -%}
+      {%- if related_colors != blank -%}
+        <!-- Current product swatch -->
+        <a href="{{ product.url }}" class="dark-shoe-card__swatch is-active" style="background-image: url({{ product.featured_media | image_url: width: 40 }}); background-size: cover; background-position: center;" title="{{ product.title }}"></a>
+        <!-- Related colors swatches -->
+        {%- for related_product in related_colors limit: 4 -%}
+          <a href="{{ related_product.url }}" class="dark-shoe-card__swatch" style="background-image: url({{ related_product.featured_media | image_url: width: 40 }}); background-size: cover; background-position: center;" title="{{ related_product.title }}"></a>
         {%- endfor -%}
       {%- else -%}
-        <!-- Dummy swatches for aesthetic if no variants -->
-        <span class="dark-shoe-card__swatch" style="background-color: #ffffff;"></span>
-        <span class="dark-shoe-card__swatch" style="background-color: #333333;"></span>
-        <span class="dark-shoe-card__swatch" style="background-color: #d35400;"></span>
+        <!-- Fallback if no related colors -->
+        {%- assign color_options = product.options_with_values | where: 'name', 'Color' -%}
+        {%- if color_options.size > 0 -%}
+          {%- for value in color_options[0].values limit: 4 -%}
+            <span class="dark-shoe-card__swatch" style="background-color: {{ value | handleize }};" title="{{ value }}"></span>
+          {%- endfor -%}
+        {%- endif -%}
       {%- endif -%}
     </div>
 
@@ -149,15 +155,23 @@
     display: flex;
     gap: 8px;
     margin-bottom: 4px;
+    align-items: center;
   }
 
   .dark-shoe-card__swatch {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.2);
     display: inline-block;
     cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .dark-shoe-card__swatch:hover,
+  .dark-shoe-card__swatch.is-active {
+    border-color: #FF8C00;
+    transform: scale(1.1);
   }
 
   .dark-shoe-card__title {
