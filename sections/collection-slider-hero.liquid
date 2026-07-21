@@ -588,14 +588,15 @@
     .ph-panels {
       left: 50%;
       height: 100%;
+      opacity: 0.2; /* Faded on tablet so text remains readable */
     }
     .ph-glow-ring {
       width: 120%;
       left: -10%;
     }
 
-    .ph-right-thumbs { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 15px; }
-    .ph-view-360 { margin-bottom: 0; }
+    .ph-right-thumbs { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .ph-view-360 { display: none; } /* Hide 360 circle on mobile to save space */
     .ph-thumbs-list { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .ph-scroll-down { display: none; } /* Hide scroll down in row layout */
     
@@ -619,12 +620,13 @@
     
     /* Scale down shoe and panels for mobile */
     .ph-main-image { transform: rotate(-10deg) scale(1); }
-    .ph-panels { gap: 10px; }
-    .ph-panel { width: 50px; }
+    .ph-panels { 
+      gap: 10px; 
+      opacity: 0.1; /* Very faint on small screens */
+    }
+    .ph-panel { width: 30px; } /* Thinner panels on mobile */
     
-    .ph-thumb { width: 50px; height: 50px; padding: 5px; }
-    .ph-360-circle { width: 60px; height: 60px; }
-    .ph-360-circle strong { font-size: 14px; }
+    .ph-thumb { width: 45px; height: 45px; padding: 4px; }
   }
 </style>
 
