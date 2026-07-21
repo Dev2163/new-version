@@ -35,11 +35,34 @@
     <div class="dark-shoe-card__swatches">
       {%- assign related_colors = product.metafields.custom.related_colors.value -%}
       {%- if related_colors != blank -%}
+        
+        {%- assign current_in_list = false -%}
+        {%- for related_item in related_colors -%}
+          {%- if related_item.id == product.id -%}
+            {%- assign current_in_list = true -%}
+          {%- endif -%}
+        {%- endfor -%}
+
         <!-- Current product swatch -->
-        <a href="{{ product.url }}" class="dark-shoe-card__swatch is-active" style="background-image: url({{ product.featured_media | image_url: width: 40 }}); background-size: cover; background-position: center;" title="{{ product.title }}"></a>
+        {%- if current_in_list == false -%}
+          <a href="{{ product.url }}" class="dark-shoe-card__swatch is-active" style="background: #fff; overflow: hidden; display: flex; justify-content: center; align-items: center;" title="{{ product.title }}">
+            <img src="{{ product.featured_media | image_url: width: 40 }}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
+          </a>
+        {%- endif -%}
+
         <!-- Related colors swatches -->
-        {%- for related_product in related_colors limit: 4 -%}
-          <a href="{{ related_product.url }}" class="dark-shoe-card__swatch" style="background-image: url({{ related_product.featured_media | image_url: width: 40 }}); background-size: cover; background-position: center;" title="{{ related_product.title }}"></a>
+        {%- for related_item in related_colors limit: 5 -%}
+          {%- assign is_current = false -%}
+          {%- if related_item.id == product.id -%}
+            {%- assign is_current = true -%}
+          {%- endif -%}
+          
+          <a href="{{ related_item.url }}" class="dark-shoe-card__swatch {% if is_current %}is-active{% endif %}" style="background: #fff; overflow: hidden; display: flex; justify-content: center; align-items: center;" title="{{ related_item.title }}">
+            {%- assign swatch_img = related_item.featured_media | default: related_item.image -%}
+            {%- if swatch_img -%}
+              <img src="{{ swatch_img | image_url: width: 40 }}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
+            {%- endif -%}
+          </a>
         {%- endfor -%}
       {%- else -%}
         <!-- Fallback if no related colors -->
