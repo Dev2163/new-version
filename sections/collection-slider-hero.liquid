@@ -643,30 +643,67 @@
 
     const mainImage = section.querySelector('#PremiumMainImage');
     const thumbnails = section.querySelectorAll('.premium-hero__thumb');
+    
+    if (thumbnails.length === 0) return;
 
-    thumbnails.forEach(thumb => {
-      thumb.addEventListener('click', function() {
-        // Remove active class
-        thumbnails.forEach(t => t.classList.remove('is-active'));
+    let currentIndex = 0;
+    let autoPlayInterval;
+
+    function goToSlide(index) {
+      if (index < 0 || index >= thumbnails.length) return;
+      
+      // Remove active class
+      thumbnails.forEach(t => t.classList.remove('is-active'));
+      
+      const targetThumb = thumbnails[index];
+      targetThumb.classList.add('is-active');
+      currentIndex = index;
+
+      const newImageUrl = targetThumb.getAttribute('data-image-url');
+      if (newImageUrl && mainImage) {
+        mainImage.classList.add('fade-out');
         
-        // Add active class
-        this.classList.add('is-active');
+        setTimeout(() => {
+          mainImage.src = newImageUrl;
+          mainImage.srcset = newImageUrl; 
+          mainImage.onload = () => {
+            mainImage.classList.remove('fade-out');
+          };
+        }, 300); // match transition time
+      }
+    }
 
-        const newImageUrl = this.getAttribute('data-image-url');
-        if (newImageUrl && mainImage) {
-          mainImage.classList.add('fade-out');
-          
-          setTimeout(() => {
-            mainImage.src = newImageUrl;
-            // Support srcset if available, though we use src here primarily
-            mainImage.srcset = newImageUrl; 
-            mainImage.onload = () => {
-              mainImage.classList.remove('fade-out');
-            };
-          }, 300); // match transition time
-        }
+    function nextSlide() {
+      let nextIndex = (currentIndex + 1) % thumbnails.length;
+      goToSlide(nextIndex);
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      if (thumbnails.length > 1) {
+        autoPlayInterval = setInterval(nextSlide, 4000); // 4 seconds per slide
+      }
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+      }
+    }
+
+    thumbnails.forEach((thumb, index) => {
+      thumb.addEventListener('click', function() {
+        goToSlide(index);
+        startAutoPlay(); // Reset timer on manual click
       });
     });
+
+    // Pause on hover
+    section.addEventListener('mouseenter', stopAutoPlay);
+    section.addEventListener('mouseleave', startAutoPlay);
+
+    // Initial start
+    startAutoPlay();
   });
 </script>
 
