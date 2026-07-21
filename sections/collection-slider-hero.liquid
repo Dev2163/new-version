@@ -1,300 +1,690 @@
-<div class="custom-shoe-slider" id="shoeSlider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
-  
-  <!-- Left Column: Static Title -->
-  <div class="custom-shoe-slider__left-title">
-    <h2>{{ section.settings.left_title }}</h2>
+<div id="PremiumHero-{{ section.id }}" class="premium-hero" style="background-color: {{ section.settings.bg_color }};">
+  {% if section.settings.bg_image != blank %}
+    <div class="premium-hero__bg-image">
+      {{ section.settings.bg_image | image_url: width: 2000 | image_tag: class: 'premium-hero__bg-img' }}
+    </div>
+  {% endif %}
+
+  <!-- Center Background Elements -->
+  <div class="premium-hero__center-bg">
+    <div class="premium-hero__bg-text">ONE</div>
+    <div class="premium-hero__panels">
+      <div class="premium-hero__panel"></div>
+      <div class="premium-hero__panel"></div>
+      <div class="premium-hero__panel"></div>
+    </div>
+    <div class="premium-hero__glow-ring"></div>
+    <div class="premium-hero__glow-ring premium-hero__glow-ring--2"></div>
+    <!-- Particles -->
+    <div class="premium-hero__particles">
+      <div class="particle p1"></div>
+      <div class="particle p2"></div>
+      <div class="particle p3"></div>
+      <div class="particle p4"></div>
+      <div class="particle p5"></div>
+    </div>
   </div>
 
-  <!-- Center Area: Background Text & Images -->
-  <div class="custom-shoe-slider__center">
-    <!-- Dynamic Background Text -->
-    <div class="custom-shoe-slider__bg-text-container">
-      {% for block in section.blocks %}
-        <div class="custom-shoe-slider__bg-text slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-          {{ block.settings.bg_text }}
-        </div>
-      {% endfor %}
-    </div>
-
-    <!-- The Shoes -->
-    <div class="custom-shoe-slider__images-container">
-      {% for block in section.blocks %}
-        {% assign slide_product = block.settings.product %}
-        {% assign slide_image = block.settings.custom_image | default: slide_product.featured_image %}
+  <div class="premium-hero__container">
+    
+    <!-- Top Area -->
+    <div class="premium-hero__top-area">
+      
+      <!-- Left Content -->
+      <div class="premium-hero__left">
+        {% if section.settings.subtitle != blank %}
+          <div class="premium-hero__subtitle-wrap">
+            <span class="premium-hero__subtitle-line"></span>
+            <span class="premium-hero__subtitle">{{ section.settings.subtitle }}</span>
+          </div>
+        {% endif %}
         
-        <div class="custom-shoe-slider__shoe-image slide-item slide-{{ forloop.index0 }} {% if forloop.first %}active{% endif %}" data-block-index="{{ forloop.index0 }}">
-          {% if slide_image != blank %}
-            {{ slide_image | image_url: width: 1000 | image_tag: class: 'shoe-img' }}
-          {% else %}
-            {{ 'product-1' | placeholder_svg_tag: 'shoe-img placeholder' }}
+        <h1 class="premium-hero__title">
+          <span class="premium-hero__title-line1">{{ section.settings.title_1 }}</span>
+          <br>
+          <span class="premium-hero__title-line2">{{ section.settings.title_2 }}</span>
+        </h1>
+        
+        {% if section.settings.description != blank %}
+          <p class="premium-hero__desc">{{ section.settings.description }}</p>
+        {% endif %}
+        
+        <div class="premium-hero__buttons">
+          {% if section.settings.primary_btn_text != blank %}
+            <a href="{{ section.settings.primary_btn_url }}" class="premium-btn premium-btn--primary">
+              {{ section.settings.primary_btn_text }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          {% endif %}
+          {% if section.settings.secondary_btn_text != blank %}
+            <a href="{{ section.settings.secondary_btn_url }}" class="premium-btn premium-btn--secondary">
+              {{ section.settings.secondary_btn_text }}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            </a>
           {% endif %}
         </div>
-      {% endfor %}
+
+        <!-- Middle Features (Hardcoded Icons as per design, editable text could be added but omitted for brevity, keeping it close to the visual) -->
+        <div class="premium-hero__mid-features">
+          <div class="mid-feature">
+            <div class="mid-feature__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+            </div>
+            <div class="mid-feature__text">
+              <strong>ULTRA LIGHT</strong>
+              <span>Feel the freedom</span>
+            </div>
+          </div>
+          <div class="mid-feature">
+            <div class="mid-feature__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </div>
+            <div class="mid-feature__text">
+              <strong>PREMIUM QUALITY</strong>
+              <span>Built to last</span>
+            </div>
+          </div>
+          <div class="mid-feature">
+            <div class="mid-feature__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            </div>
+            <div class="mid-feature__text">
+              <strong>ALL DAY COMFORT</strong>
+              <span>Move with ease</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Image -->
+      <div class="premium-hero__center">
+        {% assign first_thumb = section.blocks | where: 'type', 'thumbnail' | first %}
+        {% assign main_image = section.settings.main_image %}
+        {% if first_thumb and main_image == blank %}
+          {% assign main_image = first_thumb.settings.image %}
+        {% endif %}
+        
+        <div class="premium-hero__main-image-wrap">
+          {% if main_image != blank %}
+            {{ main_image | image_url: width: 1000 | image_tag: class: 'premium-hero__main-image', id: 'PremiumMainImage' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'premium-hero__main-image placeholder' }}
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Right Side Thumbnails -->
+      <div class="premium-hero__right">
+        <div class="premium-hero__view-360">
+          <div class="view-360-circle">
+            <span>VIEW</span>
+            <strong>360&deg;</strong>
+          </div>
+          <div class="view-360-line"></div>
+        </div>
+        
+        <div class="premium-hero__thumbnails">
+          {% assign thumb_count = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'thumbnail' and thumb_count < 8 %}
+              {% assign thumb_count = thumb_count | plus: 1 %}
+              <div class="premium-hero__thumb {% if forloop.first %}is-active{% endif %}" data-image-url="{{ block.settings.image | image_url: width: 1000 }}" {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 150 | image_tag: class: 'thumb-img' }}
+                {% else %}
+                  {{ 'product-2' | placeholder_svg_tag: 'thumb-img placeholder' }}
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+          
+          <div class="premium-hero__thumb-scroll-down">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+      </div>
+      
     </div>
 
+    <!-- Bottom Features -->
+    <div class="premium-hero__bottom-features">
+      <div class="premium-hero__bottom-features-inner">
+        {% for block in section.blocks %}
+          {% if block.type == 'bottom_feature' %}
+            <div class="bottom-feature" {{ block.shopify_attributes }}>
+              <div class="bottom-feature__icon">
+                {% if block.settings.custom_icon != blank %}
+                  {{ block.settings.custom_icon }}
+                {% else %}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                {% endif %}
+              </div>
+              <div class="bottom-feature__text">
+                <h4>{{ block.settings.title }}</h4>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
+
   </div>
-
-
-
 </div>
 
 <style>
-  #shopify-section-{{ section.id }} {
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    background-color: {{ section.settings.bg_color }};
+  :root {
+    --ph-bg: {{ section.settings.bg_color }};
+    --ph-accent: {{ section.settings.accent_color }};
+    --ph-text: {{ section.settings.text_color }};
+    --ph-text-dim: {{ section.settings.text_color | color_modify: 'alpha', 0.6 }};
+    --ph-border: {{ section.settings.text_color | color_modify: 'alpha', 0.1 }};
   }
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
 
-  .custom-shoe-slider {
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@300;400;600;700&display=swap');
+
+  #PremiumHero-{{ section.id }} {
     position: relative;
     width: 100%;
-    min-height: 500px; /* Reduced from 700px to remove extra space */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    min-height: 100vh;
+    background-color: var(--ph-bg);
+    color: var(--ph-text);
+    font-family: 'Inter', sans-serif;
     overflow: hidden;
-    padding: {{ section.settings.padding_top }}px 8% {{ section.settings.padding_bottom }}px;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Left Title */
-  .custom-shoe-slider__left-title {
-    flex: 1;
-    z-index: 10;
     display: flex;
-    justify-content: flex-start;
-  }
-  .custom-shoe-slider__left-title h2 {
-    font-family: 'Inter', sans-serif;
-    font-size: {{ section.settings.left_title_size }}px;
-    font-weight: 900;
-    line-height: 0.95;
-    color: {{ section.settings.accent_color }};
-    margin: 0;
-    text-transform: uppercase;
-    white-space: pre-line;
-    letter-spacing: -3px;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
-
-  /* Center Area */
-  .custom-shoe-slider__center {
-    flex: 2;
-    position: relative;
-    height: 100%;
-    display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    z-index: 5;
+    padding: 2rem 0;
   }
 
-  /* Background Text - Premium Stroke Effect */
-  .custom-shoe-slider__bg-text-container {
+  .premium-hero__bg-image {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.3;
+  }
+  .premium-hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Center Background Elements */
+  .premium-hero__center-bg {
     position: absolute;
     inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
   }
-  .custom-shoe-slider__bg-text {
+  
+  .premium-hero__bg-text {
     position: absolute;
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(80px, 15vw, 250px); /* Scaled down to fit properly */
-    font-weight: 900;
-    color: {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }};
-    -webkit-text-stroke: 1px {{ section.settings.accent_color | color_modify: 'alpha', 0.3 }};
-    text-transform: uppercase;
-    letter-spacing: 0px;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    white-space: nowrap;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(150px, 35vw, 500px);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.03);
+    letter-spacing: -5px;
     line-height: 1;
-  }
-  .custom-shoe-slider__bg-text.active {
-    opacity: 1;
-    transform: scale(1);
+    z-index: 1;
   }
 
-  /* Shoe Images */
-  .custom-shoe-slider__images-container {
-    position: relative;
-    width: 100%;
+  .premium-hero__panels {
+    position: absolute;
+    display: flex;
+    gap: 40px;
+    z-index: 2;
+    height: 100vh;
+    transform: skewX(-10deg);
+  }
+  .premium-hero__panel {
+    width: 80px;
     height: 100%;
+    background: var(--ph-accent);
+    opacity: 0.15;
+    box-shadow: 0 0 50px var(--ph-accent);
+  }
+
+  .premium-hero__glow-ring {
+    position: absolute;
+    width: 800px;
+    height: 300px;
+    border: 2px solid var(--ph-accent);
+    border-radius: 50%;
+    opacity: 0.2;
+    transform: rotate(-15deg);
+    box-shadow: 0 0 30px var(--ph-accent), inset 0 0 30px var(--ph-accent);
+    z-index: 2;
+  }
+  .premium-hero__glow-ring--2 {
+    width: 1000px;
+    height: 400px;
+    opacity: 0.1;
+    transform: rotate(10deg);
+  }
+
+  .premium-hero__particles {
+    position: absolute;
+    inset: 0;
     z-index: 3;
+  }
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--ph-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--ph-accent);
+    animation: floatParticle 10s infinite linear;
+  }
+  .p1 { top: 20%; left: 30%; animation-duration: 8s; }
+  .p2 { top: 60%; left: 70%; animation-duration: 12s; }
+  .p3 { top: 40%; left: 60%; animation-duration: 15s; }
+  .p4 { top: 70%; left: 30%; animation-duration: 11s; }
+  .p5 { top: 30%; left: 80%; animation-duration: 9s; }
+
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+  }
+
+  /* Main Container */
+  .premium-hero__container {
+    position: relative;
+    z-index: 10;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 4%;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  /* Top Area */
+  .premium-hero__top-area {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr auto;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Left Content */
+  .premium-hero__left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .premium-hero__subtitle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .premium-hero__subtitle-line {
+    width: 3px;
+    height: 16px;
+    background-color: var(--ph-accent);
+  }
+  .premium-hero__subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--ph-accent);
+  }
+
+  .premium-hero__title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(60px, 8vw, 120px);
+    line-height: 0.95;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .premium-hero__title-line1 {
+    color: var(--ph-text);
+  }
+  .premium-hero__title-line2 {
+    color: var(--ph-accent);
+  }
+
+  .premium-hero__desc {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ph-text-dim);
+    max-width: 400px;
+    margin: 0;
+  }
+
+  .premium-hero__buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .premium-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .premium-btn--primary {
+    background-color: var(--ph-accent);
+    color: var(--ph-bg);
+    box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
+  }
+  .premium-btn--primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(255, 140, 0, 0.5);
+  }
+  .premium-btn--secondary {
+    background-color: transparent;
+    color: var(--ph-text);
+    border: 1px solid var(--ph-border);
+  }
+  .premium-btn--secondary:hover {
+    border-color: var(--ph-text);
+    background-color: rgba(255,255,255,0.05);
+  }
+
+  .premium-hero__mid-features {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--ph-border);
+    padding-top: 2rem;
+  }
+  .mid-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .mid-feature__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--ph-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ph-text);
+  }
+  .mid-feature__text {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+  }
+  .mid-feature__text strong {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .mid-feature__text span {
+    color: var(--ph-text-dim);
+  }
+
+  /* Center Image */
+  .premium-hero__center {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
-  .custom-shoe-slider__shoe-image {
-    position: absolute;
-    width: 80%;
-    max-width: 650px;
-    opacity: 0;
-    transform: translateX(150px) rotate(15deg) scale(0.85);
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  .premium-hero__main-image-wrap {
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    animation: floatingShoe 6s ease-in-out infinite;
   }
-  .custom-shoe-slider__shoe-image.active {
-    opacity: 1;
-    transform: translateX(0) rotate(-15deg) scale(0.95); /* Match Nike tilt and slight scale up */
-  }
-  .shoe-img {
+  .premium-hero__main-image {
     width: 100%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(-30px 40px 30px rgba(0,0,0,0.6)); /* Very heavy drop shadow for deep 3D effect */
+    filter: drop-shadow(0 30px 30px rgba(0,0,0,0.8));
+    transform: rotate(-15deg);
+    transition: opacity 0.5s ease;
   }
-  .shoe-img.placeholder {
-    fill: #333;
-    background-color: transparent;
+  .premium-hero__main-image.fade-out {
+    opacity: 0;
   }
 
+  @keyframes floatingShoe {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
 
+  /* Right Side Thumbnails */
+  .premium-hero__right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .premium-hero__view-360 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .view-360-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 1px solid var(--ph-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 1.2;
+    letter-spacing: 1px;
+  }
+  .view-360-circle strong {
+    font-size: 16px;
+  }
+  .view-360-line {
+    width: 1px;
+    height: 30px;
+    background-color: var(--ph-border);
+  }
 
-  /* Responsive Design - Mobile Pro */
+  .premium-hero__thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .premium-hero__thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--ph-border);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: rgba(255,255,255,0.02);
+  }
+  .premium-hero__thumb:hover {
+    border-color: var(--ph-text-dim);
+  }
+  .premium-hero__thumb.is-active {
+    border-color: var(--ph-accent);
+    transform: scale(1.1);
+  }
+  .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: rotate(-15deg);
+  }
+  .premium-hero__thumb-scroll-down {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--ph-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto 0;
+    color: var(--ph-text-dim);
+    cursor: pointer;
+  }
+  .premium-hero__thumb-scroll-down:hover {
+    color: var(--ph-text);
+    border-color: var(--ph-text);
+  }
+
+  /* Bottom Features */
+  .premium-hero__bottom-features {
+    width: 100%;
+    border-top: 1px solid var(--ph-border);
+    border-bottom: 1px solid var(--ph-border);
+    background-color: rgba(255,255,255,0.01);
+  }
+  .premium-hero__bottom-features-inner {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+  }
+  .bottom-feature {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    justify-content: center;
+  }
+  .bottom-feature:not(:last-child) {
+    border-right: 1px solid var(--ph-border);
+  }
+  .bottom-feature__icon {
+    color: var(--ph-text);
+    display: flex;
+  }
+  .bottom-feature__text h4 {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .bottom-feature__text p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ph-text-dim);
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .premium-hero__top-area {
+      grid-template-columns: 1fr 1fr auto;
+    }
+    .premium-hero__mid-features {
+      flex-wrap: wrap;
+    }
+  }
+
   @media (max-width: 990px) {
-    .custom-shoe-slider {
-      flex-direction: column;
-      height: auto;
-      min-height: auto; /* Removed 100svh to remove extra space */
-      padding: 60px 5% 40px; /* Reduced top padding */
-      justify-content: center;
-      gap: 30px;
-    }
-    
-    .custom-shoe-slider__left-title {
-      width: 100%;
-      flex: none;
-      justify-content: center;
+    .premium-hero__top-area {
+      grid-template-columns: 1fr;
       text-align: center;
+      gap: 3rem;
     }
-    .custom-shoe-slider__left-title h2 {
-      font-size: clamp(60px, 15vw, 120px);
-      letter-spacing: -2px;
-      white-space: normal; /* Allow wrapping on mobile */
+    .premium-hero__left {
+      align-items: center;
     }
-
-    .custom-shoe-slider__center {
-      width: 100%;
-      flex: 1; /* Allow it to take up remaining middle space */
-      height: 320px; /* Reduced to avoid extra space on mobile */
-      margin: 10px 0;
+    .premium-hero__mid-features {
+      justify-content: center;
     }
-    .custom-shoe-slider__shoe-image {
-      width: 90%;
-      max-width: 500px;
+    .premium-hero__right {
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    .custom-shoe-slider__shoe-image.active {
-      transform: translateX(0) rotate(-10deg) scale(1.0);
+    .premium-hero__thumbnails {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
     }
-    .shoe-img {
-      filter: drop-shadow(-10px 20px 20px rgba(0,0,0,0.6));
+    .view-360-line {
+      width: 30px;
+      height: 1px;
     }
-    .custom-shoe-slider__bg-text {
-      font-size: clamp(60px, 18vw, 150px); /* Better mobile sizing */
-      -webkit-text-stroke: 1px {{ section.settings.accent_color | color_modify: 'alpha', 0.3 }};
+    .premium-hero__view-360 {
+      flex-direction: row;
     }
-
-
-
-
+    .premium-hero__bottom-features-inner {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .bottom-feature:not(:last-child) {
+      border-right: none;
+      border-bottom: 1px solid var(--ph-border);
+      padding-bottom: 2rem;
+    }
+    .premium-hero__bg-text {
+      font-size: 150px;
+    }
   }
 </style>
 
 <script>
-  function initCustomShoeSlider(sliderContainer) {
-    const slideElements = sliderContainer.querySelectorAll('.custom-shoe-slider__bg-text');
-    let currentIndex = 0;
-    const totalSlides = slideElements.length;
-    let autoPlayInterval;
-    
-    function goToSlide(index) {
-      // Remove active class from all elements in this specific slider
-      sliderContainer.querySelectorAll('.slide-item').forEach(el => {
-        el.classList.remove('active');
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('PremiumHero-{{ section.id }}');
+    if (!section) return;
+
+    const mainImage = section.querySelector('#PremiumMainImage');
+    const thumbnails = section.querySelectorAll('.premium-hero__thumb');
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+        // Remove active class
+        thumbnails.forEach(t => t.classList.remove('is-active'));
+        
+        // Add active class
+        this.classList.add('is-active');
+
+        const newImageUrl = this.getAttribute('data-image-url');
+        if (newImageUrl && mainImage) {
+          mainImage.classList.add('fade-out');
+          
+          setTimeout(() => {
+            mainImage.src = newImageUrl;
+            // Support srcset if available, though we use src here primarily
+            mainImage.srcset = newImageUrl; 
+            mainImage.onload = () => {
+              mainImage.classList.remove('fade-out');
+            };
+          }, 300); // match transition time
+        }
       });
-      
-      // Add active class to corresponding items
-      sliderContainer.querySelectorAll(`.slide-${index}`).forEach(el => {
-        el.classList.add('active');
-      });
-      
-      currentIndex = parseInt(index);
-    }
-
-    function nextSlide() {
-      if (totalSlides === 0) return;
-      let nextIndex = (currentIndex + 1) % totalSlides;
-      goToSlide(nextIndex);
-    }
-
-    function startAutoPlay() {
-      stopAutoPlay();
-      if (totalSlides > 1) {
-        autoPlayInterval = setInterval(nextSlide, 4000); // 4 seconds per slide
-      }
-    }
-
-    function stopAutoPlay() {
-      if (autoPlayInterval) {
-        clearInterval(autoPlayInterval);
-      }
-    }
-
-    // Pause auto-scroll on hover, resume on mouse leave
-    sliderContainer.addEventListener('mouseenter', stopAutoPlay);
-    sliderContainer.addEventListener('mouseleave', startAutoPlay);
-
-    // Handle Shopify Theme Editor events
-    sliderContainer.addEventListener('shopify:block:select', function(event) {
-      stopAutoPlay();
-      const block = event.target;
-      if (block.classList.contains('slide-item')) {
-         const index = block.getAttribute('data-block-index');
-         if(index !== null) goToSlide(index);
-      } else {
-         // Fallback if the event target is the wrapper (Shopify wraps blocks)
-         const slideItem = block.querySelector('.slide-item');
-         if (slideItem) {
-           const index = slideItem.getAttribute('data-block-index');
-           if(index !== null) goToSlide(index);
-         }
-      }
     });
-
-    sliderContainer.addEventListener('shopify:block:deselect', function(event) {
-      startAutoPlay();
-    });
-
-    // Start auto-play on init
-    startAutoPlay();
-  }
-
-  document.addEventListener("DOMContentLoaded", function() {
-    const sliders = document.querySelectorAll('.custom-shoe-slider');
-    sliders.forEach(slider => initCustomShoeSlider(slider));
-  });
-
-  // Handle section reload in Theme Editor
-  document.addEventListener('shopify:section:load', function(event) {
-    const slider = event.target.querySelector('.custom-shoe-slider');
-    if (slider) {
-      initCustomShoeSlider(slider);
-    }
   });
 </script>
 
 {% schema %}
 {
-  "name": "Carousel Shoes Hero",
+  "name": "Premium OS 2.0 Hero",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Hero Shoe Image (Fallback)",
+      "info": "Used if no thumbnail blocks are added."
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image (Optional)"
+    },
     {
       "type": "color",
       "id": "bg_color",
@@ -303,94 +693,133 @@
     },
     {
       "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#FF8C00"
+    },
+    {
+      "type": "color",
       "id": "text_color",
       "label": "Text Color",
       "default": "#ffffff"
     },
     {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color (Gold)",
-      "default": "#FFD700"
+      "type": "header",
+      "content": "Left Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "NEW ARRIVAL"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title Line 1",
+      "default": "MOVE"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title Line 2",
+      "default": "DIFFERENT."
     },
     {
       "type": "textarea",
-      "id": "left_title",
-      "label": "Left Heading",
-      "default": "JUST\nDO\nIT."
+      "id": "description",
+      "label": "Description",
+      "default": "Engineered for performance. Styled for you.\nStep into comfort. Stand out anywhere."
     },
     {
-      "type": "range",
-      "id": "left_title_size",
-      "label": "Left Heading Size (Desktop)",
-      "min": 40,
-      "max": 150,
-      "step": 2,
-      "unit": "px",
-      "default": 100
+      "type": "text",
+      "id": "primary_btn_text",
+      "label": "Primary Button Text",
+      "default": "SHOP NOW"
     },
     {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 150,
-      "step": 5,
-      "unit": "px",
-      "label": "Top Spacing",
-      "default": 0
+      "type": "url",
+      "id": "primary_btn_url",
+      "label": "Primary Button URL"
     },
     {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 150,
-      "step": 5,
-      "unit": "px",
-      "label": "Bottom Spacing",
-      "default": 0
+      "type": "text",
+      "id": "secondary_btn_text",
+      "label": "Secondary Button Text",
+      "default": "EXPLORE"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_url",
+      "label": "Secondary Button URL"
     }
   ],
   "blocks": [
     {
-      "type": "slide",
-      "name": "Shoe Slide",
+      "type": "thumbnail",
+      "name": "Shoe Image",
+      "limit": 8,
       "settings": [
         {
-          "type": "product",
-          "id": "product",
-          "label": "Select Product (Auto-fills Image, Title, Price)"
-        },
-        {
           "type": "image_picker",
-          "id": "custom_image",
-          "label": "Custom Image (Transparent PNG recommended, overrides Product image)"
+          "id": "image",
+          "label": "Shoe Image"
+        }
+      ]
+    },
+    {
+      "type": "bottom_feature",
+      "name": "Bottom Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "html",
+          "id": "custom_icon",
+          "label": "Custom Icon (SVG)"
         },
         {
           "type": "text",
-          "id": "custom_title",
-          "label": "Custom Title (Overrides Product Title)"
+          "id": "title",
+          "label": "Title",
+          "default": "FREE SHIPPING"
         },
         {
           "type": "text",
-          "id": "custom_price",
-          "label": "Custom Price (Overrides Product Price, e.g. $160)"
-        },
-        {
-          "type": "text",
-          "id": "bg_text",
-          "label": "Background Text",
-          "default": "NIKE"
+          "id": "description",
+          "label": "Description",
+          "default": "On all orders over $75"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Carousel Shoes Hero",
+      "name": "Premium OS 2.0 Hero",
       "blocks": [
-        { "type": "slide" },
-        { "type": "slide" },
-        { "type": "slide" }
+        { "type": "thumbnail" },
+        { "type": "thumbnail" },
+        { "type": "thumbnail" },
+        {
+          "type": "bottom_feature",
+          "settings": {
+            "title": "FREE SHIPPING",
+            "description": "On all orders over $75"
+          }
+        },
+        {
+          "type": "bottom_feature",
+          "settings": {
+            "title": "EASY RETURNS",
+            "description": "30-day money back guarantee"
+          }
+        },
+        {
+          "type": "bottom_feature",
+          "settings": {
+            "title": "SECURE PAYMENT",
+            "description": "100% secure checkout"
+          }
+        }
       ]
     }
   ]
