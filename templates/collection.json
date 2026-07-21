@@ -12,38 +12,46 @@
     "collection_slider_hero": {
       "type": "collection-slider-hero",
       "blocks": {
+        "slide_cT6Bh4": {
+          "type": "slide",
+          "settings": {
+            "product": "",
+            "image": "shopify://shop_images/8_13-0091_copy_2-min_0df278ed_thumbnail_4096.png"
+          }
+        },
         "slide_1": {
           "type": "slide",
           "settings": {
             "product": "",
-            "custom_image": "shopify://shop_images/7_2_a05053ab_thumbnail_4096.png",
-            "custom_title": "NIKE AIR MAX",
-            "custom_price": "",
-            "bg_text": "NIKE"
+            "image": "shopify://shop_images/8_5-0266_copy-min_67cb45d2_thumbnail_4096.png"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
             "product": "",
-            "custom_title": "NIKE RUNNER",
-            "custom_price": "",
-            "bg_text": "NIKE"
+            "image": "shopify://shop_images/9_1_a0237ea6_thumbnail_4096.png"
           }
         }
       },
       "block_order": [
+        "slide_cT6Bh4",
         "slide_1",
         "slide_2"
       ],
       "settings": {
         "bg_color": "#000000",
-        "text_color": "#ffffff",
         "accent_color": "#ffd700",
-        "left_title": "JUST\nDO\nIT.",
-        "left_title_size": 80,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "text_color": "#ffffff",
+        "bg_text": "ONE",
+        "subtitle": "NEW ARRIVAL",
+        "title_1": "MOVE",
+        "title_2": "DIFFERENT.",
+        "description": "Engineered for performance. Styled for you.\nStep into comfort. Stand out anywhere.",
+        "btn_1_text": "SHOP NOW",
+        "btn_1_url": "",
+        "btn_2_text": "EXPLORE",
+        "btn_2_url": ""
       }
     },
     "trusted_brands": {
