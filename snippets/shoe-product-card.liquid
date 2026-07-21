@@ -1,5 +1,5 @@
 {%- doc -%}
-  Custom Product Card specifically designed for Shoes.
+  Custom Product Card specifically designed for Shoes (Dark Theme).
   Usage: {% render 'shoe-product-card', product: product %}
 {%- enddoc -%}
 
@@ -8,80 +8,67 @@
   assign featured_image = current_variant.featured_image | default: product.featured_media.preview_image
 -%}
 
-<div class="custom-shoe-card">
-  <!-- Top Section: Title & Price -->
-  <div class="custom-shoe-card__header">
-    <div class="custom-shoe-card__title-group">
-      <span class="custom-shoe-card__category">{{ product.type | default: 'Shoes' }}</span>
-      <h3 class="custom-shoe-card__title">
-        <a href="{{ product.url }}" class="custom-shoe-card__link">{{ product.title }}</a>
-      </h3>
-      
-      <!-- Color Swatches (Placeholder or real if available) -->
-      <div class="custom-shoe-card__colors">
-        {%- assign color_options = product.options_with_values | where: 'name', 'Color' -%}
-        {%- if color_options.size > 0 -%}
-          {%- for value in color_options[0].values -%}
-            <span class="custom-shoe-card__color-dot" style="background-color: {{ value | handleize }};" title="{{ value }}"></span>
-          {%- endfor -%}
-        {%- else -%}
-          <!-- Default colored dots if no variant found (for the aesthetic) -->
-          <span class="custom-shoe-card__color-dot" style="background-color: #D35400;"></span>
-          <span class="custom-shoe-card__color-dot" style="background-color: #F1C40F;"></span>
-          <span class="custom-shoe-card__color-dot" style="background-color: #27AE60;"></span>
-          <span class="custom-shoe-card__color-dot" style="background-color: #2980B9;"></span>
-        {%- endif -%}
-      </div>
-    </div>
-    
-    <div class="custom-shoe-card__price">
-      {{ product.price | money }}
-    </div>
-  </div>
+<div class="dark-shoe-card">
+  <!-- Top Badge -->
+  {%- if product.available == false -%}
+    <div class="dark-shoe-card__badge dark-shoe-card__badge--soldout">Sold Out</div>
+  {%- elsif product.tags contains 'New' or product.tags contains 'new' -%}
+    <div class="dark-shoe-card__badge dark-shoe-card__badge--new">NEW</div>
+  {%- endif -%}
 
-  <!-- Middle Section: Image -->
-  <a href="{{ product.url }}" class="custom-shoe-card__image-wrapper">
+  <!-- Image -->
+  <a href="{{ product.url }}" class="dark-shoe-card__image-link">
     {%- if featured_image -%}
       <img 
         src="{{ featured_image | image_url: width: 600 }}" 
         alt="{{ featured_image.alt | escape }}" 
-        class="custom-shoe-card__image"
+        class="dark-shoe-card__image"
         loading="lazy"
       >
     {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag: 'custom-shoe-card__image placeholder' }}
+      {{ 'product-1' | placeholder_svg_tag: 'dark-shoe-card__image placeholder' }}
     {%- endif -%}
   </a>
 
-  <!-- Bottom Section: Sizes & Add to Bag -->
-  <div class="custom-shoe-card__footer">
-    <div class="custom-shoe-card__sizes">
-      {%- assign size_options = product.options_with_values | where: 'name', 'Size' -%}
-      {%- if size_options.size > 0 -%}
-        {%- for value in size_options[0].values limit: 3 -%}
-          <span class="custom-shoe-card__size-dot">{{ value }}</span>
+  <div class="dark-shoe-card__details">
+    <!-- Swatches -->
+    <div class="dark-shoe-card__swatches">
+      {%- assign color_options = product.options_with_values | where: 'name', 'Color' -%}
+      {%- if color_options.size > 0 -%}
+        {%- for value in color_options[0].values limit: 4 -%}
+          <span class="dark-shoe-card__swatch" style="background-color: {{ value | handleize }};" title="{{ value }}"></span>
         {%- endfor -%}
       {%- else -%}
-        <span class="custom-shoe-card__size-dot">42</span>
-        <span class="custom-shoe-card__size-dot">43</span>
-        <span class="custom-shoe-card__size-dot">44</span>
+        <!-- Dummy swatches for aesthetic if no variants -->
+        <span class="dark-shoe-card__swatch" style="background-color: #ffffff;"></span>
+        <span class="dark-shoe-card__swatch" style="background-color: #333333;"></span>
+        <span class="dark-shoe-card__swatch" style="background-color: #d35400;"></span>
       {%- endif -%}
     </div>
-    
-    <div class="custom-shoe-card__actions">
-      <button class="custom-shoe-card__wishlist" aria-label="Add to Wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-      </button>
-      <form method="post" action="/cart/add" class="custom-shoe-card__form">
+
+    <!-- Title and Type -->
+    <h3 class="dark-shoe-card__title">
+      <a href="{{ product.url }}">{{ product.title | default: 'Example Shoe' }}</a>
+    </h3>
+    <p class="dark-shoe-card__type">{{ product.type | default: 'Running Shoes' }}</p>
+
+    <!-- Footer: Price and Add to Cart -->
+    <div class="dark-shoe-card__footer">
+      <div class="dark-shoe-card__price">
+        {%- if product.price_varies -%}
+          From {{ product.price_min | money }}
+        {%- else -%}
+          {{ product.price | money | default: '£129.00' }}
+        {%- endif -%}
+      </div>
+      
+      <form method="post" action="/cart/add" class="dark-shoe-card__form">
         <input type="hidden" name="id" value="{{ current_variant.id }}">
-        <button type="submit" class="custom-shoe-card__add-to-bag">
-          Add to Bag
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="margin-left: 6px;">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        <button type="submit" class="dark-shoe-card__cart-btn" aria-label="Add to cart" {% unless product.available %}disabled{% endunless %}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
           </svg>
         </button>
       </form>
@@ -90,151 +77,155 @@
 </div>
 
 <style>
-  .custom-shoe-card {
-    background-color: #F5F5F7;
-    border-radius: 20px;
-    padding: 24px;
+  .dark-shoe-card {
+    background-color: #151515;
+    border-radius: 12px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-family: 'Inter', sans-serif;
-    color: #111;
-    min-height: 400px;
-    width: 100%;
-    box-sizing: border-box;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    height: 100%;
+    min-height: 380px;
   }
-  .custom-shoe-card:hover {
+  
+  .dark-shoe-card:hover {
+    background-color: #1a1a1a;
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
   }
-  
-  .custom-shoe-card__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    z-index: 2;
-  }
-  .custom-shoe-card__category {
+
+  .dark-shoe-card__badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 4px 10px;
+    border-radius: 4px;
     font-size: 11px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: block;
-    margin-bottom: 6px;
-  }
-  .custom-shoe-card__title {
-    font-size: 16px;
     font-weight: 700;
-    margin: 0 0 12px 0;
-    line-height: 1.3;
-    max-width: 180px;
-  }
-  .custom-shoe-card__link {
-    text-decoration: none;
-    color: inherit;
-  }
-  .custom-shoe-card__link:hover {
-    color: #000;
-  }
-  .custom-shoe-card__price {
-    font-size: 18px;
-    font-weight: 800;
+    text-transform: uppercase;
+    z-index: 2;
   }
   
-  .custom-shoe-card__colors {
-    display: flex;
-    gap: 6px;
-  }
-  .custom-shoe-card__color-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
+  .dark-shoe-card__badge--new {
+    background-color: #FF8C00;
+    color: #fff;
   }
   
-  .custom-shoe-card__image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 220px;
+  .dark-shoe-card__badge--soldout {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .dark-shoe-card__image-link {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    padding: 20px 0 30px;
+    margin-bottom: auto;
     text-decoration: none;
   }
-  .custom-shoe-card__image {
-    max-width: 120%;
-    max-height: 130%;
+
+  .dark-shoe-card__image {
+    width: 100%;
+    max-width: 240px;
+    height: auto;
     object-fit: contain;
-    transform: rotate(-15deg) scale(1.1);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    filter: drop-shadow(-15px 25px 15px rgba(0,0,0,0.2));
-  }
-  .custom-shoe-card:hover .custom-shoe-card__image {
-    transform: rotate(-10deg) scale(1.2);
-  }
-  .custom-shoe-card__image.placeholder {
-    filter: none;
-    opacity: 0.5;
+    transition: transform 0.4s ease;
+    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
   }
   
-  .custom-shoe-card__footer {
+  .dark-shoe-card:hover .dark-shoe-card__image {
+    transform: scale(1.05) rotate(-2deg);
+  }
+
+  .dark-shoe-card__details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 15px;
+  }
+
+  .dark-shoe-card__swatches {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .dark-shoe-card__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .dark-shoe-card__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .dark-shoe-card__title a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .dark-shoe-card__type {
+    margin: 0;
+    font-size: 13px;
+    color: #888888;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .dark-shoe-card__footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 2;
-    margin-top: auto;
+    margin-top: 12px;
   }
-  .custom-shoe-card__sizes {
-    display: flex;
-    gap: 12px;
+
+  .dark-shoe-card__price {
+    color: #FF8C00;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
   }
-  .custom-shoe-card__size-dot {
-    font-size: 11px;
-    font-weight: 600;
-    color: #666;
-    background: transparent;
-  }
-  
-  .custom-shoe-card__actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .custom-shoe-card__wishlist {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: #999;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease;
-  }
-  .custom-shoe-card__wishlist:hover {
-    color: #E74C3C;
-  }
-  .custom-shoe-card__form {
+
+  .dark-shoe-card__form {
     margin: 0;
   }
-  .custom-shoe-card__add-to-bag {
+
+  .dark-shoe-card__cart-btn {
     background: transparent;
-    border: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: #111;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
     display: flex;
+    justify-content: center;
     align-items: center;
+    color: #ffffff;
     cursor: pointer;
-    padding: 0;
-    transition: opacity 0.2s ease;
+    transition: all 0.3s ease;
   }
-  .custom-shoe-card__add-to-bag:hover {
-    opacity: 0.7;
+
+  .dark-shoe-card__cart-btn:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #111111;
+  }
+
+  .dark-shoe-card__cart-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .dark-shoe-card__cart-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 </style>
