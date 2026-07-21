@@ -104,7 +104,6 @@
             <span>VIEW</span>
             <strong>360&deg;</strong>
           </div>
-          <div class="ph-360-line"></div>
         </div>
         
         <div class="ph-thumbs-list">
@@ -190,26 +189,31 @@
   .ph-panels {
     position: absolute;
     display: flex;
-    gap: 30px;
-    height: 120vh;
-    transform: skewX(-12deg);
+    gap: 20px;
+    height: 100vh;
+    left: 60%;
+    transform: translateX(-50%);
   }
   .ph-panel {
     width: 90px;
     height: 100%;
     background: var(--ph-accent);
-    opacity: 0.3;
-    box-shadow: 0 0 80px var(--ph-accent);
+    opacity: 0.85; /* Solid look but slightly blended */
+    box-shadow: none;
   }
   .ph-glow-ring {
     position: absolute;
-    width: 800px;
+    width: 900px;
     height: 350px;
     border: 2px solid var(--ph-accent);
     border-radius: 50%;
-    opacity: 0.25;
-    transform: rotate(-15deg);
-    box-shadow: 0 0 40px var(--ph-accent), inset 0 0 40px var(--ph-accent);
+    opacity: 0.4;
+    transform: rotate(-10deg);
+    bottom: -50px;
+    left: 45%;
+    box-shadow: 0 0 50px var(--ph-accent), inset 0 0 50px var(--ph-accent);
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
   }
   .ph-particles {
     position: absolute;
@@ -443,44 +447,64 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
+    margin-bottom: 10px;
   }
   .ph-360-circle {
-    width: 65px;
-    height: 65px;
+    position: relative;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.2;
     letter-spacing: 1px;
+    background-color: #0e0e11;
   }
-  .ph-360-circle strong { font-size: 15px; }
-  .ph-360-line {
-    width: 1px;
-    height: 35px;
-    background-color: rgba(255,255,255,0.2);
+  .ph-360-circle::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--ph-accent);
+    border-top-color: transparent;
+    border-right-color: transparent;
+    transform: rotate(-30deg);
   }
+  .ph-360-circle::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255,255,255,0.8);
+  }
+  .ph-360-circle strong { font-size: 16px; font-weight: 700; }
+  
   .ph-thumbs-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     align-items: center;
   }
   .ph-thumb {
-    width: 55px;
-    height: 55px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.1);
-    padding: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px;
     cursor: pointer;
     transition: 0.3s;
     background: rgba(255,255,255,0.03);
   }
-  .ph-thumb:hover { border-color: rgba(255,255,255,0.3); }
+  .ph-thumb:hover { border-color: rgba(255,255,255,0.4); }
   .ph-thumb.is-active {
     border-color: var(--ph-accent);
     transform: scale(1.1);
