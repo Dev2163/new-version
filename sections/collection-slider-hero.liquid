@@ -88,8 +88,9 @@
       <div class="ph-center-shoe">
         <div class="ph-main-image-wrap">
           {% assign first_shoe = section.blocks | where: 'type', 'shoe' | first %}
-          {% if first_shoe != blank and first_shoe.settings.image != blank %}
-            <img src="{{ first_shoe.settings.image | image_url: width: 1000 }}" alt="Hero Shoe" class="ph-main-image" id="PH_MainImage">
+          {% assign main_image = first_shoe.settings.image | default: first_shoe.settings.product.featured_image %}
+          {% if main_image != blank %}
+            <img src="{{ main_image | image_url: width: 1000 }}" alt="Hero Shoe" class="ph-main-image" id="PH_MainImage">
           {% else %}
             {{ 'product-1' | placeholder_svg_tag: 'ph-main-image placeholder' }}
           {% endif %}
@@ -110,9 +111,10 @@
           {% assign thumb_index = 0 %}
           {% for block in section.blocks %}
             {% if block.type == 'shoe' %}
-              <div class="ph-thumb {% if thumb_index == 0 %}is-active{% endif %}" data-index="{{ thumb_index }}" data-img="{{ block.settings.image | image_url: width: 1000 }}" {{ block.shopify_attributes }}>
-                {% if block.settings.image != blank %}
-                  <img src="{{ block.settings.image | image_url: width: 150 }}" alt="Thumb" class="ph-thumb-img">
+              {% assign thumb_img = block.settings.image | default: block.settings.product.featured_image %}
+              <div class="ph-thumb {% if thumb_index == 0 %}is-active{% endif %}" data-index="{{ thumb_index }}" data-img="{{ thumb_img | image_url: width: 1000 }}" {{ block.shopify_attributes }}>
+                {% if thumb_img != blank %}
+                  <img src="{{ thumb_img | image_url: width: 150 }}" alt="Thumb" class="ph-thumb-img">
                 {% else %}
                   {{ 'product-2' | placeholder_svg_tag: 'ph-thumb-img placeholder' }}
                 {% endif %}
@@ -664,7 +666,8 @@
       "name": "Shoe Image",
       "limit": 8,
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Shoe Image" }
+        { "type": "product", "id": "product", "label": "Select Product" },
+        { "type": "image_picker", "id": "image", "label": "Custom Image", "info": "Overrides product image" }
       ]
     },
     {
