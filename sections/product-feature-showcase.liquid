@@ -382,6 +382,7 @@
           <div class="pfs-pointer {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
                data-index="{{ forloop.index0 }}" 
                data-view="{{ block.settings.image_view }}"
+               data-block-id="{{ block.id }}"
                style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%; 
                       --dot-color: {{ block.settings.glow_color }};
                       --line-length: {{ block.settings.line_length }}px;
@@ -544,6 +545,28 @@
   document.addEventListener('shopify:section:load', function(event) {
     if (event.detail.sectionId === '{{ section.id }}') {
       initPFS();
+    }
+  });
+
+  // Auto-switch image when admin selects a block
+  document.addEventListener('shopify:block:select', function(event) {
+    const blockId = event.detail.blockId;
+    const selectedPointer = document.querySelector(`.pfs-pointer[data-block-id="${blockId}"]`);
+    if (selectedPointer) {
+      const targetView = selectedPointer.getAttribute('data-view');
+      const availableViews = Object.keys(JSON.parse(document.getElementById('pfs-images-data').innerText)).filter(key => JSON.parse(document.getElementById('pfs-images-data').innerText)[key] !== null);
+      const targetIndex = availableViews.indexOf(targetView);
+      
+      const mainImage = document.getElementById('pfs-main-image');
+      if (targetIndex !== -1) {
+        // Force switch without relying on closure variables
+        mainImage.src = JSON.parse(document.getElementById('pfs-images-data').innerText)[targetView];
+        
+        document.querySelectorAll('.pfs-pointer').forEach(p => {
+          if (p.getAttribute('data-view') === targetView) p.classList.add('active-view');
+          else p.classList.remove('active-view');
+        });
+      }
     }
   });
 </script>
