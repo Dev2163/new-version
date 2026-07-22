@@ -2,7 +2,6 @@
   .pfs-section-{{ section.id }} {
     position: relative;
     background-color: {{ section.settings.bg_color }};
-    /* Subtle noise texture */
     background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.03"/%3E%3C/svg%3E');
     height: auto;
     min-height: 75vh;
@@ -24,7 +23,6 @@
     align-items: center;
   }
 
-  /* Center Image & Glows */
   .pfs-center-wrapper {
     position: relative;
     width: {{ section.settings.image_width }}px;
@@ -44,7 +42,12 @@
     {% if section.settings.floating_animation %}
       animation: pfsFloat 5s ease-in-out infinite;
     {% endif %}
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .pfs-image.fading {
+    opacity: 0;
+    transform: rotate({{ section.settings.image_rotation }}deg) scale(0.95);
   }
 
   @keyframes pfsFloat {
@@ -110,6 +113,15 @@
   .pfs-pointer {
     position: absolute;
     z-index: 10;
+    transition: opacity 0.4s ease;
+    /* Hidden by default, shown by JS if matches current view */
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .pfs-pointer.active-view {
+    opacity: 1;
+    pointer-events: auto;
     {% if section.settings.pointer_animation %}
       animation: pfsFadeIn 1s ease forwards;
     {% endif %}
@@ -173,13 +185,16 @@
     transform: translateX(0);
   }
 
+  /* AUTO-ALIGNING TEXT CSS TRICKS */
   .pfs-content {
     position: absolute;
-    top: 0;
-    left: 0;
     width: var(--title-width, 220px);
     text-align: var(--text-align, left);
-    transform: translate(var(--content-x, 0), var(--content-y, 0));
+    /* Calculate precise end of line using sin/cos */
+    left: calc(var(--line-length) * cos(var(--line-angle)));
+    top: calc(var(--line-length) * sin(var(--line-angle)));
+    /* Offset so text aligns correctly with line end */
+    transform: translate(var(--tx), -50%);
     opacity: 0.8;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
@@ -237,6 +252,11 @@
     background: rgba(212, 175, 55, 0.2);
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
   }
+  
+  .pfs-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
 
   /* Mobile Accordion */
   .pfs-mobile-accordion {
@@ -248,8 +268,13 @@
   }
 
   .pfs-accordion-item {
+    display: none; /* hidden by default based on active view */
     border-bottom: 1px solid rgba(255,255,255,0.1);
     padding: 15px 0;
+  }
+  
+  .pfs-accordion-item.active-view {
+    display: block;
   }
 
   .pfs-accordion-header {
@@ -273,7 +298,7 @@
   }
 
   .pfs-accordion-item.active .pfs-accordion-body {
-    max-height: 200px; /* arbitrary max height */
+    max-height: 200px;
     padding-top: 10px;
   }
 
@@ -289,15 +314,15 @@
       width: 90%;
       margin-bottom: 40px;
     }
-    .pfs-pointer {
+    .pfs-pointer.active-view {
       display: none; /* Hide standard pointers on mobile */
     }
     .pfs-mobile-accordion {
       display: block;
     }
-    /* Re-enable just the dots on mobile to highlight when accordion is tapped */
     .pfs-pointer.mobile-visible {
-      display: block;
+      display: block !important;
+      opacity: 1 !important;
     }
     .pfs-pointer.mobile-visible .pfs-line, 
     .pfs-pointer.mobile-visible .pfs-content {
@@ -315,19 +340,20 @@
       
       {%- liquid
         assign active_image = section.settings.main_image
-        if section.settings.current_image == 'back'
+        if section.settings.current_image == 'back' and section.settings.back_image != blank
           assign active_image = section.settings.back_image
-        elsif section.settings.current_image == 'side'
+        elsif section.settings.current_image == 'side' and section.settings.side_image != blank
           assign active_image = section.settings.side_image
-        elsif section.settings.current_image == 'zoom'
+        elsif section.settings.current_image == 'zoom' and section.settings.zoom_image != blank
           assign active_image = section.settings.zoom_image
-        elsif section.settings.current_image == 'hover'
+        elsif section.settings.current_image == 'hover' and section.settings.hover_image != blank
           assign active_image = section.settings.hover_image
         endif
       -%}
 
+      <!-- Placeholder structure if no images -->
       {% if active_image != blank %}
-        {{ active_image | image_url: width: 1200 | image_tag: class: 'pfs-image', id: 'pfs-main-image' }}
+        <img id="pfs-main-image" src="{{ active_image | image_url: width: 1200 }}" class="pfs-image" loading="lazy" />
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'pfs-image placeholder-svg' }}
       {% endif %}
@@ -337,17 +363,28 @@
       <!-- Hotspots -->
       {% for block in section.blocks limit: section.settings.pointer_count %}
         {% if block.settings.enable %}
-          <div class="pfs-pointer" data-index="{{ forloop.index0 }}" 
+          {%- liquid
+            assign angle = block.settings.line_angle | default: 0
+            assign align = block.settings.text_align | default: 'left'
+            assign tx = '15px'
+            if align == 'right'
+              assign tx = 'calc(-100% - 15px)'
+            elsif align == 'center'
+              assign tx = '-50%'
+            endif
+          -%}
+          <div class="pfs-pointer {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
+               data-index="{{ forloop.index0 }}" 
+               data-view="{{ block.settings.image_view }}"
                style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%; 
                       --dot-color: {{ block.settings.glow_color }};
                       --line-length: {{ block.settings.line_length }}px;
-                      --line-angle: {{ block.settings.line_angle }}deg;
+                      --line-angle: {{ angle }}deg;
                       --title-width: {{ block.settings.title_width }}px;
-                      --text-align: {{ block.settings.text_align }};
+                      --text-align: {{ align }};
                       --title-color: {{ block.settings.title_color }};
                       --subtitle-color: {{ block.settings.subtitle_color }};
-                      --content-x: {{ block.settings.content_x }}px;
-                      --content-y: {{ block.settings.content_y }}px;" 
+                      --tx: {{ tx }};" 
                {{ block.shopify_attributes }}>
             
             <div class="pfs-dot"></div>
@@ -368,7 +405,9 @@
   <div class="pfs-mobile-accordion">
     {% for block in section.blocks limit: section.settings.pointer_count %}
       {% if block.settings.enable %}
-        <div class="pfs-accordion-item" data-index="{{ forloop.index0 }}">
+        <div class="pfs-accordion-item {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
+             data-index="{{ forloop.index0 }}" 
+             data-view="{{ block.settings.image_view }}">
           <div class="pfs-accordion-header">
             <span>{{ block.settings.title }}</span>
             <span class="pfs-accordion-icon">+</span>
@@ -384,20 +423,35 @@
   <!-- Optional Bottom Nav -->
   {% if section.settings.show_nav %}
     <div class="pfs-nav">
-      <button class="pfs-nav-btn" id="pfs-prev">&larr;</button>
-      <button class="pfs-nav-btn" id="pfs-next">&rarr;</button>
+      <button class="pfs-nav-btn" id="pfs-prev">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="pfs-nav-btn" id="pfs-next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
     </div>
   {% endif %}
 </section>
 
+<!-- Data for JS -->
+<script type="application/json" id="pfs-images-data">
+  {
+    "front": {% if section.settings.main_image %}"{{ section.settings.main_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "back": {% if section.settings.back_image %}"{{ section.settings.back_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "side": {% if section.settings.side_image %}"{{ section.settings.side_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "zoom": {% if section.settings.zoom_image %}"{{ section.settings.zoom_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "hover": {% if section.settings.hover_image %}"{{ section.settings.hover_image | image_url: width: 1200 }}"{% else %}null{% endif %}
+  }
+</script>
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    // Accordion Logic
     const accordions = document.querySelectorAll('.pfs-accordion-item');
     const pointers = document.querySelectorAll('.pfs-pointer');
 
     accordions.forEach(acc => {
       acc.addEventListener('click', function() {
-        // Toggle Active Class
         const isActive = this.classList.contains('active');
         
         accordions.forEach(a => {
@@ -419,6 +473,65 @@
         }
       });
     });
+
+    // Multi-View Logic
+    const imagesData = JSON.parse(document.getElementById('pfs-images-data').innerText);
+    const availableViews = Object.keys(imagesData).filter(key => imagesData[key] !== null);
+    
+    // Start with the initial view set by admin, or fallback to first available
+    let currentViewIndex = availableViews.indexOf('{{ section.settings.current_image }}');
+    if (currentViewIndex === -1 && availableViews.length > 0) currentViewIndex = 0;
+
+    const prevBtn = document.getElementById('pfs-prev');
+    const nextBtn = document.getElementById('pfs-next');
+    const mainImage = document.getElementById('pfs-main-image');
+
+    function updateView() {
+      if (availableViews.length === 0) return;
+      const currentView = availableViews[currentViewIndex];
+      
+      // Update Image with transition
+      if (mainImage) {
+        mainImage.classList.add('fading');
+        setTimeout(() => {
+          mainImage.src = imagesData[currentView];
+          mainImage.classList.remove('fading');
+        }, 300); // Wait for fade out
+      }
+
+      // Update Pointers & Accordions
+      pointers.forEach(p => {
+        if (p.getAttribute('data-view') === currentView) {
+          p.classList.add('active-view');
+        } else {
+          p.classList.remove('active-view', 'mobile-visible');
+        }
+      });
+
+      accordions.forEach(a => {
+        if (a.getAttribute('data-view') === currentView) {
+          a.classList.add('active-view');
+        } else {
+          a.classList.remove('active-view', 'active');
+          a.querySelector('.pfs-accordion-icon').innerText = '+';
+        }
+      });
+    }
+
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (availableViews.length > 0) {
+          currentViewIndex = (currentViewIndex - 1 + availableViews.length) % availableViews.length;
+          updateView();
+        }
+      });
+      nextBtn.addEventListener('click', () => {
+        if (availableViews.length > 0) {
+          currentViewIndex = (currentViewIndex + 1) % availableViews.length;
+          updateView();
+        }
+      });
+    }
   });
 </script>
 
@@ -458,7 +571,7 @@
     {
       "type": "select",
       "id": "current_image",
-      "label": "Current Active Image",
+      "label": "Admin Preview Active Image",
       "options": [
         { "value": "front", "label": "Front" },
         { "value": "back", "label": "Back" },
@@ -466,7 +579,8 @@
         { "value": "zoom", "label": "Zoom" },
         { "value": "hover", "label": "Hover" }
       ],
-      "default": "front"
+      "default": "front",
+      "info": "This determines which image and features show first on load."
     },
     {
       "type": "header",
@@ -574,6 +688,19 @@
           "default": true
         },
         {
+          "type": "select",
+          "id": "image_view",
+          "label": "Show on which image?",
+          "options": [
+            { "value": "front", "label": "Front" },
+            { "value": "back", "label": "Back" },
+            { "value": "side", "label": "Side" },
+            { "value": "zoom", "label": "Zoom" },
+            { "value": "hover", "label": "Hover" }
+          ],
+          "default": "front"
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Title",
@@ -623,19 +750,8 @@
           "step": 5,
           "unit": "deg",
           "label": "Line Angle",
-          "default": 0
-        },
-        {
-          "type": "number",
-          "id": "content_x",
-          "label": "Text X Offset (px from line end)",
-          "default": 120
-        },
-        {
-          "type": "number",
-          "id": "content_y",
-          "label": "Text Y Offset (px from line end)",
-          "default": -30
+          "default": 0,
+          "info": "0 is right, 180 is left, 90 is down, -90 is up"
         },
         {
           "type": "range",
@@ -652,11 +768,12 @@
           "id": "text_align",
           "label": "Text Alignment",
           "options": [
-            { "value": "left", "label": "Left" },
+            { "value": "left", "label": "Left (Text on right of line)" },
             { "value": "center", "label": "Center" },
-            { "value": "right", "label": "Right" }
+            { "value": "right", "label": "Right (Text on left of line)" }
           ],
-          "default": "left"
+          "default": "left",
+          "info": "If the line goes left (180deg), choose Right alignment so the text attaches properly."
         },
         {
           "type": "color",
@@ -686,28 +803,26 @@
         {
           "type": "feature",
           "settings": {
+            "image_view": "front",
             "title": "Premium Cotton",
             "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
             "dot_x": 30,
             "dot_y": 60,
             "line_length": 80,
             "line_angle": 180,
-            "content_x": -250,
-            "content_y": -20,
             "text_align": "right"
           }
         },
         {
           "type": "feature",
           "settings": {
+            "image_view": "back",
             "title": "Ribbed Neck",
             "subtitle": "Stretch resistant rib.",
             "dot_x": 60,
             "dot_y": 20,
             "line_length": 80,
             "line_angle": 0,
-            "content_x": 100,
-            "content_y": -20,
             "text_align": "left"
           }
         }
