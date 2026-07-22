@@ -4,7 +4,8 @@
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
     overflow: hidden;
-    padding: 60px 0;
+    padding-top: 60px;
+    padding-bottom: 0;
     min-height: 80vh;
     display: flex;
     align-items: center;
@@ -34,18 +35,12 @@
     z-index: 2;
     position: relative;
     gap: 40px;
+    min-height: 80vh;
   }
   .zodiac-hero-{{ section.id }} .hero-content {
     flex: 1;
     max-width: 600px;
-  }
-  .zodiac-hero-{{ section.id }} .hero-subtitle {
-    color: {{ section.settings.accent_color }};
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    font-size: 14px;
+    padding-bottom: 60px;
   }
   .zodiac-hero-{{ section.id }} .hero-title {
     font-size: clamp(40px, 6vw, 80px);
@@ -66,52 +61,19 @@
     color: #cccccc;
     max-width: 450px;
   }
-  .zodiac-hero-{{ section.id }} .hero-buttons {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  .zodiac-hero-{{ section.id }} .btn-primary {
-    background-color: {{ section.settings.accent_color }};
-    color: #000;
-    padding: 15px 30px;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 1px;
-    border: 2px solid {{ section.settings.accent_color }};
-    transition: all 0.3s ease;
-  }
-  .zodiac-hero-{{ section.id }} .btn-primary:hover {
-    background-color: transparent;
-    color: {{ section.settings.accent_color }};
-  }
-  .zodiac-hero-{{ section.id }} .btn-secondary {
-    background-color: transparent;
-    color: #fff;
-    padding: 15px 30px;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 1px;
-    border: 2px solid rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-  }
-  .zodiac-hero-{{ section.id }} .btn-secondary:hover {
-    border-color: #fff;
-  }
   .zodiac-hero-{{ section.id }} .hero-image-wrapper {
     flex: 1;
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: flex-end;
+    align-self: stretch;
   }
   .zodiac-hero-{{ section.id }} .hero-image {
     max-width: 100%;
-    height: auto;
+    max-height: 85vh;
+    object-fit: contain;
+    object-position: bottom;
     z-index: 2;
     position: relative;
   }
@@ -128,34 +90,6 @@
     background-repeat: no-repeat;
     z-index: 1;
     opacity: 0.8;
-  }
-  .zodiac-hero-{{ section.id }} .hero-badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 120px;
-    height: 120px;
-    border: 1px dashed rgba(255,255,255,0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    animation: rotateBadge 15s linear infinite;
-    z-index: 3;
-  }
-  .zodiac-hero-{{ section.id }} .hero-badge-inner {
-    color: {{ section.settings.accent_color }};
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  @keyframes rotateBadge {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
   }
 
   .zodiac-hero-{{ section.id }} .hero-nav {
@@ -187,12 +121,13 @@
     }
     .zodiac-hero-{{ section.id }} .hero-content {
       max-width: 100%;
-    }
-    .zodiac-hero-{{ section.id }} .hero-buttons {
-      justify-content: center;
+      padding-bottom: 0;
     }
     .zodiac-hero-{{ section.id }} .hero-nav {
       display: none;
+    }
+    .zodiac-hero-{{ section.id }} .hero-image-wrapper {
+      align-items: center;
     }
   }
 {% endstyle %}
@@ -204,10 +139,6 @@
   
   <div class="hero-container">
     <div class="hero-content">
-      {% if section.settings.subtitle != blank %}
-        <div class="hero-subtitle">{{ section.settings.subtitle }}</div>
-      {% endif %}
-      
       {% if section.settings.title != blank %}
         <h1 class="hero-title">{{ section.settings.title }}</h1>
       {% endif %}
@@ -215,26 +146,11 @@
       {% if section.settings.text != blank %}
         <div class="hero-text">{{ section.settings.text }}</div>
       {% endif %}
-      
-      <div class="hero-buttons">
-        {% if section.settings.btn_1_text != blank %}
-          <a href="{{ section.settings.btn_1_link }}" class="btn-primary">{{ section.settings.btn_1_text }} &rarr;</a>
-        {% endif %}
-        {% if section.settings.btn_2_text != blank %}
-          <a href="{{ section.settings.btn_2_link }}" class="btn-secondary">{{ section.settings.btn_2_text }} &#9658;</a>
-        {% endif %}
-      </div>
     </div>
     
     <div class="hero-image-wrapper">
       {% if section.settings.splash_image %}
         <div class="hero-splash"></div>
-      {% endif %}
-      
-      {% if section.settings.badge_text != blank %}
-        <div class="hero-badge">
-          <div class="hero-badge-inner">{{ section.settings.badge_text }}</div>
-        </div>
       {% endif %}
       
       {% if section.settings.image != blank %}
@@ -283,12 +199,6 @@
       "default": "VSYT"
     },
     {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "NEW COLLECTION"
-    },
-    {
       "type": "html",
       "id": "title",
       "label": "Title",
@@ -302,28 +212,6 @@
       "default": "Premium oversized t-shirts crafted for comfort, designed to make a statement."
     },
     {
-      "type": "text",
-      "id": "btn_1_text",
-      "label": "Button 1 Text",
-      "default": "EXPLORE COLLECTION"
-    },
-    {
-      "type": "url",
-      "id": "btn_1_link",
-      "label": "Button 1 Link"
-    },
-    {
-      "type": "text",
-      "id": "btn_2_text",
-      "label": "Button 2 Text",
-      "default": "VIEW LOOKBOOK"
-    },
-    {
-      "type": "url",
-      "id": "btn_2_link",
-      "label": "Button 2 Link"
-    },
-    {
       "type": "image_picker",
       "id": "image",
       "label": "Main Image"
@@ -332,12 +220,6 @@
       "type": "image_picker",
       "id": "splash_image",
       "label": "Background Splash Image (Optional)"
-    },
-    {
-      "type": "text",
-      "id": "badge_text",
-      "label": "Badge Text",
-      "default": "NEW DROP"
     },
     {
       "type": "checkbox",
