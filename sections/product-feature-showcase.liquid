@@ -1,0 +1,713 @@
+{% style %}
+  .pfs-section-{{ section.id }} {
+    position: relative;
+    background-color: {{ section.settings.bg_color }};
+    /* Subtle noise texture */
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.03"/%3E%3C/svg%3E');
+    height: 950px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .pfs-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Center Image & Glows */
+  .pfs-center-wrapper {
+    position: relative;
+    width: {{ section.settings.image_width }}px;
+    max-width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .pfs-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+    transform: rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }});
+    {% if section.settings.floating_animation %}
+      animation: pfsFloat 5s ease-in-out infinite;
+    {% endif %}
+    transition: opacity 0.5s ease;
+  }
+
+  @keyframes pfsFloat {
+    0% { transform: translateY(0px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+    50% { transform: translateY(-15px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+    100% { transform: translateY(0px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+  }
+
+  .pfs-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, {{ section.settings.glow_color }} 0%, transparent 70%);
+    opacity: {{ section.settings.glow_opacity | divided_by: 100.0 }};
+    filter: blur(40px);
+    z-index: 1;
+    pointer-events: none;
+    {% if section.settings.glow_animation %}
+      animation: pfsPulse 4s ease-in-out infinite alternate;
+    {% endif %}
+  }
+  
+  .pfs-bottom-glow {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 20%;
+    background: radial-gradient(ellipse, {{ section.settings.glow_color }} 0%, transparent 70%);
+    opacity: {{ section.settings.glow_opacity | divided_by: 100.0 }};
+    filter: blur(30px);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .pfs-circle-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    padding-bottom: 110%;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Gold */
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.1) inset;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @keyframes pfsPulse {
+    0% { opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 0.8 }}; transform: translate(-50%, -50%) scale(0.95); }
+    100% { opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 1.2 }}; transform: translate(-50%, -50%) scale(1.05); }
+  }
+
+  /* Hotspots */
+  .pfs-pointer {
+    position: absolute;
+    z-index: 10;
+    {% if section.settings.pointer_animation %}
+      animation: pfsFadeIn 1s ease forwards;
+    {% endif %}
+  }
+
+  .pfs-dot {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    width: 14px;
+    height: 14px;
+    background-color: var(--dot-color, #D4AF37);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--dot-color, #D4AF37), 0 0 20px var(--dot-color, #D4AF37);
+    cursor: pointer;
+    z-index: 2;
+    {% if section.settings.pointer_animation %}
+      animation: pfsDotPulse 2s infinite;
+    {% endif %}
+    transition: transform 0.3s ease;
+  }
+
+  .pfs-pointer:hover .pfs-dot {
+    transform: scale(1.2);
+  }
+
+  @keyframes pfsDotPulse {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+  }
+
+  .pfs-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--line-length, 100px);
+    height: 2px;
+    background: var(--dot-color, #D4AF37);
+    box-shadow: 0 0 8px var(--dot-color, #D4AF37);
+    border-radius: 2px;
+    transform-origin: 0 0;
+    transform: rotate(var(--line-angle, 0deg));
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .pfs-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .pfs-pointer:hover .pfs-line::after {
+    transform: translateX(0);
+  }
+
+  .pfs-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--title-width, 220px);
+    text-align: var(--text-align, left);
+    transform: translate(var(--content-x, 0), var(--content-y, 0));
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .pfs-pointer:hover .pfs-content {
+    opacity: 1;
+  }
+
+  .pfs-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--title-color, #D4AF37);
+    margin-bottom: 8px;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+  }
+
+  .pfs-subtitle {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--subtitle-color, #D5D5D5);
+    line-height: 1.8;
+  }
+
+  @keyframes pfsFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Navigation */
+  .pfs-nav {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    z-index: 20;
+  }
+
+  .pfs-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    background: transparent;
+    color: #D4AF37;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .pfs-nav-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+
+  /* Mobile Accordion */
+  .pfs-mobile-accordion {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    z-index: 20;
+  }
+
+  .pfs-accordion-item {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 0;
+  }
+
+  .pfs-accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #D4AF37;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .pfs-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    color: #D5D5D5;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 0;
+  }
+
+  .pfs-accordion-item.active .pfs-accordion-body {
+    max-height: 200px; /* arbitrary max height */
+    padding-top: 10px;
+  }
+
+  @media (max-width: 990px) {
+    .pfs-section-{{ section.id }} {
+      height: auto;
+      min-height: 100vh;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 60px;
+    }
+    .pfs-center-wrapper {
+      width: 90%;
+      margin-bottom: 40px;
+    }
+    .pfs-pointer {
+      display: none; /* Hide standard pointers on mobile */
+    }
+    .pfs-mobile-accordion {
+      display: block;
+    }
+    /* Re-enable just the dots on mobile to highlight when accordion is tapped */
+    .pfs-pointer.mobile-visible {
+      display: block;
+    }
+    .pfs-pointer.mobile-visible .pfs-line, 
+    .pfs-pointer.mobile-visible .pfs-content {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<section class="pfs-section-{{ section.id }}" id="pfs-{{ section.id }}">
+  <div class="pfs-container">
+    
+    <div class="pfs-center-wrapper">
+      <div class="pfs-bg-glow"></div>
+      <div class="pfs-circle-line"></div>
+      
+      {%- liquid
+        assign active_image = section.settings.main_image
+        if section.settings.current_image == 'back'
+          assign active_image = section.settings.back_image
+        elsif section.settings.current_image == 'side'
+          assign active_image = section.settings.side_image
+        elsif section.settings.current_image == 'zoom'
+          assign active_image = section.settings.zoom_image
+        elsif section.settings.current_image == 'hover'
+          assign active_image = section.settings.hover_image
+        endif
+      -%}
+
+      {% if active_image != blank %}
+        {{ active_image | image_url: width: 1200 | image_tag: class: 'pfs-image', id: 'pfs-main-image' }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'pfs-image placeholder-svg' }}
+      {% endif %}
+
+      <div class="pfs-bottom-glow"></div>
+
+      <!-- Hotspots -->
+      {% for block in section.blocks limit: section.settings.pointer_count %}
+        {% if block.settings.enable %}
+          <div class="pfs-pointer" data-index="{{ forloop.index0 }}" 
+               style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%; 
+                      --dot-color: {{ block.settings.glow_color }};
+                      --line-length: {{ block.settings.line_length }}px;
+                      --line-angle: {{ block.settings.line_angle }}deg;
+                      --title-width: {{ block.settings.title_width }}px;
+                      --text-align: {{ block.settings.text_align }};
+                      --title-color: {{ block.settings.title_color }};
+                      --subtitle-color: {{ block.settings.subtitle_color }};
+                      --content-x: {{ block.settings.content_x }}px;
+                      --content-y: {{ block.settings.content_y }}px;" 
+               {{ block.shopify_attributes }}>
+            
+            <div class="pfs-dot"></div>
+            <div class="pfs-line"></div>
+            <div class="pfs-content">
+              <div class="pfs-title">{{ block.settings.title }}</div>
+              <div class="pfs-subtitle">{{ block.settings.subtitle }}</div>
+            </div>
+            
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Mobile Accordion -->
+  <div class="pfs-mobile-accordion">
+    {% for block in section.blocks limit: section.settings.pointer_count %}
+      {% if block.settings.enable %}
+        <div class="pfs-accordion-item" data-index="{{ forloop.index0 }}">
+          <div class="pfs-accordion-header">
+            <span>{{ block.settings.title }}</span>
+            <span class="pfs-accordion-icon">+</span>
+          </div>
+          <div class="pfs-accordion-body">
+            {{ block.settings.subtitle }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Optional Bottom Nav -->
+  {% if section.settings.show_nav %}
+    <div class="pfs-nav">
+      <button class="pfs-nav-btn" id="pfs-prev">&larr;</button>
+      <button class="pfs-nav-btn" id="pfs-next">&rarr;</button>
+    </div>
+  {% endif %}
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const accordions = document.querySelectorAll('.pfs-accordion-item');
+    const pointers = document.querySelectorAll('.pfs-pointer');
+
+    accordions.forEach(acc => {
+      acc.addEventListener('click', function() {
+        // Toggle Active Class
+        const isActive = this.classList.contains('active');
+        
+        accordions.forEach(a => {
+          a.classList.remove('active');
+          a.querySelector('.pfs-accordion-icon').innerText = '+';
+        });
+        
+        pointers.forEach(p => p.classList.remove('mobile-visible'));
+
+        if (!isActive) {
+          this.classList.add('active');
+          this.querySelector('.pfs-accordion-icon').innerText = '-';
+          
+          const index = this.getAttribute('data-index');
+          const matchingPointer = document.querySelector(`.pfs-pointer[data-index="${index}"]`);
+          if (matchingPointer) {
+            matchingPointer.classList.add('mobile-visible');
+          }
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Feature Showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Front Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "back_image",
+      "label": "Back Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "zoom_image",
+      "label": "Zoom Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hover_image",
+      "label": "Hover Image"
+    },
+    {
+      "type": "select",
+      "id": "current_image",
+      "label": "Current Active Image",
+      "options": [
+        { "value": "front", "label": "Front" },
+        { "value": "back", "label": "Back" },
+        { "value": "side", "label": "Side" },
+        { "value": "zoom", "label": "Zoom" },
+        { "value": "hover", "label": "Hover" }
+      ],
+      "default": "front"
+    },
+    {
+      "type": "header",
+      "content": "Image Styling"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Width",
+      "default": 680
+    },
+    {
+      "type": "number",
+      "id": "image_rotation",
+      "label": "Image Rotation (deg)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_scale",
+      "min": 0.5,
+      "max": 2.0,
+      "step": 0.1,
+      "label": "Image Scale",
+      "default": 1.0
+    },
+    {
+      "type": "header",
+      "content": "Background & Glow"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#070707"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow Color",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "range",
+      "id": "glow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Glow Opacity",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Animations & Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "floating_animation",
+      "label": "Enable Image Floating Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "glow_animation",
+      "label": "Enable Glow Pulse Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pointer_animation",
+      "label": "Enable Pointer Animations",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation Buttons",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pointer_count",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "label": "Max Pointers to Show",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Point",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "label": "Enable Feature",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Cotton"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "240 GSM Super Combed Cotton for everyday comfort."
+        },
+        {
+          "type": "range",
+          "id": "dot_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Dot X Position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "dot_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Dot Y Position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "line_length",
+          "min": 0,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "label": "Line Length",
+          "default": 100
+        },
+        {
+          "type": "range",
+          "id": "line_angle",
+          "min": -180,
+          "max": 180,
+          "step": 5,
+          "unit": "deg",
+          "label": "Line Angle",
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "content_x",
+          "label": "Text X Offset (px from line end)",
+          "default": 120
+        },
+        {
+          "type": "number",
+          "id": "content_y",
+          "label": "Text Y Offset (px from line end)",
+          "default": -30
+        },
+        {
+          "type": "range",
+          "id": "title_width",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "label": "Text Container Width",
+          "default": 220
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#D4AF37"
+        },
+        {
+          "type": "color",
+          "id": "subtitle_color",
+          "label": "Subtitle Color",
+          "default": "#D5D5D5"
+        },
+        {
+          "type": "color",
+          "id": "glow_color",
+          "label": "Dot/Line Glow Color",
+          "default": "#D4AF37"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Feature Showcase",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Premium Cotton",
+            "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
+            "dot_x": 30,
+            "dot_y": 60,
+            "line_length": 80,
+            "line_angle": 180,
+            "content_x": -250,
+            "content_y": -20,
+            "text_align": "right"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Ribbed Neck",
+            "subtitle": "Stretch resistant rib.",
+            "dot_x": 60,
+            "dot_y": 20,
+            "line_length": 80,
+            "line_angle": 0,
+            "content_x": 100,
+            "content_y": -20,
+            "text_align": "left"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
