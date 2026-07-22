@@ -451,7 +451,7 @@
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  function initPFS() {
     // Accordion Logic
     const accordions = document.querySelectorAll('.pfs-accordion-item');
     const pointers = document.querySelectorAll('.pfs-pointer');
@@ -537,6 +537,13 @@
           updateView();
         }
       });
+    }
+  }
+
+  initPFS();
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initPFS();
     }
   });
 </script>
