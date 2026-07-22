@@ -1,190 +1,216 @@
 {% style %}
-  .zodiac-hero-{{ section.id }} {
+  .zodiac-hotspot-hero-{{ section.id }} {
     position: relative;
     background-color: {{ section.settings.bg_color }};
-    color: {{ section.settings.text_color }};
-    overflow: hidden;
-    padding-top: 60px;
-    padding-bottom: 0;
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
+    overflow: hidden;
     font-family: var(--font-body-family), sans-serif;
   }
-  .zodiac-hero-{{ section.id }} .hero-bg-text {
+  
+  .zh-background-ring {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 25vw;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.03);
+    width: 60vw;
+    height: 60vw;
+    max-width: 800px;
+    max-height: 800px;
+    border: 1px solid rgba(201, 154, 60, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 80px rgba(201, 154, 60, 0.1) inset, 0 0 80px rgba(201, 154, 60, 0.1);
     z-index: 1;
     pointer-events: none;
-    white-space: nowrap;
-    text-transform: uppercase;
   }
-  .zodiac-hero-{{ section.id }} .hero-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+  .zh-bottom-glow {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 200px;
+    background: radial-gradient(ellipse at center, rgba(201, 154, 60, 0.4) 0%, rgba(0,0,0,0) 70%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .zh-container {
+    position: relative;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     z-index: 2;
-    position: relative;
-    gap: 40px;
-    min-height: 80vh;
-  }
-  .zodiac-hero-{{ section.id }} .hero-content {
-    flex: 1;
-    max-width: 600px;
-    padding-bottom: 60px;
-  }
-  .zodiac-hero-{{ section.id }} .hero-title {
-    font-size: clamp(40px, 6vw, 80px);
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-    font-family: 'Anton', 'Impact', sans-serif;
-    color: #ffffff;
-  }
-  .zodiac-hero-{{ section.id }} .hero-title span {
-    color: {{ section.settings.accent_color }};
-  }
-  .zodiac-hero-{{ section.id }} .hero-text {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 40px;
-    color: #cccccc;
-    max-width: 450px;
-  }
-  .zodiac-hero-{{ section.id }} .hero-image-wrapper {
-    flex: 1;
-    position: relative;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    align-self: stretch;
-  }
-  .zodiac-hero-{{ section.id }} .hero-image {
-    max-width: 100%;
-    max-height: 85vh;
-    object-fit: contain;
-    object-position: bottom;
-    z-index: 2;
-    position: relative;
-  }
-  .zodiac-hero-{{ section.id }} .hero-splash {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
-    background-image: url('{{ section.settings.splash_image | img_url: "master" }}');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
-    opacity: 0.8;
+    align-items: center;
+    padding: 60px 20px;
   }
 
-  .zodiac-hero-{{ section.id }} .hero-nav {
+  .zh-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .zh-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Hotspot Styling */
+  .zh-hotspot {
     position: absolute;
-    right: 40px;
+    z-index: 10;
+  }
+
+  .zh-dot {
+    width: 12px;
+    height: 12px;
+    background-color: {{ section.settings.accent_color }};
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    box-shadow: 0 0 10px {{ section.settings.accent_color }}, 0 0 20px {{ section.settings.accent_color }};
+    animation: zhPulse 2s infinite;
+    cursor: pointer;
+  }
+
+  @keyframes zhPulse {
+    0% { box-shadow: 0 0 0 0 rgba(201, 154, 60, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(201, 154, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(201, 154, 60, 0); }
+  }
+
+  /* Hotspot Text Content */
+  .zh-content {
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    z-index: 3;
-  }
-  .zodiac-hero-{{ section.id }} .hero-nav-item {
-    color: #555;
-    font-size: 14px;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  .zodiac-hero-{{ section.id }} .hero-nav-item.active {
-    color: {{ section.settings.accent_color }};
-    font-weight: bold;
+    width: 220px;
+    opacity: 1;
+    transition: opacity 0.3s;
   }
 
-  @media (max-width: 990px) {
-    .zodiac-hero-{{ section.id }} .hero-container {
-      flex-direction: column;
-      text-align: center;
-      padding-top: 60px;
+  /* Left facing hotspot (Dot is on the right, text is on the left) */
+  .zh-hotspot.dir-left .zh-content {
+    right: 30px;
+    text-align: right;
+  }
+  
+  .zh-hotspot.dir-left .zh-content::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: -30px;
+    width: 25px;
+    height: 1px;
+    background: {{ section.settings.accent_color }};
+  }
+
+  /* Right facing hotspot (Dot is on the left, text is on the right) */
+  .zh-hotspot.dir-right .zh-content {
+    left: 30px;
+    text-align: left;
+  }
+
+  .zh-hotspot.dir-right .zh-content::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: -30px;
+    width: 25px;
+    height: 1px;
+    background: {{ section.settings.accent_color }};
+  }
+
+  .zh-title {
+    color: {{ section.settings.accent_color }};
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+
+  .zh-desc {
+    color: #cccccc;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .zh-content {
+      width: 140px;
     }
-    .zodiac-hero-{{ section.id }} .hero-content {
-      max-width: 100%;
-      padding-bottom: 0;
+    .zh-hotspot.dir-left .zh-content {
+      right: 20px;
     }
-    .zodiac-hero-{{ section.id }} .hero-nav {
-      display: none;
+    .zh-hotspot.dir-right .zh-content {
+      left: 20px;
     }
-    .zodiac-hero-{{ section.id }} .hero-image-wrapper {
-      align-items: center;
+    .zh-hotspot.dir-left .zh-content::before {
+      right: -20px;
+      width: 15px;
+    }
+    .zh-hotspot.dir-right .zh-content::before {
+      left: -20px;
+      width: 15px;
+    }
+    .zh-background-ring {
+      width: 90vw;
+      height: 90vw;
     }
   }
 {% endstyle %}
 
-<section class="zodiac-hero-{{ section.id }}">
-  {% if section.settings.bg_text != blank %}
-    <div class="hero-bg-text">{{ section.settings.bg_text }}</div>
-  {% endif %}
-  
-  <div class="hero-container">
-    <div class="hero-content">
-      {% if section.settings.title != blank %}
-        <h1 class="hero-title">{{ section.settings.title }}</h1>
-      {% endif %}
-      
-      {% if section.settings.text != blank %}
-        <div class="hero-text">{{ section.settings.text }}</div>
-      {% endif %}
-    </div>
-    
-    <div class="hero-image-wrapper">
-      {% if section.settings.splash_image %}
-        <div class="hero-splash"></div>
-      {% endif %}
-      
+<section class="zodiac-hotspot-hero-{{ section.id }}">
+  <div class="zh-background-ring"></div>
+  <div class="zh-bottom-glow"></div>
+
+  <div class="zh-container">
+    <div class="zh-image-wrapper">
       {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 800 | image_tag: class: 'hero-image', loading: 'lazy' }}
+        {{ section.settings.image | image_url: width: 1000 | image_tag: class: 'zh-image', loading: 'lazy' }}
       {% else %}
-        {{ 'image' | placeholder_svg_tag: 'hero-image placeholder-svg' }}
+        {{ 'product-1' | placeholder_svg_tag: 'zh-image placeholder-svg' }}
       {% endif %}
+
+      {% for block in section.blocks %}
+        <div class="zh-hotspot dir-{{ block.settings.direction }}" style="top: {{ block.settings.top_pos }}%; left: {{ block.settings.left_pos }}%;" {{ block.shopify_attributes }}>
+          <div class="zh-dot"></div>
+          <div class="zh-content">
+            {% if block.settings.title != blank %}
+              <div class="zh-title">{{ block.settings.title }}</div>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="zh-desc">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
-  
-  {% if section.settings.show_side_nav %}
-    <div class="hero-nav">
-      <div class="hero-nav-item active">01</div>
-      <div class="hero-nav-item">02</div>
-      <div class="hero-nav-item">03</div>
-    </div>
-  {% endif %}
 </section>
 
 {% schema %}
 {
-  "name": "Zodiac Hero",
+  "name": "Animated Hotspots",
   "settings": [
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#111111"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#ffffff"
+      "default": "#0a0a0a"
     },
     {
       "type": "color",
@@ -193,44 +219,86 @@
       "default": "#c99a3c"
     },
     {
-      "type": "text",
-      "id": "bg_text",
-      "label": "Background Large Text",
-      "default": "VSYT"
-    },
-    {
-      "type": "html",
-      "id": "title",
-      "label": "Title",
-      "default": "ELEVATE YOUR <br><span>EVERYDAY STYLE</span>",
-      "info": "Use <span> for accent color"
-    },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "Description",
-      "default": "Premium oversized t-shirts crafted for comfort, designed to make a statement."
-    },
-    {
       "type": "image_picker",
       "id": "image",
       "label": "Main Image"
-    },
+    }
+  ],
+  "blocks": [
     {
-      "type": "image_picker",
-      "id": "splash_image",
-      "label": "Background Splash Image (Optional)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_side_nav",
-      "label": "Show Side Navigation",
-      "default": true
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "PREMIUM FEATURE"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Describe your premium product feature here."
+        },
+        {
+          "type": "range",
+          "id": "top_pos",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical Position (Top)",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "left_pos",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal Position (Left)",
+          "default": 50
+        },
+        {
+          "type": "select",
+          "id": "direction",
+          "label": "Text Direction",
+          "options": [
+            { "value": "left", "label": "Text on Left" },
+            { "value": "right", "label": "Text on Right" }
+          ],
+          "default": "right"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Zodiac Hero"
+      "name": "Animated Hotspots",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "RIBBED CREW NECK",
+            "text": "Durable ribbed neck for a perfect fit and long lasting shape.",
+            "top_pos": 15,
+            "left_pos": 65,
+            "direction": "right"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "PREMIUM COTTON",
+            "text": "High quality 240 GSM super combed cotton for ultimate comfort.",
+            "top_pos": 65,
+            "left_pos": 30,
+            "direction": "left"
+          }
+        }
+      ]
     }
   ]
 }
