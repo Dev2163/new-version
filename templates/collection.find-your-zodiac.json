@@ -54,7 +54,7 @@
       "settings": {
         "main_image": "shopify://shop_images/ChatGPT_Image_Jul_22__2026__10_41_18_PM-removebg-preview.png",
         "back_image": "shopify://shop_images/ChatGPT_Image_Jul_22__2026__10_46_19_PM-removebg-preview.png",
-        "current_image": "back",
+        "current_image": "front",
         "image_width": 680,
         "image_rotation": 0,
         "image_scale": 1,
