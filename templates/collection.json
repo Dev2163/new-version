@@ -310,9 +310,14 @@
         "padding-block-start": 0,
         "padding-block-end": 32
       }
+    },
+    "zodiac_hero": {
+      "type": "zodiac-hero",
+      "settings": {}
     }
   },
   "order": [
+    "zodiac_hero",
     "collection_slider_hero",
     "trusted_brands",
     "section",
