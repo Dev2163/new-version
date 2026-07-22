@@ -11,6 +11,46 @@
   "sections": {
     "product_feature_showcase": {
       "type": "product-feature-showcase",
+      "blocks": {
+        "feature_Fjbnnt": {
+          "type": "feature",
+          "settings": {
+            "enable": true,
+            "image_view": "front",
+            "title": "Premium Cotton",
+            "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
+            "dot_x": 40,
+            "dot_y": 71,
+            "line_length": 100,
+            "content_position": "left",
+            "title_width": 220,
+            "title_color": "#d4af37",
+            "subtitle_color": "#d5d5d5",
+            "glow_color": "#d4af37"
+          }
+        },
+        "feature_FaJe44": {
+          "type": "feature",
+          "settings": {
+            "enable": true,
+            "image_view": "front",
+            "title": "Premium Cotton",
+            "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
+            "dot_x": 60,
+            "dot_y": 50,
+            "line_length": 100,
+            "content_position": "right",
+            "title_width": 220,
+            "title_color": "#d4af37",
+            "subtitle_color": "#d5d5d5",
+            "glow_color": "#d4af37"
+          }
+        }
+      },
+      "block_order": [
+        "feature_Fjbnnt",
+        "feature_FaJe44"
+      ],
       "settings": {
         "main_image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_08_51_23_PM.png",
         "back_image": "shopify://shop_images/ChatGPT_Image_Jul_4__2026__08_15_24_PM-removebg-preview.png",
