@@ -369,13 +369,14 @@
       {% for block in section.blocks limit: section.settings.pointer_count %}
         {% if block.settings.enable %}
           {%- liquid
-            assign angle = block.settings.line_angle | default: 0
-            assign align = block.settings.text_align | default: 'left'
-            assign tx = '15px'
-            if align == 'right'
+            if block.settings.content_position == 'left'
+              assign angle = 180
+              assign align = 'right'
               assign tx = 'calc(-100% - 15px)'
-            elsif align == 'center'
-              assign tx = '-50%'
+            else
+              assign angle = 0
+              assign align = 'left'
+              assign tx = '15px'
             endif
           -%}
           <div class="pfs-pointer {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
@@ -748,15 +749,14 @@
           "default": 100
         },
         {
-          "type": "range",
-          "id": "line_angle",
-          "min": -180,
-          "max": 180,
-          "step": 5,
-          "unit": "deg",
-          "label": "Line Angle",
-          "default": 0,
-          "info": "0 is right, 180 is left, 90 is down, -90 is up"
+          "type": "select",
+          "id": "content_position",
+          "label": "Content Position",
+          "options": [
+            { "value": "right", "label": "Right of Dot" },
+            { "value": "left", "label": "Left of Dot" }
+          ],
+          "default": "right"
         },
         {
           "type": "range",
@@ -767,18 +767,6 @@
           "unit": "px",
           "label": "Text Container Width",
           "default": 220
-        },
-        {
-          "type": "select",
-          "id": "text_align",
-          "label": "Text Alignment",
-          "options": [
-            { "value": "left", "label": "Left (Text on right of line)" },
-            { "value": "center", "label": "Center" },
-            { "value": "right", "label": "Right (Text on left of line)" }
-          ],
-          "default": "left",
-          "info": "If the line goes left (180deg), choose Right alignment so the text attaches properly."
         },
         {
           "type": "color",
@@ -814,8 +802,7 @@
             "dot_x": 30,
             "dot_y": 60,
             "line_length": 80,
-            "line_angle": 180,
-            "text_align": "right"
+            "content_position": "left"
           }
         },
         {
@@ -827,8 +814,7 @@
             "dot_x": 60,
             "dot_y": 20,
             "line_length": 80,
-            "line_angle": 0,
-            "text_align": "left"
+            "content_position": "right"
           }
         }
       ]
