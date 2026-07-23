@@ -24,10 +24,10 @@
             <h3 style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 6px;">{{ rec.title }}</h3>
             <div style="font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: #f4c430; margin-bottom: 12px;">{{ rec.price | money }}</div>
           </a>
-          <form method="post" action="/cart/add" onsubmit="event.preventDefault(); fetch('/cart/add.js', { method: 'POST', body: new FormData(this) }).then(r => r.json()).then(() => { document.dispatchEvent(new CustomEvent('cart:updated')); if (document.querySelector('cart-drawer, #cart-drawer')) { document.querySelector('header-actions-cart, [data-cart-drawer-trigger]')?.click(); } }); return false;">
+          <form method="post" action="/cart/add" onsubmit="event.preventDefault(); fetch('/cart/add.js', { method: 'POST', body: new FormData(this) }).then(r => { if (!r.ok) { return r.json().then(err => { console.warn(err.description || 'Item sold out'); }); } return r.json().then(() => { document.dispatchEvent(new CustomEvent('cart:updated')); if (document.querySelector('cart-drawer, #cart-drawer')) { document.querySelector('header-actions-cart, [data-cart-drawer-trigger]')?.click(); } }); }).catch(err => console.warn(err)); return false;">
             <input type="hidden" name="id" value="{{ rec.selected_or_first_available_variant.id }}">
-            <button type="submit" style="width: 100%; background: transparent; border: 1px solid rgba(244,196,48,0.5); color: #f4c430; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; padding: 10px; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease;" onmouseover="this.style.background='#f4c430'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='#f4c430';">
-              + Add Matching Item
+            <button type="submit" {% unless rec.available and rec.selected_or_first_available_variant.available %}disabled{% endunless %} style="width: 100%; background: transparent; border: 1px solid rgba(244,196,48,0.5); color: #f4c430; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; padding: 10px; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease;" onmouseover="this.style.background='#f4c430'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='#f4c430';">
+              {%- if rec.available and rec.selected_or_first_available_variant.available -%}+ Add Matching Item{%- else -%}Sold Out{%- endif -%}
             </button>
           </form>
         </div>
