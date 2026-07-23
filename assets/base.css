@@ -4717,3 +4717,84 @@ h1, h2, h3, h4, h5, h6,
   transition: width 0.4s ease;
 }
 
+/* ==========================================================================
+   LUXURY HOVER ANIMATIONS FOR HOMEPAGE CARDS
+   ========================================================================== */
+
+/* 1. Why Choose ONE9 Card Hover Effects */
+.why-choose-card {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.why-choose-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: #f4c430 !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(244, 196, 48, 0.25) !important;
+}
+
+.why-choose-card .why-choose-icon {
+  transition: all 0.35s ease !important;
+}
+
+.why-choose-card:hover .why-choose-icon {
+  transform: scale(1.18) rotate(6deg) !important;
+  background: rgba(244, 196, 48, 0.25) !important;
+  border-color: #f4c430 !important;
+  box-shadow: 0 0 15px rgba(244, 196, 48, 0.5) !important;
+}
+
+/* 2. Customer Reviews Card Hover Effects */
+.review-card {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.review-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(244, 196, 48, 0.4) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(244, 196, 48, 0.2) !important;
+}
+
+.review-card .stars {
+  transition: transform 0.3s ease !important;
+}
+
+.review-card:hover .stars {
+  transform: scale(1.08) !important;
+}
+
+/* 3. Instagram Gallery Card Hover Effects */
+.insta-card {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.insta-card img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.insta-card:hover img {
+  transform: scale(1.12) rotate(1deg) !important;
+}
+
+.insta-card:hover {
+  border-color: #f4c430 !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(244, 196, 48, 0.3) !important;
+}
+
+.insta-card .insta-overlay {
+  transition: all 0.35s ease !important;
+}
+
+.insta-card:hover .insta-overlay {
+  opacity: 1 !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+.insta-card:hover .insta-overlay svg {
+  transform: scale(1.2) !important;
+  transition: transform 0.3s ease !important;
+}
+
+
