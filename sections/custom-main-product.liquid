@@ -151,20 +151,50 @@
             </div>
           {% endunless %}
 
-          <!-- Buttons -->
-          <div class="cp-buy-buttons-new">
+          <!-- Stock Urgency Indicator -->
+          {%- if product.available -%}
+            <div class="cp-stock-urgency" style="display: flex; align-items: center; gap: 8px; margin: 16px 0; color: #f4c430; font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase;">
+              <span class="stock-pulse" style="width: 8px; height: 8px; border-radius: 50%; background: #f4c430; display: inline-block; animation: pulseGlow 1.5s infinite;"></span>
+              <span>In Stock • Ships Within 24 Hours</span>
+            </div>
+          {%- endif -%}
+
+          <!-- Buttons & Sticky Bar Target -->
+          <div class="cp-buy-buttons-new" id="main-buy-buttons">
             {% if product.available %}
-              <button type="submit" name="add" class="cp-btn cp-btn-add">
+              <button type="submit" name="add" class="cp-btn cp-btn-add" style="background: #f4c430; color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 1px; width: 100%; padding: 16px; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
                 ADD TO CART
               </button>
             {% else %}
-              <button type="button" class="cp-btn cp-btn-soldout" disabled>
-                Sold out
+              <button type="button" class="cp-btn cp-btn-soldout" disabled style="background: #222; color: #777; font-family: 'Orbitron', sans-serif; font-weight: 700; width: 100%; padding: 16px; border: none; border-radius: 6px; cursor: not-allowed;">
+                SOLD OUT
               </button>
             {% endif %}
-            <div class="cp-delivery-estimate">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ccc" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-              <span>Estimated Delivery: <strong>By Jul 17</strong></span>
+
+            <!-- Dynamic Delivery Countdown -->
+            <div class="cp-delivery-estimate" style="margin-top: 14px; display: flex; align-items: center; gap: 10px; font-family: 'Rajdhani', sans-serif; font-size: 13px; color: #b0b0b0;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#f4c430" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Order within <strong style="color: #f4c430;" id="pdp-countdown">04h 28m</strong> for Express Delivery</span>
+            </div>
+
+            <!-- PDP Trust Badges -->
+            <div class="pdp-trust-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);">
+              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>100% Authentic</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                <span>Global Express</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                <span>30-Day Returns</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Secure Checkout</span>
+              </div>
             </div>
           </div>
 
@@ -198,6 +228,39 @@
           </div>
           
         {%- endform -%}
+
+        <!-- Sticky ATC Bar for PDP Mobile & Desktop -->
+        <div id="one9-sticky-atc-bar" class="sticky-atc-bar">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="{{ product.featured_media | image_url: width: 100 }}" alt="{{ product.title }}" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px; background: #fff;">
+            <div>
+              <div style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: #fff;">{{ product.title | truncate: 25 }}</div>
+              <div style="font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: #f4c430;">{{ product.price | money }}</div>
+            </div>
+          </div>
+          <button type="button" onclick="document.querySelector('#main-buy-buttons button[name=add]')?.click()" style="background: #f4c430; color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 12px; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+            ADD TO CART
+          </button>
+        </div>
+
+        <script>
+          (function() {
+            const mainButtons = document.getElementById('main-buy-buttons');
+            const stickyBar = document.getElementById('one9-sticky-atc-bar');
+            if (mainButtons && stickyBar) {
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (!entry.isIntersecting) {
+                    stickyBar.classList.add('visible');
+                  } else {
+                    stickyBar.classList.remove('visible');
+                  }
+                });
+              }, { threshold: 0.1 });
+              observer.observe(mainButtons);
+            }
+          })();
+        </script>
       </div>
     </div>
   </div>

@@ -1,0 +1,89 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Complete The Look Section (PDP Upsell Bundle)
+{% endcomment %}
+
+{%- if product.metafields.custom.complete_the_look != blank or recommendations.performed and recommendations.products_count > 0 -%}
+<div class="complete-the-look section-{{ section.id }}" style="background-color: {{ section.settings.bg_color | default: '#080808' }}; padding: {{ section.settings.padding_top | default: 60 }}px 0 {{ section.settings.padding_bottom | default: 60 }}px 0; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div class="page-width">
+    <div class="section-heading text-center" style="margin-bottom: 40px;">
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: clamp(22px, 3.5vw, 30px); font-weight: 800; text-transform: uppercase; color: #ffffff; margin-bottom: 8px;">
+        {{ section.settings.title | default: 'COMPLETE THE LOOK' }}
+      </h2>
+      <p style="font-family: 'Rajdhani', sans-serif; font-size: 15px; color: #f4c430; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">
+        {{ section.settings.subtitle | default: 'STORY & OUTFIT CURATION' }}
+      </p>
+    </div>
+
+    <div class="look-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+      {%- for rec in recommendations.products limit: 3 -%}
+        <div class="look-card glass-panel" style="border-radius: 10px; overflow: hidden; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+          <a href="{{ rec.url }}" style="text-decoration: none;">
+            <div style="aspect-ratio: 1; overflow: hidden; border-radius: 6px; background: #fff; margin-bottom: 14px;">
+              <img src="{{ rec.featured_media | image_url: width: 400 }}" alt="{{ rec.title }}" loading="lazy" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 6px;">{{ rec.title }}</h3>
+            <div style="font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: #f4c430; margin-bottom: 12px;">{{ rec.price | money }}</div>
+          </a>
+          <form method="post" action="/cart/add">
+            <input type="hidden" name="id" value="{{ rec.selected_or_first_available_variant.id }}">
+            <button type="submit" style="width: 100%; background: transparent; border: 1px solid rgba(244,196,48,0.5); color: #f4c430; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; padding: 10px; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease;" onmouseover="this.style.background='#f4c430'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='#f4c430';">
+              + Add Matching Item
+            </button>
+          </form>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Complete The Look",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "COMPLETE THE LOOK"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "STORY & OUTFIT CURATION"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#080808"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Complete The Look"
+    }
+  ]
+}
+{% endschema %}
