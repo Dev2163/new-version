@@ -117,7 +117,7 @@
         {%- endif -%}
       </div>
       
-      <form method="post" action="/cart/add" class="dark-shoe-card__form">
+      <form method="post" action="/cart/add" class="dark-shoe-card__form" onsubmit="event.preventDefault(); fetch('/cart/add.js', { method: 'POST', body: new FormData(this) }).then(r => r.json()).then(() => { document.dispatchEvent(new CustomEvent('cart:updated')); if (document.querySelector('cart-drawer, #cart-drawer')) { document.querySelector('header-actions-cart, [data-cart-drawer-trigger]')?.click(); } }); return false;">
         <input type="hidden" name="id" value="{{ current_variant.id }}">
         <button type="submit" class="dark-shoe-card__cart-btn" aria-label="Add to cart" {% unless product.available %}disabled{% endunless %}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
