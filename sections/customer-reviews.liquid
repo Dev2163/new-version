@@ -13,7 +13,7 @@
       </p>
     </div>
 
-    <div class="reviews-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+    <div class="reviews-grid" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; max-width: 1200px; margin: 0 auto;">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
           <div class="review-card glass-panel" style="padding: 28px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between;" {{ block.shopify_attributes }}>

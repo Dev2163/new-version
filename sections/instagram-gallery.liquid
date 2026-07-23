@@ -13,10 +13,10 @@
       </p>
     </div>
 
-    <div class="insta-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+    <div class="insta-grid" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 0 auto;">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
-          <div class="insta-card" style="position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #111;" {{ block.shopify_attributes }}>
+          <div class="insta-card" style="position: relative; border-radius: 12px; overflow: hidden; width: clamp(200px, 22vw, 260px); aspect-ratio: 1; background: #111; flex-shrink: 0;" {{ block.shopify_attributes }}>
             {%- if block.settings.image != blank -%}
               <img src="{{ block.settings.image | image_url: width: 500 }}" alt="ONE9 Community" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
             {%- else -%}
@@ -34,7 +34,7 @@
       {%- else -%}
         <!-- Fallback Instagram Cards -->
         {%- for i in (1..4) -%}
-          <div class="insta-card" style="position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #111;">
+          <div class="insta-card" style="position: relative; border-radius: 12px; overflow: hidden; width: clamp(200px, 22vw, 260px); aspect-ratio: 1; background: #111; flex-shrink: 0;">
             {%- assign sample_product = collections.all.products[forloop.index0] -%}
             {%- if sample_product and sample_product.featured_media -%}
               <img src="{{ sample_product.featured_media | image_url: width: 500 }}" alt="ONE9 Streetwear" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
