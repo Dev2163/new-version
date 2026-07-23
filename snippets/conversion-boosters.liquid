@@ -1,0 +1,46 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Conversion Optimization & Trust Boosters
+{% endcomment %}
+
+<!-- Social Proof Recent Purchase Toast -->
+<div id="one9-purchase-toast" class="cro-toast" style="display: none;">
+  <img src="https://cdn.shopify.com/s/files/1/0000/0000/files/placeholder.png?v=1" alt="Product" class="cro-toast__img" id="cro-toast-img">
+  <div class="cro-toast__content">
+    <div class="cro-toast__title" id="cro-toast-title">Alex from London</div>
+    <div class="cro-toast__subtitle" id="cro-toast-product">purchased Libra Balance Tee</div>
+    <div class="cro-toast__time" id="cro-toast-time">Verified Purchase • 4 mins ago</div>
+  </div>
+  <button type="button" class="cro-toast__close" aria-label="Close notification" onclick="document.getElementById('one9-purchase-toast').style.display='none'">&times;</button>
+</div>
+
+<script>
+  (function() {
+    const samplePurchases = [
+      { name: "Marcus V. from London", product: "Libra Balance Oversized Tee", time: "2 mins ago" },
+      { name: "Dominic T. from New York", product: "ONE9 Heavyweight Oversized Hoodie", time: "5 mins ago" },
+      { name: "Sophia K. from Berlin", product: "Zodiac Edition Track Pant", time: "8 mins ago" },
+      { name: "Julian M. from Paris", product: "Native Bombay Blues Sneaker", time: "12 mins ago" }
+    ];
+
+    function showRandomToast() {
+      const toast = document.getElementById('one9-purchase-toast');
+      if (!toast) return;
+      
+      const purchase = samplePurchases[Math.floor(Math.random() * samplePurchases.length)];
+      document.getElementById('cro-toast-title').textContent = purchase.name;
+      document.getElementById('cro-toast-product').textContent = "purchased " + purchase.product;
+      document.getElementById('cro-toast-time').textContent = "Verified Purchase • " + purchase.time;
+      
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5000);
+    }
+
+    // Trigger first toast after 8 seconds, then every 35 seconds
+    setTimeout(() => {
+      showRandomToast();
+      setInterval(showRandomToast, 35000);
+    }, 8000);
+  })();
+</script>
