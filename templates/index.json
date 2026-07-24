@@ -73,19 +73,13 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "product": "",
-            "custom_title": "NIKE AIR MAX",
-            "custom_price": "",
-            "bg_text": "NIKE"
+            "product": ""
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "product": "",
-            "custom_title": "NIKE RUNNER",
-            "custom_price": "",
-            "bg_text": "NIKE"
+            "product": ""
           }
         }
       },
@@ -96,12 +90,8 @@
       "disabled": true,
       "settings": {
         "bg_color": "#0a0a0a",
-        "text_color": "#ffffff",
         "accent_color": "#ffd700",
-        "left_title": "JUST\nDO\nIT.",
-        "left_title_size": 100,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "text_color": "#ffffff"
       }
     },
     "trust_badges_section": {
