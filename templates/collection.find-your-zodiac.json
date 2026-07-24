@@ -1,8 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "product_feature_showcase": {
       "type": "product-feature-showcase",
-      "settings": {}
+      "settings": {
+        "main_image": "shopify://shop_images/ChatGPT_Image_Jul_22__2026__10_41_18_PM-removebg-preview.png",
+        "current_image": "front",
+        "image_width": 680,
+        "image_rotation": 0,
+        "image_scale": 1,
+        "bg_color": "#070707",
+        "glow_color": "#d4af37",
+        "glow_opacity": 20,
+        "floating_animation": true,
+        "glow_animation": true,
+        "pointer_animation": true,
+        "show_nav": true,
+        "pointer_count": 8
+      }
     },
     "section": {
       "type": "section",
