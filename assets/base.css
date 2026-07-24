@@ -4797,4 +4797,262 @@ h1, h2, h3, h4, h5, h6,
   transition: transform 0.3s ease !important;
 }
 
+/* ==========================================================================
+   ONE9 LUXURY STREETWEAR - CART DRAWER & CART PAGE DARK THEME FIXES
+   ========================================================================== */
+
+/* 1. Cart Drawer Modal Container */
+.cart-drawer__dialog,
+.cart-drawer__dialog:modal,
+.cart-drawer__inner,
+.cart-drawer__content,
+.cart-drawer__header,
+.cart-drawer__summary,
+.cart-page,
+.cart-items__wrapper {
+  background-color: #080808 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.cart-drawer__dialog {
+  border-left: 1px solid rgba(244, 196, 48, 0.3) !important;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 2. Cart Drawer Header */
+.cart-drawer__header {
+  padding: 18px 24px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: #0f0f0f !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.cart-drawer__heading,
+.cart-drawer__heading h2,
+.cart-drawer__heading span {
+  font-family: 'Orbitron', 'Rajdhani', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+.cart-drawer__close-button {
+  color: #ffffff !important;
+  opacity: 0.8 !important;
+  transition: all 0.2s ease !important;
+}
+
+.cart-drawer__close-button:hover {
+  color: #f4c430 !important;
+  opacity: 1 !important;
+  transform: rotate(90deg) !important;
+}
+
+.cart-drawer__close-button svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* 3. Cart Items List & Rows */
+.cart-items__table-row {
+  background-color: #0d0d0d !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 16px !important;
+  margin-bottom: 12px !important;
+  border-radius: 8px !important;
+}
+
+.cart-items__media-container {
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: #1a1a1a !important;
+}
+
+.cart-items__media-image {
+  object-fit: cover !important;
+}
+
+/* Product Titles & Info */
+.cart-items__title,
+.cart-items__details,
+.cart-items__details a,
+.cart-items__product-info p,
+.cart-items__product-info a {
+  font-family: 'Orbitron', 'Rajdhani', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  text-decoration: none !important;
+  line-height: 1.4 !important;
+}
+
+.cart-items__title:hover,
+.cart-items__details a:hover {
+  color: #f4c430 !important;
+}
+
+.cart-items__variants,
+.cart-items__variant,
+.cart-items__details dt,
+.cart-items__details dd,
+.cart-items__properties {
+  font-family: 'Rajdhani', sans-serif !important;
+  font-size: 12px !important;
+  color: #a0a0a0 !important;
+  font-weight: 600 !important;
+}
+
+/* Price Styling */
+.cart-items__price,
+.cart-items__price text-component,
+.cart-items__price span,
+.cart-items__unit-price-wrapper,
+.cart-items__unit-price-wrapper span {
+  font-family: 'Rajdhani', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #f4c430 !important;
+}
+
+.cart-items__price s,
+.compare-at-price {
+  color: #777777 !important;
+  font-size: 13px !important;
+  text-decoration: line-through !important;
+}
+
+/* Quantity Selector in Cart */
+.cart-items .quantity-selector,
+.cart-drawer .quantity-selector {
+  background-color: #161616 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 6px !important;
+  color: #ffffff !important;
+  height: 34px !important;
+  min-width: 90px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.cart-items .quantity-selector button,
+.cart-drawer .quantity-selector button {
+  color: #f4c430 !important;
+  background: transparent !important;
+  border: none !important;
+  width: 28px !important;
+  height: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.cart-items .quantity-selector button:hover,
+.cart-drawer .quantity-selector button:hover {
+  color: #ffffff !important;
+  background: rgba(244, 196, 48, 0.2) !important;
+}
+
+.cart-items .quantity-selector input,
+.cart-drawer .quantity-selector input {
+  color: #ffffff !important;
+  background: transparent !important;
+  border: none !important;
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  width: 32px !important;
+}
+
+/* Remove Item Button */
+.cart-items__remove {
+  color: #888888 !important;
+  background: transparent !important;
+  border: none !important;
+  transition: color 0.2s ease !important;
+}
+
+.cart-items__remove:hover {
+  color: #ff4d4d !important;
+}
+
+.cart-items__remove svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* 4. Cart Summary Footer */
+.cart-drawer__summary,
+.cart-page__summary {
+  background-color: #0f0f0f !important;
+  border-top: 1px solid rgba(244, 196, 48, 0.3) !important;
+  padding: 20px 24px !important;
+}
+
+.cart-drawer__summary *,
+.cart-page__summary * {
+  color: #ffffff !important;
+}
+
+.cart-drawer__summary .totals__subtotal,
+.cart-drawer__summary .totals__subtotal-value,
+.cart__total-container text-component,
+.cart-page__summary text-component {
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #f4c430 !important;
+}
+
+/* Checkout Button */
+.cart-drawer__summary button[name="checkout"],
+.cart-page__summary button[name="checkout"],
+.cart__checkout-button,
+a.cart__checkout-button {
+  background-color: #f4c430 !important;
+  color: #000000 !important;
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  padding: 14px 24px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  width: 100% !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(244, 196, 48, 0.3) !important;
+}
+
+.cart-drawer__summary button[name="checkout"]:hover,
+.cart-page__summary button[name="checkout"]:hover,
+.cart__checkout-button:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Cart Badge & Count */
+.cart-bubble,
+.cart-bubble__text,
+.cart-bubble__text-count {
+  background-color: #f4c430 !important;
+  color: #000000 !important;
+  font-family: 'Orbitron', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: 11px !important;
+}
 
