@@ -31,7 +31,7 @@
     <div class="nova-ai-panel__header">
       <div class="nova-ai-panel__brand">
         <div class="nova-ai-panel__avatar">
-          <svg viewBox="0 0 24 24" fill="none" style="width:24px; height:24px;">
+          <svg viewBox="0 0 24 24" fill="none" style="width:22px; height:22px;">
             <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="url(#nova-gold-grad)"/>
             <defs>
               <linearGradient id="nova-gold-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
@@ -42,8 +42,8 @@
           </svg>
         </div>
         <div class="nova-ai-panel__info">
-          <div class="nova-ai-panel__title">
-            <span>NovaAI</span>
+          <div class="nova-ai-panel__title-row">
+            <span class="nova-ai-panel__name">NovaAI</span>
             <span class="nova-ai-panel__tag">STREETWEAR AI</span>
           </div>
           <div class="nova-ai-panel__status">
@@ -260,67 +260,78 @@
     transform: translateY(0) scale(1) !important;
   }
 
-  /* Header */
+  /* Header Alignment Fixes */
   .nova-ai-panel__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 18px;
+    padding: 12px 14px;
     background: #000000;
     border-bottom: 1px solid rgba(244, 196, 48, 0.3);
+    gap: 8px;
   }
 
   .nova-ai-panel__brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    min-width: 0;
   }
 
   .nova-ai-panel__avatar {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     background: rgba(244, 196, 48, 0.12);
     border: 1px solid rgba(244, 196, 48, 0.6);
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6px;
+    flex-shrink: 0;
   }
 
   .nova-ai-panel__info {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    min-width: 0;
   }
 
-  .nova-ai-panel__title {
+  .nova-ai-panel__title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .nova-ai-panel__name {
     font-family: 'Orbitron', 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 14px;
     color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
   }
 
   .nova-ai-panel__tag {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 800;
-    padding: 2px 6px;
+    padding: 1px 5px;
     background: rgba(244, 196, 48, 0.2);
     color: #F4C430;
     border: 1px solid rgba(244, 196, 48, 0.4);
     border-radius: 4px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
   }
 
   .nova-ai-panel__status {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--nova-muted);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
   }
 
   .status-dot {
@@ -334,7 +345,8 @@
   .nova-ai-panel__controls {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    flex-shrink: 0;
   }
 
   /* Language Selector */
@@ -342,7 +354,7 @@
     display: flex;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(244, 196, 48, 0.3);
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 2px;
   }
 
@@ -350,10 +362,10 @@
     background: transparent;
     border: none;
     color: #CCC;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    padding: 4px 7px;
-    border-radius: 6px;
+    padding: 3px 5px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -368,14 +380,15 @@
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #AAA;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    flex-shrink: 0;
   }
 
   .nova-ai-panel__close:hover {
@@ -393,6 +406,8 @@
     flex-direction: column;
     gap: 14px;
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(244, 196, 48, 0.3) transparent;
   }
 
   .nova-ai-panel__messages::-webkit-scrollbar {
@@ -574,18 +589,22 @@
     background: #1EBE57;
   }
 
-  /* Quick Replies Chips */
+  /* Quick Replies Chips - Hide Horizontal Scrollbar Completely */
   .nova-ai-panel__quick-replies {
-    padding: 8px 16px;
+    padding: 8px 14px;
     display: flex;
     gap: 8px;
     overflow-x: auto;
     border-top: 1px solid rgba(244, 196, 48, 0.15);
     background: rgba(8, 8, 12, 0.95);
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE & Edge */
   }
 
   .nova-ai-panel__quick-replies::-webkit-scrollbar {
-    display: none;
+    display: none !important; /* Chrome, Safari, Opera */
+    width: 0 !important;
+    height: 0 !important;
   }
 
   .quick-chip {
@@ -599,6 +618,7 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
+    flex-shrink: 0;
   }
 
   .quick-chip:hover {
