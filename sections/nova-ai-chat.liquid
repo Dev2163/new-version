@@ -2,8 +2,10 @@
   ONE9 AI Shopping Assistant — Nova AI Chat Widget Section
 {% comment %}
 
-{% assign enable_ai = section.settings.enable_nova_ai %}
-{% if enable_ai == nil %}{% assign enable_ai = true %}{% endif %}
+{% assign enable_ai = true %}
+{% if section.settings.enable_nova_ai == false %}
+  {% assign enable_ai = false %}
+{% endif %}
 
 {% if enable_ai %}
 <!-- Nova AI Floating Trigger -->
@@ -80,24 +82,24 @@
 
 <style>
   .nova-trigger {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 999999;
-    background: #080808;
-    border: 2px solid #f4c430;
-    border-radius: 50px;
-    padding: 8px 16px 8px 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(244, 196, 48, 0.35);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: fixed !important;
+    bottom: 28px !important;
+    right: 24px !important;
+    z-index: 9999999 !important;
+    background: #080808 !important;
+    border: 2px solid #f4c430 !important;
+    border-radius: 50px !important;
+    padding: 8px 16px 8px 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 25px rgba(244, 196, 48, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
   .nova-trigger:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(244, 196, 48, 0.5);
+    transform: translateY(-3px) scale(1.03) !important;
+    box-shadow: 0 12px 30px rgba(244, 196, 48, 0.6) !important;
   }
   .nova-trigger__icon {
     width: 34px;
@@ -130,21 +132,33 @@
   }
 
   .nova-window {
-    position: fixed;
-    bottom: 84px;
-    right: 24px;
-    width: min(380px, calc(100vw - 32px));
-    height: 540px;
-    max-height: calc(100vh - 110px);
-    z-index: 999999;
-    background: #0a0a0a;
-    border: 1px solid rgba(244, 196, 48, 0.4);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(244, 196, 48, 0.15);
-    overflow: hidden;
-    animation: novaSlideUp 0.3s ease-out;
+    position: fixed !important;
+    bottom: 88px !important;
+    right: 24px !important;
+    width: min(380px, calc(100vw - 32px)) !important;
+    height: 540px !important;
+    max-height: calc(100vh - 110px) !important;
+    z-index: 9999999 !important;
+    background: #0a0a0a !important;
+    border: 1px solid rgba(244, 196, 48, 0.4) !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(244, 196, 48, 0.15) !important;
+    overflow: hidden !important;
+    animation: novaSlideUp 0.3s ease-out !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .nova-trigger {
+      bottom: 80px !important;
+      right: 16px !important;
+    }
+    .nova-window {
+      bottom: 135px !important;
+      right: 12px !important;
+      height: 480px !important;
+    }
   }
   @keyframes novaSlideUp {
     from { opacity: 0; transform: translateY(20px); }
