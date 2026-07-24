@@ -1,5 +1,5 @@
 {% comment %}
-  ONE9 Luxury Streetwear - Recent Purchase Social Proof Popup Section (With Customer Profile Avatars)
+  ONE9 Luxury Streetwear - Recent Purchase Social Proof Popup (Smooth Auto-Hide Toast)
 {% endcomment %}
 
 {% assign enable_popup = section.settings.enable_purchase_popup %}
@@ -8,7 +8,7 @@
 
 {% if enable_popup %}
 <!-- Social Proof Recent Purchase Toast -->
-<div id="one9-purchase-toast" class="one9-purchase-toast" style="display: none;" aria-live="polite">
+<div id="one9-purchase-toast" class="one9-purchase-toast" aria-live="polite">
   <div class="toast-profile-avatar" id="toast-profile-avatar">MV</div>
   <div class="toast-content">
     <div class="toast-title">
@@ -18,7 +18,7 @@
     <div class="toast-product" id="toast-product">purchased Libra Balance Oversized Tee</div>
     <div class="toast-time" id="toast-time">2 mins ago</div>
   </div>
-  <button type="button" class="toast-close-btn" aria-label="Close notification" onclick="document.getElementById('one9-purchase-toast').style.display='none'">&times;</button>
+  <button type="button" class="toast-close-btn" aria-label="Close notification" onclick="document.getElementById('one9-purchase-toast').classList.remove('is-active')">&times;</button>
 </div>
 
 <style>
@@ -38,8 +38,17 @@
     border-radius: 14px !important;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(244, 196, 48, 0.2) !important;
     max-width: 340px !important;
-    animation: toastSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .one9-purchase-toast.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
   }
 
   @media (max-width: 768px) {
@@ -48,11 +57,6 @@
       left: 16px !important;
       max-width: calc(100vw - 32px) !important;
     }
-  }
-
-  @keyframes toastSlideUp {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   .toast-profile-avatar {
@@ -147,7 +151,6 @@
       const parts = line.split('|').map(p => p.trim());
       const fullName = parts[0] || 'Customer';
       
-      // Calculate initials (e.g. Marcus V. -> MV)
       const nameParts = fullName.split(' ');
       let initials = 'MV';
       if (nameParts.length >= 2) {
@@ -167,7 +170,7 @@
     if (samplePurchases.length === 0) return;
 
     const popupInterval = ({{ section.settings.purchase_popup_interval | default: settings.purchase_popup_interval | default: 20 }}) * 1000;
-    const popupDuration = ({{ section.settings.purchase_popup_duration | default: settings.purchase_popup_duration | default: 6 }}) * 1000;
+    const popupDuration = ({{ section.settings.purchase_popup_duration | default: settings.purchase_popup_duration | default: 4 }}) * 1000;
 
     function showRandomToast() {
       const toast = document.getElementById('one9-purchase-toast');
@@ -179,16 +182,19 @@
       document.getElementById('toast-product').textContent = "purchased " + purchase.product;
       document.getElementById('toast-time').textContent = purchase.time;
       
-      toast.style.display = 'flex';
+      // Smooth fade in
+      toast.classList.add('is-active');
+
+      // Smooth auto hide after duration (4s)
       setTimeout(() => {
-        toast.style.display = 'none';
+        toast.classList.remove('is-active');
       }, popupDuration);
     }
 
     setTimeout(() => {
       showRandomToast();
       setInterval(showRandomToast, popupInterval);
-    }, 4000);
+    }, 3000);
   })();
 </script>
 {% endif %}
@@ -228,7 +234,7 @@
       "step": 1,
       "unit": "s",
       "label": "Popup display duration",
-      "default": 6
+      "default": 4
     }
   ],
   "presets": [
