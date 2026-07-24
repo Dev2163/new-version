@@ -5132,3 +5132,22 @@ main,
   background-color: #050505 !important;
 }
 
+/* Fail-Safe Hide Scrollbars on Left Side Elements */
+.cp-thumbnails,
+.cp-gallery,
+.cp-sidebar,
+.cp-left-col,
+.one9-purchase-toast {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.cp-thumbnails::-webkit-scrollbar,
+.cp-gallery::-webkit-scrollbar,
+.cp-sidebar::-webkit-scrollbar,
+.cp-left-col::-webkit-scrollbar,
+.one9-purchase-toast::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+

@@ -572,6 +572,24 @@
     gap: 12px;
     width: 90px;
     flex-shrink: 0;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .cp-thumbnails::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .cp-left-col, .cp-gallery, .cp-sidebar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  .cp-left-col::-webkit-scrollbar, .cp-gallery::-webkit-scrollbar, .cp-sidebar::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
   .cp-thumb {
     border: 2px solid #222;
