@@ -33,7 +33,9 @@
   class="product-recommendations"
   data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.max_products }}"
   data-section-id="{{ section.id }}"
-  data-product-id="{{ section.settings.product.id | default: product.id }}"
+  {% assign rec_product_id = section.settings.product.id | default: product.id %}
+  {% if rec_product_id == blank %}{% assign rec_product_id = product.id %}{% endif %}
+  data-product-id="{{ rec_product_id }}"
   data-intent="{{ section.settings.recommendation_type }}"
   data-testid="product-recommendations-section"
   data-recommendations-performed="{{ recommendations.performed }}"
