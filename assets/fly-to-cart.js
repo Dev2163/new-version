@@ -17,28 +17,20 @@ class FlyToCart extends Component {
 
   connectedCallback() {
     super.connectedCallback();
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      /** @type {DOMRectReadOnly | null} */
-      let sourceRect = null;
-      /** @type {DOMRectReadOnly | null} */
-      let destinationRect = null;
-
-      entries.forEach((entry) => {
-        if (entry.target === this.source) {
-          sourceRect = entry.boundingClientRect;
-        } else if (entry.target === this.destination) {
-          destinationRect = entry.boundingClientRect;
-        }
-      });
-
-      if (sourceRect && destinationRect) {
-        this.#animate(sourceRect, destinationRect);
+    requestAnimationFrame(() => {
+      if (!this.source || !this.destination) {
+        this.remove();
+        return;
       }
+      const sourceRect = this.source.getBoundingClientRect();
+      const destinationRect = this.destination.getBoundingClientRect();
 
-      intersectionObserver.disconnect();
+      if (sourceRect && destinationRect && (sourceRect.width > 0 || sourceRect.height > 0)) {
+        this.#animate(sourceRect, destinationRect);
+      } else {
+        this.remove();
+      }
     });
-    intersectionObserver.observe(this.source);
-    intersectionObserver.observe(this.destination);
   }
 
   /**

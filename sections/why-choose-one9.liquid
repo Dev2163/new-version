@@ -1,0 +1,186 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Why Choose ONE9 Section
+{% endcomment %}
+
+<div class="why-choose-one9 section-{{ section.id }}" style="background-color: {{ section.settings.bg_color | default: '#0a0a0a' }}; color: {{ section.settings.text_color | default: '#ffffff' }}; padding: {{ section.settings.padding_top | default: 60 }}px 0 {{ section.settings.padding_bottom | default: 60 }}px 0;">
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <div class="section-heading text-center" style="margin-bottom: 48px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; margin-bottom: 12px;">
+          {{ section.settings.title }}
+        </h2>
+        {%- if section.settings.subtitle != blank -%}
+          <p style="font-family: 'Rajdhani', sans-serif; font-size: 16px; color: #f4c430; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="why-choose-grid" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; max-width: 1200px; margin: 0 auto;">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="why-choose-card glass-panel" style="padding: 32px 24px; border-radius: 12px; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease;" {{ block.shopify_attributes }}>
+            <div class="why-choose-icon" style="width: 56px; height: 56px; margin: 0 auto 20px auto; background: rgba(244, 196, 48, 0.1); border: 1px solid rgba(244, 196, 48, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f4c430;">
+              {%- if block.settings.custom_svg != blank -%}
+                {{ block.settings.custom_svg }}
+              {%- else -%}
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              {%- endif -%}
+            </div>
+            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 8px;">
+              {{ block.settings.title }}
+            </h3>
+            <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; line-height: 1.5;">
+              {{ block.settings.text }}
+            </p>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Default Fallback Feature Pillars -->
+        <div class="why-choose-card glass-panel" style="padding: 32px 24px; border-radius: 12px; text-align: center;">
+          <div class="why-choose-icon" style="width: 56px; height: 56px; margin: 0 auto 20px auto; background: rgba(244, 196, 48, 0.1); border: 1px solid rgba(244, 196, 48, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f4c430;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 8px;">PREMIUM MATERIALS</h3>
+          <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; line-height: 1.5;">Heavyweight French terry cotton & custom Italian leather hardware engineered for endurance.</p>
+        </div>
+        <div class="why-choose-card glass-panel" style="padding: 32px 24px; border-radius: 12px; text-align: center;">
+          <div class="why-choose-icon" style="width: 56px; height: 56px; margin: 0 auto 20px auto; background: rgba(244, 196, 48, 0.1); border: 1px solid rgba(244, 196, 48, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f4c430;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          </div>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 8px;">EXPRESS SHIPPING</h3>
+          <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; line-height: 1.5;">Global priority dispatch with full end-to-end tracking on all orders.</p>
+        </div>
+        <div class="why-choose-card glass-panel" style="padding: 32px 24px; border-radius: 12px; text-align: center;">
+          <div class="why-choose-icon" style="width: 56px; height: 56px; margin: 0 auto 20px auto; background: rgba(244, 196, 48, 0.1); border: 1px solid rgba(244, 196, 48, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f4c430;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          </div>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 8px;">30-DAY EASY RETURNS</h3>
+          <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; line-height: 1.5;">Hassle-free global return & size exchange guarantee.</p>
+        </div>
+        <div class="why-choose-card glass-panel" style="padding: 32px 24px; border-radius: 12px; text-align: center;">
+          <div class="why-choose-icon" style="width: 56px; height: 56px; margin: 0 auto 20px auto; background: rgba(244, 196, 48, 0.1); border: 1px solid rgba(244, 196, 48, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f4c430;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 8px;">LIMITED EDITIONS</h3>
+          <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; line-height: 1.5;">Exclusive numbered drops crafted in strictly limited quantities.</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why Choose ONE9",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "THE ONE9 DIFFERENCE"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "CRAFTED FOR THE UNCOMPROMISING"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "PREMIUM MATERIALS"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Heavyweight French terry cotton & custom Italian leather hardware engineered for endurance."
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose ONE9",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "PREMIUM MATERIALS",
+            "text": "Heavyweight custom fabrics & Italian hardware engineered for ultimate luxury."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "EXPRESS SHIPPING",
+            "text": "Global priority dispatch with full end-to-end tracking on all orders."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "30-DAY EASY RETURNS",
+            "text": "Hassle-free global return & size exchange guarantee."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "LIMITED EDITIONS",
+            "text": "Exclusive numbered drops crafted in strictly limited quantities."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

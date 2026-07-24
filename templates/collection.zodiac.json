@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "product_feature_showcase": {
+      "type": "product-feature-showcase",
+      "settings": {}
+    }
+  },
+  "order": [
+    "product_feature_showcase"
+  ]
+}

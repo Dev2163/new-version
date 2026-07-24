@@ -1,0 +1,89 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Client-Side Wishlist Page
+{% endcomment %}
+
+<div class="main-wishlist section-{{ section.id }}" style="background-color: #050505; color: #ffffff; padding: 60px 0; min-height: 70vh;">
+  <div class="page-width">
+    <!-- Header -->
+    <div style="text-align: center; max-width: 600px; margin: 0 auto 48px auto;">
+      <span style="font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; color: #f4c430; letter-spacing: 2px; text-transform: uppercase;">YOUR SAVED PIECES</span>
+      <h1 style="font-family: 'Orbitron', sans-serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; text-transform: uppercase; margin: 10px 0; color: #ffffff;">
+        MY WISHLIST (<span id="wishlist-page-count">0</span>)
+      </h1>
+    </div>
+
+    <!-- Empty State -->
+    <div id="wishlist-empty-state" style="text-align: center; padding: 60px 20px; display: none;">
+      <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.05); margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; color: #f4c430;">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 12px;">YOUR WISHLIST IS EMPTY</h2>
+      <p style="font-family: 'Rajdhani', sans-serif; font-size: 16px; color: #888888; margin-bottom: 24px;">Explore our luxury streetwear drops and save your favorites.</p>
+      <a href="/collections/all" style="display: inline-block; background: #f4c430; color: #000000; font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 800; padding: 14px 28px; border-radius: 6px; text-decoration: none; text-transform: uppercase;">DISCOVER COLLECTION</a>
+    </div>
+
+    <!-- Items Grid -->
+    <div id="wishlist-items-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px;">
+      <!-- Populated via JavaScript -->
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    function renderWishlistPage() {
+      const itemsGrid = document.getElementById('wishlist-items-grid');
+      const emptyState = document.getElementById('wishlist-empty-state');
+      const countEl = document.getElementById('wishlist-page-count');
+      
+      if (!window.ONE9Wishlist) return;
+      const items = window.ONE9Wishlist.get();
+      
+      if (countEl) countEl.textContent = items.length;
+
+      if (!items || items.length === 0) {
+        if (itemsGrid) itemsGrid.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+      if (itemsGrid) {
+        itemsGrid.style.display = 'grid';
+        itemsGrid.innerHTML = items.map(item => `
+          <div class="glass-panel" style="border-radius: 10px; padding: 16px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+            <button type="button" onclick="window.ONE9Wishlist.toggle({id: '${item.id}', handle: '${item.handle}'}); document.dispatchEvent(new Event('DOMContentLoaded'));" style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 5;">
+              &times;
+            </button>
+            <a href="${item.url}" style="text-decoration: none;">
+              <div style="aspect-ratio: 1; background: #fff; border-radius: 6px; overflow: hidden; margin-bottom: 14px;">
+                <img src="${item.image}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: contain;">
+              </div>
+              <h3 style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 6px;">${item.title}</h3>
+              <div style="font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: #f4c430; margin-bottom: 16px;">${item.price}</div>
+            </a>
+            <a href="${item.url}" style="display: block; width: 100%; background: #f4c430; color: #000; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; padding: 12px; border-radius: 4px; text-align: center; text-decoration: none; text-transform: uppercase;">
+              VIEW PRODUCT
+            </a>
+          </div>
+        `).join('');
+      }
+    }
+
+    renderWishlistPage();
+    window.addEventListener('wishlist:updated', renderWishlistPage);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "presets": [
+    {
+      "name": "Wishlist Page"
+    }
+  ]
+}
+{% endschema %}

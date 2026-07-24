@@ -16,12 +16,16 @@
   if product.selected_or_first_available_variant.featured_media.preview_image == blank
     assign product_variant_media = product.featured_media.preview_image | image_url: width: 100
   endif
+  assign animation_setting = settings.add_to_cart_animation
+  if animation_setting == nil
+    assign animation_setting = true
+  endif
 -%}
 
 <add-to-cart-component
   ref="addToCartButtonContainer"
   data-product-variant-media="{{ product_variant_media }}"
-  data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
+  data-add-to-cart-animation="{{ animation_setting }}"
 >
   <button
     {% if id != blank %}

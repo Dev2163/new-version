@@ -6,6 +6,26 @@
 {%- enddoc -%}
 
 <div class="cart-totals">
+  <!-- Free Shipping Threshold Bar (CRO) -->
+  {%- assign free_shipping_threshold = 10000 -%}
+  {%- assign cart_total = cart.total_price -%}
+  <div class="shipping-progress">
+    <div class="shipping-progress__text">
+      {%- if cart_total >= free_shipping_threshold -%}
+        <span style="color: #f4c430; font-weight: 800; font-family: 'Orbitron', sans-serif;">🎉 YOU'VE UNLOCKED FREE EXPRESS SHIPPING!</span>
+      {%- else -%}
+        {%- assign needed = free_shipping_threshold | minus: cart_total | money -%}
+        <span>Add <strong style="color: #f4c430;">{{ needed }}</strong> more for FREE Shipping</span>
+        <span style="color: #888;">{{ cart_total | times: 100 | divided_by: free_shipping_threshold }}%</span>
+      {%- endif -%}
+    </div>
+    <div class="shipping-progress__bar">
+      {%- assign progress_pct = cart_total | times: 100 | divided_by: free_shipping_threshold -%}
+      {%- if progress_pct > 100 %}{% assign progress_pct = 100 %}{% endif -%}
+      <div class="shipping-progress__fill" style="width: {{ progress_pct }}%;"></div>
+    </div>
+  </div>
+
   {% # We need to keep this node in place to allow morphing to work properly # %}
   <div class="cart-totals__original-container cart-primary-typography">
     {%- if cart.cart_level_discount_applications.size > 0 -%}

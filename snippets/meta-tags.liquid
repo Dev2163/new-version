@@ -125,3 +125,43 @@
     content="{{ page_description | escape }}"
   >
 {% endif %}
+
+<!-- JSON-LD Structured Data for Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | json }},
+  "logo": {{ settings.favicon | image_url: width: 500 | prepend: "https:" | json }}
+}
+</script>
+
+{%- if request.page_type == 'product' -%}
+  <!-- JSON-LD Structured Data for Product -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "image": [
+      {{ product.featured_media | image_url: width: 1000 | prepend: "https:" | json }}
+    ],
+    "description": {{ product.description | strip_html | truncatewords: 50 | json }},
+    "sku": {{ product.selected_or_first_available_variant.sku | default: product.id | json }},
+    "brand": {
+      "@type": "Brand",
+      "name": "ONE9"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": {{ canonical_url | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "price": {{ product.price | money_without_currency | strip_html | json }},
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+    }
+  }
+  </script>
+{%- endif -%}
+

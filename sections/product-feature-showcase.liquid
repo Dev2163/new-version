@@ -1,0 +1,854 @@
+{% style %}
+  .pfs-section-{{ section.id }} {
+    position: relative;
+    background-color: {{ section.settings.bg_color }};
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.03"/%3E%3C/svg%3E');
+    height: auto;
+    min-height: 75vh;
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .pfs-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pfs-center-wrapper {
+    position: relative;
+    width: {{ section.settings.image_width }}px;
+    max-width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .pfs-image {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+    transform: rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }});
+    {% if section.settings.floating_animation %}
+      animation: pfsFloat 5s ease-in-out infinite;
+    {% endif %}
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .pfs-image.fading {
+    opacity: 0;
+    transform: rotate({{ section.settings.image_rotation }}deg) scale(0.95);
+  }
+
+  @keyframes pfsFloat {
+    0% { transform: translateY(0px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+    50% { transform: translateY(-15px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+    100% { transform: translateY(0px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+  }
+
+  .pfs-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vh;
+    height: 60vh;
+    border-radius: 50%;
+    background: radial-gradient(circle, {{ section.settings.glow_color }} 0%, transparent 65%);
+    opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 1.5 }};
+    filter: blur(60px);
+    z-index: 1;
+    pointer-events: none;
+    {% if section.settings.glow_animation %}
+      animation: pfsPulse 4s ease-in-out infinite alternate;
+    {% endif %}
+  }
+  
+  .pfs-bottom-glow {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 400px;
+    height: 8px;
+    background: #ffffff; /* Bright core */
+    border-radius: 50%;
+    box-shadow: 
+      0 0 20px 8px {{ section.settings.glow_color }},
+      0 0 60px 20px {{ section.settings.glow_color }},
+      0 0 120px 40px {{ section.settings.glow_color }};
+    opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 2.5 }};
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .pfs-circle-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vh;
+    height: 70vh;
+    max-width: 800px;
+    max-height: 800px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.2); /* Soft Gold */
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.08) inset, 0 0 20px rgba(212, 175, 55, 0.05);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @keyframes pfsPulse {
+    0% { opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 0.8 }}; transform: translate(-50%, -50%) scale(0.95); }
+    100% { opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 1.2 }}; transform: translate(-50%, -50%) scale(1.05); }
+  }
+
+  /* Hotspots */
+  .pfs-pointer {
+    position: absolute;
+    z-index: 10;
+    transition: opacity 0.4s ease;
+    /* Hidden by default, shown by JS if matches current view */
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .pfs-pointer.active-view {
+    opacity: 1;
+    pointer-events: auto;
+    {% if section.settings.pointer_animation %}
+      animation: pfsFadeIn 1s ease forwards;
+    {% endif %}
+  }
+
+  .pfs-dot {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    width: 14px;
+    height: 14px;
+    background-color: var(--dot-color, #D4AF37);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--dot-color, #D4AF37), 0 0 20px var(--dot-color, #D4AF37);
+    cursor: pointer;
+    z-index: 2;
+    {% if section.settings.pointer_animation %}
+      animation: pfsDotPulse 2s infinite;
+    {% endif %}
+    transition: transform 0.3s ease;
+  }
+
+  .pfs-pointer:hover .pfs-dot {
+    transform: scale(1.2);
+  }
+
+  @keyframes pfsDotPulse {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+  }
+
+  .pfs-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--line-length, 100px);
+    height: 2px;
+    background: var(--dot-color, #D4AF37);
+    box-shadow: 0 0 8px var(--dot-color, #D4AF37);
+    border-radius: 2px;
+    transform-origin: 0 0;
+    transform: rotate(var(--line-angle, 0deg));
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .pfs-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .pfs-pointer:hover .pfs-line::after {
+    transform: translateX(0);
+  }
+
+  /* AUTO-ALIGNING TEXT CSS TRICKS */
+  .pfs-content {
+    position: absolute;
+    width: var(--title-width, 220px);
+    text-align: var(--text-align, left);
+    /* Calculate precise end of line using sin/cos */
+    left: calc(var(--line-length) * cos(var(--line-angle)));
+    top: calc(var(--line-length) * sin(var(--line-angle)));
+    /* Offset so text aligns correctly with line end */
+    transform: translate(var(--tx), -50%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .pfs-pointer:hover .pfs-content {
+    opacity: 1;
+  }
+
+  .pfs-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--title-color, #D4AF37);
+    margin-bottom: 8px;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+  }
+
+  .pfs-subtitle {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--subtitle-color, #D5D5D5);
+    line-height: 1.8;
+  }
+
+  @keyframes pfsFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Navigation */
+  .pfs-nav {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    z-index: 20;
+  }
+
+  .pfs-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    background: transparent;
+    color: #D4AF37;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .pfs-nav-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+  
+  .pfs-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* Mobile Accordion */
+  .pfs-mobile-accordion {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    z-index: 20;
+  }
+
+  .pfs-accordion-item {
+    display: none; /* hidden by default based on active view */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 0;
+  }
+  
+  .pfs-accordion-item.active-view {
+    display: block;
+  }
+
+  .pfs-accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #D4AF37;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .pfs-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    color: #D5D5D5;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 0;
+  }
+
+  .pfs-accordion-item.active .pfs-accordion-body {
+    max-height: 200px;
+    padding-top: 10px;
+  }
+
+  @media (max-width: 990px) {
+    .pfs-section-{{ section.id }} {
+      height: auto;
+      min-height: 100vh;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 60px;
+    }
+    .pfs-center-wrapper {
+      width: 90%;
+      margin-bottom: 40px;
+    }
+    .pfs-pointer.active-view {
+      display: none; /* Hide standard pointers on mobile */
+    }
+    .pfs-mobile-accordion {
+      display: block;
+    }
+    .pfs-pointer.mobile-visible {
+      display: block !important;
+      opacity: 1 !important;
+    }
+    .pfs-pointer.mobile-visible .pfs-line, 
+    .pfs-pointer.mobile-visible .pfs-content {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<section class="pfs-section-{{ section.id }}" id="pfs-{{ section.id }}">
+  <div class="pfs-container">
+    
+    <div class="pfs-center-wrapper">
+      <div class="pfs-bg-glow"></div>
+      <div class="pfs-circle-line"></div>
+      
+      {%- liquid
+        assign active_image = section.settings.main_image
+        if section.settings.current_image == 'back' and section.settings.back_image != blank
+          assign active_image = section.settings.back_image
+        elsif section.settings.current_image == 'side' and section.settings.side_image != blank
+          assign active_image = section.settings.side_image
+        elsif section.settings.current_image == 'zoom' and section.settings.zoom_image != blank
+          assign active_image = section.settings.zoom_image
+        elsif section.settings.current_image == 'hover' and section.settings.hover_image != blank
+          assign active_image = section.settings.hover_image
+        endif
+      -%}
+
+      <!-- Placeholder structure if no images -->
+      {% if active_image != blank %}
+        <img id="pfs-main-image" src="{{ active_image | image_url: width: 1200 }}" class="pfs-image" loading="lazy" />
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'pfs-image placeholder-svg' }}
+      {% endif %}
+
+      <div class="pfs-bottom-glow"></div>
+
+      <!-- Hotspots -->
+      {% for block in section.blocks limit: section.settings.pointer_count %}
+        {% if block.settings.enable %}
+          {%- liquid
+            if block.settings.content_position == 'left'
+              assign angle = 180
+              assign align = 'right'
+              assign tx = 'calc(-100% - 15px)'
+            else
+              assign angle = 0
+              assign align = 'left'
+              assign tx = '15px'
+            endif
+          -%}
+          <div class="pfs-pointer {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
+               data-index="{{ forloop.index0 }}" 
+               data-view="{{ block.settings.image_view }}"
+               data-block-id="{{ block.id }}"
+               style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%; 
+                      --dot-color: {{ block.settings.glow_color }};
+                      --line-length: {{ block.settings.line_length }}px;
+                      --line-angle: {{ angle }}deg;
+                      --title-width: {{ block.settings.title_width }}px;
+                      --text-align: {{ align }};
+                      --title-color: {{ block.settings.title_color }};
+                      --subtitle-color: {{ block.settings.subtitle_color }};
+                      --tx: {{ tx }};" 
+               {{ block.shopify_attributes }}>
+            
+            <div class="pfs-dot"></div>
+            <div class="pfs-line"></div>
+            <div class="pfs-content">
+              <div class="pfs-title">{{ block.settings.title }}</div>
+              <div class="pfs-subtitle">{{ block.settings.subtitle }}</div>
+            </div>
+            
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Mobile Accordion -->
+  <div class="pfs-mobile-accordion">
+    {% for block in section.blocks limit: section.settings.pointer_count %}
+      {% if block.settings.enable %}
+        <div class="pfs-accordion-item {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
+             data-index="{{ forloop.index0 }}" 
+             data-view="{{ block.settings.image_view }}">
+          <div class="pfs-accordion-header">
+            <span>{{ block.settings.title }}</span>
+            <span class="pfs-accordion-icon">+</span>
+          </div>
+          <div class="pfs-accordion-body">
+            {{ block.settings.subtitle }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Optional Bottom Nav -->
+  {% if section.settings.show_nav %}
+    <div class="pfs-nav">
+      <button class="pfs-nav-btn" id="pfs-prev">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="pfs-nav-btn" id="pfs-next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  {% endif %}
+</section>
+
+<!-- Data for JS -->
+<script type="application/json" id="pfs-images-data">
+  {
+    "front": {% if section.settings.main_image %}"{{ section.settings.main_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "back": {% if section.settings.back_image %}"{{ section.settings.back_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "side": {% if section.settings.side_image %}"{{ section.settings.side_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "zoom": {% if section.settings.zoom_image %}"{{ section.settings.zoom_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "hover": {% if section.settings.hover_image %}"{{ section.settings.hover_image | image_url: width: 1200 }}"{% else %}null{% endif %}
+  }
+</script>
+
+<script>
+  function initPFS() {
+    // Accordion Logic
+    const accordions = document.querySelectorAll('.pfs-accordion-item');
+    const pointers = document.querySelectorAll('.pfs-pointer');
+
+    accordions.forEach(acc => {
+      acc.addEventListener('click', function() {
+        const isActive = this.classList.contains('active');
+        
+        accordions.forEach(a => {
+          a.classList.remove('active');
+          a.querySelector('.pfs-accordion-icon').innerText = '+';
+        });
+        
+        pointers.forEach(p => p.classList.remove('mobile-visible'));
+
+        if (!isActive) {
+          this.classList.add('active');
+          this.querySelector('.pfs-accordion-icon').innerText = '-';
+          
+          const index = this.getAttribute('data-index');
+          const matchingPointer = document.querySelector(`.pfs-pointer[data-index="${index}"]`);
+          if (matchingPointer) {
+            matchingPointer.classList.add('mobile-visible');
+          }
+        }
+      });
+    });
+
+    // Multi-View Logic
+    const imagesData = JSON.parse(document.getElementById('pfs-images-data').innerText);
+    const availableViews = Object.keys(imagesData).filter(key => imagesData[key] !== null);
+    
+    // Start with the initial view set by admin, or fallback to first available
+    let currentViewIndex = availableViews.indexOf('{{ section.settings.current_image }}');
+    if (currentViewIndex === -1 && availableViews.length > 0) currentViewIndex = 0;
+
+    const prevBtn = document.getElementById('pfs-prev');
+    const nextBtn = document.getElementById('pfs-next');
+    const mainImage = document.getElementById('pfs-main-image');
+
+    function updateView() {
+      if (availableViews.length === 0) return;
+      const currentView = availableViews[currentViewIndex];
+      
+      // Update Image with transition
+      if (mainImage) {
+        mainImage.classList.add('fading');
+        setTimeout(() => {
+          mainImage.src = imagesData[currentView];
+          mainImage.classList.remove('fading');
+        }, 300); // Wait for fade out
+      }
+
+      // Update Pointers & Accordions
+      pointers.forEach(p => {
+        if (p.getAttribute('data-view') === currentView) {
+          p.classList.add('active-view');
+        } else {
+          p.classList.remove('active-view', 'mobile-visible');
+        }
+      });
+
+      accordions.forEach(a => {
+        if (a.getAttribute('data-view') === currentView) {
+          a.classList.add('active-view');
+        } else {
+          a.classList.remove('active-view', 'active');
+          a.querySelector('.pfs-accordion-icon').innerText = '+';
+        }
+      });
+    }
+
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (availableViews.length > 0) {
+          currentViewIndex = (currentViewIndex - 1 + availableViews.length) % availableViews.length;
+          updateView();
+        }
+      });
+      nextBtn.addEventListener('click', () => {
+        if (availableViews.length > 0) {
+          currentViewIndex = (currentViewIndex + 1) % availableViews.length;
+          updateView();
+        }
+      });
+    }
+  }
+
+  initPFS();
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initPFS();
+    }
+  });
+
+  // Auto-switch image when admin selects a block
+  document.addEventListener('shopify:block:select', function(event) {
+    const blockId = event.detail.blockId;
+    const selectedPointer = document.querySelector(`.pfs-pointer[data-block-id="${blockId}"]`);
+    if (selectedPointer) {
+      const targetView = selectedPointer.getAttribute('data-view');
+      const availableViews = Object.keys(JSON.parse(document.getElementById('pfs-images-data').innerText)).filter(key => JSON.parse(document.getElementById('pfs-images-data').innerText)[key] !== null);
+      const targetIndex = availableViews.indexOf(targetView);
+      
+      const mainImage = document.getElementById('pfs-main-image');
+      if (targetIndex !== -1) {
+        // Force switch without relying on closure variables
+        mainImage.src = JSON.parse(document.getElementById('pfs-images-data').innerText)[targetView];
+        
+        document.querySelectorAll('.pfs-pointer').forEach(p => {
+          if (p.getAttribute('data-view') === targetView) p.classList.add('active-view');
+          else p.classList.remove('active-view');
+        });
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Feature Showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Front Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "back_image",
+      "label": "Back Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "zoom_image",
+      "label": "Zoom Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hover_image",
+      "label": "Hover Image"
+    },
+    {
+      "type": "select",
+      "id": "current_image",
+      "label": "Admin Preview Active Image",
+      "options": [
+        { "value": "front", "label": "Front" },
+        { "value": "back", "label": "Back" },
+        { "value": "side", "label": "Side" },
+        { "value": "zoom", "label": "Zoom" },
+        { "value": "hover", "label": "Hover" }
+      ],
+      "default": "front",
+      "info": "This determines which image and features show first on load."
+    },
+    {
+      "type": "header",
+      "content": "Image Styling"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Width",
+      "default": 680
+    },
+    {
+      "type": "number",
+      "id": "image_rotation",
+      "label": "Image Rotation (deg)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_scale",
+      "min": 0.5,
+      "max": 2.0,
+      "step": 0.1,
+      "label": "Image Scale",
+      "default": 1.0
+    },
+    {
+      "type": "header",
+      "content": "Background & Glow"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#070707"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow Color",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "range",
+      "id": "glow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Glow Opacity",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Animations & Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "floating_animation",
+      "label": "Enable Image Floating Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "glow_animation",
+      "label": "Enable Glow Pulse Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pointer_animation",
+      "label": "Enable Pointer Animations",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation Buttons",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pointer_count",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "label": "Max Pointers to Show",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Point",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "label": "Enable Feature",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "image_view",
+          "label": "Show on which image?",
+          "options": [
+            { "value": "front", "label": "Front" },
+            { "value": "back", "label": "Back" },
+            { "value": "side", "label": "Side" },
+            { "value": "zoom", "label": "Zoom" },
+            { "value": "hover", "label": "Hover" }
+          ],
+          "default": "front"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Cotton"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "240 GSM Super Combed Cotton for everyday comfort."
+        },
+        {
+          "type": "range",
+          "id": "dot_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Dot X Position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "dot_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Dot Y Position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "line_length",
+          "min": 0,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "label": "Line Length",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content Position",
+          "options": [
+            { "value": "right", "label": "Right of Dot" },
+            { "value": "left", "label": "Left of Dot" }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "range",
+          "id": "title_width",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "label": "Text Container Width",
+          "default": 220
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#D4AF37"
+        },
+        {
+          "type": "color",
+          "id": "subtitle_color",
+          "label": "Subtitle Color",
+          "default": "#D5D5D5"
+        },
+        {
+          "type": "color",
+          "id": "glow_color",
+          "label": "Dot/Line Glow Color",
+          "default": "#D4AF37"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Feature Showcase",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "image_view": "front",
+            "title": "Premium Cotton",
+            "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
+            "dot_x": 30,
+            "dot_y": 60,
+            "line_length": 80,
+            "content_position": "left"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "image_view": "back",
+            "title": "Ribbed Neck",
+            "subtitle": "Stretch resistant rib.",
+            "dot_x": 60,
+            "dot_y": 20,
+            "line_length": 80,
+            "content_position": "right"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -549,10 +549,11 @@
 
   .cart-items__title {
     font-size: var(--font-size--md);
-    color: var(--color-foreground);
+    color: var(--color-foreground, #ffffff);
     text-transform: var(--product-title-case);
     display: block;
-    margin-block-start: calc((var(--font-size--md) - 1lh) / 2);
+    margin-block-start: 0;
+    font-weight: 700;
   }
 
   .cart-items__variants {

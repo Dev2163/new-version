@@ -8,23 +8,55 @@
   assign featured_image = current_variant.featured_image | default: product.featured_media.preview_image
 -%}
 
-<div class="dark-shoe-card">
-  <!-- Top Badge -->
-  {%- if product.available == false -%}
-    <div class="dark-shoe-card__badge dark-shoe-card__badge--soldout">Sold Out</div>
-  {%- elsif product.tags contains 'New' or product.tags contains 'new' -%}
-    <div class="dark-shoe-card__badge dark-shoe-card__badge--new">NEW</div>
-  {%- endif -%}
+<div class="dark-shoe-card" data-product-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
+  <!-- Wishlist Heart Button -->
+  <button 
+    class="wishlist-btn" 
+    data-product-handle="{{ product.handle }}" 
+    data-product-id="{{ product.id }}" 
+    data-product-title="{{ product.title | escape }}" 
+    data-product-price="{{ product.price | money | escape }}" 
+    data-product-image="{{ featured_image | image_url: width: 300 }}"
+    data-product-url="{{ product.url }}"
+    aria-label="Add to wishlist"
+  >
+    <svg viewBox="0 0 24 24">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+  </button>
 
-  <!-- Image -->
-  <a href="{{ product.url }}" class="dark-shoe-card__image-link">
+  <!-- Top Badges -->
+  <div class="dark-shoe-card__badge-wrapper" style="position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 4px; z-index: 2;">
+    {%- if product.available == false -%}
+      <div class="dark-shoe-card__badge dark-shoe-card__badge--soldout">Sold Out</div>
+    {%- elsif product.compare_at_price > product.price -%}
+      {%- assign discount_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+      <div class="dark-shoe-card__badge dark-shoe-card__badge--new" style="background: #f4c430; color: #000;">
+        -{{ discount_percent }}%
+      </div>
+    {%- elsif product.tags contains 'New' or product.tags contains 'new' -%}
+      <div class="dark-shoe-card__badge dark-shoe-card__badge--new">NEW</div>
+    {%- endif -%}
+  </div>
+
+  <!-- Image with Hover Secondary Image -->
+  <a href="{{ product.url }}" class="dark-shoe-card__image-link" style="position: relative;">
     {%- if featured_image -%}
       <img 
         src="{{ featured_image | image_url: width: 600 }}" 
         alt="{{ featured_image.alt | escape }}" 
-        class="dark-shoe-card__image"
+        class="dark-shoe-card__image primary-img"
         loading="lazy"
       >
+      {%- if product.media[1] != blank -%}
+        <img 
+          src="{{ product.media[1] | image_url: width: 600 }}" 
+          alt="{{ product.media[1].alt | escape }}" 
+          class="dark-shoe-card__image secondary-img"
+          loading="lazy"
+          style="position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease;"
+        >
+      {%- endif -%}
     {%- else -%}
       {{ 'product-1' | placeholder_svg_tag: 'dark-shoe-card__image placeholder' }}
     {%- endif -%}
@@ -70,11 +102,14 @@
     <h3 class="dark-shoe-card__title">
       <a href="{{ product.url }}">{{ product.title | default: 'Example Shoe' }}</a>
     </h3>
-    <p class="dark-shoe-card__type">{{ product.type | default: 'Running Shoes' }}</p>
+    <p class="dark-shoe-card__type">{{ product.type | default: 'Streetwear Edition' }}</p>
 
     <!-- Footer: Price and Add to Cart -->
     <div class="dark-shoe-card__footer">
       <div class="dark-shoe-card__price">
+        {%- if product.compare_at_price > product.price -%}
+          <span style="text-decoration: line-through; color: #777; font-size: 13px; margin-right: 6px;">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
         {%- if product.price_varies -%}
           From {{ product.price_min | money }}
         {%- else -%}
@@ -82,9 +117,9 @@
         {%- endif -%}
       </div>
       
-      <form method="post" action="/cart/add" class="dark-shoe-card__form">
+      <form method="post" action="/cart/add" class="dark-shoe-card__form" onsubmit="event.preventDefault(); fetch('/cart/add.js', { method: 'POST', body: new FormData(this) }).then(r => { if (!r.ok) { return r.json().then(err => { console.warn(err.description || 'Item sold out'); }); } return r.json().then(() => { document.dispatchEvent(new CustomEvent('cart:updated')); if (document.querySelector('cart-drawer, #cart-drawer')) { document.querySelector('header-actions-cart, [data-cart-drawer-trigger]')?.click(); } }); }).catch(err => console.warn(err)); return false;">
         <input type="hidden" name="id" value="{{ current_variant.id }}">
-        <button type="submit" class="dark-shoe-card__cart-btn" aria-label="Add to cart" {% unless product.available %}disabled{% endunless %}>
+        <button type="submit" class="dark-shoe-card__cart-btn" aria-label="Add to cart" {% unless product.available and current_variant.available %}disabled{% endunless %}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
@@ -158,8 +193,13 @@
     /* Optional: filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); if they want shadow on white */
   }
   
-  .dark-shoe-card:hover .dark-shoe-card__image {
+  .dark-shoe-card:hover .dark-shoe-card__image.primary-img {
     transform: scale(1.05) rotate(-2deg);
+  }
+
+  .dark-shoe-card:hover .dark-shoe-card__image.secondary-img {
+    opacity: 1 !important;
+    transform: scale(1.05);
   }
 
   .dark-shoe-card__details {

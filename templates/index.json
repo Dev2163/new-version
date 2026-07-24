@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero_p9CmMG": {
@@ -969,8 +960,111 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 100,
+      "padding-block-start": 100,
         "padding-block-end": 100
+      }
+    },
+    "why_choose_one9_section": {
+      "type": "why-choose-one9",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "PREMIUM MATERIALS",
+            "text": "Heavyweight French terry cotton & custom Italian leather hardware engineered for endurance."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "EXPRESS SHIPPING",
+            "text": "Global priority dispatch with full end-to-end tracking on all orders."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "30-DAY EASY RETURNS",
+            "text": "Hassle-free global return & size exchange guarantee."
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "title": "LIMITED EDITIONS",
+            "text": "Exclusive numbered drops crafted in strictly limited quantities."
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ],
+      "settings": {
+        "title": "THE ONE9 DIFFERENCE",
+        "subtitle": "ENGINEERED FOR THE UNCOMPROMISING",
+        "bg_color": "#0a0a0a"
+      }
+    },
+    "customer_reviews_section": {
+      "type": "customer-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "comment": "The luxury heavyweight fabric is unmatched. Fits perfectly oversized and feels extremely premium.",
+            "author": "ALEX R.",
+            "location": "London, UK"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "comment": "Best streetwear drop of the season. Delivery was super fast to NYC and packaging was 10/10.",
+            "author": "DOMINIC T.",
+            "location": "New York, USA"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "comment": "Unbelievable quality and attention to detail. Will definitely order more pieces from future drops.",
+            "author": "SOPHIA K.",
+            "location": "Berlin, Germany"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "title": "VERIFIED REVIEWS",
+        "subtitle": "RATED 4.9/5 BY OVER 10,000+ CUSTOMERS WORLDWIDE",
+        "bg_color": "#050505"
+      }
+    },
+    "instagram_gallery_section": {
+      "type": "instagram-gallery",
+      "blocks": {
+        "post_1": { "type": "instagram_post" },
+        "post_2": { "type": "instagram_post" },
+        "post_3": { "type": "instagram_post" },
+        "post_4": { "type": "instagram_post" }
+      },
+      "block_order": [
+        "post_1",
+        "post_2",
+        "post_3",
+        "post_4"
+      ],
+      "settings": {
+        "title": "WORN WORLDWIDE @ONE9",
+        "subtitle": "TAG US TO BE FEATURED",
+        "bg_color": "#0a0a0a"
       }
     }
   },
@@ -979,8 +1073,11 @@
     "collection_slider_hero",
     "trust_badges_section",
     "footwear_picks_section",
-    "zodiac_strip_section",
     "best_sellers_section",
+    "zodiac_strip_section",
+    "why_choose_one9_section",
+    "customer_reviews_section",
+    "instagram_gallery_section",
     "hero_w7HaTj",
     "section_npVphq"
   ]

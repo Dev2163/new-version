@@ -82,8 +82,9 @@ export class AddToCartComponent extends Component {
       }
     }
     if (this.refs.addToCartButton.dataset.puppet !== 'true') {
-      const animationEnabled = this.dataset.addToCartAnimation === 'true';
-      if (animationEnabled && !event.target.closest('.quick-add-modal')) {
+      const animationSetting = this.dataset.addToCartAnimation;
+      const animationEnabled = animationSetting !== 'false';
+      if (animationEnabled) {
         this.#animateFlyToCart();
       }
       this.animateAddToCart();
@@ -103,9 +104,16 @@ export class AddToCartComponent extends Component {
    */
   #animateFlyToCart() {
     const { addToCartButton } = this.refs;
-    const cartIcon = document.querySelector('.header-actions__cart-icon');
+    const cartIcon = document.querySelector('.header-actions__cart-icon') || document.querySelector('[data-cart-icon]') || document.querySelector('.cart-icon-bubble') || document.querySelector('.mobile-bottom-nav__item[href*="cart"]');
 
-    const image = this.dataset.productVariantMedia;
+    let image = this.dataset.productVariantMedia;
+    if (!image || image === 'blank') {
+      const container = this.closest('product-form-component') || this.closest('form') || this.closest('.product-card') || document;
+      const imgEl = /** @type {HTMLImageElement | null} */ (container.querySelector('img'));
+      if (imgEl && imgEl.src) {
+        image = imgEl.src;
+      }
+    }
 
     if (!cartIcon || !addToCartButton || !image) return;
 

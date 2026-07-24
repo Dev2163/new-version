@@ -1,0 +1,140 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Instagram / Social Gallery Section
+{% endcomment %}
+
+<div class="instagram-gallery section-{{ section.id }}" style="background-color: {{ section.settings.bg_color | default: '#050505' }}; padding: {{ section.settings.padding_top | default: 60 }}px 0 {{ section.settings.padding_bottom | default: 60 }}px 0;">
+  <div class="page-width">
+    <div class="section-heading text-center" style="margin-bottom: 40px;">
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; text-transform: uppercase; color: #ffffff; margin-bottom: 8px;">
+        {{ section.settings.title | default: 'WORN WORLDWIDE @ONE9' }}
+      </h2>
+      <p style="font-family: 'Rajdhani', sans-serif; font-size: 15px; color: #f4c430; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">
+        {{ section.settings.subtitle | default: 'TAG US TO BE FEATURED' }}
+      </p>
+    </div>
+
+    <div class="insta-grid" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 0 auto;">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="insta-card" style="position: relative; border-radius: 12px; overflow: hidden; width: clamp(200px, 22vw, 260px); aspect-ratio: 1; background: #111; flex-shrink: 0;" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 500 }}" alt="ONE9 Community" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            <a href="{{ block.settings.link | default: '#' }}" target="_blank" class="insta-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; text-decoration: none; color: #f4c430;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Fallback Instagram Cards -->
+        {%- for i in (1..4) -%}
+          <div class="insta-card" style="position: relative; border-radius: 12px; overflow: hidden; width: clamp(200px, 22vw, 260px); aspect-ratio: 1; background: #111; flex-shrink: 0;">
+            {%- assign sample_product = collections.all.products[forloop.index0] -%}
+            {%- if sample_product and sample_product.featured_media -%}
+              <img src="{{ sample_product.featured_media | image_url: width: 500 }}" alt="ONE9 Streetwear" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+            {%- else -%}
+              {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            <a href="https://instagram.com" target="_blank" class="insta-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; text-decoration: none; color: #f4c430;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .insta-card:hover img {
+    transform: scale(1.08);
+  }
+  .insta-card:hover .insta-overlay {
+    opacity: 1 !important;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Instagram Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "WORN WORLDWIDE @ONE9"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "TAG US TO BE FEATURED"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#050505"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "instagram_post",
+      "name": "Instagram Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Instagram Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram Gallery",
+      "blocks": [
+        { "type": "instagram_post" },
+        { "type": "instagram_post" },
+        { "type": "instagram_post" },
+        { "type": "instagram_post" }
+      ]
+    }
+  ]
+}
+{% endschema %}
