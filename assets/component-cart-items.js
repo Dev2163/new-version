@@ -220,21 +220,24 @@ class CartItemsComponent extends Component {
    * @param {string} parsedResponseText.errors - The errors.
    */
   #handleCartError = (line, parsedResponseText) => {
-    const quantitySelector = this.refs.quantitySelectors[line - 1];
-    const quantityInput = quantitySelector?.querySelector('input');
+    try {
+      const quantitySelector = this.refs.quantitySelectors?.[line - 1];
+      const quantityInput = quantitySelector?.querySelector('input');
 
-    if (!quantityInput) throw new Error('Quantity input not found');
+      if (quantityInput) {
+        quantityInput.value = quantityInput.defaultValue;
+      }
 
-    quantityInput.value = quantityInput.defaultValue;
+      const cartItemError = this.refs[`cartItemError-${line}`];
+      const cartItemErrorContainer = this.refs[`cartItemErrorContainer-${line}`];
 
-    const cartItemError = this.refs[`cartItemError-${line}`];
-    const cartItemErrorContainer = this.refs[`cartItemErrorContainer-${line}`];
-
-    if (!(cartItemError instanceof HTMLElement)) throw new Error('Cart item error not found');
-    if (!(cartItemErrorContainer instanceof HTMLElement)) throw new Error('Cart item error container not found');
-
-    cartItemError.textContent = parsedResponseText.errors;
-    cartItemErrorContainer.classList.remove('hidden');
+      if (cartItemError instanceof HTMLElement && cartItemErrorContainer instanceof HTMLElement) {
+        cartItemError.textContent = parsedResponseText.errors || 'Item error';
+        cartItemErrorContainer.classList.remove('hidden');
+      }
+    } catch (err) {
+      console.warn('Cart error handling notice:', err);
+    }
   };
 
   /**

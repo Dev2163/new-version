@@ -338,7 +338,7 @@ class ProductFormComponent extends Component {
     }
 
     const form = this.querySelector('form');
-    if (!form) throw new Error('Product form element missing');
+    if (!form) return;
 
     if (!overrideVariantId && this.refs.quantitySelector?.canAddToCart) {
       const validation = this.refs.quantitySelector.canAddToCart();
