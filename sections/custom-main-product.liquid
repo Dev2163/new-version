@@ -504,41 +504,44 @@
       });
     });
 
-    // JS Sticky Scroll Fallback
+    // Bulletproof Fixed Scroll for Left Image Gallery & ONE9 Sidebar
     function handleStickyScroll() {
       if (window.innerWidth <= 768) return;
-      const leftCol = document.querySelector('.cp-left-col');
-      const rightCol = document.querySelector('.cp-right-col');
-      const sidebar = document.querySelector('.cp-sidebar');
-      const grid = document.querySelector('.cp-layout-grid');
       
-      if (!leftCol || !rightCol || !grid) return;
-
-      const gridRect = grid.getBoundingClientRect();
-      const rightRect = rightCol.getBoundingClientRect();
-      const leftHeight = leftCol.offsetHeight;
-      const rightHeight = rightCol.offsetHeight;
-
-      if (rightHeight <= leftHeight) return;
+      const leftCol = document.querySelector('.cp-left-col');
+      const sidebar = document.querySelector('.cp-sidebar');
+      const mainContainer = document.querySelector('.cp-main-container');
+      if (!leftCol || !mainContainer) return;
 
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const gridOffsetTop = grid.offsetTop || 150;
-      const maxTranslate = rightHeight - leftHeight;
+      const mainRect = mainContainer.getBoundingClientRect();
+      const leftWidth = Math.min(610, mainContainer.offsetWidth * 0.45);
 
-      if (scrollTop > gridOffsetTop - 20) {
-        const translateVal = Math.min(scrollTop - gridOffsetTop + 20, maxTranslate);
-        leftCol.style.position = 'relative';
-        leftCol.style.top = `${translateVal}px`;
+      if (scrollTop > 80) {
+        leftCol.style.position = 'fixed';
+        leftCol.style.top = '20px';
+        leftCol.style.left = `${mainRect.left + 100}px`;
+        leftCol.style.width = `${leftWidth}px`;
+        leftCol.style.zIndex = '99';
+
+        if (sidebar) {
+          sidebar.style.position = 'fixed';
+          sidebar.style.top = '0';
+          sidebar.style.left = '0';
+          sidebar.style.height = '100vh';
+          sidebar.style.zIndex = '100';
+        }
       } else {
         leftCol.style.position = 'relative';
-        leftCol.style.top = '0px';
-      }
+        leftCol.style.top = '0';
+        leftCol.style.left = 'auto';
+        leftCol.style.width = '100%';
 
-      if (sidebar) {
-        sidebar.style.position = 'fixed';
-        sidebar.style.top = '20px';
-        sidebar.style.left = '0';
-        sidebar.style.height = 'calc(100vh - 40px)';
+        if (sidebar) {
+          sidebar.style.position = 'relative';
+          sidebar.style.top = '0';
+          sidebar.style.left = 'auto';
+        }
       }
     }
 
