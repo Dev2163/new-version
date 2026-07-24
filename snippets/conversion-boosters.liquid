@@ -1,7 +1,11 @@
 {% comment %}
-  ONE9 Luxury Streetwear - Conversion Optimization & Trust Boosters
+  ONE9 Luxury Streetwear - Conversion Optimization & Trust Boosters (Admin Customizable)
 {% endcomment %}
 
+{% assign enable_popup = settings.enable_purchase_popup %}
+{% if enable_popup == nil %}{% assign enable_popup = true %}{% endif %}
+
+{% if enable_popup %}
 <!-- Social Proof Recent Purchase Toast -->
 <div id="one9-purchase-toast" class="cro-toast" style="display: none;">
   <img src="https://cdn.shopify.com/s/files/1/0000/0000/files/placeholder.png?v=1" alt="Product" class="cro-toast__img" id="cro-toast-img">
@@ -15,12 +19,27 @@
 
 <script>
   (function() {
-    const samplePurchases = [
-      { name: "Marcus V. from London", product: "Libra Balance Oversized Tee", time: "2 mins ago" },
-      { name: "Dominic T. from New York", product: "ONE9 Heavyweight Oversized Hoodie", time: "5 mins ago" },
-      { name: "Sophia K. from Berlin", product: "Zodiac Edition Track Pant", time: "8 mins ago" },
-      { name: "Julian M. from Paris", product: "Native Bombay Blues Sneaker", time: "12 mins ago" }
-    ];
+    {% assign raw_list = settings.purchase_popup_list %}
+    {% if raw_list == blank %}
+      {% assign raw_list = "Marcus V. from London | Libra Balance Oversized Tee | 2 mins ago\nDominic T. from New York | ONE9 Heavyweight Oversized Hoodie | 5 mins ago\nSophia K. from Berlin | Zodiac Edition Track Pant | 8 mins ago\nJulian M. from Paris | Native Bombay Blues Sneaker | 12 mins ago" %}
+    {% endif %}
+
+    const rawData = {{ raw_list | json }};
+    const lines = rawData.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+    const samplePurchases = lines.map(line => {
+      const parts = line.split('|').map(p => p.trim());
+      return {
+        name: parts[0] || 'Customer',
+        product: parts[1] || 'ONE9 Item',
+        time: parts[2] || 'Just now'
+      };
+    });
+
+    if (samplePurchases.length === 0) return;
+
+    const popupInterval = ({{ settings.purchase_popup_interval | default: 30 }}) * 1000;
+    const popupDuration = ({{ settings.purchase_popup_duration | default: 5 }}) * 1000;
 
     function showRandomToast() {
       const toast = document.getElementById('one9-purchase-toast');
@@ -34,13 +53,13 @@
       toast.style.display = 'flex';
       setTimeout(() => {
         toast.style.display = 'none';
-      }, 5000);
+      }, popupDuration);
     }
 
-    // Trigger first toast after 8 seconds, then every 35 seconds
     setTimeout(() => {
       showRandomToast();
-      setInterval(showRandomToast, 35000);
-    }, 8000);
+      setInterval(showRandomToast, popupInterval);
+    }, 6000);
   })();
 </script>
+{% endif %}

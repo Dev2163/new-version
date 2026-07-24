@@ -2281,7 +2281,48 @@
             "label": "t:options.fill"
           }
         ],
-        "default": "equal-width-buttons"
+      }
+    ]
+  },
+  {
+    "name": "Recent Purchase Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_purchase_popup",
+        "label": "Enable Recent Purchase Popup",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Customer Purchase Notifications"
+      },
+      {
+        "type": "textarea",
+        "id": "purchase_popup_list",
+        "label": "Notifications List (Format: Name | Product | Time)",
+        "default": "Marcus V. from London | Libra Balance Oversized Tee | 2 mins ago\nDominic T. from New York | ONE9 Heavyweight Oversized Hoodie | 5 mins ago\nSophia K. from Berlin | Zodiac Edition Track Pant | 8 mins ago\nJulian M. from Paris | Native Bombay Blues Sneaker | 12 mins ago",
+        "info": "Enter each notification on a new line: Buyer Name | Product Name | Time (e.g. Alex from London | Mars Quarter Zip | 4 mins ago)"
+      },
+      {
+        "type": "range",
+        "id": "purchase_popup_interval",
+        "min": 10,
+        "max": 60,
+        "step": 5,
+        "unit": "s",
+        "label": "Interval between popups",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "purchase_popup_duration",
+        "min": 3,
+        "max": 15,
+        "step": 1,
+        "unit": "s",
+        "label": "Popup display duration",
+        "default": 5
       }
     ]
   }
