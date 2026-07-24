@@ -243,8 +243,11 @@
               }, { threshold: 0.1 });
               observer.observe(mainButtons);
             }
-          })();
-        </script>
+        <!-- Frequently Bought Together (Amazon Style Bundle) -->
+        {% render 'frequently-bought-together-snippet' %}
+
+        <!-- Premium Product Reviews -->
+        {% render 'premium-reviews-snippet' %}
       </div>
     </div>
   </div>
