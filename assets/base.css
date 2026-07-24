@@ -5082,6 +5082,27 @@ a.cart__checkout-button {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(244, 196, 48, 0.1) !important;
 }
 
+/* NovaAI Shopping Assistant FAB Fail-Safe Global Styles */
+#nova-ai-root,
+.nova-ai-container {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 99999999 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 768px) {
+  #nova-ai-root,
+  .nova-ai-container {
+    bottom: 80px !important;
+    right: 16px !important;
+  }
+}
+
+
 .cart-items__remove {
   cursor: pointer !important;
 }
