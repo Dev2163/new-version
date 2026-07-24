@@ -1,0 +1,246 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Sticky Add to Cart Bar (Gold, Black & White Aesthetics)
+{% endcomment %}
+
+<div id="one9-sticky-cart-bar" class="one9-sticky-cart" aria-hidden="true">
+  <div class="one9-sticky-cart__container page-width">
+    
+    <!-- Product Summary (Thumbnail + Title + Price) -->
+    <div class="one9-sticky-cart__product">
+      <div class="one9-sticky-cart__thumb">
+        {% if product.featured_media %}
+          <img src="{{ product.featured_media | image_url: width: 120 }}" alt="{{ product.title | escape }}" loading="lazy" width="60" height="60" id="sticky-cart-img">
+        {% endif %}
+      </div>
+      <div class="one9-sticky-cart__info">
+        <div class="one9-sticky-cart__title">{{ product.title }}</div>
+        <div class="one9-sticky-cart__price" id="sticky-cart-price">{{ product.price | money }}</div>
+      </div>
+    </div>
+
+    <!-- Actions (Size Selector + Add to Cart Button) -->
+    <div class="one9-sticky-cart__actions">
+      {% if product.has_only_default_variant == false %}
+        <div class="one9-sticky-cart__variant-select">
+          <select id="sticky-variant-selector" class="one9-sticky-select" aria-label="Select Size">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                {{ variant.title }} - {{ variant.price | money }} {% unless variant.available %}(Sold Out){% endunless %}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      {% endif %}
+
+      <button type="button" id="sticky-add-to-cart-btn" class="one9-sticky-btn" onclick="ONE9_StickyAddToCart()">
+        <span class="btn-text">Add To Cart</span>
+        <span class="btn-icon">⚡</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .one9-sticky-cart {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 14, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(244, 196, 48, 0.35);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(244, 196, 48, 0.15);
+    z-index: 999998;
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 10px 0;
+  }
+
+  .one9-sticky-cart.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Offset for desktop/mobile navigation */
+  @media (max-width: 768px) {
+    .one9-sticky-cart {
+      bottom: 60px; /* Above mobile bottom nav */
+      padding: 8px 0;
+    }
+  }
+
+  .one9-sticky-cart__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .one9-sticky-cart__product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .one9-sticky-cart__thumb {
+    width: 48px;
+    height: 48px;
+    background: #000;
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .one9-sticky-cart__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .one9-sticky-cart__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .one9-sticky-cart__title {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .one9-sticky-cart__price {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: #F4C430;
+  }
+
+  .one9-sticky-cart__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .one9-sticky-select {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 12px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .one9-sticky-select option {
+    background: #0A0A0C;
+    color: #FFF;
+  }
+
+  .one9-sticky-btn {
+    background: #F4C430;
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 0 15px rgba(244, 196, 48, 0.3);
+  }
+
+  .one9-sticky-btn:hover {
+    background: #FFD700;
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(244, 196, 48, 0.5);
+  }
+</style>
+
+<script>
+(function() {
+  function initStickyBar() {
+    const stickyBar = document.getElementById('one9-sticky-cart-bar');
+    const mainBuyBtn = document.querySelector('.cp-add-to-cart-btn, [name="add"], #product-form-custom button[type="submit"]');
+
+    if (!stickyBar || !mainBuyBtn) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          stickyBar.classList.add('is-visible');
+          stickyBar.setAttribute('aria-hidden', 'false');
+        } else {
+          stickyBar.classList.remove('is-visible');
+          stickyBar.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }, { rootMargin: '0px 0px -50px 0px', threshold: 0 });
+
+    observer.observe(mainBuyBtn);
+  }
+
+  window.ONE9_StickyAddToCart = function() {
+    const select = document.getElementById('sticky-variant-selector');
+    const variantId = select ? select.value : '{{ product.selected_or_first_available_variant.id }}';
+    const btn = id('sticky-add-to-cart-btn');
+
+    if (!variantId) return;
+
+    btn.style.opacity = '0.7';
+    btn.innerHTML = '<span>Adding...</span>';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: parseInt(variantId), quantity: 1 })
+    })
+    .then(res => res.json())
+    .then(data => {
+      btn.style.opacity = '1';
+      btn.innerHTML = '<span>Added! ✓</span>';
+      document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+      
+      // Open cart drawer if function exists
+      if (document.querySelector('cart-drawer, #cart-drawer')) {
+        document.querySelector('header-actions-cart, [data-cart-drawer-trigger]')?.click();
+      }
+
+      setTimeout(() => {
+        btn.innerHTML = '<span class="btn-text">Add To Cart</span><span class="btn-icon">⚡</span>';
+      }, 2000);
+    })
+    .catch(() => {
+      window.location.href = `/cart/add?id=${variantId}&quantity=1`;
+    });
+  };
+
+  function id(str) { return document.getElementById(str); }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStickyBar);
+  } else {
+    initStickyBar();
+  }
+})();
+</script>
