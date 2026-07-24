@@ -63,6 +63,7 @@
     <button type="button" onclick="sendNovaQuickReply('Track Order')">📦 Track Order</button>
     <button type="button" onclick="sendNovaQuickReply('Coupons')">🏷️ Discounts</button>
     <button type="button" onclick="sendNovaQuickReply('Upcoming Drop')">🚀 Drop 002</button>
+    <button type="button" onclick="window.requestNovaPushNotification ? window.requestNovaPushNotification() : sendNovaQuickReply('Push Alerts')">🔔 Push Alerts</button>
   </div>
 
   <!-- Input Bar -->
@@ -539,6 +540,31 @@
       // Default Response
       addBotMessage("Got it! I can help you with size guides, special discount codes (WELCOME10), tracking your order, or recommending top drops!", sampleCatalog.slice(0, 1));
     }
+
+    // FCM (Firebase Cloud Messaging) Web Push Notification Helper
+    window.requestNovaPushNotification = function() {
+      if (!('Notification' in window)) {
+        addBotMessage("Push notifications are not supported in this browser.");
+        return;
+      }
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{{ 'firebase-messaging-sw.js' | asset_url }}")
+              .then(() => {
+                addBotMessage("🔔 **VIP Push Notifications Enabled!**\n\nYou will receive instant alerts for new streetwear drops, restocks & order updates!");
+              })
+              .catch(() => {
+                addBotMessage("🔔 VIP Notifications Allowed! You'll receive instant alerts for new drops.");
+              });
+          } else {
+            addBotMessage("🔔 VIP Notifications Allowed!");
+          }
+        } else {
+          addBotMessage("Notification permission was not granted. You can enable it in browser settings.");
+        }
+      });
+    };
   })();
 </script>
 
@@ -566,6 +592,10 @@
       "info": "Include country code without + (e.g., 919876543210)"
     },
     {
+      "type": "header",
+      "content": "Upcoming Launch Settings"
+    },
+    {
       "type": "text",
       "id": "launch_title",
       "label": "Upcoming Launch Title",
@@ -576,6 +606,46 @@
       "id": "launch_date",
       "label": "Launch Date",
       "default": "August 1, 2026"
+    },
+    {
+      "type": "header",
+      "content": "Firebase FCM Push Notifications"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_fcm",
+      "label": "Enable FCM Push Notifications",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "fcm_api_key",
+      "label": "Firebase API Key",
+      "default": "AIzaSy_YOUR_FIREBASE_API_KEY"
+    },
+    {
+      "type": "text",
+      "id": "fcm_project_id",
+      "label": "Firebase Project ID",
+      "default": "one9-streetwear"
+    },
+    {
+      "type": "text",
+      "id": "fcm_messaging_sender_id",
+      "label": "Firebase Messaging Sender ID",
+      "default": "100000000000"
+    },
+    {
+      "type": "text",
+      "id": "fcm_app_id",
+      "label": "Firebase App ID",
+      "default": "1:100000000000:web:abcdef123456"
+    },
+    {
+      "type": "text",
+      "id": "fcm_vapid_key",
+      "label": "Firebase Web Push VAPID Key",
+      "default": "YOUR_PUBLIC_VAPID_KEY"
     }
   ],
   "presets": [
