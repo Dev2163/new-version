@@ -277,13 +277,93 @@
     }
   }
 
+  const productVariantsData = {{ product.variants | json }};
+
   function selectVariant(btn) {
     const parent = btn.closest('.cp-option-values');
-    parent.querySelectorAll('.cp-val-btn').forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
+    if (parent) {
+      parent.querySelectorAll('.cp-val-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+    }
     const group = btn.closest('.cp-option-group');
-    group.querySelector('.cp-selected-val').textContent = btn.getAttribute('data-value');
+    const selectedValEl = group?.querySelector('.cp-selected-val');
+    if (selectedValEl) {
+      selectedValEl.textContent = btn.getAttribute('data-value');
+    }
+
+    // Collect all selected values across option groups
+    const selectedOptions = [];
+    document.querySelectorAll('.cp-option-group').forEach(g => {
+      const activeBtn = g.querySelector('.cp-val-btn.is-active');
+      if (activeBtn) {
+        selectedOptions.push(activeBtn.getAttribute('data-value'));
+      }
+    });
+
+    const clickedValue = btn.getAttribute('data-value');
+    let matchedVariant = productVariantsData.find(v => {
+      return Array.isArray(v.options) && v.options.every((optVal, idx) => selectedOptions[idx] === optVal);
+    });
+
+    if (!matchedVariant) {
+      matchedVariant = productVariantsData.find(v => Array.isArray(v.options) && v.options.includes(clickedValue));
+    }
+
+    if (matchedVariant) {
+      const variantInput = document.getElementById('variant-id-input');
+      if (variantInput) {
+        variantInput.value = matchedVariant.id;
+      }
+
+      const priceEl = document.querySelector('.cp-price');
+      if (priceEl && matchedVariant.price) {
+        const amount = (matchedVariant.price / 100).toFixed(2);
+        priceEl.textContent = '£' + amount;
+      }
+
+      const buyButtonsContainer = document.getElementById('main-buy-buttons');
+      const stockUrgency = document.querySelector('.cp-stock-urgency');
+
+      if (buyButtonsContainer) {
+        if (matchedVariant.available) {
+          buyButtonsContainer.innerHTML = `
+            <button type="submit" name="add" class="cp-btn cp-btn-add" style="background: #f4c430; color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 1px; width: 100%; padding: 16px; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
+              ADD TO CART
+            </button>
+          `;
+          if (stockUrgency) {
+            stockUrgency.style.display = 'flex';
+            stockUrgency.innerHTML = `<span class="stock-pulse" style="width: 8px; height: 8px; border-radius: 50%; background: #f4c430; display: inline-block; animation: pulseGlow 1.5s infinite;"></span><span>In Stock • Ships Within 24 Hours</span>`;
+          }
+        } else {
+          buyButtonsContainer.innerHTML = `
+            <button type="button" class="cp-btn cp-btn-soldout" disabled style="background: #222; color: #777; font-family: 'Orbitron', sans-serif; font-weight: 700; width: 100%; padding: 16px; border: none; border-radius: 6px; cursor: not-allowed;">
+              SOLD OUT
+            </button>
+          `;
+          if (stockUrgency) {
+            stockUrgency.style.display = 'flex';
+            stockUrgency.innerHTML = `<span style="width: 8px; height: 8px; border-radius: 50%; background: #ff4d4d; display: inline-block;"></span><span style="color: #ff4d4d;">Out of Stock</span>`;
+          }
+        }
+      }
+    }
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const firstAvailable = productVariantsData.find(v => v.available);
+    if (firstAvailable && !{{ product.selected_or_first_available_variant.available | json }}) {
+      const variantInput = document.getElementById('variant-id-input');
+      if (variantInput) variantInput.value = firstAvailable.id;
+
+      if (Array.isArray(firstAvailable.options)) {
+        firstAvailable.options.forEach(optVal => {
+          const btn = document.querySelector(`.cp-val-btn[data-value="${optVal.replace(/"/g, '\\"')}"]`);
+          if (btn) btn.click();
+        });
+      }
+    }
+  });
 
   function toggleAcc(btn) {
     const item = btn.closest('.cp-acc-item');
