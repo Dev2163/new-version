@@ -453,15 +453,9 @@
     align-items: stretch;
   }
 
-  /* Left Brand Sidebar */
+  /* Left Brand Sidebar - Hidden */
   .cp-sidebar {
-    width: 80px;
-    flex-shrink: 0;
-    padding-top: 40px;
-    border-right: 1px solid rgba(255,255,255,0.05);
-    position: sticky;
-    top: 0;
-    height: 100vh;
+    display: none !important;
   }
   .cp-vertical-brand {
     display: flex;
@@ -574,8 +568,7 @@
     flex-shrink: 0;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
-    max-height: 520px;
-    overflow-y: auto;
+    overflow: hidden !important;
   }
   .cp-thumbnails::-webkit-scrollbar {
     display: none !important;
