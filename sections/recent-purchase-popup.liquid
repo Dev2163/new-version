@@ -1,0 +1,115 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Recent Purchase Notification Popup Section
+{% endcomment %}
+
+{% assign enable_popup = section.settings.enable_purchase_popup %}
+{% if enable_popup == nil %}{% assign enable_popup = settings.enable_purchase_popup %}{% endif %}
+{% if enable_popup == nil %}{% assign enable_popup = true %}{% endif %}
+
+{% if enable_popup %}
+<!-- Social Proof Recent Purchase Toast -->
+<div id="one9-purchase-toast" class="cro-toast" style="display: none;">
+  <img src="https://cdn.shopify.com/s/files/1/0000/0000/files/placeholder.png?v=1" alt="Product" class="cro-toast__img" id="cro-toast-img">
+  <div class="cro-toast__content">
+    <div class="cro-toast__title" id="cro-toast-title">Alex from London</div>
+    <div class="cro-toast__subtitle" id="cro-toast-product">purchased Libra Balance Tee</div>
+    <div class="cro-toast__time" id="cro-toast-time">Verified Purchase • 4 mins ago</div>
+  </div>
+  <button type="button" class="cro-toast__close" aria-label="Close notification" onclick="document.getElementById('one9-purchase-toast').style.display='none'">&times;</button>
+</div>
+
+<script>
+  (function() {
+    {% assign raw_list = section.settings.purchase_popup_list %}
+    {% if raw_list == blank %}
+      {% assign raw_list = settings.purchase_popup_list %}
+    {% endif %}
+    {% if raw_list == blank %}
+      {% assign raw_list = "Marcus V. from London | Libra Balance Oversized Tee | 2 mins ago\nDominic T. from New York | ONE9 Heavyweight Oversized Hoodie | 5 mins ago\nSophia K. from Berlin | Zodiac Edition Track Pant | 8 mins ago\nJulian M. from Paris | Native Bombay Blues Sneaker | 12 mins ago" %}
+    {% endif %}
+
+    const rawData = {{ raw_list | json }};
+    const lines = rawData.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+    const samplePurchases = lines.map(line => {
+      const parts = line.split('|').map(p => p.trim());
+      return {
+        name: parts[0] || 'Customer',
+        product: parts[1] || 'ONE9 Item',
+        time: parts[2] || 'Just now'
+      };
+    });
+
+    if (samplePurchases.length === 0) return;
+
+    const popupInterval = ({{ section.settings.purchase_popup_interval | default: settings.purchase_popup_interval | default: 30 }}) * 1000;
+    const popupDuration = ({{ section.settings.purchase_popup_duration | default: settings.purchase_popup_duration | default: 5 }}) * 1000;
+
+    function showRandomToast() {
+      const toast = document.getElementById('one9-purchase-toast');
+      if (!toast) return;
+      
+      const purchase = samplePurchases[Math.floor(Math.random() * samplePurchases.length)];
+      document.getElementById('cro-toast-title').textContent = purchase.name;
+      document.getElementById('cro-toast-product').textContent = "purchased " + purchase.product;
+      document.getElementById('cro-toast-time').textContent = "Verified Purchase • " + purchase.time;
+      
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, popupDuration);
+    }
+
+    setTimeout(() => {
+      showRandomToast();
+      setInterval(showRandomToast, popupInterval);
+    }, 6000);
+  })();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Recent Purchase Popup",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_purchase_popup",
+      "label": "Enable Recent Purchase Popup",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "purchase_popup_list",
+      "label": "Notifications List (Format: Name | Product | Time)",
+      "default": "Marcus V. from London | Libra Balance Oversized Tee | 2 mins ago\nDominic T. from New York | ONE9 Heavyweight Oversized Hoodie | 5 mins ago\nSophia K. from Berlin | Zodiac Edition Track Pant | 8 mins ago\nJulian M. from Paris | Native Bombay Blues Sneaker | 12 mins ago",
+      "info": "Enter each notification on a new line: Buyer Name | Product Name | Time"
+    },
+    {
+      "type": "range",
+      "id": "purchase_popup_interval",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Interval between popups",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "purchase_popup_duration",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "label": "Popup display duration",
+      "default": 5
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recent Purchase Popup"
+    }
+  ]
+}
+{% endschema %}
