@@ -221,9 +221,11 @@
       btn.innerHTML = '<span>Added! ✓</span>';
       document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
       
-      // Open cart drawer if function exists
-      if (document.querySelector('cart-drawer, #cart-drawer')) {
-        document.querySelector('header-actions-cart, [data-cart-drawer-trigger]')?.click();
+      // Open Cart Drawer instantly
+      if (typeof window.ONE9_OpenCartDrawer === 'function') {
+        window.ONE9_OpenCartDrawer();
+      } else {
+        document.querySelector('[data-testid="cart-drawer-trigger"], .header-actions__action')?.click();
       }
 
       setTimeout(() => {

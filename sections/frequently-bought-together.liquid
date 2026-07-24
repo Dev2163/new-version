@@ -286,6 +286,11 @@ window.ONE9_AddFBTBundle = function() {
   .then(data => {
     if (btn) btn.innerHTML = 'Bundle Added! ✓';
     document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+    if (typeof window.ONE9_OpenCartDrawer === 'function') {
+      window.ONE9_OpenCartDrawer();
+    } else {
+      document.querySelector('[data-testid="cart-drawer-trigger"], .header-actions__action')?.click();
+    }
     
     setTimeout(() => {
       if (btn) btn.innerHTML = 'Add Selected to Cart 🛒';

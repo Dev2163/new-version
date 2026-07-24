@@ -436,6 +436,22 @@
     }, {passive: true});
   }
 
+  // Bulletproof Cart Drawer Opener Helper
+  window.ONE9_OpenCartDrawer = function() {
+    const trigger = document.querySelector('[data-testid="cart-drawer-trigger"], .header-actions__action, button[aria-haspopup="dialog"]');
+    if (trigger) {
+      trigger.click();
+    }
+    const dialog = document.querySelector('dialog.cart-drawer__dialog, [data-testid="cart-drawer-dialog"]');
+    if (dialog && !dialog.open) {
+      if (typeof dialog.showModal === 'function') {
+        try { dialog.showModal(); } catch(e) { dialog.setAttribute('open', 'true'); }
+      } else {
+        dialog.setAttribute('open', 'true');
+      }
+    }
+  };
+
   // Instant AJAX Add to Cart & Cart Drawer Opener
   document.addEventListener('DOMContentLoaded', function() {
     const productForm = document.getElementById('product-form-custom');
@@ -468,15 +484,8 @@
         // Notify theme of cart update
         document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
         
-        // Open Cart Drawer
-        const cartDrawer = document.querySelector('cart-drawer-component, cart-drawer, #cart-drawer, [data-testid="cart-drawer-trigger"], header-actions-cart');
-        if (cartDrawer) {
-          if (typeof cartDrawer.openDialog === 'function') {
-            cartDrawer.openDialog();
-          } else {
-            cartDrawer.click();
-          }
-        }
+        // Open Cart Drawer instantly
+        window.ONE9_OpenCartDrawer();
 
         setTimeout(() => {
           if (submitBtn) submitBtn.innerHTML = originalText;
