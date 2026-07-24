@@ -5118,7 +5118,7 @@ body {
   background-color: #050505 !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
 }
 
 #MainContent,

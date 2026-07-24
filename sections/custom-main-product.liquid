@@ -500,6 +500,48 @@
         window.location.href = '/cart';
       });
     });
+
+    // JS Sticky Scroll Fallback
+    function handleStickyScroll() {
+      if (window.innerWidth <= 768) return;
+      const leftCol = document.querySelector('.cp-left-col');
+      const rightCol = document.querySelector('.cp-right-col');
+      const sidebar = document.querySelector('.cp-sidebar');
+      const grid = document.querySelector('.cp-layout-grid');
+      
+      if (!leftCol || !rightCol || !grid) return;
+
+      const gridRect = grid.getBoundingClientRect();
+      const rightRect = rightCol.getBoundingClientRect();
+      const leftHeight = leftCol.offsetHeight;
+      const rightHeight = rightCol.offsetHeight;
+
+      if (rightHeight <= leftHeight) return;
+
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const gridOffsetTop = grid.offsetTop || 150;
+      const maxTranslate = rightHeight - leftHeight;
+
+      if (scrollTop > gridOffsetTop - 20) {
+        const translateVal = Math.min(scrollTop - gridOffsetTop + 20, maxTranslate);
+        leftCol.style.position = 'relative';
+        leftCol.style.top = `${translateVal}px`;
+      } else {
+        leftCol.style.position = 'relative';
+        leftCol.style.top = '0px';
+      }
+
+      if (sidebar) {
+        sidebar.style.position = 'fixed';
+        sidebar.style.top = '20px';
+        sidebar.style.left = '0';
+        sidebar.style.height = 'calc(100vh - 40px)';
+      }
+    }
+
+    window.addEventListener('scroll', handleStickyScroll, { passive: true });
+    window.addEventListener('resize', handleStickyScroll, { passive: true });
+    handleStickyScroll();
   });
 </script>
 
