@@ -5091,3 +5091,23 @@ a.cart__checkout-button {
   transition: transform 0.2s ease !important;
 }
 
+/* Fix left side white space / gap */
+html,
+body {
+  background-color: #050505 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+#MainContent,
+main,
+.shopify-section,
+.section-background,
+.cart-page,
+.cart-items__wrapper,
+.section,
+.section--page-width {
+  background-color: #050505 !important;
+}
+
