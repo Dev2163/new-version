@@ -3,7 +3,7 @@
 {% comment %}
 
 <!-- Nova AI Floating Trigger -->
-<div id="nova-chat-trigger" class="nova-trigger" onclick="toggleNovaChat()">
+<div id="nova-chat-trigger" class="nova-trigger" onclick="toggleNovaChat()" style="position: fixed !important; bottom: 28px !important; right: 24px !important; z-index: 2147483647 !important; display: flex !important; visibility: visible !important; opacity: 1 !important;">
   <div class="nova-trigger__icon">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
@@ -18,7 +18,7 @@
 </div>
 
 <!-- Nova AI Chat Window -->
-<div id="nova-chat-window" class="nova-window" style="display: none;">
+<div id="nova-chat-window" class="nova-window" style="display: none; position: fixed !important; bottom: 88px !important; right: 24px !important; z-index: 2147483647 !important;">
   <!-- Header -->
   <div class="nova-header">
     <div class="nova-header__title-group">
@@ -567,6 +567,24 @@
           addBotMessage("Notification permission was not granted.");
         }
       });
-    };
+    // Auto-mount widget directly to document.body to escape any parent section clipping or container stacking contexts
+    function initNovaWidget() {
+      const trigger = document.getElementById('nova-chat-trigger');
+      const win = document.getElementById('nova-chat-window');
+      if (trigger && document.body && trigger.parentElement !== document.body) {
+        document.body.appendChild(trigger);
+      }
+      if (win && document.body && win.parentElement !== document.body) {
+        document.body.appendChild(win);
+      }
+    }
+
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      initNovaWidget();
+    } else {
+      document.addEventListener('DOMContentLoaded', initNovaWidget);
+    }
+    setTimeout(initNovaWidget, 500);
+    setTimeout(initNovaWidget, 1500);
   })();
 </script>
