@@ -1,5 +1,5 @@
 {% comment %}
-  ONE9 Luxury Streetwear - Recent Purchase Notification Popup Section
+  ONE9 Luxury Streetwear - Recent Purchase Social Proof Popup Section (With Customer Profile Avatars)
 {% endcomment %}
 
 {% assign enable_popup = section.settings.enable_purchase_popup %}
@@ -8,15 +8,127 @@
 
 {% if enable_popup %}
 <!-- Social Proof Recent Purchase Toast -->
-<div id="one9-purchase-toast" class="cro-toast" style="display: none;">
-  <img src="https://cdn.shopify.com/s/files/1/0000/0000/files/placeholder.png?v=1" alt="Product" class="cro-toast__img" id="cro-toast-img">
-  <div class="cro-toast__content">
-    <div class="cro-toast__title" id="cro-toast-title">Alex from London</div>
-    <div class="cro-toast__subtitle" id="cro-toast-product">purchased Libra Balance Tee</div>
-    <div class="cro-toast__time" id="cro-toast-time">Verified Purchase • 4 mins ago</div>
+<div id="one9-purchase-toast" class="one9-purchase-toast" style="display: none;" aria-live="polite">
+  <div class="toast-profile-avatar" id="toast-profile-avatar">MV</div>
+  <div class="toast-content">
+    <div class="toast-title">
+      <span id="toast-name">Marcus V. from London</span>
+      <span class="toast-verified-tag">✓ Verified Buyer</span>
+    </div>
+    <div class="toast-product" id="toast-product">purchased Libra Balance Oversized Tee</div>
+    <div class="toast-time" id="toast-time">2 mins ago</div>
   </div>
-  <button type="button" class="cro-toast__close" aria-label="Close notification" onclick="document.getElementById('one9-purchase-toast').style.display='none'">&times;</button>
+  <button type="button" class="toast-close-btn" aria-label="Close notification" onclick="document.getElementById('one9-purchase-toast').style.display='none'">&times;</button>
 </div>
+
+<style>
+  .one9-purchase-toast {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 24px !important;
+    z-index: 999997 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 16px 12px 12px !important;
+    background: rgba(10, 10, 14, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(244, 196, 48, 0.4) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(244, 196, 48, 0.2) !important;
+    max-width: 340px !important;
+    animation: toastSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  @media (max-width: 768px) {
+    .one9-purchase-toast {
+      bottom: 76px !important;
+      left: 16px !important;
+      max-width: calc(100vw - 32px) !important;
+    }
+  }
+
+  @keyframes toastSlideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .toast-profile-avatar {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, rgba(244, 196, 48, 0.25) 0%, rgba(10, 10, 14, 0.9) 100%);
+    border: 2px solid #F4C430;
+    border-radius: 50%;
+    color: #F4C430;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(244, 196, 48, 0.3);
+  }
+
+  .toast-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .toast-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .toast-verified-tag {
+    font-size: 9px;
+    font-weight: 800;
+    color: #00FF9D;
+    background: rgba(0, 255, 157, 0.15);
+    border: 1px solid rgba(0, 255, 157, 0.3);
+    padding: 1px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .toast-product {
+    font-size: 11px;
+    color: #DDDDDD;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .toast-time {
+    font-size: 10px;
+    color: #888888;
+  }
+
+  .toast-close-btn {
+    background: transparent;
+    border: none;
+    color: #888888;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+    transition: color 0.2s;
+  }
+
+  .toast-close-btn:hover {
+    color: #FFFFFF;
+  }
+</style>
 
 <script>
   (function() {
@@ -33,8 +145,20 @@
 
     const samplePurchases = lines.map(line => {
       const parts = line.split('|').map(p => p.trim());
+      const fullName = parts[0] || 'Customer';
+      
+      // Calculate initials (e.g. Marcus V. -> MV)
+      const nameParts = fullName.split(' ');
+      let initials = 'MV';
+      if (nameParts.length >= 2) {
+        initials = (nameParts[0][0] + nameParts[1][0]).toUpperCase();
+      } else if (nameParts.length === 1) {
+        initials = nameParts[0].substring(0, 2).toUpperCase();
+      }
+
       return {
-        name: parts[0] || 'Customer',
+        name: fullName,
+        initials: initials,
         product: parts[1] || 'ONE9 Item',
         time: parts[2] || 'Just now'
       };
@@ -42,17 +166,18 @@
 
     if (samplePurchases.length === 0) return;
 
-    const popupInterval = ({{ section.settings.purchase_popup_interval | default: settings.purchase_popup_interval | default: 30 }}) * 1000;
-    const popupDuration = ({{ section.settings.purchase_popup_duration | default: settings.purchase_popup_duration | default: 5 }}) * 1000;
+    const popupInterval = ({{ section.settings.purchase_popup_interval | default: settings.purchase_popup_interval | default: 20 }}) * 1000;
+    const popupDuration = ({{ section.settings.purchase_popup_duration | default: settings.purchase_popup_duration | default: 6 }}) * 1000;
 
     function showRandomToast() {
       const toast = document.getElementById('one9-purchase-toast');
       if (!toast) return;
       
       const purchase = samplePurchases[Math.floor(Math.random() * samplePurchases.length)];
-      document.getElementById('cro-toast-title').textContent = purchase.name;
-      document.getElementById('cro-toast-product').textContent = "purchased " + purchase.product;
-      document.getElementById('cro-toast-time').textContent = "Verified Purchase • " + purchase.time;
+      document.getElementById('toast-profile-avatar').textContent = purchase.initials;
+      document.getElementById('toast-name').textContent = purchase.name;
+      document.getElementById('toast-product').textContent = "purchased " + purchase.product;
+      document.getElementById('toast-time').textContent = purchase.time;
       
       toast.style.display = 'flex';
       setTimeout(() => {
@@ -63,7 +188,7 @@
     setTimeout(() => {
       showRandomToast();
       setInterval(showRandomToast, popupInterval);
-    }, 6000);
+    }, 4000);
   })();
 </script>
 {% endif %}
@@ -93,7 +218,7 @@
       "step": 5,
       "unit": "s",
       "label": "Interval between popups",
-      "default": 30
+      "default": 20
     },
     {
       "type": "range",
@@ -103,7 +228,7 @@
       "step": 1,
       "unit": "s",
       "label": "Popup display duration",
-      "default": 5
+      "default": 6
     }
   ],
   "presets": [
