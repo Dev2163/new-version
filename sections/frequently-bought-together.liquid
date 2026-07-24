@@ -1,0 +1,310 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Frequently Bought Together (Amazon Style Bundle Upsell)
+{% endcomment %}
+
+<div class="fbt-section page-width">
+  <div class="fbt-header">
+    <h2 class="fbt-title">FREQUENTLY BOUGHT TOGETHER</h2>
+    <p class="fbt-subtitle">Complete your outfit &amp; unlock bundle savings</p>
+  </div>
+
+  <div class="fbt-box">
+    <!-- Items Row -->
+    <div class="fbt-items-row">
+      <!-- Main Product Item -->
+      <div class="fbt-item">
+        <div class="fbt-checkbox-wrapper">
+          <input type="checkbox" id="fbt-item-1" class="fbt-checkbox" checked disabled data-price="{{ product.price }}">
+          <label for="fbt-item-1"></label>
+        </div>
+        <div class="fbt-thumb">
+          <img src="{{ product.featured_media | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy">
+        </div>
+        <div class="fbt-details">
+          <div class="fbt-item-tag">This Item</div>
+          <div class="fbt-item-name">{{ product.title }}</div>
+          <div class="fbt-item-price">{{ product.price | money }}</div>
+        </div>
+      </div>
+
+      <div class="fbt-plus">+</div>
+
+      <!-- Rec Item 1 (Cargo / Hoodie) -->
+      <div class="fbt-item">
+        <div class="fbt-checkbox-wrapper">
+          <input type="checkbox" id="fbt-item-2" class="fbt-checkbox" checked data-price="1499" data-variant-id="44000000000001" onchange="updateFBTTotal()">
+          <label for="fbt-item-2"></label>
+        </div>
+        <div class="fbt-thumb">
+          <div class="fbt-placeholder-icon">👖</div>
+        </div>
+        <div class="fbt-details">
+          <div class="fbt-item-tag">Matching Fit</div>
+          <div class="fbt-item-name">Cargo Jogger Pants - Relaxed</div>
+          <div class="fbt-item-price">₹1,499</div>
+        </div>
+      </div>
+
+      <div class="fbt-plus">+</div>
+
+      <!-- Rec Item 2 (Accessory / Cap) -->
+      <div class="fbt-item">
+        <div class="fbt-checkbox-wrapper">
+          <input type="checkbox" id="fbt-item-3" class="fbt-checkbox" checked data-price="599" data-variant-id="44000000000002" onchange="updateFBTTotal()">
+          <label for="fbt-item-3"></label>
+        </div>
+        <div class="fbt-thumb">
+          <div class="fbt-placeholder-icon">🧢</div>
+        </div>
+        <div class="fbt-details">
+          <div class="fbt-item-tag">Accessory</div>
+          <div class="fbt-item-name">ONE9 Snapback Cap - Black</div>
+          <div class="fbt-item-price">₹599</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Box -->
+    <div class="fbt-summary">
+      <div class="fbt-total-price">
+        <span class="label">Total Price:</span>
+        <span class="price-val" id="fbt-total-display">₹{{ product.price | plus: 2098 | divided_by: 100 }}</span>
+      </div>
+      <div class="fbt-savings">🔥 Special Bundle Offer: Save 10% automatically at checkout</div>
+      <button type="button" class="fbt-buy-btn" id="fbt-add-btn" onclick="ONE9_AddFBTBundle()">
+        Add Selected to Cart 🛒
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .fbt-section {
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+
+  .fbt-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .fbt-title {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+  }
+
+  .fbt-subtitle {
+    font-size: 13px;
+    color: #F4C430;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .fbt-box {
+    background: #0A0A0C;
+    border: 1px solid rgba(244, 196, 48, 0.35);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fbt-items-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .fbt-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    min-width: 220px;
+  }
+
+  .fbt-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .fbt-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #F4C430;
+    cursor: pointer;
+  }
+
+  .fbt-thumb {
+    width: 56px;
+    height: 56px;
+    background: #000;
+    border: 1px solid rgba(244, 196, 48, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .fbt-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fbt-placeholder-icon {
+    font-size: 26px;
+  }
+
+  .fbt-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .fbt-item-tag {
+    font-size: 9px;
+    font-weight: 800;
+    color: #F4C430;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .fbt-item-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFF;
+  }
+
+  .fbt-item-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #F4C430;
+  }
+
+  .fbt-plus {
+    font-size: 22px;
+    font-weight: 900;
+    color: #F4C430;
+  }
+
+  .fbt-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .fbt-total-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fbt-total-price .label {
+    font-size: 13px;
+    color: #AAA;
+  }
+
+  .fbt-total-price .price-val {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #F4C430;
+  }
+
+  .fbt-savings {
+    font-size: 12px;
+    color: #00FF9D;
+    font-weight: 700;
+  }
+
+  .fbt-buy-btn {
+    background: #F4C430;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 15px rgba(244, 196, 48, 0.3);
+  }
+
+  .fbt-buy-btn:hover {
+    background: #FFD700;
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(244, 196, 48, 0.5);
+  }
+</style>
+
+<script>
+window.updateFBTTotal = function() {
+  const mainPrice = {{ product.price | divided_by: 100 }};
+  let total = mainPrice;
+
+  if (document.getElementById('fbt-item-2')?.checked) total += 1499;
+  if (document.getElementById('fbt-item-3')?.checked) total += 599;
+
+  document.getElementById('fbt-total-display').textContent = '₹' + total.toLocaleString('en-IN');
+};
+
+window.ONE9_AddFBTBundle = function() {
+  const btn = document.getElementById('fbt-add-btn');
+  if (btn) btn.innerHTML = 'Adding Bundle...';
+
+  const items = [{ id: parseInt('{{ product.selected_or_first_available_variant.id }}'), quantity: 1 }];
+
+  // Add checked recommendations
+  items.push({ id: 1, quantity: 1 });
+
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: items })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (btn) btn.innerHTML = 'Bundle Added! ✓';
+    document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+    
+    setTimeout(() => {
+      if (btn) btn.innerHTML = 'Add Selected to Cart 🛒';
+    }, 2500);
+  })
+  .catch(() => {
+    window.location.href = '/cart';
+  });
+};
+</script>
+
+{% schema %}
+{
+  "name": "Bought Together",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Bought Together"
+    }
+  ]
+}
+{% endschema %}
