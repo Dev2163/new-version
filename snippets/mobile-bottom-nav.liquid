@@ -82,13 +82,21 @@
       z-index: -9999 !important;
     }
 
-    /* Completely remove extra icons & secondary header rows on mobile */
-    .header__drawer,
-    .header__column .header__drawer,
-    header-component .header__drawer,
+    /* Keep top header menu drawer summary visually hidden without display:none so JS click works */
+    .header__drawer summary,
     details.menu-drawer-container > summary,
-    summary.header__icon--menu,
-    .header__icon--menu,
+    summary.header__icon--menu {
+      opacity: 0 !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+      pointer-events: none !important;
+    }
+
+    /* Completely remove extra icons & secondary header rows on mobile */
     header-actions .account-button,
     header-actions [aria-label="View Wishlist"],
     header-actions cart-drawer-component,
@@ -221,10 +229,11 @@
       -webkit-backdrop-filter: blur(20px) !important;
       border-top: 1px solid rgba(244, 196, 48, 0.3) !important;
       box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(244, 196, 48, 0.15) !important;
-      z-index: 999990 !important;
+      z-index: 999999 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-around !important;
+      pointer-events: auto !important;
     }
 
     body {
@@ -256,6 +265,8 @@
     font-family: 'Rajdhani', sans-serif;
     transition: all 0.25s ease;
     -webkit-tap-highlight-color: transparent;
+    pointer-events: auto !important;
+    z-index: 999999 !important;
   }
 
   .mobile-bottom-nav__item svg {
@@ -329,19 +340,18 @@
 <script>
   function openMobileMenu(e) {
     if (e && e.preventDefault) e.preventDefault();
-    const detailsElem = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container, header-drawer details');
-    if (detailsElem) {
-      const summaryBtn = detailsElem.querySelector('summary');
-      if (summaryBtn && typeof summaryBtn.click === 'function') {
-        summaryBtn.click();
+    if (e && e.stopPropagation) e.stopPropagation();
+
+    const details = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container, header-drawer details');
+    if (details) {
+      if (details.hasAttribute('open')) {
+        details.removeAttribute('open');
+        details.classList.remove('menu-open');
+        document.body.classList.remove('overflow-hidden', 'menu-open');
       } else {
-        if (detailsElem.hasAttribute('open')) {
-          detailsElem.removeAttribute('open');
-          document.body.classList.remove('overflow-hidden', 'menu-open');
-        } else {
-          detailsElem.setAttribute('open', '');
-          document.body.classList.add('overflow-hidden', 'menu-open');
-        }
+        details.setAttribute('open', '');
+        details.classList.add('menu-open');
+        document.body.classList.add('overflow-hidden', 'menu-open');
       }
     } else {
       window.location.href = '/collections/all';
@@ -349,10 +359,16 @@
   }
 
   function openMobileCart(e) {
-    const cartTrigger = document.querySelector('cart-drawer-component button[data-testid="cart-drawer-trigger"], header-actions cart-drawer-component button, [data-cart-drawer-trigger], .action__cart, cart-icon');
-    if (cartTrigger) {
+    const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog');
+    const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], .action__cart, cart-icon');
+
+    if (dialog && typeof dialog.showModal === 'function' && !dialog.open) {
       if (e && e.preventDefault) e.preventDefault();
-      cartTrigger.click();
+      dialog.showModal();
+      document.body.classList.add('overflow-hidden');
+    } else if (trigger) {
+      if (e && e.preventDefault) e.preventDefault();
+      trigger.click();
     } else {
       window.location.href = '/cart';
     }
