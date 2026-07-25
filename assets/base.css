@@ -3,7 +3,11 @@
 }
 
 @media screen and (max-width: 768px) {
-  /* Permanently hide top header X close icon, menu icons, cart text, and extra action buttons */
+  /* Permanently hide duplicate search buttons, header X close icon, cart text, and extra action buttons */
+  search-button:nth-of-type(n+2),
+  .search-action:nth-of-type(n+2),
+  .search-action--hidden-on-drawer,
+  .search-action--hidden-on-menu,
   header-drawer .header-drawer-icon--close,
   header-drawer .header-drawer-icon--open,
   header-drawer summary svg,
