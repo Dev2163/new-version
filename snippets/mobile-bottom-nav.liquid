@@ -2,11 +2,12 @@
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
   Bottom Navbar: Contains 5 Clean Icons (Home, Menu, Wishlist, Cart, Account)
+  With Auto Active Page Highlighting & Gold Indicators
 {% endcomment %}
 
 <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
   <!-- 1. Home -->
-  <a href="/" class="mobile-bottom-nav__item {% if template == 'index' %}active{% endif %}">
+  <a href="/" class="mobile-bottom-nav__item nav-item-home {% if template == 'index' or request.path == '/' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
       <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -15,7 +16,7 @@
   </a>
 
   <!-- 2. Menu (Opens Navigation Drawer) -->
-  <button type="button" class="mobile-bottom-nav__item" onclick="openMobileMenu()">
+  <button type="button" class="mobile-bottom-nav__item nav-item-menu {% if template contains 'collection' or template contains 'product' or template contains 'search' %}active{% endif %}" onclick="openMobileMenu()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -25,7 +26,7 @@
   </button>
 
   <!-- 3. Wishlist -->
-  <a href="/pages/wishlist" class="mobile-bottom-nav__item {% if template contains 'wishlist' %}active{% endif %}">
+  <a href="/pages/wishlist" class="mobile-bottom-nav__item nav-item-wishlist {% if template contains 'wishlist' or request.path contains 'wishlist' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
     </svg>
@@ -34,7 +35,7 @@
   </a>
 
   <!-- 4. Cart -->
-  <a href="/cart" class="mobile-bottom-nav__item {% if template contains 'cart' %}active{% endif %}" onclick="openMobileCart(event)">
+  <a href="/cart" class="mobile-bottom-nav__item nav-item-cart {% if template contains 'cart' or request.path contains 'cart' %}active{% endif %}" onclick="openMobileCart(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -47,7 +48,7 @@
   </a>
 
   <!-- 5. Account -->
-  <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="mobile-bottom-nav__item {% if template contains 'account' or template contains 'login' %}active{% endif %}">
+  <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="mobile-bottom-nav__item nav-item-account {% if template contains 'account' or template contains 'login' or request.path contains 'account' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
       <circle cx="12" cy="7" r="4"></circle>
@@ -240,7 +241,7 @@
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
-    transition: transform 0.25s ease, stroke 0.25s ease;
+    transition: transform 0.25s ease, stroke 0.25s ease, filter 0.25s ease;
   }
 
   .mobile-bottom-nav__item span.nav-label {
@@ -249,27 +250,37 @@
     letter-spacing: 0.5px;
     text-transform: uppercase;
     margin-top: 4px;
-    transition: color 0.25s ease;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
   }
 
+  /* Active & Hover States - Prominent Gold Highlight */
   .mobile-bottom-nav__item.active,
   .mobile-bottom-nav__item:hover {
     color: #F4C430 !important;
   }
 
   .mobile-bottom-nav__item.active svg {
-    transform: translateY(-2px) scale(1.1);
+    color: #F4C430 !important;
+    stroke: #F4C430 !important;
+    transform: translateY(-2px) scale(1.15) !important;
+    filter: drop-shadow(0 0 6px rgba(244, 196, 48, 0.8)) !important;
+  }
+
+  .mobile-bottom-nav__item.active span.nav-label {
+    color: #F4C430 !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 8px rgba(244, 196, 48, 0.6) !important;
   }
 
   .mobile-bottom-nav__item.active::after {
     content: '';
     position: absolute;
     top: 0;
-    width: 22px;
-    height: 2px;
+    width: 28px;
+    height: 3px;
     background: #F4C430;
-    border-radius: 0 0 2px 2px;
-    box-shadow: 0 0 8px #F4C430;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 0 12px #F4C430, 0 0 4px #F4C430;
   }
 
   .mobile-bottom-nav__badge {
@@ -311,4 +322,34 @@
       cartTrigger.click();
     }
   }
+
+  // Auto Active Page Matching on Client Load
+  document.addEventListener('DOMContentLoaded', function() {
+    try {
+      const path = window.location.pathname.toLowerCase();
+      let matched = false;
+
+      if (path.includes('/pages/wishlist') || path.includes('wishlist')) {
+        document.querySelector('.nav-item-wishlist')?.classList.add('active');
+        matched = true;
+      } else if (path.includes('/cart')) {
+        document.querySelector('.nav-item-cart')?.classList.add('active');
+        matched = true;
+      } else if (path.includes('/account') || path.includes('/login')) {
+        document.querySelector('.nav-item-account')?.classList.add('active');
+        matched = true;
+      } else if (path === '/' || path === '' || path.includes('/index')) {
+        document.querySelector('.nav-item-home')?.classList.add('active');
+        matched = true;
+      } else if (path.includes('/collections') || path.includes('/products') || path.includes('/pages') || path.includes('/search')) {
+        document.querySelector('.nav-item-menu')?.classList.add('active');
+        matched = true;
+      }
+
+      // Fallback: Default to Home if unmapped URL
+      if (!matched && !document.querySelector('.mobile-bottom-nav__item.active')) {
+        document.querySelector('.nav-item-home')?.classList.add('active');
+      }
+    } catch(e) {}
+  });
 </script>
