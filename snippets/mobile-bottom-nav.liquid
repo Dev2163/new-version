@@ -549,7 +549,7 @@
     function hideMobileHeaderDrawerButton() {
       if (window.innerWidth > 768) return;
       try {
-        // Hide the summary (hamburger/X toggle) — bottom nav handles Menu
+        // 1. Hide the summary (hamburger/X toggle) — bottom nav handles Menu
         var summaries = document.querySelectorAll(
           'header-drawer summary, summary.header__icon--menu, summary.header__icon--summary, details.menu-drawer-container > summary'
         );
@@ -563,7 +563,29 @@
           s.style.setProperty('pointer-events', 'none', 'important');
         });
 
-        // Also hide any search-action in left or center column (drawer_search duplicate)
+        // 2. Completely collapse header-actions (shopify-account renders X icon inside)
+        var headerActions = document.querySelectorAll('header-actions');
+        headerActions.forEach(function(el) {
+          el.style.setProperty('width', '0', 'important');
+          el.style.setProperty('height', '0', 'important');
+          el.style.setProperty('overflow', 'hidden', 'important');
+          el.style.setProperty('position', 'absolute', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+        });
+
+        // 3. Hide all direct children of header-actions (account, wishlist, cart trigger)
+        var headerActionChildren = document.querySelectorAll(
+          'header-actions > *, header-actions shopify-account, header-actions .account-button, header-actions a, header-actions button[data-testid="cart-drawer-trigger"]'
+        );
+        headerActionChildren.forEach(function(el) {
+          el.style.setProperty('display', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('width', '0', 'important');
+          el.style.setProperty('height', '0', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+        });
+
+        // 4. Hide search in left or center column (drawer_search duplicate)
         var leftSearches = document.querySelectorAll(
           '.header__column--left search-button, .header__column--left .search-action, .header__column--center search-button, .header__column--center .search-action'
         );
@@ -571,7 +593,7 @@
           el.style.setProperty('display', 'none', 'important');
         });
 
-        // Force show the right column search
+        // 5. Force show the right column search button
         var rightSearches = document.querySelectorAll(
           '.header__column--right search-button, .header__column--right .search-action'
         );

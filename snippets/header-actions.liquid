@@ -720,17 +720,18 @@
   }
 
   @media screen and (max-width: 768px) {
-    header-actions cart-drawer-component > button,
-    header-actions cart-drawer-component [data-testid="cart-drawer-trigger"],
-    header-actions shopify-account,
-    header-actions .account-button,
-    header-actions a[href*="wishlist"],
-    header-actions [aria-label="View Wishlist"],
-    header-actions button[data-testid="cart-drawer-trigger"],
-    header-actions .action__cart,
-    header-actions .header-actions__cart-icon,
-    header-actions .header-actions__text,
-    header-actions > a:not(search-button *) {
+    /* On mobile: completely hide all header-actions content */
+    /* Account, wishlist, cart trigger — all handled by mobile-bottom-nav */
+    header-actions {
+      display: block !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      pointer-events: none !important;
+    }
+
+    header-actions > * {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
@@ -741,13 +742,26 @@
       overflow: hidden !important;
     }
 
+    /* Only keep cart-drawer-component for JS dialog access (0x0, invisible) */
     cart-drawer-component {
       display: block !important;
       width: 0 !important;
       height: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
+      overflow: visible !important;
       position: absolute !important;
+      pointer-events: none !important;
+    }
+
+    /* Hide all direct visible children inside cart-drawer-component */
+    cart-drawer-component > button,
+    cart-drawer-component > [data-testid="cart-drawer-trigger"],
+    cart-drawer-component > .header-actions__action {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
     }
   }
 {% endstylesheet %}
