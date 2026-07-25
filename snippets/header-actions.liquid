@@ -725,12 +725,35 @@
     header-actions a[href*="wishlist"] {
       overflow: visible !important;
       position: relative !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
     }
 
     header-actions .wishlist-count-badge {
       top: -2px !important;
       right: -2px !important;
       z-index: 10 !important;
+    }
+
+    /* Remove any unwanted divider lines/borders between header action buttons */
+    header-actions,
+    header-actions *,
+    .header-actions__action,
+    .action__cart,
+    .account-button,
+    shopify-account,
+    cart-drawer-component {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    header-actions *::before,
+    header-actions *::after {
+      border: none !important;
+      background-image: none !important;
     }
   }
 
