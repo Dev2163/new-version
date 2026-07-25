@@ -246,10 +246,13 @@
 
   @media (max-width: 768px) {
     .nova-ai-panel {
-      bottom: 140px !important;
+      position: fixed !important;
+      bottom: 74px !important;
       right: 16px !important;
+      left: 16px !important;
       width: calc(100vw - 32px) !important;
-      height: 540px !important;
+      height: min(520px, calc(100vh - 120px)) !important;
+      max-height: calc(100vh - 120px) !important;
     }
   }
 
