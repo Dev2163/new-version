@@ -95,6 +95,9 @@
     /* Hide ALL trigger buttons and text labels inside header-actions on mobile EXCEPT search-button */
     header-actions cart-drawer-component > button,
     header-actions cart-drawer-component [data-testid="cart-drawer-trigger"],
+    .cart-drawer > button,
+    .cart-drawer [data-testid="cart-drawer-trigger"],
+    .cart-drawer--text > button,
     header-actions .account-button,
     header-actions shopify-account,
     header-actions a[href*="wishlist"],
@@ -119,6 +122,8 @@
       border: none !important;
       pointer-events: none !important;
       position: absolute !important;
+      top: -9999px !important;
+      left: -9999px !important;
       overflow: hidden !important;
     }
 
@@ -132,6 +137,8 @@
       margin: 0 !important;
       padding: 0 !important;
       position: absolute !important;
+      top: 0 !important;
+      right: 0 !important;
     }
 
     cart-drawer-component dialog,
@@ -505,5 +512,33 @@
         document.querySelector('.nav-item-home')?.classList.add('active');
       }
     } catch(e) {}
+
+    function hideMobileHeaderCartButton() {
+      if (window.innerWidth <= 768) {
+        try {
+          const cartTriggers = document.querySelectorAll('header-actions [data-testid="cart-drawer-trigger"], header-actions cart-drawer-component > button, .cart-drawer--text > button');
+          cartTriggers.forEach(function(btn) {
+            btn.style.setProperty('display', 'none', 'important');
+            btn.style.setProperty('visibility', 'hidden', 'important');
+            btn.style.setProperty('width', '0', 'important');
+            btn.style.setProperty('height', '0', 'important');
+            btn.style.setProperty('opacity', '0', 'important');
+            btn.style.setProperty('position', 'absolute', 'important');
+            btn.style.setProperty('top', '-9999px', 'important');
+          });
+
+          const textSpans = document.querySelectorAll('header-actions .header-actions__text');
+          textSpans.forEach(function(span) {
+            span.style.setProperty('display', 'none', 'important');
+          });
+        } catch(err) {}
+      }
+    }
+
+    hideMobileHeaderCartButton();
+    window.addEventListener('resize', hideMobileHeaderCartButton);
+    setTimeout(hideMobileHeaderCartButton, 100);
+    setTimeout(hideMobileHeaderCartButton, 500);
+    setTimeout(hideMobileHeaderCartButton, 1200);
   });
 </script>
