@@ -27,7 +27,7 @@
           endif
         %}
         
-        <a href="{{ sign_link }}" class="zodiac-strip__item {% if is_active %}zodiac-strip__item--active{% endif %}" {{ block.shopify_attributes }}>
+        <a href="{{ sign_link }}" class="zodiac-strip__item {% if is_active %}zodiac-strip__item--active{% endif %}" aria-label="{{ sign_name | escape }}" {{ block.shopify_attributes }}>
           <div class="zodiac-strip__icon">
             {% if block.settings.custom_icon_svg != blank %}
               {{ block.settings.custom_icon_svg }}

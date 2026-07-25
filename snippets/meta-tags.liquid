@@ -119,12 +119,10 @@
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
-  <meta
-    name="description"
-    content="{{ page_description | escape }}"
-  >
-{% endif %}
+<meta
+  name="description"
+  content="{{ page_description | default: shop.description | default: 'ONE9 Luxury Streetwear & Oversized Fashion Essentials. Built Different. Worn Everywhere.' | escape }}"
+>
 
 <!-- JSON-LD Structured Data for Organization -->
 <script type="application/ld+json">
