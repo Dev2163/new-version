@@ -92,14 +92,16 @@
       pointer-events: none !important;
     }
 
-    /* Completely remove extra header buttons & secondary header rows on mobile (ONLY Search icon allowed) */
+    /* Hide ALL trigger buttons and text labels inside header-actions on mobile EXCEPT search-button */
+    header-actions cart-drawer-component > button,
+    header-actions cart-drawer-component [data-testid="cart-drawer-trigger"],
     header-actions .account-button,
     header-actions shopify-account,
     header-actions a[href*="wishlist"],
     header-actions [aria-label="View Wishlist"],
     header-actions .action__cart,
     header-actions .header-actions__cart-icon,
-    header-actions [data-testid="cart-drawer-trigger"],
+    header-actions .header-actions__text,
     header-actions > a:not(search-button *),
     .header__row--bottom,
     .header__row:nth-child(2),
@@ -116,10 +118,23 @@
       padding: 0 !important;
       border: none !important;
       pointer-events: none !important;
+      position: absolute !important;
+      overflow: hidden !important;
     }
 
-    /* Ensure Cart Drawer Component and Dialog function 100% cleanly on mobile */
-    cart-drawer-component,
+    /* Ensure Cart Drawer Component container takes zero header space while Dialog remains 100% functional */
+    cart-drawer-component {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      width: 0 !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: absolute !important;
+    }
+
+    cart-drawer-component dialog,
     dialog.cart-drawer__dialog,
     .cart-drawer__dialog {
       display: block !important;
