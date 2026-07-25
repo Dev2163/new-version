@@ -132,11 +132,42 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 
-  /* Responsive offset for mobile bottom navigation */
+  /* Responsive offset for mobile bottom navigation: Right inside screen boundary */
   @media (max-width: 768px) {
     .nova-ai-container {
-      bottom: 80px !important;
-      right: 16px !important;
+      position: fixed !important;
+      bottom: 74px !important;
+      right: 12px !important;
+      left: auto !important;
+      z-index: 999999 !important;
+      margin: 0 !important;
+    }
+
+    .nova-ai-fab {
+      width: 48px !important;
+      height: 48px !important;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      justify-content: center !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.8), 0 0 15px rgba(244, 196, 48, 0.5) !important;
+    }
+
+    .nova-ai-fab__badge {
+      display: none !important;
+    }
+
+    .nova-ai-panel {
+      position: fixed !important;
+      bottom: 70px !important;
+      right: 12px !important;
+      left: 12px !important;
+      width: calc(100vw - 24px) !important;
+      max-width: calc(100vw - 24px) !important;
+      height: min(480px, calc(100vh - 100px)) !important;
+      max-height: calc(100vh - 100px) !important;
+      border-radius: 16px !important;
+      z-index: 9999999 !important;
+      box-sizing: border-box !important;
     }
   }
 
@@ -242,18 +273,6 @@
     transform: translateY(20px) scale(0.95);
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
     z-index: 99999999 !important;
-  }
-
-  @media (max-width: 768px) {
-    .nova-ai-panel {
-      position: fixed !important;
-      bottom: 74px !important;
-      right: 16px !important;
-      left: 16px !important;
-      width: calc(100vw - 32px) !important;
-      height: min(520px, calc(100vh - 120px)) !important;
-      max-height: calc(100vh - 120px) !important;
-    }
   }
 
   .nova-ai-panel.active {
