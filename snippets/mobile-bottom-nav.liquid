@@ -1,7 +1,7 @@
 {% comment %}
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
-  Bottom Navbar: Contains Home, Menu, Search, Wishlist, Cart & Account
+  Bottom Navbar: Contains 5 Clean Icons (Home, Menu, Wishlist, Cart, Account)
 {% endcomment %}
 
 <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
@@ -14,27 +14,17 @@
     <span class="nav-label">Home</span>
   </a>
 
-  <!-- 2. Menu (Opens Header Drawer) -->
+  <!-- 2. Menu (Opens Navigation Drawer) -->
   <button type="button" class="mobile-bottom-nav__item" onclick="openMobileMenu()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="7" height="7"></rect>
-      <rect x="14" y="3" width="7" height="7"></rect>
-      <rect x="14" y="14" width="7" height="7"></rect>
-      <rect x="3" y="14" width="7" height="7"></rect>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
     </svg>
     <span class="nav-label">Menu</span>
   </button>
 
-  <!-- 3. Search -->
-  <button type="button" class="mobile-bottom-nav__item" onclick="openMobileSearch()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
-    <span class="nav-label">Search</span>
-  </button>
-
-  <!-- 4. Wishlist -->
+  <!-- 3. Wishlist -->
   <a href="/pages/wishlist" class="mobile-bottom-nav__item {% if template contains 'wishlist' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -43,7 +33,7 @@
     <span class="nav-label">Wishlist</span>
   </a>
 
-  <!-- 5. Cart -->
+  <!-- 4. Cart -->
   <a href="/cart" class="mobile-bottom-nav__item {% if template contains 'cart' %}active{% endif %}" onclick="openMobileCart(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -56,7 +46,7 @@
     <span class="nav-label">Cart</span>
   </a>
 
-  <!-- 6. Account -->
+  <!-- 5. Account -->
   <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="mobile-bottom-nav__item {% if template contains 'account' or template contains 'login' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -108,8 +98,8 @@
       left: 0 !important;
       right: 0 !important;
       width: 100% !important;
-      height: 60px !important;
-      height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+      height: 62px !important;
+      height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
       padding-bottom: env(safe-area-inset-bottom, 0px) !important;
       background: rgba(10, 10, 14, 0.96) !important;
       backdrop-filter: blur(20px) !important;
@@ -123,7 +113,7 @@
     }
 
     body {
-      padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+      padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     }
   }
 
@@ -154,9 +144,11 @@
   }
 
   .mobile-bottom-nav__item svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
     transition: transform 0.25s ease, stroke 0.25s ease;
   }
 
@@ -182,7 +174,7 @@
     content: '';
     position: absolute;
     top: 0;
-    width: 20px;
+    width: 22px;
     height: 2px;
     background: #F4C430;
     border-radius: 0 0 2px 2px;
@@ -211,20 +203,13 @@
 
 <script>
   function openMobileMenu() {
-    const drawerBtn = document.querySelector('details.menu-drawer-container summary, .header__icon--menu summary, [data-mobile-menu-trigger], details#Details-menu-drawer-container summary');
-    if (drawerBtn) {
-      drawerBtn.click();
+    const detailsElem = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container');
+    if (detailsElem) {
+      detailsElem.setAttribute('open', '');
+      detailsElem.classList.add('menu-open');
+      document.body.classList.add('overflow-hidden');
     } else {
       window.location.href = '/collections/all';
-    }
-  }
-
-  function openMobileSearch() {
-    const searchBtn = document.querySelector('.header__icon--search, search-component summary, .search-modal-trigger, [data-search-trigger]');
-    if (searchBtn) {
-      searchBtn.click();
-    } else {
-      window.location.href = '/search';
     }
   }
 
