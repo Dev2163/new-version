@@ -215,15 +215,10 @@
       z-index: 11 !important;
     }
 
-    /* Inner search button elements inside right column - unhide and align vertically */
-    search-button,
-    .search-action,
-    .search-action--hidden-on-drawer,
-    .search-action--hidden-on-menu,
-    [data-menu-style='drawer'] .search-action--hidden-on-drawer,
-    [data-menu-style='drawer'] .search-action,
-    search-component,
-    .header__search {
+    /* Inner search button elements inside right column - display ONLY the primary search button */
+    search-button:first-of-type,
+    .search-action:first-of-type,
+    .header__column--right .search-action:first-of-type {
       display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
@@ -238,6 +233,19 @@
       align-items: center !important;
       justify-content: center !important;
       z-index: 99 !important;
+    }
+
+    /* Hide any secondary/duplicate search buttons to avoid overlapping icons */
+    search-button:nth-of-type(n+2),
+    .search-action:nth-of-type(n+2),
+    .search-action--hidden-on-menu {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+      left: -9999px !important;
     }
 
     search-button button,

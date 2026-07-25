@@ -324,21 +324,40 @@
   }
 
   @media screen and (max-width: 749px) {
-    #header-component .header__columns {
+    /* Mobile header grid: Hamburger(left) | Logo(center) | Search(right) */
+    #header-component .header__columns,
+    #header-component[data-menu-style='drawer'] .header__columns {
       display: grid !important;
-      grid-template-columns: 44px 1fr auto !important; /* Hamburger, Logo, Actions */
-      grid-template-areas: 'left center right' !important;
+      grid-template-columns: 44px 1fr 44px !important;
+      grid-template-areas: 'leftA center rightA' !important;
       align-items: center !important;
       width: 100% !important;
+      padding-inline: 0 var(--padding-3xs) !important;
     }
 
-    #header-component header-drawer {
-      grid-area: left !important;
+    /* Logo → center */
+    #header-component .header-logo,
+    #header-component[data-menu-style='drawer'] .header-logo {
+      grid-area: center !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 !important;
+    }
+
+    /* Header drawer (hamburger area) → left — button itself is hidden, but JS still needs details element */
+    #header-component header-drawer,
+    #header-component[data-menu-style='drawer'] header-drawer {
+      grid-area: leftA !important;
       display: flex !important;
       align-items: center !important;
+      width: 44px !important;
+      overflow: visible !important;
     }
 
-    #header-component header-drawer summary {
+    /* HIDE the summary hamburger/X button — bottom nav handles Menu */
+    #header-component header-drawer summary,
+    #header-component[data-menu-style='drawer'] header-drawer summary {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
@@ -347,43 +366,27 @@
       left: -9999px !important;
     }
 
-    #header-component .header-logo {
-      grid-area: center !important;
-      position: static !important;
-      transform: none !important;
+    /* FORCE only primary search icon to rightA grid area */
+    #header-component .search-action:first-of-type,
+    #header-component[data-menu-style='drawer'] .search-action:first-of-type,
+    #header-component search-button:first-of-type,
+    #header-component[data-menu-style='drawer'] search-button:first-of-type {
+      grid-area: rightA !important;
       display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 0 !important;
-    }
-
-    #header-component .header__column--right {
-      grid-area: right !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-end !important;
-      gap: 0 !important;
-    }
-
-    /* Force search icon visible in right column — including when it has hidden-on-drawer class */
-    #header-component .header__column--right search-button,
-    #header-component .header__column--right .search-action,
-    #header-component .header__column--right .search-action--hidden-on-drawer,
-    #header-component .header__column--right .search-action--hidden-on-menu {
-      display: flex !important;
-      position: static !important;
       visibility: visible !important;
       opacity: 1 !important;
+      position: static !important;
       width: auto !important;
       height: auto !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
       pointer-events: auto !important;
     }
 
-    /* Hide search in left/center only, and hide cart/account trigger buttons */
-    #header-component .header__column--left .search-action,
-    #header-component .header__column--center .search-action,
-    #header-component .header__column--left search-button,
-    #header-component .header__column--center search-button {
+    /* Hide any duplicate search buttons */
+    #header-component .search-action:nth-of-type(n+2),
+    #header-component search-button:nth-of-type(n+2),
+    #header-component .search-action--hidden-on-menu {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
@@ -392,6 +395,40 @@
       position: absolute !important;
       top: -9999px !important;
       left: -9999px !important;
+      pointer-events: none !important;
+    }
+
+    /* COLLAPSE header-actions completely — shopify-account X icon must not show */
+    #header-component header-actions,
+    #header-component[data-menu-style='drawer'] header-actions {
+      grid-area: rightA !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: visible !important;
+      position: absolute !important;
+      pointer-events: none !important;
+    }
+
+    /* Hide ALL header-actions children on mobile */
+    #header-component header-actions > *,
+    #header-component[data-menu-style='drawer'] header-actions > * {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+      pointer-events: none !important;
+    }
+
+    /* cart-drawer-component: keep in DOM (0x0) so JS dialog can open */
+    #header-component cart-drawer-component,
+    #header-component[data-menu-style='drawer'] cart-drawer-component {
+      display: block !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: visible !important;
+      position: absolute !important;
       pointer-events: none !important;
     }
   }
