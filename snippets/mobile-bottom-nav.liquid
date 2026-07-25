@@ -80,15 +80,44 @@
       pointer-events: none !important;
     }
 
-    /* Keep header logo & search visible and clean on mobile */
-    header-component .header__column--left,
-    header-component .header__column--center,
-    header-component .header__logo,
-    header-component .header-logo,
-    header-component search-component,
-    header-component .header__search,
-    .header__column--right {
+    /* Keep header logo centered & search anchored on right in mobile header */
+    header-component .header__row {
+      position: relative !important;
       display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    header-component .header__column--left,
+    header-component .header__column--center {
+      flex: 1 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    header-component .header-logo,
+    header-component .header__logo {
+      margin-inline: auto !important;
+      text-align: center !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    header-component search-component,
+    header-component .header__search {
+      display: flex !important;
+    }
+
+    header-component .header__column--right {
+      position: absolute !important;
+      right: 16px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
     }
 
     /* Mobile Bottom Navigation Bar Styling */
