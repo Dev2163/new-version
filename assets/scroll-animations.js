@@ -1,32 +1,54 @@
 /**
  * ONE9 Luxury Streetwear - Scroll Reveal Animations Engine
- * Uses IntersectionObserver for 60fps hardware-accelerated transitions.
+ * Uses IntersectionObserver & requestIdleCallback for 60fps hardware-accelerated transitions without forced reflow.
  */
 (function() {
-  document.addEventListener('DOMContentLoaded', () => {
-    const animElements = document.querySelectorAll('.product-card, .why-choose-card, .review-card, .insta-card, .section-heading, .glass-panel');
+  // Inject helper style once
+  const style = document.createElement('style');
+  style.textContent = `
+    .sa-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .sa-visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  `;
+  document.head.appendChild(style);
 
-    animElements.forEach(el => {
-      if (el instanceof HTMLElement) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-      }
-    });
+  function initScrollAnimations() {
+    const animElements = document.querySelectorAll('.product-card, .why-choose-card, .review-card, .insta-card, .section-heading, .glass-panel');
+    if (!animElements.length) return;
+
+    animElements.forEach(el => el.classList.add('sa-animate'));
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.target instanceof HTMLElement) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+        if (entry.isIntersecting) {
+          entry.target.classList.add('sa-visible');
           observer.unobserve(entry.target);
         }
       });
     }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -40px 0px'
+      threshold: 0.05,
+      rootMargin: '0px 0px -20px 0px'
     });
 
     animElements.forEach(el => observer.observe(el));
-  });
+  }
+
+  if (document.readyState === 'complete') {
+    initScrollAnimations();
+  } else {
+    window.addEventListener('load', () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initScrollAnimations, { timeout: 1000 });
+      } else {
+        setTimeout(initScrollAnimations, 300);
+      }
+    });
+  }
 })();

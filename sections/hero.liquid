@@ -54,13 +54,15 @@
         <div class="custom-hero-{{ section.id }}__image-glow">
           {%- if section.settings.image != blank -%}
             {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image' %}
-            {{ section.settings.image | image_url: width: 1200 | image_tag: 
+            {{ section.settings.image | image_url: width: 1000 | image_tag: 
               class: hero_img_class, 
               id: 'heroMainImage',
               loading: 'eager',
               fetchpriority: 'high',
-              widths: '375, 550, 750, 1100, 1500',
+              widths: '375, 550, 750, 1000, 1400',
               sizes: '(min-width: 990px) 50vw, 100vw',
+              width: section.settings.image.width,
+              height: section.settings.image.height,
               alt: section.settings.title | escape
             }}
           {%- else -%}
