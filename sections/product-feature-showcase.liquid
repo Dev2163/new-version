@@ -210,23 +210,34 @@
 
   .pfs-title {
     font-size: 20px;
-    font-weight: 800;
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
-    text-transform: uppercase;
+    font-weight: 700;
     color: var(--title-color, #F4C430);
     margin-bottom: 8px;
     line-height: 1.2;
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(244, 196, 48, 0.3);
+    letter-spacing: 0.5px;
   }
 
   .pfs-subtitle {
     font-size: 15px;
-    font-weight: 500;
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 400;
     color: var(--subtitle-color, #CCCCCC);
     line-height: 1.6;
-    letter-spacing: 0.5px;
+  }
+
+  @media (min-width: 991px) {
+    .pfs-title {
+      font-family: 'Orbitron', 'Rajdhani', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(244, 196, 48, 0.3);
+    }
+
+    .pfs-subtitle {
+      font-family: 'Orbitron', 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
   }
 
   @keyframes pfsFadeIn {
@@ -315,39 +326,28 @@
   @media (max-width: 990px) {
     .pfs-section-{{ section.id }} {
       height: auto;
-      min-height: auto;
+      min-height: 100vh;
       flex-direction: column;
       justify-content: flex-start;
-      padding-top: 40px;
-      padding-bottom: 40px;
+      padding-top: 60px;
     }
     .pfs-center-wrapper {
       width: 90%;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
     }
-    /* Display feature pointers and content clearly on mobile view */
     .pfs-pointer.active-view {
-      display: block !important;
-      opacity: 1 !important;
-    }
-    .pfs-pointer.active-view .pfs-content {
-      opacity: 1 !important;
-      display: block !important;
-      position: relative !important;
-      left: auto !important;
-      top: auto !important;
-      transform: none !important;
-      width: 100% !important;
-      text-align: left !important;
-      margin-top: 15px !important;
-    }
-    .pfs-pointer.active-view .pfs-line {
-      display: none !important;
+      display: none; /* Hide standard pointers on mobile */
     }
     .pfs-mobile-accordion {
       display: block;
-      padding: 10px 20px 30px;
-      margin-top: 0;
+    }
+    .pfs-pointer.mobile-visible {
+      display: block !important;
+      opacity: 1 !important;
+    }
+    .pfs-pointer.mobile-visible .pfs-line, 
+    .pfs-pointer.mobile-visible .pfs-content {
+      display: none;
     }
   }
 {% endstyle %}
