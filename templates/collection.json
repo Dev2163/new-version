@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "collection_slider_hero": {
@@ -7,21 +16,21 @@
           "type": "slide",
           "settings": {
             "product": "",
-            "image": "shopify://shop_images/8_13-0091_copy_2-min_0df278ed_thumbnail_4096.png"
+            "image": "shopify://shop_images/Gemini_Generated_Image_iz4i9niz4i9niz4i-removebg-preview.png"
           }
         },
         "slide_1": {
           "type": "slide",
           "settings": {
             "product": "",
-            "image": "shopify://shop_images/8_5-0266_copy-min_67cb45d2_thumbnail_4096.png"
+            "image": "shopify://shop_images/Gemini_Generated_Image_kgahcckgahcckgah-removebg-preview.png"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
             "product": "",
-            "image": "shopify://shop_images/9_1_a0237ea6_thumbnail_4096.png"
+            "image": "shopify://shop_images/Gemini_Generated_Image_gs1vgugs1vgugs1v-removebg-preview.png"
           }
         }
       },
