@@ -353,10 +353,10 @@
       display: flex !important;
       align-items: center !important;
       justify-content: flex-end !important;
-      gap: 16px !important;
+      gap: 0 !important;
     }
 
-    /* Force regular search icon to show on the right next to cart */
+    /* Force regular search icon to show on the right */
     #header-component .header__column--right .search-action {
       display: flex !important;
       position: static !important;
@@ -371,6 +371,36 @@
       left: auto !important;
       margin: 0 !important;
       display: flex !important;
+    }
+
+    /* Hide text labels inside search button on mobile */
+    #header-component .search-action button span:not(.svg-wrapper) {
+      display: none !important;
+    }
+
+    /* Hide header-actions trigger buttons on mobile to eliminate CA cart text & extra icons */
+    #header-component .header__column--right header-actions > *:not(cart-drawer-component) {
+      display: none !important;
+    }
+
+    #header-component .header__column--right header-actions cart-drawer-component {
+      display: block !important;
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+      overflow: visible !important;
+    }
+
+    #header-component .header__column--right header-actions cart-drawer-component > button,
+    #header-component .header__column--right header-actions [data-testid="cart-drawer-trigger"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+      top: -9999px !important;
+      left: -9999px !important;
     }
 
     /* Hide duplicate search icon on the left/center */
