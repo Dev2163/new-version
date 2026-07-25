@@ -58,6 +58,7 @@
       class="header__icon header__icon--menu header__icon--summary"
       aria-label="{{ 'accessibility.menu' | t }}"
       on:click="/toggle"
+      style="display:none"
     >
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
         {{- 'icon-menu.svg' | inline_asset_content -}}
@@ -941,6 +942,20 @@
       pointer-events: none !important;
       position: absolute !important;
       left: -9999px !important;
+    }
+  }
+
+  /* DESKTOP: Show the summary hamburger button — needed for desktop menu drawer */
+  @media screen and (min-width: 750px) {
+    summary.header__icon--menu,
+    summary.header__icon--summary {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      position: static !important;
+      width: auto !important;
+      height: auto !important;
+      pointer-events: auto !important;
     }
   }
 
