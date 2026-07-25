@@ -16,7 +16,7 @@
           "type": "feature",
           "settings": {
             "enable": true,
-            "image_view": "zoom",
+            "image_view": "front",
             "title": "Premium Cotton",
             "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
             "dot_x": 70,
