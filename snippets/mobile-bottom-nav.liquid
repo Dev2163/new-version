@@ -2,7 +2,7 @@
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
   Bottom Navbar: Contains 6 Dedicated App Icons (Home, Shoes, Zodiac, Wishlist, Cart, Account)
-  With Auto Active Page Highlighting & Fail-Safe Button Triggers
+  With Smooth Anchor Scroll Navigation & Fail-Safe Triggers
 {% endcomment %}
 
 <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
@@ -16,7 +16,7 @@
   </a>
 
   <!-- 2. Shoes -->
-  <a href="/collections/shoes" class="mobile-bottom-nav__item nav-item-shoes {% if request.path contains 'shoes' or template contains 'collection' %}active{% endif %}">
+  <a href="/collections/all#shoes" class="mobile-bottom-nav__item nav-item-shoes {% if request.path contains 'shoes' or template contains 'collection' %}active{% endif %}" onclick="navigateToShoes(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M2.5 17.5h19v3h-19z"></path>
       <path d="M4 17.5l2-6 5 1.5 6-5 3.5 1.5.5 8"></path>
@@ -27,7 +27,7 @@
   </a>
 
   <!-- 3. Zodiac -->
-  <a href="/#zodiac" class="mobile-bottom-nav__item nav-item-zodiac {% if request.path contains 'zodiac' %}active{% endif %}">
+  <a href="/#zodiac" class="mobile-bottom-nav__item nav-item-zodiac {% if request.path contains 'zodiac' %}active{% endif %}" onclick="navigateToZodiac(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path>
     </svg>
@@ -67,6 +67,10 @@
 </nav>
 
 <style>
+  html {
+    scroll-behavior: smooth;
+  }
+
   @media screen and (max-width: 768px) {
     /* Hide NovaAI Floating Assistant & Sales Notification Popups on mobile view */
     #nova-ai-fab,
@@ -347,6 +351,26 @@
 </style>
 
 <script>
+  function navigateToShoes(e) {
+    const shoesElem = document.getElementById('shoes') || document.querySelector('.footwear-picks-wrapper, .footwear-picks');
+    if (shoesElem && (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.includes('index'))) {
+      if (e && e.preventDefault) e.preventDefault();
+      shoesElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.href = '/collections/all#shoes';
+    }
+  }
+
+  function navigateToZodiac(e) {
+    const zodiacElem = document.getElementById('zodiac') || document.querySelector('.zodiac-strip-wrapper, .zodiac-strip');
+    if (zodiacElem && (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.includes('index'))) {
+      if (e && e.preventDefault) e.preventDefault();
+      zodiacElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.href = '/#zodiac';
+    }
+  }
+
   function openMobileCart(e) {
     const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog');
     const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], .action__cart, cart-icon');
