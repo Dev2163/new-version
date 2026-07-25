@@ -1,7 +1,7 @@
 {% comment %}
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
-  Bottom Navbar: Contains 5 Clean Icons (Home, Menu, Wishlist, Cart, Account)
+  Bottom Navbar: Contains 6 Dedicated App Icons (Home, Shoes, Zodiac, Wishlist, Cart, Account)
   With Auto Active Page Highlighting & Fail-Safe Button Triggers
 {% endcomment %}
 
@@ -15,17 +15,26 @@
     <span class="nav-label">Home</span>
   </a>
 
-  <!-- 2. Menu (Opens Navigation Drawer) -->
-  <button type="button" class="mobile-bottom-nav__item nav-item-menu {% if template contains 'collection' or template contains 'product' or template contains 'search' %}active{% endif %}" onclick="openMobileMenu(event)">
+  <!-- 2. Shoes -->
+  <a href="/collections/shoes" class="mobile-bottom-nav__item nav-item-shoes {% if request.path contains 'shoes' or template contains 'collection' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
+      <path d="M2.5 17.5h19v3h-19z"></path>
+      <path d="M4 17.5l2-6 5 1.5 6-5 3.5 1.5.5 8"></path>
+      <line x1="8" y1="12" x2="10" y2="17.5"></line>
+      <line x1="12" y1="11" x2="14" y2="17.5"></line>
     </svg>
-    <span class="nav-label">Menu</span>
-  </button>
+    <span class="nav-label">Shoes</span>
+  </a>
 
-  <!-- 3. Wishlist -->
+  <!-- 3. Zodiac -->
+  <a href="/#zodiac" class="mobile-bottom-nav__item nav-item-zodiac {% if request.path contains 'zodiac' %}active{% endif %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path>
+    </svg>
+    <span class="nav-label">Zodiac</span>
+  </a>
+
+  <!-- 4. Wishlist -->
   <a href="/pages/wishlist" class="mobile-bottom-nav__item nav-item-wishlist {% if template contains 'wishlist' or request.path contains 'wishlist' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -34,7 +43,7 @@
     <span class="nav-label">Wishlist</span>
   </a>
 
-  <!-- 4. Cart -->
+  <!-- 5. Cart -->
   <a href="/cart" class="mobile-bottom-nav__item nav-item-cart {% if template contains 'cart' or request.path contains 'cart' %}active{% endif %}" onclick="openMobileCart(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -47,7 +56,7 @@
     <span class="nav-label">Cart</span>
   </a>
 
-  <!-- 5. Account -->
+  <!-- 6. Account -->
   <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="mobile-bottom-nav__item nav-item-account {% if template contains 'account' or template contains 'login' or request.path contains 'account' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -259,7 +268,7 @@
     background: transparent;
     border: none;
     outline: none;
-    padding: 6px 0;
+    padding: 4px 0;
     position: relative;
     cursor: pointer;
     font-family: 'Rajdhani', sans-serif;
@@ -270,8 +279,8 @@
   }
 
   .mobile-bottom-nav__item svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
@@ -279,11 +288,11 @@
   }
 
   .mobile-bottom-nav__item span.nav-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: 3px;
     transition: color 0.25s ease, text-shadow 0.25s ease;
   }
 
@@ -310,7 +319,7 @@
     content: '';
     position: absolute;
     top: 0;
-    width: 28px;
+    width: 24px;
     height: 3px;
     background: #F4C430;
     border-radius: 0 0 4px 4px;
@@ -319,15 +328,15 @@
 
   .mobile-bottom-nav__badge {
     position: absolute;
-    top: 4px;
-    right: calc(50% - 16px);
+    top: 3px;
+    right: calc(50% - 14px);
     background: #F4C430;
     color: #000000;
     font-family: 'Orbitron', sans-serif;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 900;
-    min-width: 16px;
-    height: 16px;
+    min-width: 15px;
+    height: 15px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -338,26 +347,6 @@
 </style>
 
 <script>
-  function openMobileMenu(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    if (e && e.stopPropagation) e.stopPropagation();
-
-    const details = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container, header-drawer details');
-    if (details) {
-      if (details.hasAttribute('open')) {
-        details.removeAttribute('open');
-        details.classList.remove('menu-open');
-        document.body.classList.remove('overflow-hidden', 'menu-open');
-      } else {
-        details.setAttribute('open', '');
-        details.classList.add('menu-open');
-        document.body.classList.add('overflow-hidden', 'menu-open');
-      }
-    } else {
-      window.location.href = '/collections/all';
-    }
-  }
-
   function openMobileCart(e) {
     const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog');
     const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], .action__cart, cart-icon');
@@ -374,55 +363,29 @@
     }
   }
 
-  // Guarantee "FIND YOUR ZODIAC" link in mobile drawer menu
-  function ensureZodiacInMobileMenu() {
-    const drawerNavs = document.querySelectorAll('.menu-drawer__menu');
-    drawerNavs.forEach(function(drawerList) {
-      const allLinks = Array.from(drawerList.querySelectorAll('a, summary, .menu-drawer__menu-item-text'));
-      const hasZodiac = allLinks.some(function(el) { return el.textContent.toLowerCase().includes('zodiac'); });
-      
-      if (!hasZodiac) {
-        const shoesLink = allLinks.find(function(el) { return el.textContent.toLowerCase().includes('shoes'); });
-        const shoesItem = shoesLink ? shoesLink.closest('li') : null;
-        
-        if (shoesItem) {
-          const zodiacLi = document.createElement('li');
-          zodiacLi.className = 'menu-drawer__list-item';
-          zodiacLi.innerHTML = `
-            <a id="HeaderDrawer-find-your-zodiac-js" href="/#zodiac" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist focus-inset" style="display: flex; align-items: center; padding: 12px 0;">
-              <span class="menu-drawer__menu-item-text wrap-text" style="font-family: 'Orbitron', sans-serif; font-weight: 700; color: #FFFFFF; font-size: 1.6rem; text-transform: uppercase;">FIND YOUR ZODIAC</span>
-            </a>
-          `;
-          shoesItem.insertAdjacentElement('afterend', zodiacLi);
-        }
-      }
-    });
-  }
-
   // Auto Active Page Matching on Client Load
   document.addEventListener('DOMContentLoaded', function() {
     try {
-      ensureZodiacInMobileMenu();
-      setTimeout(ensureZodiacInMobileMenu, 300);
-      setTimeout(ensureZodiacInMobileMenu, 1000);
-
-      const path = window.location.pathname.toLowerCase();
+      const path = (window.location.pathname + window.location.hash).toLowerCase();
       let matched = false;
 
-      if (path.includes('/pages/wishlist') || path.includes('wishlist')) {
+      if (path.includes('zodiac')) {
+        document.querySelector('.nav-item-zodiac')?.classList.add('active');
+        matched = true;
+      } else if (path.includes('shoes')) {
+        document.querySelector('.nav-item-shoes')?.classList.add('active');
+        matched = true;
+      } else if (path.includes('wishlist')) {
         document.querySelector('.nav-item-wishlist')?.classList.add('active');
         matched = true;
-      } else if (path.includes('/cart')) {
+      } else if (path.includes('cart')) {
         document.querySelector('.nav-item-cart')?.classList.add('active');
         matched = true;
-      } else if (path.includes('/account') || path.includes('/login')) {
+      } else if (path.includes('account') || path.includes('login')) {
         document.querySelector('.nav-item-account')?.classList.add('active');
         matched = true;
-      } else if (path === '/' || path === '' || path.includes('/index')) {
+      } else if (window.location.pathname === '/' || window.location.pathname === '') {
         document.querySelector('.nav-item-home')?.classList.add('active');
-        matched = true;
-      } else if (path.includes('/collections') || path.includes('/products') || path.includes('/pages') || path.includes('/search')) {
-        document.querySelector('.nav-item-menu')?.classList.add('active');
         matched = true;
       }
 
