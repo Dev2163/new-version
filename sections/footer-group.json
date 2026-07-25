@@ -1,10 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer",
   "sections": {
     "main_footer": {
       "type": "footer",
-      "settings": {}
+      "settings": {
+        "brand_logo_text": "ONE9",
+        "brand_text": "<p>Zodiac streetwear inspired by your energy.<br>Built different. Worn everywhere.</p>",
+        "show_socials": true,
+        "instagram_link": "",
+        "whatsapp_link": "",
+        "shop_heading": "SHOP",
+        "shop_menu": "",
+        "help_heading": "HELP",
+        "help_menu": "",
+        "about_heading": "ABOUT",
+        "about_menu": "",
+        "contact_heading": "CONTACT",
+        "address": "Anand, Gujarat, India",
+        "phone": "+91 98765 43210",
+        "email": "hello@one9.uk",
+        "btn_text": "GET IN TOUCH",
+        "btn_link": "",
+        "copyright_text": "© 2026 ONE9 Streetwear. All rights reserved.",
+        "bg_color": "#0a0a0a",
+        "text_color": "#e0e0e0"
+      }
     },
     "footer_utilities": {
       "type": "footer-utilities",
@@ -12,6 +42,7 @@
     },
     "nova_ai_assistant": {
       "type": "nova-ai-assistant",
+      "disabled": true,
       "settings": {}
     }
   },
