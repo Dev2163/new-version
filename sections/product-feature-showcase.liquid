@@ -315,28 +315,39 @@
   @media (max-width: 990px) {
     .pfs-section-{{ section.id }} {
       height: auto;
-      min-height: 100vh;
+      min-height: auto;
       flex-direction: column;
       justify-content: flex-start;
-      padding-top: 60px;
+      padding-top: 40px;
+      padding-bottom: 40px;
     }
     .pfs-center-wrapper {
       width: 90%;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
+    /* Display feature pointers and content clearly on mobile view */
     .pfs-pointer.active-view {
-      display: none; /* Hide standard pointers on mobile */
-    }
-    .pfs-mobile-accordion {
-      display: block;
-    }
-    .pfs-pointer.mobile-visible {
       display: block !important;
       opacity: 1 !important;
     }
-    .pfs-pointer.mobile-visible .pfs-line, 
-    .pfs-pointer.mobile-visible .pfs-content {
-      display: none;
+    .pfs-pointer.active-view .pfs-content {
+      opacity: 1 !important;
+      display: block !important;
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+      width: 100% !important;
+      text-align: left !important;
+      margin-top: 15px !important;
+    }
+    .pfs-pointer.active-view .pfs-line {
+      display: none !important;
+    }
+    .pfs-mobile-accordion {
+      display: block;
+      padding: 10px 20px 30px;
+      margin-top: 0;
     }
   }
 {% endstyle %}
