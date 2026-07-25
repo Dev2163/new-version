@@ -128,9 +128,35 @@
       z-index: 10 !important;
     }
 
+    /* Force Search icon button to be VISIBLE on mobile header (override theme drawer-hide rule) */
+    search-button,
+    .search-action,
+    .search-action--hidden-on-drawer,
+    .search-action--hidden-on-menu,
+    [data-menu-style='drawer'] .search-action--hidden-on-drawer,
+    [data-menu-style='drawer'] .search-action {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      color: #FFFFFF !important;
+      z-index: 99 !important;
+    }
+
+    search-button button,
+    .search-action button,
+    .search-action svg,
+    search-button svg {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      color: #FFFFFF !important;
+      fill: currentColor !important;
+    }
+
     /* Force Search icon to be anchored on the far right edge of the mobile header */
     #header-component search-component,
     #header-component .search-action,
+    #header-component search-button,
     #header-component .header__search,
     header-component .header__search,
     .header__column--right {
