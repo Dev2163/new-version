@@ -718,4 +718,24 @@
       margin-inline-start: 0;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    header-actions shopify-account,
+    header-actions .account-button,
+    header-actions a[href*="wishlist"],
+    header-actions [aria-label="View Wishlist"],
+    header-actions button[data-testid="cart-drawer-trigger"],
+    header-actions .action__cart,
+    header-actions .header-actions__cart-icon,
+    header-actions > a:not(search-button *) {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+      overflow: hidden !important;
+    }
+  }
 {% endstylesheet %}

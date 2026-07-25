@@ -92,12 +92,15 @@
       pointer-events: none !important;
     }
 
-    /* Completely remove extra header buttons & secondary header rows on mobile */
+    /* Completely remove extra header buttons & secondary header rows on mobile (ONLY Search icon allowed) */
     header-actions .account-button,
+    header-actions shopify-account,
+    header-actions a[href*="wishlist"],
     header-actions [aria-label="View Wishlist"],
     header-actions .action__cart,
     header-actions .header-actions__cart-icon,
     header-actions [data-testid="cart-drawer-trigger"],
+    header-actions > a:not(search-button *),
     .header__row--bottom,
     .header__row:nth-child(2),
     .menu-list--mobile {
@@ -107,6 +110,8 @@
       width: 0 !important;
       height: 0 !important;
       min-height: 0 !important;
+      max-width: 0 !important;
+      max-height: 0 !important;
       margin: 0 !important;
       padding: 0 !important;
       border: none !important;
