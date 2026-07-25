@@ -365,20 +365,25 @@
       gap: 0 !important;
     }
 
-    /* Force only the FIRST search icon to show on the right */
-    #header-component .header__column--right .search-action:first-of-type {
+    /* Force search icon visible in right column — including when it has hidden-on-drawer class */
+    #header-component .header__column--right search-button,
+    #header-component .header__column--right .search-action,
+    #header-component .header__column--right .search-action--hidden-on-drawer,
+    #header-component .header__column--right .search-action--hidden-on-menu {
       display: flex !important;
       position: static !important;
       visibility: visible !important;
       opacity: 1 !important;
+      width: auto !important;
+      height: auto !important;
+      pointer-events: auto !important;
     }
 
-    /* Hide any duplicate search button in header column right */
-    #header-component .header__column--right .search-action:nth-of-type(n+2),
-    #header-component .search-action--hidden-on-menu,
-    #header-component .search-action--hidden-on-drawer,
+    /* Hide search in left/center only, and hide cart/account trigger buttons */
     #header-component .header__column--left .search-action,
-    #header-component .header__column--center .search-action {
+    #header-component .header__column--center .search-action,
+    #header-component .header__column--left search-button,
+    #header-component .header__column--center search-button {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;

@@ -3,17 +3,24 @@
 }
 
 @media screen and (max-width: 768px) {
-  /* Permanently hide duplicate search buttons, header X close icon, cart text, and extra action buttons */
-  search-button:nth-of-type(n+2),
-  .search-action:nth-of-type(n+2),
-  .search-action--hidden-on-drawer,
-  .search-action--hidden-on-menu,
-  header-drawer .header-drawer-icon--close,
-  header-drawer .header-drawer-icon--open,
-  header-drawer summary svg,
-  header-drawer summary .svg-wrapper,
+  /* Hide hamburger/X icons in header-drawer — bottom nav handles Menu */
   .header-drawer-icon--close,
   .header-drawer-icon--open,
+  header-drawer .header-drawer-icon--close,
+  header-drawer .header-drawer-icon--open,
+  header-drawer summary .svg-wrapper,
+  header-drawer summary svg {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+  }
+
+  /* Hide cart trigger button & text in top header */
   header-actions cart-drawer-component > button,
   header-actions cart-drawer-component [data-testid="cart-drawer-trigger"],
   header-actions .header-actions__text,
@@ -24,9 +31,22 @@
     width: 0 !important;
     height: 0 !important;
     position: absolute !important;
-    top: -9999px !important;
     left: -9999px !important;
     pointer-events: none !important;
+  }
+
+  /* Force ALL search-action buttons visible in right column regardless of class */
+  .header__column--right search-button,
+  .header__column--right .search-action,
+  .header__column--right .search-action--hidden-on-drawer,
+  .header__column--right .search-action--hidden-on-menu {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    pointer-events: auto !important;
   }
 }
 
