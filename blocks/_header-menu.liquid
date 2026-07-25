@@ -138,6 +138,23 @@
             </div>
           {%- endif -%}
         </li>
+        {% assign title_lower = link.title | downcase %}
+        {% if title_lower contains 'shoes' %}
+          {% assign has_zodiac = false %}
+          {% for l in block_settings.menu.links %}
+            {% assign l_lower = l.title | downcase %}
+            {% if l_lower contains 'zodiac' %}
+              {% assign has_zodiac = true %}
+            {% endif %}
+          {% endfor %}
+          {% if has_zodiac == false %}
+            <li role="presentation" class="menu-list__list-item">
+              <a href="/#zodiac" data-skip-node-update="true" class="menu-list__link">
+                <span class="menu-list__link-title">FIND YOUR ZODIAC</span>
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
       {% endfor %}
       <li
         class="menu-list__list-item"
