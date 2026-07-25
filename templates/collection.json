@@ -12,6 +12,13 @@
     "collection_slider_hero": {
       "type": "collection-slider-hero",
       "blocks": {
+        "slide_EThF6r": {
+          "type": "slide",
+          "settings": {
+            "product": "",
+            "image": "shopify://shop_images/Gemini_Generated_Image_ivi6tqivi6tqivi6-removebg-preview.png"
+          }
+        },
         "slide_cT6Bh4": {
           "type": "slide",
           "settings": {
@@ -35,6 +42,7 @@
         }
       },
       "block_order": [
+        "slide_EThF6r",
         "slide_cT6Bh4",
         "slide_1",
         "slide_2"
