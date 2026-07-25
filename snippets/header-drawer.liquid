@@ -274,6 +274,17 @@
                 {% endif %}
               {% endif %}
             {%- endfor -%}
+            <!-- Extra Utility Links inside Mobile Drawer Menu -->
+            <li class="menu-drawer__list-item--flat{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}">
+              <a href="/pages/wishlist" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
+                <span class="menu-drawer__menu-item-text wrap-text">MY WISHLIST 🤍</span>
+              </a>
+            </li>
+            <li class="menu-drawer__list-item--flat{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}">
+              <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
+                <span class="menu-drawer__menu-item-text wrap-text">{% if customer %}MY ACCOUNT 👤{% else %}LOGIN / REGISTER 👤{% endif %}</span>
+              </a>
+            </li>
           {% else %}
             {%- comment -%}
               Handle menus with 3 levels of links
@@ -619,6 +630,17 @@
                 {% endif %}
               {% endif %}
             {%- endfor -%}
+            <!-- Extra Utility Links inside Mobile Drawer Menu -->
+            <li class="menu-drawer__list-item">
+              <a href="/pages/wishlist" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
+                <span class="menu-drawer__menu-item-text wrap-text">MY WISHLIST 🤍</span>
+              </a>
+            </li>
+            <li class="menu-drawer__list-item">
+              <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
+                <span class="menu-drawer__menu-item-text wrap-text">{% if customer %}MY ACCOUNT 👤{% else %}LOGIN / REGISTER 👤{% endif %}</span>
+              </a>
+            </li>
           {% endif %}
         </ul>
       </nav>

@@ -1,8 +1,8 @@
 {% comment %}
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
-  Bottom Navbar: Contains 6 Dedicated App Icons (Home, Shoes, Zodiac, Wishlist, Cart, Account)
-  Direct Navigation to /collections/shoes & /collections/find-your-zodiac
+  Bottom Navbar: Contains EXACTLY 5 Icons (Home, Shoes, Zodiac, Cart, Menu)
+  Menu drawer contains Wishlist, Account, Track Order, Our Story, Contact
 {% endcomment %}
 
 <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
@@ -34,16 +34,7 @@
     <span class="nav-label">Zodiac</span>
   </a>
 
-  <!-- 4. Wishlist -->
-  <a href="/pages/wishlist" class="mobile-bottom-nav__item nav-item-wishlist {% if template contains 'wishlist' or request.path contains 'wishlist' %}active{% endif %}">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-    </svg>
-    <span class="wishlist-count-badge mobile-bottom-nav__badge" style="display: none;">0</span>
-    <span class="nav-label">Wishlist</span>
-  </a>
-
-  <!-- 5. Cart -->
+  <!-- 4. Cart -->
   <a href="/cart" class="mobile-bottom-nav__item nav-item-cart {% if template contains 'cart' or request.path contains 'cart' %}active{% endif %}" onclick="openMobileCart(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -56,14 +47,15 @@
     <span class="nav-label">Cart</span>
   </a>
 
-  <!-- 6. Account -->
-  <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="mobile-bottom-nav__item nav-item-account {% if template contains 'account' or template contains 'login' or request.path contains 'account' %}active{% endif %}">
+  <!-- 5. Menu (Opens Drawer containing Wishlist, Account, etc.) -->
+  <button type="button" class="mobile-bottom-nav__item nav-item-menu {% if template contains 'page' or template contains 'wishlist' or template contains 'account' or template contains 'login' %}active{% endif %}" onclick="openMobileMenu(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-      <circle cx="12" cy="7" r="4"></circle>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
     </svg>
-    <span class="nav-label">Account</span>
-  </a>
+    <span class="nav-label">Menu</span>
+  </button>
 </nav>
 
 <style>
@@ -268,7 +260,7 @@
     background: transparent;
     border: none;
     outline: none;
-    padding: 4px 0;
+    padding: 6px 0;
     position: relative;
     cursor: pointer;
     font-family: 'Rajdhani', sans-serif;
@@ -279,8 +271,8 @@
   }
 
   .mobile-bottom-nav__item svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
@@ -288,11 +280,11 @@
   }
 
   .mobile-bottom-nav__item span.nav-label {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 4px;
     transition: color 0.25s ease, text-shadow 0.25s ease;
   }
 
@@ -319,7 +311,7 @@
     content: '';
     position: absolute;
     top: 0;
-    width: 24px;
+    width: 28px;
     height: 3px;
     background: #F4C430;
     border-radius: 0 0 4px 4px;
@@ -328,15 +320,15 @@
 
   .mobile-bottom-nav__badge {
     position: absolute;
-    top: 3px;
-    right: calc(50% - 14px);
+    top: 4px;
+    right: calc(50% - 16px);
     background: #F4C430;
     color: #000000;
     font-family: 'Orbitron', sans-serif;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 900;
-    min-width: 15px;
-    height: 15px;
+    min-width: 16px;
+    height: 16px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -347,6 +339,26 @@
 </style>
 
 <script>
+  function openMobileMenu(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
+
+    const details = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container, header-drawer details');
+    if (details) {
+      if (details.hasAttribute('open')) {
+        details.removeAttribute('open');
+        details.classList.remove('menu-open');
+        document.body.classList.remove('overflow-hidden', 'menu-open');
+      } else {
+        details.setAttribute('open', '');
+        details.classList.add('menu-open');
+        document.body.classList.add('overflow-hidden', 'menu-open');
+      }
+    } else {
+      window.location.href = '/collections/all';
+    }
+  }
+
   function openMobileCart(e) {
     const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog');
     const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], .action__cart, cart-icon');
@@ -375,14 +387,11 @@
       } else if (path.includes('/collections/shoes') || path.includes('shoes')) {
         document.querySelector('.nav-item-shoes')?.classList.add('active');
         matched = true;
-      } else if (path.includes('wishlist')) {
-        document.querySelector('.nav-item-wishlist')?.classList.add('active');
-        matched = true;
-      } else if (path.includes('cart')) {
+      } else if (path.includes('/cart')) {
         document.querySelector('.nav-item-cart')?.classList.add('active');
         matched = true;
-      } else if (path.includes('account') || path.includes('login')) {
-        document.querySelector('.nav-item-account')?.classList.add('active');
+      } else if (path.includes('wishlist') || path.includes('account') || path.includes('login') || path.includes('pages')) {
+        document.querySelector('.nav-item-menu')?.classList.add('active');
         matched = true;
       } else if (path === '/' || path === '' || path.includes('index')) {
         document.querySelector('.nav-item-home')?.classList.add('active');
