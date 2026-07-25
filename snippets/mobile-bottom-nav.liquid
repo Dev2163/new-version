@@ -2,7 +2,7 @@
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
   Bottom Navbar: Contains 6 Dedicated App Icons (Home, Shoes, Zodiac, Wishlist, Cart, Account)
-  With Smooth Anchor Scroll Navigation & Fail-Safe Triggers
+  Direct Navigation to /collections/shoes & /collections/find-your-zodiac
 {% endcomment %}
 
 <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
@@ -16,7 +16,7 @@
   </a>
 
   <!-- 2. Shoes -->
-  <a href="/collections/all#shoes" class="mobile-bottom-nav__item nav-item-shoes {% if request.path contains 'shoes' or template contains 'collection' %}active{% endif %}" onclick="navigateToShoes(event)">
+  <a href="/collections/shoes" class="mobile-bottom-nav__item nav-item-shoes {% if request.path contains 'shoes' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M2.5 17.5h19v3h-19z"></path>
       <path d="M4 17.5l2-6 5 1.5 6-5 3.5 1.5.5 8"></path>
@@ -27,7 +27,7 @@
   </a>
 
   <!-- 3. Zodiac -->
-  <a href="/#zodiac" class="mobile-bottom-nav__item nav-item-zodiac {% if request.path contains 'zodiac' %}active{% endif %}" onclick="navigateToZodiac(event)">
+  <a href="/collections/find-your-zodiac" class="mobile-bottom-nav__item nav-item-zodiac {% if request.path contains 'zodiac' %}active{% endif %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path>
     </svg>
@@ -67,10 +67,6 @@
 </nav>
 
 <style>
-  html {
-    scroll-behavior: smooth;
-  }
-
   @media screen and (max-width: 768px) {
     /* Hide NovaAI Floating Assistant & Sales Notification Popups on mobile view */
     #nova-ai-fab,
@@ -351,26 +347,6 @@
 </style>
 
 <script>
-  function navigateToShoes(e) {
-    const shoesElem = document.getElementById('shoes') || document.querySelector('.footwear-picks-wrapper, .footwear-picks');
-    if (shoesElem && (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.includes('index'))) {
-      if (e && e.preventDefault) e.preventDefault();
-      shoesElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.location.href = '/collections/all#shoes';
-    }
-  }
-
-  function navigateToZodiac(e) {
-    const zodiacElem = document.getElementById('zodiac') || document.querySelector('.zodiac-strip-wrapper, .zodiac-strip');
-    if (zodiacElem && (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.includes('index'))) {
-      if (e && e.preventDefault) e.preventDefault();
-      zodiacElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.location.href = '/#zodiac';
-    }
-  }
-
   function openMobileCart(e) {
     const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog');
     const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], .action__cart, cart-icon');
@@ -390,13 +366,13 @@
   // Auto Active Page Matching on Client Load
   document.addEventListener('DOMContentLoaded', function() {
     try {
-      const path = (window.location.pathname + window.location.hash).toLowerCase();
+      const path = window.location.pathname.toLowerCase();
       let matched = false;
 
-      if (path.includes('zodiac')) {
+      if (path.includes('/collections/find-your-zodiac') || path.includes('zodiac')) {
         document.querySelector('.nav-item-zodiac')?.classList.add('active');
         matched = true;
-      } else if (path.includes('shoes')) {
+      } else if (path.includes('/collections/shoes') || path.includes('shoes')) {
         document.querySelector('.nav-item-shoes')?.classList.add('active');
         matched = true;
       } else if (path.includes('wishlist')) {
@@ -408,7 +384,7 @@
       } else if (path.includes('account') || path.includes('login')) {
         document.querySelector('.nav-item-account')?.classList.add('active');
         matched = true;
-      } else if (window.location.pathname === '/' || window.location.pathname === '') {
+      } else if (path === '/' || path === '' || path.includes('index')) {
         document.querySelector('.nav-item-home')?.classList.add('active');
         matched = true;
       }
