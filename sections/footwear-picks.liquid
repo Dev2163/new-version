@@ -116,6 +116,49 @@
     }
   }
 
+  @media (max-width: 640px) {
+    .footwear-picks__grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .footwear-picks__card {
+      flex-direction: column;
+      text-align: center;
+      padding: 20px 16px;
+      gap: 16px;
+    }
+
+    .footwear-picks__image-wrapper {
+      width: 100%;
+      max-width: 280px;
+      height: 160px;
+      margin: 0 auto;
+    }
+
+    .footwear-picks__info {
+      width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footwear-picks__title {
+      font-size: 15px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .footwear-picks__price {
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .footwear-picks__swatches {
+      justify-content: center;
+    }
+  }
+
   .footwear-picks__card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
