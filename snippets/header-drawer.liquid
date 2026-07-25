@@ -765,6 +765,41 @@
 </header-drawer>
 
 {% stylesheet %}
+  .menu-drawer {
+    background-color: #0A0A0E !important;
+    border-right: 1px solid rgba(244, 196, 48, 0.25) !important;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.9) !important;
+  }
+
+  .menu-drawer__menu-item {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    color: #FFFFFF !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .menu-drawer__menu-item:hover,
+  .menu-drawer__menu-item:focus,
+  .menu-drawer__menu-item[aria-expanded="true"] {
+    color: #F4C430 !important;
+    text-shadow: 0 0 10px rgba(244, 196, 48, 0.6) !important;
+    transform: translateX(6px) !important;
+  }
+
+  .menu-drawer__close-button {
+    color: #F4C430 !important;
+    transition: transform 0.3s ease !important;
+  }
+
+  .menu-drawer__close-button:hover {
+    transform: rotate(90deg) scale(1.1) !important;
+  }
+
+  .menu-drawer__list-item--divider {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
   .header__icon--menu {
     position: initial;
   }
