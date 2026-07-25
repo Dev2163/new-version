@@ -38,6 +38,7 @@
     },
     "footer_utilities": {
       "type": "footer-utilities",
+      "disabled": true,
       "settings": {}
     },
     "nova_ai_assistant": {
