@@ -2,6 +2,30 @@
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 768px) {
+  /* Permanently hide top header X close icon, menu icons, cart text, and extra action buttons */
+  header-drawer .header-drawer-icon--close,
+  header-drawer .header-drawer-icon--open,
+  header-drawer summary svg,
+  header-drawer summary .svg-wrapper,
+  .header-drawer-icon--close,
+  .header-drawer-icon--open,
+  header-actions cart-drawer-component > button,
+  header-actions cart-drawer-component [data-testid="cart-drawer-trigger"],
+  header-actions .header-actions__text,
+  .cart-drawer--text > button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+  }
+}
+
 body {
   color: var(--color-foreground);
   background: var(--color-background);
