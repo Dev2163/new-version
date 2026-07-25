@@ -35,6 +35,23 @@
     pointer-events: none !important;
   }
 
+  /* Hide account button and shopify-account web component (renders X icon) */
+  header-actions .account-button,
+  header-actions shopify-account,
+  header-actions a[href*="wishlist"],
+  header-actions [aria-label="View Wishlist"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+    overflow: hidden !important;
+    clip-path: inset(0) !important;
+  }
+
   /* Force ALL search-action buttons visible in right column regardless of class */
   .header__column--right search-button,
   .header__column--right .search-action,

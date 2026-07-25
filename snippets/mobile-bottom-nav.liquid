@@ -563,21 +563,21 @@
           s.style.setProperty('pointer-events', 'none', 'important');
         });
 
-        // 2. Completely collapse header-actions (shopify-account renders X icon inside)
+        // 2. Collapse header-actions to 0 space (overflow:visible keeps dialog accessible)
         var headerActions = document.querySelectorAll('header-actions');
         headerActions.forEach(function(el) {
           el.style.setProperty('width', '0', 'important');
           el.style.setProperty('height', '0', 'important');
-          el.style.setProperty('overflow', 'hidden', 'important');
+          el.style.setProperty('overflow', 'visible', 'important');
           el.style.setProperty('position', 'absolute', 'important');
-          el.style.setProperty('pointer-events', 'none', 'important');
         });
 
-        // 3. Hide all direct children of header-actions (account, wishlist, cart trigger)
-        var headerActionChildren = document.querySelectorAll(
-          'header-actions > *, header-actions shopify-account, header-actions .account-button, header-actions a, header-actions button[data-testid="cart-drawer-trigger"]'
+        // 3. Hide specific header-actions children: account, wishlist, cart trigger button
+        // DO NOT hide cart-drawer-component — dialog inside it needs to open
+        var hideTargets = document.querySelectorAll(
+          'header-actions .account-button, header-actions shopify-account, header-actions a[href*="wishlist"], header-actions [aria-label="View Wishlist"], header-actions button[data-testid="cart-drawer-trigger"], header-actions cart-drawer-component > button'
         );
-        headerActionChildren.forEach(function(el) {
+        hideTargets.forEach(function(el) {
           el.style.setProperty('display', 'none', 'important');
           el.style.setProperty('visibility', 'hidden', 'important');
           el.style.setProperty('width', '0', 'important');

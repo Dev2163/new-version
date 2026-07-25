@@ -720,18 +720,18 @@
   }
 
   @media screen and (max-width: 768px) {
-    /* On mobile: completely hide all header-actions content */
-    /* Account, wishlist, cart trigger — all handled by mobile-bottom-nav */
-    header-actions {
-      display: block !important;
-      width: 0 !important;
-      height: 0 !important;
-      overflow: hidden !important;
-      position: absolute !important;
-      pointer-events: none !important;
-    }
-
-    header-actions > * {
+    /* On mobile: hide account button, wishlist link, cart trigger button */
+    /* DO NOT hide cart-drawer-component itself — the dialog inside needs to open */
+    header-actions .account-button,
+    header-actions shopify-account,
+    header-actions a[href*="wishlist"],
+    header-actions [aria-label="View Wishlist"],
+    header-actions button[data-testid="cart-drawer-trigger"],
+    header-actions cart-drawer-component > button,
+    header-actions .action__cart,
+    header-actions .header-actions__text,
+    header-actions .header-actions__cart-icon > *:not(.cart-bubble),
+    header-actions > a {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
@@ -742,26 +742,21 @@
       overflow: hidden !important;
     }
 
-    /* Only keep cart-drawer-component for JS dialog access (0x0, invisible) */
+    /* cart-drawer-component must stay in DOM (0x0) so JS can open the dialog */
     cart-drawer-component {
       display: block !important;
       width: 0 !important;
       height: 0 !important;
       overflow: visible !important;
       position: absolute !important;
-      pointer-events: none !important;
     }
 
-    /* Hide all direct visible children inside cart-drawer-component */
-    cart-drawer-component > button,
-    cart-drawer-component > [data-testid="cart-drawer-trigger"],
-    cart-drawer-component > .header-actions__action {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
+    /* Collapse header-actions to 0 space but keep overflow:visible for dialog */
+    header-actions {
+      position: absolute !important;
       width: 0 !important;
       height: 0 !important;
+      overflow: visible !important;
     }
   }
 {% endstylesheet %}
