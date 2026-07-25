@@ -92,12 +92,12 @@
       pointer-events: none !important;
     }
 
-    /* Completely remove extra icons & secondary header rows on mobile */
+    /* Completely remove extra header buttons & secondary header rows on mobile */
     header-actions .account-button,
     header-actions [aria-label="View Wishlist"],
-    header-actions cart-drawer-component,
     header-actions .action__cart,
     header-actions .header-actions__cart-icon,
+    header-actions [data-testid="cart-drawer-trigger"],
     .header__row--bottom,
     .header__row:nth-child(2),
     .menu-list--mobile {
@@ -111,6 +111,19 @@
       padding: 0 !important;
       border: none !important;
       pointer-events: none !important;
+    }
+
+    /* Ensure Cart Drawer Component and Dialog function 100% cleanly on mobile */
+    cart-drawer-component,
+    dialog.cart-drawer__dialog,
+    .cart-drawer__dialog {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: auto !important;
+      height: auto !important;
+      margin: auto !important;
     }
 
     /* Ensure dark background color for header and eliminate white space gap */
@@ -355,19 +368,38 @@
   }
 
   function openMobileCart(e) {
-    const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog');
-    const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], .action__cart, cart-icon');
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
 
-    if (dialog && typeof dialog.showModal === 'function' && !dialog.open) {
-      if (e && e.preventDefault) e.preventDefault();
-      dialog.showModal();
+    const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog, dialog[data-testid="cart-drawer-dialog"]');
+    const trigger = document.querySelector('[data-testid="cart-drawer-trigger"], cart-drawer-component button, .action__cart, cart-icon');
+
+    if (dialog) {
+      if (typeof dialog.showModal === 'function') {
+        try {
+          if (!dialog.open) {
+            dialog.showModal();
+          }
+          document.body.classList.add('overflow-hidden');
+          return;
+        } catch(err) {
+          console.warn('showModal failed:', err);
+        }
+      }
+      dialog.setAttribute('open', '');
+      dialog.classList.add('active', 'is-open');
+      const comp = document.querySelector('cart-drawer-component');
+      if (comp) comp.classList.add('active', 'is-open');
       document.body.classList.add('overflow-hidden');
-    } else if (trigger) {
-      if (e && e.preventDefault) e.preventDefault();
-      trigger.click();
-    } else {
-      window.location.href = '/cart';
+      return;
     }
+
+    if (trigger) {
+      trigger.click();
+      return;
+    }
+
+    window.location.href = '/cart';
   }
 
   function insertZodiacAfterShoesInMobileMenu() {
