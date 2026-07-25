@@ -722,22 +722,58 @@
       margin-inline-start: 0;
     }
 
-    header-actions a[href*="wishlist"] {
+    /* Force all header actions icons to perfect vertical & horizontal alignment */
+    header-actions,
+    .header__column--right {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      gap: 12px !important;
       overflow: visible !important;
-      position: relative !important;
+    }
+
+    header-actions > *,
+    header-actions .header-actions__action,
+    header-actions .account-button,
+    header-actions shopify-account,
+    header-actions a[href*="wishlist"],
+    header-actions cart-drawer-component,
+    header-actions [data-testid="cart-drawer-trigger"],
+    header-actions .action__cart,
+    header-actions cart-icon {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      height: 44px !important;
+      width: 32px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
       border: none !important;
       outline: none !important;
       box-shadow: none !important;
-      background: transparent !important;
+      position: relative !important;
+      overflow: visible !important;
+      vertical-align: middle !important;
+    }
+
+    header-actions svg,
+    header-actions .header-actions__action svg,
+    header-actions .account-button__icon {
+      width: 20px !important;
+      height: 20px !important;
+      display: block !important;
+      margin: auto !important;
     }
 
     header-actions .wishlist-count-badge {
-      top: -2px !important;
+      top: 2px !important;
       right: -2px !important;
       z-index: 10 !important;
     }
 
-    /* Remove any unwanted divider lines/borders between header action buttons */
+    /* Remove any unwanted divider lines/borders/backgrounds between header action buttons */
     header-actions,
     header-actions *,
     .header-actions__action,
@@ -754,6 +790,7 @@
     header-actions *::after {
       border: none !important;
       background-image: none !important;
+      background: transparent !important;
     }
   }
 
