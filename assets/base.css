@@ -4414,41 +4414,61 @@ h1, h2, h3, h4, h5, h6,
 
 /* Wishlist Heart Icon on Product Cards */
 .wishlist-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 10;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  z-index: 15 !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: rgba(10, 10, 14, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(244, 196, 48, 0.3) !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+  padding: 0 !important;
+  outline: none !important;
 }
 
 .wishlist-btn:hover {
-  background: #f4c430;
-  color: #000000;
-  border-color: #f4c430;
-  transform: scale(1.1);
+  background: rgba(20, 20, 25, 0.95) !important;
+  border-color: #f4c430 !important;
+  transform: scale(1.12) !important;
+  box-shadow: 0 0 12px rgba(244, 196, 48, 0.5) !important;
+}
+
+.wishlist-btn:hover svg {
+  color: #f4c430 !important;
+  stroke: #f4c430 !important;
+  fill: rgba(244, 196, 48, 0.3) !important;
 }
 
 .wishlist-btn.active {
-  background: #f4c430;
-  color: #000000;
+  background: rgba(10, 10, 14, 0.9) !important;
+  border-color: #f4c430 !important;
+  box-shadow: 0 0 14px rgba(244, 196, 48, 0.6) !important;
+}
+
+.wishlist-btn.active svg {
+  color: #f4c430 !important;
+  fill: #f4c430 !important;
+  stroke: #f4c430 !important;
+  filter: drop-shadow(0 0 4px rgba(244, 196, 48, 0.8)) !important;
 }
 
 .wishlist-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+  width: 18px !important;
+  height: 18px !important;
+  fill: none;
   stroke: currentColor;
+  stroke-width: 2;
+  transition: all 0.25s ease !important;
 }
 
 /* Sale & New Arrival Badges */
@@ -9654,27 +9674,61 @@ h1, h2, h3, h4, h5, h6,
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  z-index: 15 !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: rgba(10, 10, 14, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(244, 196, 48, 0.3) !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+  padding: 0 !important;
+  outline: none !important;
 }
 
 .wishlist-btn:hover {
-  background: #f4c430;
-  color: #000000;
-  border-color: #f4c430;
-  transform: scale(1.1);
+  background: rgba(20, 20, 25, 0.95) !important;
+  border-color: #f4c430 !important;
+  transform: scale(1.12) !important;
+  box-shadow: 0 0 12px rgba(244, 196, 48, 0.5) !important;
+}
+
+.wishlist-btn:hover svg {
+  color: #f4c430 !important;
+  stroke: #f4c430 !important;
+  fill: rgba(244, 196, 48, 0.3) !important;
 }
 
 .wishlist-btn.active {
-  background: #f4c430;
-  color: #000000;
+  background: rgba(10, 10, 14, 0.9) !important;
+  border-color: #f4c430 !important;
+  box-shadow: 0 0 14px rgba(244, 196, 48, 0.6) !important;
+}
+
+.wishlist-btn.active svg {
+  color: #f4c430 !important;
+  fill: #f4c430 !important;
+  stroke: #f4c430 !important;
+  filter: drop-shadow(0 0 4px rgba(244, 196, 48, 0.8)) !important;
 }
 
 .wishlist-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+  width: 18px !important;
+  height: 18px !important;
+  fill: none;
   stroke: currentColor;
+  stroke-width: 2;
+  transition: all 0.25s ease !important;
 }
 
 /* Sale & New Arrival Badges */
