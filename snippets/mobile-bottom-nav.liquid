@@ -374,9 +374,38 @@
     }
   }
 
+  // Guarantee "FIND YOUR ZODIAC" link in mobile drawer menu
+  function ensureZodiacInMobileMenu() {
+    const drawerNavs = document.querySelectorAll('.menu-drawer__menu');
+    drawerNavs.forEach(function(drawerList) {
+      const allLinks = Array.from(drawerList.querySelectorAll('a, summary, .menu-drawer__menu-item-text'));
+      const hasZodiac = allLinks.some(function(el) { return el.textContent.toLowerCase().includes('zodiac'); });
+      
+      if (!hasZodiac) {
+        const shoesLink = allLinks.find(function(el) { return el.textContent.toLowerCase().includes('shoes'); });
+        const shoesItem = shoesLink ? shoesLink.closest('li') : null;
+        
+        if (shoesItem) {
+          const zodiacLi = document.createElement('li');
+          zodiacLi.className = 'menu-drawer__list-item';
+          zodiacLi.innerHTML = `
+            <a id="HeaderDrawer-find-your-zodiac-js" href="/#zodiac" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist focus-inset" style="display: flex; align-items: center; padding: 12px 0;">
+              <span class="menu-drawer__menu-item-text wrap-text" style="font-family: 'Orbitron', sans-serif; font-weight: 700; color: #FFFFFF; font-size: 1.6rem; text-transform: uppercase;">FIND YOUR ZODIAC</span>
+            </a>
+          `;
+          shoesItem.insertAdjacentElement('afterend', zodiacLi);
+        }
+      }
+    });
+  }
+
   // Auto Active Page Matching on Client Load
   document.addEventListener('DOMContentLoaded', function() {
     try {
+      ensureZodiacInMobileMenu();
+      setTimeout(ensureZodiacInMobileMenu, 300);
+      setTimeout(ensureZodiacInMobileMenu, 1000);
+
       const path = window.location.pathname.toLowerCase();
       let matched = false;
 

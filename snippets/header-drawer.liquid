@@ -593,6 +593,31 @@
                   </a>
                 {%- endif -%}
               </li>
+              {% assign title_lower = link.title | downcase %}
+              {% if title_lower contains 'shoes' %}
+                {% assign has_zodiac = false %}
+                {% for l in linklist.links %}
+                  {% assign l_lower = l.title | downcase %}
+                  {% if l_lower contains 'zodiac' %}
+                    {% assign has_zodiac = true %}
+                  {% endif %}
+                {% endfor %}
+                {% if has_zodiac == false %}
+                  {% assign animation_index = animation_index | plus: 1 %}
+                  <li
+                    style="--menu-drawer-animation-index: {{ animation_index }};"
+                    class="menu-drawer__list-item"
+                  >
+                    <a
+                      id="HeaderDrawer-find-your-zodiac-3"
+                      href="/#zodiac"
+                      class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset"
+                    >
+                      <span class="menu-drawer__menu-item-text wrap-text">FIND YOUR ZODIAC</span>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endif %}
             {%- endfor -%}
           {% endif %}
         </ul>
