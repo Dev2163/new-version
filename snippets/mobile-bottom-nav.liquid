@@ -68,24 +68,36 @@
 
 <style>
   @media screen and (max-width: 768px) {
-    /* Hide top header extra icons on mobile: show ONLY Logo & Search */
+    /* Completely remove extra icons from top header on mobile: show ONLY Logo & Search */
+    .header__drawer,
+    .header__column .header__drawer,
+    header-component .header__drawer,
+    details.menu-drawer-container > summary,
+    summary.header__icon--menu,
+    .header__icon--menu,
     header-actions .account-button,
     header-actions [aria-label="View Wishlist"],
     header-actions cart-drawer-component,
     header-actions .action__cart,
-    header-actions .header-actions__cart-icon,
-    header-component details.menu-drawer-container summary.header__icon--menu .header-drawer-icon,
-    header-component .header__icon--menu:not(.search-trigger) {
+    header-actions .header-actions__cart-icon {
       display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      pointer-events: none !important;
     }
 
-    /* Keep header logo & search visible and clean */
+    /* Keep header logo & search visible and clean on mobile */
     header-component .header__column--left,
     header-component .header__column--center,
     header-component .header__logo,
     header-component .header-logo,
     header-component search-component,
-    header-component .header__search {
+    header-component .header__search,
+    .header__column--right {
       display: flex !important;
     }
 
