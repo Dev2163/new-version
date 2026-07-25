@@ -128,17 +128,44 @@
       z-index: 10 !important;
     }
 
-    /* Force Search icon button to be VISIBLE on mobile header (override theme drawer-hide rule) */
+    /* Right column container holding search icon - anchored vertically in header */
+    .header__column--right,
+    header-component .header__column--right {
+      position: absolute !important;
+      right: 16px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: 44px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      z-index: 11 !important;
+    }
+
+    /* Inner search button elements inside right column - unhide and align vertically */
     search-button,
     .search-action,
     .search-action--hidden-on-drawer,
     .search-action--hidden-on-menu,
     [data-menu-style='drawer'] .search-action--hidden-on-drawer,
-    [data-menu-style='drawer'] .search-action {
+    [data-menu-style='drawer'] .search-action,
+    search-component,
+    .header__search {
       display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
       color: #FFFFFF !important;
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
+      transform: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: 100% !important;
+      align-items: center !important;
+      justify-content: center !important;
       z-index: 99 !important;
     }
 
@@ -151,24 +178,8 @@
       opacity: 1 !important;
       color: #FFFFFF !important;
       fill: currentColor !important;
-    }
-
-    /* Force Search icon to be anchored on the far right edge of the mobile header */
-    #header-component search-component,
-    #header-component .search-action,
-    #header-component search-button,
-    #header-component .header__search,
-    header-component .header__search,
-    .header__column--right {
-      position: absolute !important;
-      right: 16px !important;
-      top: 50% !important;
-      transform: translateY(-50%) !important;
       margin: 0 !important;
-      z-index: 11 !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-end !important;
+      transform: none !important;
     }
 
     /* Mobile Bottom Navigation Bar Styling */
