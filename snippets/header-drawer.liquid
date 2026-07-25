@@ -232,35 +232,22 @@
                       </li>
                     {%- endfor -%}
                   </ul>
-                {% else %}
-                  {%- comment -%}
-                    Simple links for links with no children (regardless of accordion setting), in menus with fewer than 3 levels of links
-                  {%- endcomment -%}
-                  <a
-                    id="HeaderDrawer-{{ link.handle }}"
-                    href="{{ link.url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
-                    {% if link.current %}
-                      aria-current="page"
-                    {% endif %}
-                  >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
-                  </a>
-            <!-- Extra Utility Links inside Mobile Drawer Menu -->
-            {% assign has_zodiac = false %}
-            {% for l in linklist.links %}
-              {% assign l_l = l.title | downcase %}
-              {% if l_l contains 'zodiac' %}{% assign has_zodiac = true %}{% endif %}
-            {% endfor %}
-
-            {% if has_zodiac == false %}
-              <li class="menu-drawer__list-item--flat{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}">
-                <a href="/collections/find-your-zodiac" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
-                  <span class="menu-drawer__menu-item-text wrap-text">Find Your Zodiac</span>
-                </a>
+                {% endif %}
               </li>
-            {% endif %}
-
+              {% assign title_lower = link.title | downcase %}
+              {% if title_lower contains 'shoes' or link.handle == 'shoes' %}
+                <li class="menu-drawer__list-item--flat{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}">
+                  <a
+                    id="HeaderDrawer-find-your-zodiac-inline"
+                    href="/collections/find-your-zodiac"
+                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset"
+                  >
+                    <span class="menu-drawer__menu-item-text wrap-text">FIND YOUR ZODIAC</span>
+                  </a>
+                </li>
+              {% endif %}
+            {%- endfor -%}
+            <!-- Extra Utility Links inside Mobile Drawer Menu -->
             <li class="menu-drawer__list-item--flat{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}">
               <a href="/pages/wishlist" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
                 <span class="menu-drawer__menu-item-text wrap-text">Wishlist</span>
@@ -580,29 +567,22 @@
                   {%- endcomment -%}
                   <a
                     id="HeaderDrawer-{{ link.handle }}"
-                    href="{{ link.url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset"
-                    {% if link.current %}
-                      aria-current="page"
-                    {% endif %}
-                  >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
-                  </a>
-            <!-- Extra Utility Links inside Mobile Drawer Menu -->
-            {% assign has_zodiac = false %}
-            {% for l in linklist.links %}
-              {% assign l_l = l.title | downcase %}
-              {% if l_l contains 'zodiac' %}{% assign has_zodiac = true %}{% endif %}
-            {% endfor %}
-
-            {% if has_zodiac == false %}
-              <li class="menu-drawer__list-item">
-                <a href="/collections/find-your-zodiac" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
-                  <span class="menu-drawer__menu-item-text wrap-text">Find Your Zodiac</span>
-                </a>
+                {%- endif -%}
               </li>
-            {% endif %}
-
+              {% assign title_lower = link.title | downcase %}
+              {% if title_lower contains 'shoes' or link.handle == 'shoes' %}
+                <li class="menu-drawer__list-item">
+                  <a
+                    id="HeaderDrawer-find-your-zodiac-inline-2"
+                    href="/collections/find-your-zodiac"
+                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset"
+                  >
+                    <span class="menu-drawer__menu-item-text wrap-text">FIND YOUR ZODIAC</span>
+                  </a>
+                </li>
+              {% endif %}
+            {%- endfor -%}
+            <!-- Extra Utility Links inside Mobile Drawer Menu -->
             <li class="menu-drawer__list-item">
               <a href="/pages/wishlist" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset">
                 <span class="menu-drawer__menu-item-text wrap-text">Wishlist</span>
