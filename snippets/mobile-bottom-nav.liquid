@@ -78,16 +78,19 @@
       z-index: -9999 !important;
     }
 
-    /* Keep top header menu drawer summary visually hidden without display:none so JS click works */
+    /* Completely hide top header menu drawer summary button on mobile */
+    header-drawer summary,
     .header__drawer summary,
     details.menu-drawer-container > summary,
     summary.header__icon--menu {
+      display: none !important;
+      visibility: hidden !important;
       opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
       position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 1px !important;
-      height: 1px !important;
+      top: -9999px !important;
+      left: -9999px !important;
       overflow: hidden !important;
       pointer-events: none !important;
     }
