@@ -232,6 +232,20 @@
                       </li>
                     {%- endfor -%}
                   </ul>
+                {% else %}
+                  {%- comment -%}
+                    Simple links for links with no children (regardless of accordion setting), in menus with fewer than 3 levels of links
+                  {%- endcomment -%}
+                  <a
+                    id="HeaderDrawer-{{ link.handle }}"
+                    href="{{ link.url }}"
+                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                    {% if link.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                  </a>
                 {% endif %}
               </li>
               {% assign title_lower = link.title | downcase %}
@@ -567,6 +581,14 @@
                   {%- endcomment -%}
                   <a
                     id="HeaderDrawer-{{ link.handle }}"
+                    href="{{ link.url }}"
+                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                    {% if link.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                  </a>
                 {%- endif -%}
               </li>
               {% assign title_lower = link.title | downcase %}
