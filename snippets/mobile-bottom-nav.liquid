@@ -58,7 +58,7 @@
 
 <style>
   @media screen and (max-width: 768px) {
-    /* Completely remove extra icons from top header on mobile */
+    /* Completely remove extra icons & secondary header rows on mobile */
     .header__drawer,
     .header__column .header__drawer,
     header-component .header__drawer,
@@ -69,29 +69,46 @@
     header-actions [aria-label="View Wishlist"],
     header-actions cart-drawer-component,
     header-actions .action__cart,
-    header-actions .header-actions__cart-icon {
+    header-actions .header-actions__cart-icon,
+    .header__row--bottom,
+    .header__row:nth-child(2),
+    .menu-list--mobile {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
       width: 0 !important;
       height: 0 !important;
+      min-height: 0 !important;
       margin: 0 !important;
       padding: 0 !important;
+      border: none !important;
       pointer-events: none !important;
     }
 
-    /* Force mobile header container to relative positioning */
-    #header-component .header__columns,
-    #header-component .header__row,
-    header-component .header__row,
-    .header__row,
-    .header__columns {
+    /* Ensure dark background color for header and eliminate white space gap */
+    #header-component,
+    header-component,
+    .header,
+    .header__row--top,
+    .header__row {
+      background-color: #0A0A0A !important;
+    }
+
+    /* Force top header row container to relative positioning and clean fixed height */
+    #header-component .header__row--top,
+    header-component .header__row--top,
+    .header__row--top,
+    .header__row:first-of-type {
       position: relative !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       width: 100% !important;
-      min-height: 54px !important;
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      margin: 0 !important;
+      padding: 0 16px !important;
     }
 
     /* Force ONE9 Logo to be DEAD-CENTER in the middle of the mobile screen */
