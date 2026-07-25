@@ -4,6 +4,18 @@
       "type": "custom-main-product",
       "settings": {}
     },
+    "frequently_bought_together": {
+      "type": "frequently-bought-together",
+      "settings": {}
+    },
+    "complete_the_look": {
+      "type": "complete-the-look",
+      "settings": {}
+    },
+    "premium_reviews": {
+      "type": "premium-reviews",
+      "settings": {}
+    },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
       "blocks": {
@@ -148,6 +160,9 @@
   },
   "order": [
     "main",
+    "frequently_bought_together",
+    "complete_the_look",
+    "premium_reviews",
     "product_recommendations_qggXJq"
   ]
 }

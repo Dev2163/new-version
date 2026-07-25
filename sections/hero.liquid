@@ -54,7 +54,15 @@
         <div class="custom-hero-{{ section.id }}__image-glow">
           {%- if section.settings.image != blank -%}
             {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image' %}
-            {{ section.settings.image | image_url: width: 1200 | image_tag: class: hero_img_class, id: 'heroMainImage' }}
+            {{ section.settings.image | image_url: width: 1200 | image_tag: 
+              class: hero_img_class, 
+              id: 'heroMainImage',
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '375, 550, 750, 1100, 1500',
+              sizes: '(min-width: 990px) 50vw, 100vw',
+              alt: section.settings.title | escape
+            }}
           {%- else -%}
             {% assign hero_img_class_placeholder = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image custom-hero-' | append: section.id | append: '__image--placeholder' %}
             {{ 'lifestyle-1' | placeholder_svg_tag: hero_img_class_placeholder }}
@@ -95,7 +103,7 @@
           <div class="thumbnail-strip-{{ section.id }}__image-wrapper">
             {% if block.settings.image != blank %}
               {% assign thumb_img_class = 'thumbnail-strip-' | append: section.id | append: '__image' %}
-              {{ block.settings.image | image_url: width: 400 | image_tag: class: thumb_img_class }}
+              {{ block.settings.image | image_url: width: 400 | image_tag: class: thumb_img_class, loading: 'lazy', fetchpriority: 'low' }}
             {% else %}
               {% assign thumb_placeholder_class = 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' %}
               {{ 'product-1' | placeholder_svg_tag: thumb_placeholder_class }}
@@ -120,7 +128,6 @@
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&display=swap');
 
   .custom-hero-container-{{ section.id }} {
     width: 100%;

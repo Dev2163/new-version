@@ -177,26 +177,10 @@
               <span>Order within <strong style="color: #f4c430;" id="pdp-countdown">04h 28m</strong> for Express Delivery</span>
             </div>
 
-            <!-- PDP Trust Badges -->
-            <div class="pdp-trust-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);">
-              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>100% Authentic</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                <span>Global Express</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                <span>30-Day Returns</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 8px; color: #ccc; font-size: 12px; font-family: 'Rajdhani', sans-serif;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f4c430" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                <span>Secure Checkout</span>
-              </div>
-            </div>
+            <!-- Live Pincode Delivery Checker & Trust Badges -->
+            {% render 'delivery-pincode-checker' %}
           </div>
+          {% render 'sticky-add-to-cart-bar' %}
 
           <!-- Accordions -->
           <div class="cp-accordions">
@@ -259,8 +243,11 @@
               }, { threshold: 0.1 });
               observer.observe(mainButtons);
             }
-          })();
-        </script>
+        <!-- Frequently Bought Together (Amazon Style Bundle) -->
+        {% render 'frequently-bought-together-snippet' %}
+
+        <!-- Premium Product Reviews -->
+        {% render 'premium-reviews-snippet' %}
       </div>
     </div>
   </div>
@@ -451,11 +438,120 @@
       handleGesture();
     }, {passive: true});
   }
+
+  // Bulletproof Cart Drawer Opener Helper
+  window.ONE9_OpenCartDrawer = function() {
+    const trigger = document.querySelector('[data-testid="cart-drawer-trigger"], .header-actions__action, button[aria-haspopup="dialog"]');
+    if (trigger) {
+      trigger.click();
+    }
+    const dialog = document.querySelector('dialog.cart-drawer__dialog, [data-testid="cart-drawer-dialog"]');
+    if (dialog && !dialog.open) {
+      if (typeof dialog.showModal === 'function') {
+        try { dialog.showModal(); } catch(e) { dialog.setAttribute('open', 'true'); }
+      } else {
+        dialog.setAttribute('open', 'true');
+      }
+    }
+  };
+
+  // Instant AJAX Add to Cart & Cart Drawer Opener
+  document.addEventListener('DOMContentLoaded', function() {
+    const productForm = document.getElementById('product-form-custom');
+    if (!productForm) return;
+
+    productForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = productForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn ? submitBtn.innerHTML : 'ADD TO CART';
+      
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'ADDING...';
+      }
+
+      const formData = new FormData(productForm);
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'ADDED! ✓';
+        }
+
+        // Notify theme of cart update
+        document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+        
+        // Open Cart Drawer instantly
+        window.ONE9_OpenCartDrawer();
+
+        setTimeout(() => {
+          if (submitBtn) submitBtn.innerHTML = originalText;
+        }, 2000);
+      })
+      .catch(err => {
+        console.error('Cart add error:', err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+        window.location.href = '/cart';
+      });
+    });
+
+    // Bulletproof Fixed Scroll for Left Image Gallery & ONE9 Sidebar
+    function handleStickyScroll() {
+      if (window.innerWidth <= 768) return;
+      
+      const leftCol = document.querySelector('.cp-left-col');
+      const sidebar = document.querySelector('.cp-sidebar');
+      const mainContainer = document.querySelector('.cp-main-container');
+      if (!leftCol || !mainContainer) return;
+
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const mainRect = mainContainer.getBoundingClientRect();
+      const leftWidth = Math.min(610, mainContainer.offsetWidth * 0.45);
+
+      if (scrollTop > 80) {
+        leftCol.style.position = 'fixed';
+        leftCol.style.top = '20px';
+        leftCol.style.left = `${mainRect.left + 100}px`;
+        leftCol.style.width = `${leftWidth}px`;
+        leftCol.style.zIndex = '99';
+
+        if (sidebar) {
+          sidebar.style.position = 'fixed';
+          sidebar.style.top = '0';
+          sidebar.style.left = '0';
+          sidebar.style.height = '100vh';
+          sidebar.style.zIndex = '100';
+        }
+      } else {
+        leftCol.style.position = 'relative';
+        leftCol.style.top = '0';
+        leftCol.style.left = 'auto';
+        leftCol.style.width = '100%';
+
+        if (sidebar) {
+          sidebar.style.position = 'relative';
+          sidebar.style.top = '0';
+          sidebar.style.left = 'auto';
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleStickyScroll, { passive: true });
+    window.addEventListener('resize', handleStickyScroll, { passive: true });
+    handleStickyScroll();
+  });
 </script>
 
 {% stylesheet %}
-
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Rajdhani:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
   .custom-product-wrapper {
     background-color: #050505;
@@ -475,9 +571,11 @@
     flex-shrink: 0;
     padding-top: 40px;
     border-right: 1px solid rgba(255,255,255,0.05);
-    position: sticky;
-    top: 0;
-    height: 100vh;
+    position: sticky !important;
+    top: 20px !important;
+    align-self: flex-start !important;
+    height: calc(100vh - 40px) !important;
+    z-index: 10;
   }
   .cp-vertical-brand {
     display: flex;
@@ -566,9 +664,10 @@
   .cp-left-col {
     flex: 1;
     max-width: 610px;
-    position: sticky;
-    top: 40px;
-    align-self: flex-start;
+    position: sticky !important;
+    top: 20px !important;
+    align-self: flex-start !important;
+    z-index: 10;
   }
   .cp-right-col {
     width: 450px;
@@ -581,6 +680,8 @@
     gap: 20px;
     margin-bottom: 40px;
     width: 100%;
+    position: sticky !important;
+    top: 20px !important;
   }
   .cp-thumbnails {
     display: flex;
@@ -588,6 +689,24 @@
     gap: 12px;
     width: 90px;
     flex-shrink: 0;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .cp-thumbnails::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .cp-left-col, .cp-gallery, .cp-sidebar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  .cp-left-col::-webkit-scrollbar, .cp-gallery::-webkit-scrollbar, .cp-sidebar::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
   .cp-thumb {
     border: 2px solid #222;

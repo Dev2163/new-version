@@ -1,4 +1,3 @@
-
 {
   "type": "footer",
   "name": "Footer",
@@ -10,10 +9,15 @@
     "footer_utilities": {
       "type": "footer-utilities",
       "settings": {}
+    },
+    "nova_ai_assistant": {
+      "type": "nova-ai-assistant",
+      "settings": {}
     }
   },
   "order": [
     "main_footer",
-    "footer_utilities"
+    "footer_utilities",
+    "nova_ai_assistant"
   ]
 }

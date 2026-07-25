@@ -39,8 +39,6 @@
     </div>
 
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap');
-
       /* Prevent scrolling while active */
       body.one9-splash-active {
         overflow: hidden !important;
@@ -242,8 +240,8 @@
 
         const splash = document.getElementById('one9-splash-screen');
         const startTime = Date.now();
-        const minDuration = 1800; // Phase 1-4 ends at 1.8s
-        const maxDuration = {{ section.settings.max_wait_time | default: 2500 }};
+        const minDuration = 400; // Optimized for LCP performance
+        const maxDuration = {{ section.settings.max_wait_time | default: 1200 }};
         
         let exitTriggered = false;
 
