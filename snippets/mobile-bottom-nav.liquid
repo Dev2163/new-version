@@ -2,7 +2,7 @@
   ONE9 Luxury Streetwear - Mobile App Bottom Navigation Bar
   Top Header on Mobile: Shows ONLY Logo & Search Icon
   Bottom Navbar: Contains 5 Clean Icons (Home, Menu, Wishlist, Cart, Account)
-  With Auto Active Page Highlighting & Gold Indicators
+  With Auto Active Page Highlighting & Fail-Safe Button Triggers
 {% endcomment %}
 
 <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
@@ -16,7 +16,7 @@
   </a>
 
   <!-- 2. Menu (Opens Navigation Drawer) -->
-  <button type="button" class="mobile-bottom-nav__item nav-item-menu {% if template contains 'collection' or template contains 'product' or template contains 'search' %}active{% endif %}" onclick="openMobileMenu()">
+  <button type="button" class="mobile-bottom-nav__item nav-item-menu {% if template contains 'collection' or template contains 'product' or template contains 'search' %}active{% endif %}" onclick="openMobileMenu(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -59,6 +59,29 @@
 
 <style>
   @media screen and (max-width: 768px) {
+    /* Hide NovaAI Floating Assistant & Sales Notification Popups on mobile view */
+    #nova-ai-fab,
+    .nova-ai-fab,
+    .nova-ai-assistant,
+    nova-ai-assistant,
+    #nova-ai-trigger,
+    .nova-ai-panel,
+    .nova-ai-widget,
+    .recent-purchase-popup,
+    #recent-purchase-popup,
+    .recent-order-pop,
+    .sales-popup,
+    .sales-pop,
+    #sales-pop,
+    .verified-buyer-popup,
+    [data-testid="recent-purchase-popup"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      z-index: -9999 !important;
+    }
+
     /* Completely remove extra icons & secondary header rows on mobile */
     .header__drawer,
     .header__column .header__drawer,
@@ -304,22 +327,34 @@
 </style>
 
 <script>
-  function openMobileMenu() {
-    const detailsElem = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container');
+  function openMobileMenu(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const detailsElem = document.querySelector('details.menu-drawer-container, details#Details-menu-drawer-container, header-drawer details');
     if (detailsElem) {
-      detailsElem.setAttribute('open', '');
-      detailsElem.classList.add('menu-open');
-      document.body.classList.add('overflow-hidden');
+      const summaryBtn = detailsElem.querySelector('summary');
+      if (summaryBtn && typeof summaryBtn.click === 'function') {
+        summaryBtn.click();
+      } else {
+        if (detailsElem.hasAttribute('open')) {
+          detailsElem.removeAttribute('open');
+          document.body.classList.remove('overflow-hidden', 'menu-open');
+        } else {
+          detailsElem.setAttribute('open', '');
+          document.body.classList.add('overflow-hidden', 'menu-open');
+        }
+      }
     } else {
       window.location.href = '/collections/all';
     }
   }
 
   function openMobileCart(e) {
-    const cartTrigger = document.querySelector('cart-drawer-component button[data-testid="cart-drawer-trigger"], header-actions cart-drawer-component button, .action__cart');
+    const cartTrigger = document.querySelector('cart-drawer-component button[data-testid="cart-drawer-trigger"], header-actions cart-drawer-component button, [data-cart-drawer-trigger], .action__cart, cart-icon');
     if (cartTrigger) {
-      e.preventDefault();
+      if (e && e.preventDefault) e.preventDefault();
       cartTrigger.click();
+    } else {
+      window.location.href = '/cart';
     }
   }
 
