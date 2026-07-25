@@ -422,6 +422,10 @@
     if (e && e.preventDefault) e.preventDefault();
     if (e && e.stopPropagation) e.stopPropagation();
 
+    // Signal to MutationObserver that THIS open is user-triggered (not auto-open)
+    window.mobileCartUserTriggered = true;
+    setTimeout(function() { window.mobileCartUserTriggered = false; }, 3000);
+
     const dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog, #cart-drawer-dialog, dialog[data-testid="cart-drawer-dialog"]');
     const trigger = document.querySelector('[data-testid="cart-drawer-trigger"], cart-drawer-component button, .action__cart, cart-icon');
 
@@ -489,6 +493,53 @@
       insertZodiacAfterShoesInMobileMenu();
       setTimeout(insertZodiacAfterShoesInMobileMenu, 200);
       setTimeout(insertZodiacAfterShoesInMobileMenu, 800);
+
+      // MOBILE ONLY: Prevent cart drawer from auto-opening when cart has items
+      // The cart-drawer-component has an "auto-open" attribute that triggers on load
+      // We remove it on mobile so ONLY our bottom nav Cart button opens the drawer
+      if (window.innerWidth <= 768) {
+        // Remove auto-open attribute so cart doesn't auto-open on mobile
+        document.querySelectorAll('cart-drawer-component[auto-open]').forEach(function(el) {
+          el.removeAttribute('auto-open');
+        });
+
+        // MutationObserver: watch for cart dialog opening unexpectedly
+        // If dialog opens without our flag set, close it immediately
+        window.mobileCartUserTriggered = false;
+
+        // Watch cart dialog for unexpected opens (auto-open, add-to-cart trigger, etc.)
+        function watchCartDialog() {
+          var dialog = document.querySelector('cart-drawer-component dialog, dialog.cart-drawer__dialog');
+          if (!dialog) {
+            setTimeout(watchCartDialog, 300);
+            return;
+          }
+
+          var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+              if (m.type === 'attributes' && m.attributeName === 'open') {
+                if (dialog.hasAttribute('open') && !window.mobileCartUserTriggered && window.innerWidth <= 768) {
+                  // Cart dialog opened without user tapping Cart in bottom nav
+                  // Close it immediately to prevent X icon from showing
+                  setTimeout(function() {
+                    try {
+                      if (typeof dialog.close === 'function') dialog.close();
+                      dialog.removeAttribute('open');
+                      document.body.classList.remove('overflow-hidden');
+                    } catch(err) {}
+                  }, 0);
+                }
+              }
+            });
+          });
+
+          observer.observe(dialog, { attributes: true, attributeFilter: ['open'] });
+        }
+
+        watchCartDialog();
+        setTimeout(watchCartDialog, 500);
+      }
+
 
       const path = window.location.pathname.toLowerCase();
       let matched = false;
