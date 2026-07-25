@@ -707,6 +707,10 @@
     align-items: center;
   }
 
+  header-actions {
+    overflow: visible !important;
+  }
+
   @media screen and (min-width: 750px) {
     .header-actions__cart-icon--text {
       display: flex;
@@ -716,6 +720,17 @@
 
     .header__column--right .header-actions--text {
       margin-inline-start: 0;
+    }
+
+    header-actions a[href*="wishlist"] {
+      overflow: visible !important;
+      position: relative !important;
+    }
+
+    header-actions .wishlist-count-badge {
+      top: -4px !important;
+      right: -6px !important;
+      z-index: 10 !important;
     }
   }
 
