@@ -52,10 +52,12 @@
   }
 
   @media (max-width: 768px) {
+    #one9-purchase-toast,
     .one9-purchase-toast {
-      bottom: 76px !important;
-      left: 16px !important;
-      max-width: calc(100vw - 32px) !important;
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
   }
 
@@ -173,6 +175,7 @@
     const popupDuration = ({{ section.settings.purchase_popup_duration | default: settings.purchase_popup_duration | default: 4 }}) * 1000;
 
     function showRandomToast() {
+      if (window.innerWidth <= 768) return;
       const toast = document.getElementById('one9-purchase-toast');
       if (!toast) return;
       
