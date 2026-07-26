@@ -43,35 +43,32 @@
 <style>
   .one9-sticky-cart {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(140%);
-    width: calc(100% - 32px);
-    max-width: 780px;
-    background: #0D0E12;
-    border: 1px solid rgba(244, 196, 48, 0.5);
-    border-radius: 60px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(244, 196, 48, 0.2);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 14, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(244, 196, 48, 0.45);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(244, 196, 48, 0.2);
     z-index: 999998;
+    transform: translateY(100%);
     opacity: 0;
     visibility: hidden;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.3s ease;
-    padding: 8px 14px 8px 10px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.3s ease;
+    padding: 12px 0;
     box-sizing: border-box;
   }
 
   .one9-sticky-cart.is-visible {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
 
   @media (max-width: 768px) {
     .one9-sticky-cart {
-      bottom: 12px;
-      width: calc(100% - 20px);
-      padding: 6px 10px;
-      border-radius: 50px;
+      padding: 10px 0;
     }
   }
 
@@ -79,23 +76,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 16px;
     width: 100%;
   }
 
   .one9-sticky-cart__product {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     min-width: 0;
   }
 
   .one9-sticky-cart__thumb {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     background: #000;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
   }
@@ -109,14 +106,14 @@
   .one9-sticky-cart__info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     min-width: 0;
   }
 
   .one9-sticky-cart__title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
     color: #FFFFFF;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -127,27 +124,27 @@
 
   .one9-sticky-cart__price {
     font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
+    font-weight: 900;
+    font-size: 14px;
     color: #F4C430;
   }
 
   .one9-sticky-cart__actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     flex-shrink: 0;
   }
 
   .one9-sticky-select {
-    background: #16171E;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    border-radius: 8px;
     color: #FFFFFF;
     font-family: 'Orbitron', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    padding: 8px 14px;
+    padding: 10px 16px;
     outline: none;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -156,37 +153,37 @@
   .one9-sticky-select:hover,
   .one9-sticky-select:focus {
     border-color: #F4C430;
-    background: #1F202A;
+    background: rgba(255, 255, 255, 0.14);
   }
 
   .one9-sticky-select option {
-    background: #0D0E12;
+    background: #0A0A0C;
     color: #FFF;
   }
 
   .one9-sticky-btn {
-    background: #F4C430;
+    background: linear-gradient(135deg, #F4C430 0%, #E5A900 100%);
     color: #000000;
     border: none;
-    border-radius: 40px;
+    border-radius: 8px;
     font-family: 'Orbitron', sans-serif;
     font-size: 12px;
     font-weight: 900;
-    padding: 10px 22px;
+    padding: 12px 28px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    transition: all 0.2s ease;
-    box-shadow: 0 0 15px rgba(244, 196, 48, 0.35);
+    transition: all 0.25s ease;
+    box-shadow: 0 0 20px rgba(244, 196, 48, 0.4);
   }
 
   .one9-sticky-btn:hover {
-    background: #FFD700;
+    background: linear-gradient(135deg, #FFD700 0%, #F4C430 100%);
     transform: scale(1.03);
-    box-shadow: 0 0 22px rgba(244, 196, 48, 0.6);
+    box-shadow: 0 0 28px rgba(244, 196, 48, 0.65);
   }
 </style>
 
