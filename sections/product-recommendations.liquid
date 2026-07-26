@@ -64,6 +64,29 @@
 
     {%- if recommendations.performed or section.settings.product == blank -%}
       {% liquid
+        assign current_prod = section.settings.product | default: product
+        
+        # Check current product collections or type
+        assign is_shoe = false
+        assign is_zodiac = false
+        for col in current_prod.collections
+          assign col_handle = col.handle | lower
+          if col_handle contains 'shoe' or col_handle contains 'footwear' or col_handle contains 'sneaker'
+            assign is_shoe = true
+          endif
+          if col_handle contains 'zodiac' or col_handle contains 'astrology'
+            assign is_zodiac = true
+          endif
+        endfor
+        
+        assign prod_type = current_prod.type | lower
+        if prod_type contains 'shoe' or prod_type contains 'footwear' or prod_type contains 'sneaker'
+          assign is_shoe = true
+        endif
+        if prod_type contains 'zodiac' or prod_type contains 'astrology'
+          assign is_zodiac = true
+        endif
+
         if section.settings.product == blank
           assign products = null
           # Onboarding mode: Show placeholder products
@@ -71,17 +94,56 @@
             assign products = products | append: ', '
             assign products = products | split: ','
           endfor
-        elsif recommendations.performed and recommendations.products_count == 0
-          # No recommendations found, pull from catalog
-          if section.settings.recommendation_type == 'related'
-            assign products = collections.all.products | reject: 'id', section.settings.product.id
-          elsif section.settings.recommendation_type == 'complementary'
-            # Do not recommend the All collection as complementary products
-            assign products = null
-          endif
+        elsif recommendations.performed and recommendations.products_count > 0
+          # Filter Shopify recommendations if specific category matches
+          assign filtered_recs = ''
+          for rec in recommendations.products
+            if is_shoe
+              assign rec_is_shoe = false
+              for c in rec.collections
+                assign ch = c.handle | lower
+                if ch contains 'shoe' or ch contains 'footwear' or ch contains 'sneaker'
+                  assign rec_is_shoe = true
+                endif
+              endfor
+              if rec.type contains 'shoe' or rec.type contains 'footwear' or rec.type contains 'sneaker'
+                assign rec_is_shoe = true
+              endif
+              if rec_is_shoe
+                assign filtered_recs = filtered_recs | append: rec.handle | append: ','
+              endif
+            elsif is_zodiac
+              assign rec_is_zodiac = false
+              for c in rec.collections
+                assign ch = c.handle | lower
+                if ch contains 'zodiac' or ch contains 'astrology'
+                  assign rec_is_zodiac = true
+                endif
+              endfor
+              if rec.type contains 'zodiac' or rec.type contains 'astrology'
+                assign rec_is_zodiac = true
+              endif
+              if rec_is_zodiac
+                assign filtered_recs = filtered_recs | append: rec.handle | append: ','
+              endif
+            endif
+          endfor
 
+          if filtered_recs != blank
+            assign rec_handles = filtered_recs | split: ','
+            assign products = collections.all.products | where: 'handle', rec_handles
+          else
+            assign products = recommendations.products
+          endif
         else
-          assign products = recommendations.products
+          # Fallback when no recommendations returned by algorithm
+          if is_shoe
+            assign products = collections['shoes'].products | default: collections.all.products | reject: 'id', current_prod.id
+          elsif is_zodiac
+            assign products = collections['zodiac'].products | default: collections.all.products | reject: 'id', current_prod.id
+          else
+            assign products = collections.all.products | reject: 'id', current_prod.id
+          endif
         endif
       %}
       {% capture list_items %}
