@@ -36,7 +36,9 @@
           <label for="fbt-item-2"></label>
         </div>
         <div class="fbt-thumb">
-          <div class="fbt-placeholder-icon">👖</div>
+          <div class="fbt-placeholder-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v4L15 22H9L6 6V2z"></path><line x1="6" y1="6" x2="18" y2="6"></line></svg>
+          </div>
         </div>
         <div class="fbt-details">
           <div class="fbt-item-tag">Matching Fit</div>
@@ -54,7 +56,9 @@
           <label for="fbt-item-3"></label>
         </div>
         <div class="fbt-thumb">
-          <div class="fbt-placeholder-icon">🧢</div>
+          <div class="fbt-placeholder-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17h20v2H2z"></path><path d="M4 17a8 8 0 0 1 16 0"></path><path d="M12 9V5"></path></svg>
+          </div>
         </div>
         <div class="fbt-details">
           <div class="fbt-item-tag">Accessory</div>
@@ -70,7 +74,7 @@
         <span class="label">Total Price:</span>
         <span class="price-val" id="fbt-total-display">₹{{ product.price | plus: 2098 | divided_by: 100 }}</span>
       </div>
-      <div class="fbt-savings">🔥 Special Bundle Offer: Save 10% automatically at checkout</div>
+      <div class="fbt-savings" style="display: flex; align-items: center; gap: 6px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#00FF9D"><path d="M12 2c0 3-2 5-2 8 0 2.2 1.8 4 4 4s4-1.8 4-4c0-3-2-5-2-8z"></path></svg> Special Bundle Offer: Save 10% automatically at checkout</div>
       <button type="button" class="fbt-buy-btn" id="fbt-add-btn" onclick="ONE9_AddFBTBundle()">
         Add Selected to Cart 🛒
       </button>
