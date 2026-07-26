@@ -1,81 +1,632 @@
 {% comment %}
-  ONE9 Luxury Streetwear - Premium Reviews Snippet
+  ONE9 Luxury Streetwear - Interactive Genuine Customer Reviews Section
 {% endcomment %}
+{%- assign product_id = product.id | default: 'default' -%}
 
-<div class="reviews-snippet-wrapper" style="margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-  <div class="reviews-header" style="margin-bottom: 16px;">
-    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; color: #FFFFFF; letter-spacing: 1px;">CUSTOMER REVIEWS</h3>
-    <p style="font-size: 12px; color: #888;">Real feedback from streetwear enthusiasts</p>
+<div class="premium-reviews-section page-width" id="one9-reviews-root-{{ product_id }}">
+  <div class="reviews-header">
+    <h2 class="reviews-title">CUSTOMER REVIEWS</h2>
+    <p class="reviews-subtitle">Real feedback from streetwear enthusiasts</p>
   </div>
 
   <!-- Rating Summary Card -->
-  <div style="background: #0A0A0C; border: 1px solid rgba(244, 196, 48, 0.35); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <span style="font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; color: #F4C430;">4.9</span>
-        <div>
-          <div style="color: #F4C430; font-size: 14px; letter-spacing: 1px;">★★★★★</div>
-          <div style="font-size: 10px; color: #888;">148 Verified Purchases</div>
-        </div>
+  <div class="reviews-summary-card">
+    <div class="summary-left">
+      <div class="overall-score" id="rev-score-{{ product_id }}">5.0</div>
+      <div class="stars-gold" id="rev-stars-{{ product_id }}">★★★★★</div>
+      <div class="total-reviews" id="rev-count-summary-{{ product_id }}">Based on 0 verified purchases</div>
+    </div>
+
+    <div class="summary-middle">
+      <div class="bar-row">
+        <span>5 ★</span>
+        <div class="bar-bg"><div class="bar-fill" id="bar-5-{{ product_id }}" style="width: 0%;"></div></div>
+        <span id="pct-5-{{ product_id }}">0%</span>
       </div>
-      <button type="button" onclick="alert('Review form submitted. Thank you!')" style="background: #F4C430; color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 10px; border: none; border-radius: 6px; padding: 8px 12px; cursor: pointer;">
-        ★ Write Review
+      <div class="bar-row">
+        <span>4 ★</span>
+        <div class="bar-bg"><div class="bar-fill" id="bar-4-{{ product_id }}" style="width: 0%;"></div></div>
+        <span id="pct-4-{{ product_id }}">0%</span>
+      </div>
+      <div class="bar-row">
+        <span>3 ★</span>
+        <div class="bar-bg"><div class="bar-fill" id="bar-3-{{ product_id }}" style="width: 0%;"></div></div>
+        <span id="pct-3-{{ product_id }}">0%</span>
+      </div>
+      <div class="bar-row">
+        <span>2 ★</span>
+        <div class="bar-bg"><div class="bar-fill" id="bar-2-{{ product_id }}" style="width: 0%;"></div></div>
+        <span id="pct-2-{{ product_id }}">0%</span>
+      </div>
+      <div class="bar-row">
+        <span>1 ★</span>
+        <div class="bar-bg"><div class="bar-fill" id="bar-1-{{ product_id }}" style="width: 0%;"></div></div>
+        <span id="pct-1-{{ product_id }}">0%</span>
+      </div>
+    </div>
+
+    <div class="summary-right">
+      <button class="write-review-btn" onclick="ONE9_OpenReviewModal('{{ product_id }}')">
+        ★ Write a Review
       </button>
     </div>
-
-    <!-- Rating Distribution Bars -->
-    <div style="display: flex; flex-direction: column; gap: 4px;">
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 10px; color: #AAA;">
-        <span>5 ★</span>
-        <div style="flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;"><div style="width: 88%; height: 100%; background: #F4C430;"></div></div>
-        <span>88%</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 10px; color: #AAA;">
-        <span>4 ★</span>
-        <div style="flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;"><div style="width: 9%; height: 100%; background: #F4C430;"></div></div>
-        <span>9%</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 10px; color: #AAA;">
-        <span>3 ★</span>
-        <div style="flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;"><div style="width: 3%; height: 100%; background: #F4C430;"></div></div>
-        <span>3%</span>
-      </div>
-    </div>
   </div>
 
-  <!-- Review Cards -->
-  <div style="display: flex; flex-direction: column; gap: 12px;">
-    
-    <div style="background: #101014; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div style="width: 30px; height: 30px; background: rgba(244, 196, 48, 0.15); border: 1px solid rgba(244, 196, 48, 0.4); border-radius: 50%; color: #F4C430; font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center;">RV</div>
-          <div>
-            <div style="font-size: 12px; font-weight: 700; color: #FFF;">Rahul V. <span style="font-size: 9px; color: #00FF9D; background: rgba(0, 255, 157, 0.15); padding: 1px 4px; border-radius: 3px;">✓ Verified Buyer</span></div>
-            <div style="font-size: 10px; color: #777;">Mumbai • 2 days ago</div>
-          </div>
-        </div>
-        <div style="color: #F4C430; font-size: 11px;">★★★★★</div>
-      </div>
-      <div style="font-size: 12px; font-weight: 700; color: #FFF;">Absolute top quality 240GSM fabric!</div>
-      <div style="font-size: 11px; line-height: 1.4; color: #BBB;">The oversized fit is exact. Drop shoulder hangs perfectly and after 3 washes the acid wash color hasn't faded. Heavy duty streetwear vibe.</div>
-      <div style="font-size: 10px; color: #F4C430; font-weight: 700;">📸 Photo Review Attached</div>
-    </div>
+  <!-- Review Filters -->
+  <div class="reviews-filter-bar">
+    <button class="filter-chip active" id="chip-all-{{ product_id }}" onclick="ONE9_FilterReviews('all', this, '{{ product_id }}')">All Reviews (0)</button>
+    <button class="filter-chip" onclick="ONE9_FilterReviews('5star', this, '{{ product_id }}')">5-Star</button>
+  </div>
 
-    <div style="background: #101014; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div style="width: 30px; height: 30px; background: rgba(244, 196, 48, 0.15); border: 1px solid rgba(244, 196, 48, 0.4); border-radius: 50%; color: #F4C430; font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center;">AS</div>
-          <div>
-            <div style="font-size: 12px; font-weight: 700; color: #FFF;">Aman S. <span style="font-size: 9px; color: #00FF9D; background: rgba(0, 255, 157, 0.15); padding: 1px 4px; border-radius: 3px;">✓ Verified Buyer</span></div>
-            <div style="font-size: 10px; color: #777;">Delhi • 4 days ago</div>
-          </div>
-        </div>
-        <div style="color: #F4C430; font-size: 11px;">★★★★★</div>
-      </div>
-      <div style="font-size: 12px; font-weight: 700; color: #FFF;">Best boxy fit in India</div>
-      <div style="font-size: 11px; line-height: 1.4; color: #BBB;">Fleece lining inside is super cozy and the hood stays standing up instead of flopping. Worth every rupee!</div>
-    </div>
-
+  <!-- Reviews Grid -->
+  <div class="reviews-grid" id="reviews-grid-{{ product_id }}">
+    <!-- Dynamic reviews inserted via JS -->
+  </div>
+  <div id="no-reviews-msg-{{ product_id }}" class="no-reviews-notice">
+    No reviews yet. Be the first to leave a review for this product!
   </div>
 </div>
+
+<!-- Write Review Modal -->
+<div id="review-modal-{{ product_id }}" class="review-modal-overlay" style="display: none;">
+  <div class="review-modal-content">
+    <div class="modal-header">
+      <h3>WRITE A CUSTOMER REVIEW</h3>
+      <button type="button" class="modal-close-btn" onclick="ONE9_CloseReviewModal('{{ product_id }}')">&times;</button>
+    </div>
+    <form id="review-form-{{ product_id }}" onsubmit="ONE9_SubmitReview(event, '{{ product_id }}')">
+      <div class="form-group">
+        <label>YOUR RATING *</label>
+        <div class="star-rating-select">
+          <span onclick="ONE9_SetStarRating(1, '{{ product_id }}')" class="star-select">★</span>
+          <span onclick="ONE9_SetStarRating(2, '{{ product_id }}')" class="star-select">★</span>
+          <span onclick="ONE9_SetStarRating(3, '{{ product_id }}')" class="star-select">★</span>
+          <span onclick="ONE9_SetStarRating(4, '{{ product_id }}')" class="star-select">★</span>
+          <span onclick="ONE9_SetStarRating(5, '{{ product_id }}')" class="star-select active">★</span>
+        </div>
+        <input type="hidden" id="rev-rating-input-{{ product_id }}" value="5" required>
+      </div>
+
+      <div class="form-group">
+        <label>YOUR NAME *</label>
+        <input type="text" id="rev-name-{{ product_id }}" placeholder="e.g. Rahul Sharma" required class="rev-input">
+      </div>
+
+      <div class="form-group">
+        <label>CITY / LOCATION</label>
+        <input type="text" id="rev-location-{{ product_id }}" placeholder="e.g. Mumbai" class="rev-input">
+      </div>
+
+      <div class="form-group">
+        <label>REVIEW TITLE *</label>
+        <input type="text" id="rev-title-{{ product_id }}" placeholder="e.g. Amazing quality & perfect fit!" required class="rev-input">
+      </div>
+
+      <div class="form-group">
+        <label>REVIEW DETAILS *</label>
+        <textarea id="rev-body-{{ product_id }}" rows="4" placeholder="Write your genuine experience with this product..." required class="rev-input"></textarea>
+      </div>
+
+      <button type="submit" class="submit-review-btn">SUBMIT REVIEW ✓</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .premium-reviews-section {
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+
+  .reviews-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .reviews-title {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+  }
+
+  .reviews-subtitle {
+    font-size: 13px;
+    color: #888888;
+    margin-top: 4px;
+  }
+
+  /* Summary Card */
+  .reviews-summary-card {
+    background: #0A0A0C;
+    border: 1px solid rgba(244, 196, 48, 0.35);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .reviews-summary-card {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+  }
+
+  .summary-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .overall-score {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 44px;
+    font-weight: 900;
+    color: #F4C430;
+  }
+
+  .stars-gold {
+    color: #F4C430;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .total-reviews {
+    font-size: 11px;
+    color: #888888;
+  }
+
+  .summary-middle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 320px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #AAA;
+  }
+
+  .bar-bg {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: #F4C430;
+    transition: width 0.4s ease;
+  }
+
+  .write-review-btn {
+    background: #F4C430;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 15px rgba(244, 196, 48, 0.25);
+  }
+
+  .write-review-btn:hover {
+    background: #FFD700;
+    transform: scale(1.04);
+    box-shadow: 0 0 25px rgba(244, 196, 48, 0.45);
+  }
+
+  /* Filter Bar */
+  .reviews-filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .filter-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #DDD;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-chip.active {
+    background: #F4C430;
+    border-color: #F4C430;
+    color: #000;
+    font-weight: 800;
+  }
+
+  /* Reviews Grid */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .no-reviews-notice {
+    text-align: center;
+    padding: 40px 20px;
+    background: #0A0A0C;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #888888;
+    font-size: 14px;
+  }
+
+  .review-card {
+    background: #101014;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+
+  .review-card:hover {
+    border-color: rgba(244, 196, 48, 0.4);
+    transform: translateY(-3px);
+  }
+
+  .review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .reviewer-avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(244, 196, 48, 0.15);
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    border-radius: 50%;
+    color: #F4C430;
+    font-weight: 800;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reviewer-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .verified-badge {
+    font-size: 9px;
+    color: #00FF9D;
+    background: rgba(0, 255, 157, 0.15);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  .reviewer-location {
+    font-size: 11px;
+    color: #888;
+  }
+
+  .review-stars {
+    color: #F4C430;
+    font-size: 12px;
+  }
+
+  .review-heading {
+    font-weight: 700;
+    font-size: 14px;
+    color: #FFF;
+  }
+
+  .review-body {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #CCC;
+  }
+
+  /* Modal Styling */
+  .review-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .review-modal-content {
+    background: #0E0E12;
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .modal-header h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #FFF;
+    margin: 0;
+  }
+
+  .modal-close-btn {
+    background: transparent;
+    border: none;
+    color: #AAA;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 1px;
+  }
+
+  .rev-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #FFF;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .rev-input:focus {
+    border-color: #F4C430;
+  }
+
+  .star-rating-select {
+    display: flex;
+    gap: 8px;
+    font-size: 24px;
+    color: #444;
+    cursor: pointer;
+  }
+
+  .star-select.active {
+    color: #F4C430;
+  }
+
+  .submit-review-btn {
+    background: #F4C430;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    width: 100%;
+    padding: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+
+  .submit-review-btn:hover {
+    background: #FFD700;
+  }
+</style>
+
+<script>
+(function() {
+  const pId = '{{ product_id }}';
+  const STORAGE_KEY = 'one9_user_reviews_' + pId;
+
+  function getStoredReviews() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch(e) {
+      return [];
+    }
+  }
+
+  function renderReviews(filterCat) {
+    const reviews = getStoredReviews();
+    const grid = document.getElementById('reviews-grid-' + pId);
+    const noMsg = document.getElementById('no-reviews-msg-' + pId);
+    const countChip = document.getElementById('chip-all-' + pId);
+    const summaryCount = document.getElementById('rev-count-summary-' + pId);
+    const scoreEl = document.getElementById('rev-score-' + pId);
+    const starsEl = document.getElementById('rev-stars-' + pId);
+
+    if (!grid) return;
+
+    grid.innerHTML = '';
+    const totalCount = reviews.length;
+
+    if (countChip) countChip.textContent = `All Reviews (${totalCount})`;
+    if (summaryCount) summaryCount.textContent = `Based on ${totalCount} verified purchase${totalCount === 1 ? '' : 's'}`;
+
+    if (totalCount === 0) {
+      if (noMsg) noMsg.style.display = 'block';
+      if (scoreEl) scoreEl.textContent = '5.0';
+      if (starsEl) starsEl.textContent = '★★★★★';
+      updateBars([]);
+      return;
+    }
+
+    if (noMsg) noMsg.style.display = 'none';
+
+    // Calculate Average Rating
+    const sumRating = reviews.reduce((acc, r) => acc + (parseInt(r.rating) || 5), 0);
+    const avgScore = (sumRating / totalCount).toFixed(1);
+    if (scoreEl) scoreEl.textContent = avgScore;
+    if (starsEl) starsEl.textContent = '★'.repeat(Math.round(avgScore)) + '☆'.repeat(5 - Math.round(avgScore));
+
+    updateBars(reviews);
+
+    const filtered = reviews.filter(r => {
+      if (filterCat === '5star') return parseInt(r.rating) === 5;
+      return true;
+    });
+
+    filtered.forEach(rev => {
+      const initials = rev.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.innerHTML = `
+        <div class="review-top">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">${initials}</div>
+            <div>
+              <div class="reviewer-name">${escapeHtml(rev.name)} <span class="verified-badge">✓ Verified Buyer</span></div>
+              <div class="reviewer-location">${escapeHtml(rev.location || 'India')} • Just now</div>
+            </div>
+          </div>
+          <div class="review-stars">${'★'.repeat(rev.rating)}</div>
+        </div>
+        <div class="review-heading">${escapeHtml(rev.title)}</div>
+        <div class="review-body">${escapeHtml(rev.body)}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function updateBars(reviews) {
+    const total = reviews.length;
+    const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    reviews.forEach(r => {
+      const star = parseInt(r.rating) || 5;
+      counts[star] = (counts[star] || 0) + 1;
+    });
+
+    for (let i = 1; i <= 5; i++) {
+      const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+      const bar = document.getElementById(`bar-${i}-${pId}`);
+      const pctEl = document.getElementById(`pct-${i}-${pId}`);
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '%';
+    }
+  }
+
+  function escapeHtml(str) {
+    return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  window.ONE9_OpenReviewModal = function(id) {
+    const modal = document.getElementById('review-modal-' + id);
+    if (modal) modal.style.display = 'flex';
+  };
+
+  window.ONE9_CloseReviewModal = function(id) {
+    const modal = document.getElementById('review-modal-' + id);
+    if (modal) modal.style.display = 'none';
+  };
+
+  window.ONE9_SetStarRating = function(rating, id) {
+    const input = document.getElementById('rev-rating-input-' + id);
+    if (input) input.value = rating;
+    const stars = document.querySelectorAll('#review-modal-' + id + ' .star-select');
+    stars.forEach((s, idx) => {
+      if (idx < rating) {
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+      }
+    });
+  };
+
+  window.ONE9_SubmitReview = function(e, id) {
+    e.preventDefault();
+    const name = document.getElementById('rev-name-' + id).value.trim();
+    const location = document.getElementById('rev-location-' + id).value.trim();
+    const title = document.getElementById('rev-title-' + id).value.trim();
+    const body = document.getElementById('rev-body-' + id).value.trim();
+    const rating = parseInt(document.getElementById('rev-rating-input-' + id).value) || 5;
+
+    if (!name || !title || !body) return;
+
+    const newRev = { name, location, title, body, rating, timestamp: Date.now() };
+    const stored = getStoredReviews();
+    stored.unshift(newRev);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+
+    ONE9_CloseReviewModal(id);
+    document.getElementById('review-form-' + id).reset();
+    ONE9_SetStarRating(5, id);
+    renderReviews('all');
+  };
+
+  window.ONE9_FilterReviews = function(cat, btn, id) {
+    const root = document.getElementById('one9-reviews-root-' + id);
+    if (root) {
+      root.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    renderReviews(cat);
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderReviews('all');
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Premium Product Reviews",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Premium Product Reviews"
+    }
+  ]
+}
+{% endschema %}
+
