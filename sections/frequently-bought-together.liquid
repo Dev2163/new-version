@@ -5,13 +5,13 @@
 <div class="fbt-section page-width">
   <div class="fbt-header">
     <h2 class="fbt-title">FREQUENTLY BOUGHT TOGETHER</h2>
-    <p class="fbt-subtitle">Complete your outfit &amp; unlock bundle savings</p>
+    <p class="fbt-subtitle">Complete your streetwear outfit &amp; unlock bundle savings</p>
   </div>
 
   <div class="fbt-box">
-    <!-- Items Row -->
+    <!-- Items Row: T-Shirt / Hoodie + Track Pants + Shoes -->
     <div class="fbt-items-row">
-      <!-- Main Product Item -->
+      <!-- Item 1: Main Product (T-Shirt / Hoodie) -->
       <div class="fbt-item">
         <div class="fbt-checkbox-wrapper">
           <input type="checkbox" id="fbt-item-1" class="fbt-checkbox" checked disabled data-price="{{ product.price }}">
@@ -21,7 +21,7 @@
           <img src="{{ product.featured_media | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy">
         </div>
         <div class="fbt-details">
-          <div class="fbt-item-tag">This Item</div>
+          <div class="fbt-item-tag">TOP / HOODIE</div>
           <div class="fbt-item-name">{{ product.title }}</div>
           <div class="fbt-item-price">{{ product.price | money }}</div>
         </div>
@@ -29,7 +29,7 @@
 
       <div class="fbt-plus">+</div>
 
-      <!-- Rec Item 1 (Cargo / Hoodie) -->
+      <!-- Item 2: Track Pants / Cargo Pants -->
       <div class="fbt-item">
         <div class="fbt-checkbox-wrapper">
           <input type="checkbox" id="fbt-item-2" class="fbt-checkbox" checked data-price="1499" data-variant-id="44000000000001" onchange="updateFBTTotal()">
@@ -41,29 +41,29 @@
           </div>
         </div>
         <div class="fbt-details">
-          <div class="fbt-item-tag">Matching Fit</div>
-          <div class="fbt-item-name">Cargo Jogger Pants - Relaxed</div>
+          <div class="fbt-item-tag">TRACK PANTS</div>
+          <div class="fbt-item-name">Heavyweight Track Pants</div>
           <div class="fbt-item-price">₹1,499</div>
         </div>
       </div>
 
       <div class="fbt-plus">+</div>
 
-      <!-- Rec Item 2 (Accessory / Cap) -->
+      <!-- Item 3: Streetwear Shoes -->
       <div class="fbt-item">
         <div class="fbt-checkbox-wrapper">
-          <input type="checkbox" id="fbt-item-3" class="fbt-checkbox" checked data-price="599" data-variant-id="44000000000002" onchange="updateFBTTotal()">
+          <input type="checkbox" id="fbt-item-3" class="fbt-checkbox" checked data-price="2499" data-variant-id="44000000000002" onchange="updateFBTTotal()">
           <label for="fbt-item-3"></label>
         </div>
         <div class="fbt-thumb">
           <div class="fbt-placeholder-icon">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17h20v2H2z"></path><path d="M4 17a8 8 0 0 1 16 0"></path><path d="M12 9V5"></path></svg>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h20v-4s-3-2-6-2-4 2-7 1L5 8H2v10z"></path><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
           </div>
         </div>
         <div class="fbt-details">
-          <div class="fbt-item-tag">Accessory</div>
-          <div class="fbt-item-name">ONE9 Snapback Cap - Black</div>
-          <div class="fbt-item-price">₹599</div>
+          <div class="fbt-item-tag">STREETWEAR SHOES</div>
+          <div class="fbt-item-name">ONE9 Retro Chunky Sneakers</div>
+          <div class="fbt-item-price">₹2,499</div>
         </div>
       </div>
     </div>
@@ -72,11 +72,11 @@
     <div class="fbt-summary">
       <div class="fbt-total-price">
         <span class="label">Total Price:</span>
-        <span class="price-val" id="fbt-total-display">₹{{ product.price | plus: 2098 | divided_by: 100 }}</span>
+        <span class="price-val" id="fbt-total-display">₹{{ product.price | plus: 3998 | divided_by: 100 }}</span>
       </div>
-      <div class="fbt-savings" style="display: flex; align-items: center; gap: 6px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#00FF9D"><path d="M12 2c0 3-2 5-2 8 0 2.2 1.8 4 4 4s4-1.8 4-4c0-3-2-5-2-8z"></path></svg> Special Bundle Offer: Save 10% automatically at checkout</div>
+      <div class="fbt-savings" style="display: flex; align-items: center; gap: 6px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#00FF9D"><path d="M12 2c0 3-2 5-2 8 0 2.2 1.8 4 4 4s4-1.8 4-4c0-3-2-5-2-8z"></path></svg> Special Combo Bundle: Save 15% automatically at checkout</div>
       <button type="button" class="fbt-buy-btn" id="fbt-add-btn" onclick="ONE9_AddFBTBundle()">
-        Add Selected to Cart 🛒
+        Add Selected to Cart
       </button>
     </div>
   </div>
@@ -267,7 +267,7 @@ window.updateFBTTotal = function() {
   let total = mainPrice;
 
   if (document.getElementById('fbt-item-2')?.checked) total += 1499;
-  if (document.getElementById('fbt-item-3')?.checked) total += 599;
+  if (document.getElementById('fbt-item-3')?.checked) total += 2499;
 
   document.getElementById('fbt-total-display').textContent = '₹' + total.toLocaleString('en-IN');
 };
@@ -297,7 +297,7 @@ window.ONE9_AddFBTBundle = function() {
     }
     
     setTimeout(() => {
-      if (btn) btn.innerHTML = 'Add Selected to Cart 🛒';
+      if (btn) btn.innerHTML = 'Add Selected to Cart';
     }, 2500);
   })
   .catch(() => {
