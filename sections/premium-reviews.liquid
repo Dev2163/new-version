@@ -418,17 +418,29 @@
   }
 
   .rev-input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: #FFF;
-    font-size: 13px;
-    outline: none;
+    background: #18181F !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    color: #FFFFFF !important;
+    font-size: 14px !important;
+    outline: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
-  .rev-input:focus {
-    border-color: #F4C430;
+  .rev-input::placeholder {
+    color: #777788 !important;
+    opacity: 1 !important;
+  }
+
+  .rev-input:hover,
+  .rev-input:focus,
+  .rev-input:active {
+    background-color: #18181F !important;
+    color: #FFFFFF !important;
+    border-color: #F4C430 !important;
+    box-shadow: 0 0 10px rgba(244, 196, 48, 0.25) !important;
   }
 
   .star-rating-select {
