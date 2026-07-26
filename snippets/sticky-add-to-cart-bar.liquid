@@ -1,39 +1,63 @@
 {% comment %}
-  ONE9 Luxury Streetwear - Sticky Add to Cart Bar (Gold, Black & White Aesthetics)
+  ONE9 Luxury Streetwear - Sticky Add to Cart Bar (Exact Reference Match)
 {% endcomment %}
 
 <div id="one9-sticky-cart-bar" class="one9-sticky-cart" aria-hidden="true">
-  <div class="one9-sticky-cart__container page-width">
+  <div class="one9-sticky-cart__card">
     
-    <!-- Product Summary (Thumbnail + Title + Price) -->
-    <div class="one9-sticky-cart__product">
-      <div class="one9-sticky-cart__thumb">
-        {% if product.featured_media %}
-          <img src="{{ product.featured_media | image_url: width: 120 }}" alt="{{ product.title | escape }}" loading="lazy" width="60" height="60" id="sticky-cart-img">
-        {% endif %}
+    <!-- Product Thumbnail in Rounded White Box -->
+    <div class="one9-sticky-cart__thumb-box">
+      {% if product.featured_media %}
+        <img src="{{ product.featured_media | image_url: width: 120 }}" alt="{{ product.title | escape }}" loading="lazy" id="sticky-cart-img">
+      {% endif %}
+    </div>
+
+    <!-- Product Info (Title, Variant Subtitle, Price & Compare Price) -->
+    <div class="one9-sticky-cart__info">
+      <div class="one9-sticky-cart__title">{{ product.title }}</div>
+      <div class="one9-sticky-cart__variant-title" id="sticky-cart-selected-variant">
+        {{ product.selected_or_first_available_variant.title }}
       </div>
-      <div class="one9-sticky-cart__info">
-        <div class="one9-sticky-cart__title">{{ product.title }}</div>
-        <div class="one9-sticky-cart__price" id="sticky-cart-price">{{ product.price | money }}</div>
+      <div class="one9-sticky-cart__price-row">
+        <span class="one9-sticky-cart__price" id="sticky-cart-price">{{ product.selected_or_first_available_variant.price | money }}</span>
+        {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+          <span class="one9-sticky-cart__compare-price" id="sticky-cart-compare-price">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Actions (Size Selector + Add to Cart Button) -->
+    <!-- Actions (Variant Dropdown + Quantity Stepper + Add to Cart Button with Cart Icon) -->
     <div class="one9-sticky-cart__actions">
       {% if product.has_only_default_variant == false %}
-        <div class="one9-sticky-cart__variant-select">
-          <select id="sticky-variant-selector" class="one9-sticky-select" aria-label="Select Size">
+        <div class="one9-sticky-cart__select-wrapper">
+          <select id="sticky-variant-selector" class="one9-sticky-select" aria-label="Select Variant" onchange="ONE9_UpdateStickyVariant(this)">
             {% for variant in product.variants %}
-              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
-                {{ variant.title }} - {{ variant.price | money }} {% unless variant.available %}(Sold Out){% endunless %}
+              <option value="{{ variant.id }}" data-price="{{ variant.price | money }}" data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}" data-title="{{ variant.title }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                {{ variant.title }} {% unless variant.available %}(Sold Out){% endunless %}
               </option>
             {% endfor %}
           </select>
+          <span class="select-arrow">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
         </div>
       {% endif %}
 
+      <!-- Quantity Stepper -->
+      <div class="one9-sticky-qty-stepper">
+        <button type="button" class="qty-btn" onclick="ONE9_ChangeStickyQty(-1)">−</button>
+        <span id="sticky-qty-val" class="qty-val">1</span>
+        <button type="button" class="qty-btn" onclick="ONE9_ChangeStickyQty(1)">+</button>
+      </div>
+
+      <!-- Add to Cart Button -->
       <button type="button" id="sticky-add-to-cart-btn" class="one9-sticky-btn" onclick="ONE9_StickyAddToCart()">
-        <span class="btn-text">Add To Cart</span>
+        <svg class="cart-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="btn-text">Add to cart</span>
       </button>
     </div>
 
@@ -43,152 +67,233 @@
 <style>
   .one9-sticky-cart {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(10, 10, 14, 0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(244, 196, 48, 0.45);
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(244, 196, 48, 0.2);
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(140%);
+    width: calc(100% - 32px);
+    max-width: 860px;
     z-index: 999998;
-    transform: translateY(100%);
     opacity: 0;
     visibility: hidden;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.3s ease;
-    padding: 12px 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.35s ease;
     box-sizing: border-box;
   }
 
   .one9-sticky-cart.is-visible {
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     opacity: 1;
     visibility: visible;
   }
 
-  @media (max-width: 768px) {
-    .one9-sticky-cart {
-      padding: 10px 0;
-    }
-  }
-
-  .one9-sticky-cart__container {
+  /* Main Card Layout - Exact match to screenshot */
+  .one9-sticky-cart__card {
+    background: #111115;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 10px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    width: 100%;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
   }
 
-  .one9-sticky-cart__product {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    min-width: 0;
+  @media (max-width: 768px) {
+    .one9-sticky-cart {
+      bottom: 12px;
+      width: calc(100% - 20px);
+    }
+    .one9-sticky-cart__card {
+      padding: 8px 10px;
+      gap: 10px;
+      border-radius: 16px;
+    }
+    .one9-sticky-cart__variant-title {
+      display: none;
+    }
   }
 
-  .one9-sticky-cart__thumb {
+  /* Rounded White Image Box */
+  .one9-sticky-cart__thumb-box {
     width: 48px;
     height: 48px;
-    background: #000;
-    border: 1px solid rgba(244, 196, 48, 0.4);
-    border-radius: 8px;
+    background: #FFFFFF;
+    border-radius: 12px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    padding: 3px;
+    box-sizing: border-box;
   }
 
-  .one9-sticky-cart__thumb img {
+  .one9-sticky-cart__thumb-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
+  /* Info */
   .one9-sticky-cart__info {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
     min-width: 0;
+    flex: 1;
   }
 
   .one9-sticky-cart__title {
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
     color: #FFFFFF;
-    letter-spacing: 0.5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-transform: uppercase;
+  }
+
+  .one9-sticky-cart__variant-title {
+    font-size: 12px;
+    color: #888899;
+  }
+
+  .one9-sticky-cart__price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .one9-sticky-cart__price {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 14px;
-    color: #F4C430;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #FFFFFF;
   }
 
+  .one9-sticky-cart__compare-price {
+    font-size: 13px;
+    color: #666677;
+    text-decoration: line-through;
+  }
+
+  /* Actions */
   .one9-sticky-cart__actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
 
-  .one9-sticky-select {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(244, 196, 48, 0.4);
-    border-radius: 8px;
-    color: #FFFFFF;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 10px 16px;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  /* Select Box */
+  .one9-sticky-cart__select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
-  .one9-sticky-select:hover,
-  .one9-sticky-select:focus {
-    border-color: #F4C430;
-    background: rgba(255, 255, 255, 0.14);
+  .one9-sticky-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 32px 10px 14px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .one9-sticky-select:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .one9-sticky-select option {
-    background: #0A0A0C;
+    background: #111115;
     color: #FFF;
   }
 
-  .one9-sticky-btn {
-    background: linear-gradient(135deg, #F4C430 0%, #E5A900 100%);
-    color: #000000;
+  .select-arrow {
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+    color: #888899;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Quantity Stepper: - 1 + */
+  .one9-sticky-qty-stepper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 4px 8px;
+    gap: 12px;
+  }
+
+  .qty-btn {
+    background: transparent;
     border: none;
-    border-radius: 8px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 12px;
-    font-weight: 900;
-    padding: 12px 28px;
+    color: #AAA;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .qty-btn:hover {
+    color: #FFF;
+  }
+
+  .qty-val {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFF;
+    min-width: 14px;
+    text-align: center;
+  }
+
+  /* Add to cart Button (Purple gradient matching reference) */
+  .one9-sticky-btn {
+    background: #4F46E5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 20px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.25s ease;
-    box-shadow: 0 0 20px rgba(244, 196, 48, 0.4);
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
   }
 
   .one9-sticky-btn:hover {
-    background: linear-gradient(135deg, #FFD700 0%, #F4C430 100%);
-    transform: scale(1.03);
-    box-shadow: 0 0 28px rgba(244, 196, 48, 0.65);
+    background: #4338CA;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+  }
+
+  .cart-icon {
+    flex-shrink: 0;
   }
 </style>
 
 <script>
 (function() {
+  let currentQty = 1;
+
   function initStickyBar() {
     const stickyBar = document.getElementById('one9-sticky-cart-bar');
     const mainBuyBtn = document.querySelector('.cp-add-to-cart-btn, [name="add"], #product-form-custom button[type="submit"]');
@@ -210,28 +315,59 @@
     observer.observe(mainBuyBtn);
   }
 
+  window.ONE9_UpdateStickyVariant = function(selectEl) {
+    const opt = selectEl.options[selectEl.selectedIndex];
+    if (!opt) return;
+
+    const price = opt.getAttribute('data-price');
+    const comparePrice = opt.getAttribute('data-compare-price');
+    const title = opt.getAttribute('data-title');
+
+    const priceEl = document.getElementById('sticky-cart-price');
+    const compareEl = document.getElementById('sticky-cart-compare-price');
+    const titleEl = document.getElementById('sticky-cart-selected-variant');
+
+    if (priceEl && price) priceEl.textContent = price;
+    if (titleEl && title) titleEl.textContent = title;
+
+    if (compareEl) {
+      if (comparePrice) {
+        compareEl.textContent = comparePrice;
+        compareEl.style.display = 'inline';
+      } else {
+        compareEl.style.display = 'none';
+      }
+    }
+  };
+
+  window.ONE9_ChangeStickyQty = function(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    const qtyEl = document.getElementById('sticky-qty-val');
+    if (qtyEl) qtyEl.textContent = currentQty;
+  };
+
   window.ONE9_StickyAddToCart = function() {
     const select = document.getElementById('sticky-variant-selector');
     const variantId = select ? select.value : '{{ product.selected_or_first_available_variant.id }}';
-    const btn = id('sticky-add-to-cart-btn');
+    const btn = document.getElementById('sticky-add-to-cart-btn');
 
     if (!variantId) return;
 
-    btn.style.opacity = '0.7';
-    btn.innerHTML = '<span>Adding...</span>';
+    btn.style.opacity = '0.75';
+    btn.querySelector('.btn-text').textContent = 'Adding...';
 
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: parseInt(variantId), quantity: 1 })
+      body: JSON.stringify({ id: parseInt(variantId), quantity: currentQty })
     })
     .then(res => res.json())
     .then(data => {
       btn.style.opacity = '1';
-      btn.innerHTML = '<span>Added! ✓</span>';
+      btn.querySelector('.btn-text').textContent = 'Added! ✓';
       document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
       
-      // Open Cart Drawer instantly
+      // Open Cart Drawer
       if (typeof window.ONE9_OpenCartDrawer === 'function') {
         window.ONE9_OpenCartDrawer();
       } else {
@@ -239,15 +375,15 @@
       }
 
       setTimeout(() => {
-        btn.innerHTML = '<span class="btn-text">Add To Cart</span>';
+        if (btn && btn.querySelector('.btn-text')) {
+          btn.querySelector('.btn-text').textContent = 'Add to cart';
+        }
       }, 2000);
     })
     .catch(() => {
-      window.location.href = `/cart/add?id=${variantId}&quantity=1`;
+      window.location.href = `/cart/add?id=${variantId}&quantity=${currentQty}`;
     });
   };
-
-  function id(str) { return document.getElementById(str); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initStickyBar);
