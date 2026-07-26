@@ -732,20 +732,20 @@
 
     // Store Catalog Data from System Prompt
     const CATALOG = [
-      {id:1, name:"Oversized Acid Wash Tee", cat:"tshirt", colors:["Black","White","Grey"], price:899, material:"240GSM Cotton", fit:"Oversized", rating:4.6, stock:"in", icon:"👕"},
-      {id:2, name:"Boxy Fit Graphic Hoodie", cat:"hoodie", colors:["Black","Olive"], price:1799, material:"320GSM Fleece", fit:"Boxy", rating:4.8, stock:"in", icon:"🧥"},
-      {id:3, name:"Cargo Jogger Pants", cat:"cargo", colors:["Black","Beige"], price:1499, material:"Ripstop Cotton", fit:"Relaxed", rating:4.5, stock:"low", icon:"👖"},
-      {id:4, name:"Oversized Drop-Shoulder Tee", cat:"tshirt", colors:["White","Sand"], price:999, material:"220GSM Cotton", fit:"Oversized", rating:4.4, stock:"in", icon:"👕"},
-      {id:5, name:"Varsity Bomber Jacket", cat:"jacket", colors:["Black","Cream"], price:2499, material:"Poly-Twill", fit:"Regular", rating:4.7, stock:"in", icon:"🧥"},
-      {id:6, name:"Relaxed Fit Cargo Shorts", cat:"cargo", colors:["Black","Beige"], price:1099, material:"Cotton Twill", fit:"Relaxed", rating:4.3, stock:"in", icon:"🩳"},
-      {id:7, name:"ONE9 Snapback Cap", cat:"accessory", colors:["Black","White"], price:599, material:"Cotton Twill", fit:"One Size", rating:4.5, stock:"in", icon:"🧢"},
-      {id:8, name:"Chunky Retro Sneakers", cat:"shoes", colors:["Black","White"], price:2999, material:"Mesh + Rubber", fit:"True to size", rating:4.6, stock:"low", icon:"👟"}
+      {id:1, name:"Oversized Acid Wash Tee", cat:"tshirt", colors:["Black","White","Grey"], price:14.99, material:"240GSM Cotton", fit:"Oversized", rating:4.6, stock:"in", icon:"👕"},
+      {id:2, name:"Boxy Fit Graphic Hoodie", cat:"hoodie", colors:["Black","Olive"], price:46.00, material:"320GSM Fleece", fit:"Boxy", rating:4.8, stock:"in", icon:"🧥"},
+      {id:3, name:"Cargo Jogger Pants", cat:"cargo", colors:["Black","Beige"], price:14.99, material:"Ripstop Cotton", fit:"Relaxed", rating:4.5, stock:"low", icon:"👖"},
+      {id:4, name:"Oversized Drop-Shoulder Tee", cat:"tshirt", colors:["White","Sand"], price:12.99, material:"220GSM Cotton", fit:"Oversized", rating:4.4, stock:"in", icon:"👕"},
+      {id:5, name:"Varsity Bomber Jacket", cat:"jacket", colors:["Black","Cream"], price:39.99, material:"Poly-Twill", fit:"Regular", rating:4.7, stock:"in", icon:"🧥"},
+      {id:6, name:"Relaxed Fit Cargo Shorts", cat:"cargo", colors:["Black","Beige"], price:10.99, material:"Cotton Twill", fit:"Relaxed", rating:4.3, stock:"in", icon:"🩳"},
+      {id:7, name:"ONE9 Snapback Cap", cat:"accessory", colors:["Black","White"], price:5.99, material:"Cotton Twill", fit:"One Size", rating:4.5, stock:"in", icon:"🧢"},
+      {id:8, name:"Chunky Retro Sneakers", cat:"shoes", colors:["Black","White"], price:24.99, material:"Mesh + Rubber", fit:"True to size", rating:4.6, stock:"low", icon:"👟"}
     ];
 
     // Active Coupons
     const COUPONS = [
-      {code:"WELCOME10", desc:"10% off first order", min:999},
-      {code:"FLAT200", desc:"Flat ₹200 off", min:1999}
+      {code:"WELCOME10", desc:"10% off first order", min:10},
+      {code:"FLAT200", desc:"Flat £5 off", min:20}
     ];
 
     // Sample Orders
@@ -856,7 +856,7 @@
                 <div class="nova-product-card__details">
                   <div class="nova-product-card__title">${escapeHTML(prod.name)}</div>
                   <div class="nova-product-card__meta">${prod.fit} • ${prod.material}</div>
-                  <div class="nova-product-card__price">₹${prod.price}</div>
+                  <div class="nova-product-card__price">£${prod.price}</div>
                 </div>
                 <button class="nova-product-card__btn" onclick="NovaAI_AddToCart(${prod.id}, '${escapeHTML(prod.name)}')">
                   Add +
@@ -973,7 +973,7 @@
 
       // 3. Coupons
       if (q.includes("coupon") || q.includes("discount") || q.includes("offer") || q.includes("code") || q.includes("promo")) {
-        const reply = `Here are our active store coupons:\n• WELCOME10 — 10% off on orders above ₹999\n• FLAT200 — Flat ₹200 off on orders above ₹1999\nApply them at checkout!`;
+        const reply = `Here are our active store coupons:\n• WELCOME10 — 10% off on orders above £10\n• FLAT200 — Flat £5 off on orders above £20\nApply them at checkout!`;
         return addBotMessage(reply, [1, 2], ["👕 Oversized Tees", "🧥 Hoodies"]);
       }
 
@@ -989,7 +989,7 @@
 
       // 5. Product Recommendations
       if (q.includes("hoodie") || q.includes("sweatshirt")) {
-        const reply = `Check out our Boxy Fit Graphic Hoodie (₹1,799)! Crafted from 320GSM fleece with heavy-duty ribbing for that premium fall.`;
+        const reply = `Check out our Boxy Fit Graphic Hoodie (£46.00)! Crafted from 320GSM fleece with heavy-duty ribbing for that premium fall.`;
         return addBotMessage(reply, [2], ["👕 View Tees", "👖 Cargo Pants"]);
       }
 
@@ -999,12 +999,12 @@
       }
 
       if (q.includes("pant") || q.includes("cargo") || q.includes("short")) {
-        const reply = `Check out our Cargo Joggers (₹1,499) and Relaxed Cargo Shorts (₹1,099) — heavy-duty ripstop cotton with functional utility pockets.`;
+        const reply = `Check out our Cargo Joggers (£14.99) and Relaxed Cargo Shorts (£10.99) — heavy-duty ripstop cotton with functional utility pockets.`;
         return addBotMessage(reply, [3, 6], ["👟 Retro Sneakers", "👕 Acid Wash Tee"]);
       }
 
       if (q.includes("shoe") || q.includes("sneaker")) {
-        const reply = `Our Chunky Retro Sneakers (₹2,999) feature high-traction rubber soles and breathable mesh panels. Stock is running low!`;
+        const reply = `Our Chunky Retro Sneakers (£24.99) feature high-traction rubber soles and breathable mesh panels. Stock is running low!`;
         return addBotMessage(reply, [8], ["🧢 Snapback Cap", "🧥 Bomber Jacket"]);
       }
 
@@ -1015,7 +1015,7 @@
 
       // 6. Shipping & Return Policies
       if (q.includes("ship") || q.includes("delivery") || q.includes("cod") || q.includes("return") || q.includes("refund")) {
-        const reply = `Shipping takes 3–5 business days across India (Free shipping above ₹999 + Cash on Delivery available). We offer 7-day hassle-free returns & exchanges!`;
+        const reply = `Shipping takes 3–5 business days (Free shipping above £30 + Cash on Delivery available). We offer 7-day hassle-free returns & exchanges!`;
         return addBotMessage(reply, [], ["📦 Track Order", "👕 Browse Shop"]);
       }
 
