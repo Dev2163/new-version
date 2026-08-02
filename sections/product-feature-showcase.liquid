@@ -1,1286 +1,869 @@
-{% comment %}
-  ONE9 - Ultra Luxury Scroll Experience (GSAP + ScrollTrigger + Lenis)
-  Includes all 9 sections and the vertical Story Timeline.
-{% endcomment %}
-
-<!-- Motion Libraries (GSAP, ScrollTrigger, Lenis) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
-
-<div id="one9-luxury-experience" class="one9-lux-wrap">
-  <!-- Left Side: Story Timeline -->
-  <div class="story-timeline">
-    <div class="timeline-line"></div>
-    <div class="timeline-nodes">
-      <div class="timeline-node active" data-target="sec-hero">
-        <span class="node-dot"></span>
-        <span class="node-label">HERO</span>
-      </div>
-      <div class="timeline-node" data-target="sec-rotation">
-        <span class="node-dot"></span>
-        <span class="node-label">PRODUCT</span>
-      </div>
-      <div class="timeline-node" data-target="sec-zoom">
-        <span class="node-dot"></span>
-        <span class="node-label">FABRIC</span>
-      </div>
-      <div class="timeline-node" data-target="sec-callouts">
-        <span class="node-dot"></span>
-        <span class="node-label">DETAILS</span>
-      </div>
-      <div class="timeline-node" data-target="sec-story">
-        <span class="node-dot"></span>
-        <span class="node-label">STORY</span>
-      </div>
-      <div class="timeline-node" data-target="sec-lifestyle">
-        <span class="node-dot"></span>
-        <span class="node-label">LIFESTYLE</span>
-      </div>
-      <div class="timeline-node" data-target="sec-showcase">
-        <span class="node-dot"></span>
-        <span class="node-label">COLLECTION</span>
-      </div>
-      <div class="timeline-node" data-target="sec-ending">
-        <span class="node-dot"></span>
-        <span class="node-label">FINISH</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Interactive Canvas Particle Field -->
-  <canvas id="lux-particles" class="lux-particles-canvas"></canvas>
-
-  <!-- SECTION 1: Luxury Hero -->
-  <section id="sec-hero" class="lux-section lux-hero-sec">
-    <div class="lux-hero-content">
-      <div class="lux-hero-logo-wrap">
-        <h1 class="lux-hero-logo">ONE9</h1>
-        <div class="lux-hero-logo-sweep"></div>
-      </div>
-      <p class="lux-hero-sub">EXHIBITION OF MODERN APPAREL</p>
-    </div>
-  </section>
-
-  <!-- SECTION 2: Interactive Product Rotation (Pinned) -->
-  <section id="sec-rotation" class="lux-section pin-section rotation-sec">
-    <div class="rotation-container">
-      <div class="rotation-product-wrap">
-        <!-- Floating T-shirt views (Crossfading on scroll) -->
-        <img class="rot-img rot-front active" src="{{ 'product-tee.jpg' | asset_url }}" alt="Front View" width="600" height="800">
-        <img class="rot-img rot-angle" src="{{ 'product-hoodie.jpg' | asset_url }}" alt="Angle View" width="600" height="800">
-        <img class="rot-img rot-side" src="{{ 'product-joggers.jpg' | asset_url }}" alt="Side View" width="600" height="800">
-        <img class="rot-img rot-back" src="{{ 'product-tee.jpg' | asset_url }}" alt="Back View" width="600" height="800" style="filter: hue-rotate(45deg);">
-        <div class="rot-glow"></div>
-      </div>
-      <div class="rotation-info">
-        <h2 class="section-title">THE ROTATION</h2>
-        <p class="section-desc">Controlled entirely by your scroll. Observe the structured weight and drape from every dimension.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 3: Fabric Detail Zoom (Pinned) -->
-  <section id="sec-zoom" class="lux-section pin-section zoom-sec">
-    <div class="zoom-container">
-      <div id="zoom-image-wrapper" class="zoom-img-wrap">
-        <!-- Ultra high res detail/embroidery image -->
-        <img src="{{ 'detail-1.jpg' | asset_url }}" alt="Fabric Detail" width="1200" height="1200">
-        <div class="zoom-vignette"></div>
-      </div>
-      <div class="zoom-overlay-text">
-        <span class="zoom-title">WOVEN INTENTION</span>
-        <span class="zoom-sub">Premium Long-Staple Cotton Thread</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 4: Interactive Feature Callouts (Pinned) -->
-  <section id="sec-callouts" class="lux-section pin-section callouts-sec">
-    <div class="callouts-container">
-      <div class="callouts-visual">
-        <img src="{{ 'detail-2.jpg' | asset_url }}" alt="Detail Showcase" width="500" height="500">
-        <div class="callout-connector-line"></div>
-      </div>
-      <div class="callouts-text-wrap">
-        <div class="callout-item active" data-idx="0">
-          <h3>Premium Heavyweight Cotton</h3>
-          <p>Sourced from high-density, long-staple fibers for a structured luxury silhouette.</p>
-        </div>
-        <div class="callout-item" data-idx="1">
-          <h3>280 GSM Custom Knit</h3>
-          <p>Form-retaining heavy knit fabric, pre-shrunk and treated for maximum soft texture.</p>
-        </div>
-        <div class="callout-item" data-idx="2">
-          <h3>Oversized British Fit</h3>
-          <p>Drop-shoulder aesthetic with custom sleeve lengths for a modern streetwear hang.</p>
-        </div>
-        <div class="callout-item" data-idx="3">
-          <h3>Luxury High-Density Print</h3>
-          <p>Raised tactile rubberized prints designed to withstand age and wear.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 5: Design Story -->
-  <section id="sec-story" class="lux-section story-sec">
-    <div class="constellation-bg"></div>
-    <div class="story-content">
-      <span class="story-subtitle">DESIGN CHAPTER</span>
-      <h2 class="story-title">CAPRICORN</h2>
-      <div class="story-divider"></div>
-      <p class="story-desc">Built with patience. Designed for ambition. Crafted for those who rise above the noise.</p>
-    </div>
-  </section>
-
-  <!-- SECTION 6: Lifestyle Reveal (Pinned) -->
-  <section id="sec-lifestyle" class="lux-section pin-section lifestyle-sec">
-    <div class="lifestyle-container">
-      <div class="lifestyle-media-wrap">
-        <!-- Floating T-shirt blends into lifestyle photo -->
-        <img class="life-product" src="{{ 'product-tee.jpg' | asset_url }}" alt="Product" width="500" height="667">
-        <img class="life-photo" src="{{ 'detail-3.jpg' | asset_url }}" alt="Lifestyle Model" width="1000" height="1500">
-        <div class="life-overlay"></div>
-      </div>
-      <div class="lifestyle-info">
-        <h3>LONDON STREETS</h3>
-        <p>A product shaped by concrete, designed for the world's most demanding wardrobes.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 7: Product Showcase (Pinned Carousel) -->
-  <section id="sec-showcase" class="lux-section pin-section showcase-sec">
-    <div class="showcase-container">
-      <div class="showcase-spotlight"></div>
-      <div class="showcase-carousel">
-        <div class="showcase-card" data-idx="0">
-          <img src="{{ 'product-tee.jpg' | asset_url }}" alt="Street Tee" width="400" height="533">
-          <h4>AQUARIUS TEE</h4>
-        </div>
-        <div class="showcase-card" data-idx="1">
-          <img src="{{ 'product-hoodie.jpg' | asset_url }}" alt="Heavyweight Hoodie" width="400" height="533">
-          <h4>AQUARIUS HOODIE</h4>
-        </div>
-        <div class="showcase-card" data-idx="2">
-          <img src="{{ 'product-joggers.jpg' | asset_url }}" alt="Street Joggers" width="400" height="533">
-          <h4>AQUARIUS JOGGERS</h4>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 8: Collection Explorer -->
-  <section class="lux-section explorer-sec">
-    <div class="explorer-container">
-      <span class="explorer-tag">EXPLORE UNIVERSE</span>
-      <h2 class="explorer-title">THE ZODIAC COLLECTIONS</h2>
-      <div class="explorer-grid">
-        <div class="zodiac-node">
-          <span class="zodiac-star">✦</span>
-          <span class="zodiac-name">CAPRICORN</span>
-        </div>
-        <div class="zodiac-node">
-          <span class="zodiac-star">✦</span>
-          <span class="zodiac-name">AQUARIUS</span>
-        </div>
-        <div class="zodiac-node">
-          <span class="zodiac-star">✦</span>
-          <span class="zodiac-name">ARIES</span>
-        </div>
-        <div class="zodiac-node">
-          <span class="zodiac-star">✦</span>
-          <span class="zodiac-name">LEO</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 9: Luxury Ending -->
-  <section id="sec-ending" class="lux-section ending-sec">
-    <div class="ending-content">
-      <div class="ending-logo-wrap">
-        <h2 class="ending-logo">ONE9</h2>
-        <div class="ending-logo-sweep"></div>
-      </div>
-      <p class="ending-tagline">WEAR YOUR STORY</p>
-      <a href="/collections/all" class="ending-btn">EXPLORE COLLECTION</a>
-    </div>
-  </section>
-</div>
-
-<style>
-  /* Google Fonts Import */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@600;700&display=swap');
-
-  /* Wrapper styles */
-  .one9-lux-wrap {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    font-family: 'Inter', sans-serif;
+{% style %}
+  .pfs-section-{{ section.id }} {
     position: relative;
-    width: 100%;
-    overflow-x: hidden;
-  }
-  .one9-lux-wrap ::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  /* Left Timeline Navigation */
-  .story-timeline {
-    position: fixed;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
+    background-color: {{ section.settings.bg_color }};
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.03"/%3E%3C/svg%3E');
+    height: auto;
+    min-height: 75vh;
+    padding: 60px 0;
     display: flex;
-    align-items: center;
-    z-index: 9999;
-    pointer-events: auto;
-  }
-  @media (max-width: 990px) {
-    .story-timeline {
-      display: none !important;
-    }
-  }
-  .timeline-line {
-    position: absolute;
-    left: 4px;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.08);
-  }
-  .timeline-nodes {
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    position: relative;
-  }
-  .timeline-node {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-    opacity: 0.35;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-  .node-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.5);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-  .node-label {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #ffffff;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.4s ease;
-    pointer-events: none;
-  }
-  .timeline-node:hover {
-    opacity: 0.8;
-  }
-  .timeline-node:hover .node-label {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .timeline-node.active {
-    opacity: 1;
-  }
-  .timeline-node.active .node-dot {
-    background: #f4c430;
-    box-shadow: 0 0 12px #f4c430, 0 0 4px #f4c430;
-    transform: scale(1.3);
-  }
-  .timeline-node.active .node-label {
-    opacity: 0.9;
-    color: #f4c430;
-    transform: translateX(0);
-  }
-
-  /* Particles Canvas */
-  .lux-particles-canvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.65;
-  }
-
-  /* Base Section Structure */
-  .lux-section {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     overflow: hidden;
-    box-sizing: border-box;
-    z-index: 10;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
-  /* 1. Hero Styles */
-  .lux-hero-sec {
-    height: 100vh;
-    z-index: 12;
-  }
-  .lux-hero-content {
-    text-align: center;
-  }
-  .lux-hero-logo-wrap {
+  .pfs-container {
     position: relative;
-    overflow: hidden;
-    display: inline-block;
-  }
-  .lux-hero-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(4.5rem, 14vw, 10rem);
-    letter-spacing: 0.25em;
-    color: #ffffff;
-    margin: 0;
-    text-shadow: 0 0 30px rgba(244, 196, 48, 0.2);
-  }
-  .lux-hero-logo-sweep {
-    position: absolute;
-    inset: 0;
-    width: 50%;
+    width: 100%;
+    max-width: 1400px;
     height: 100%;
-    background: linear-gradient(90deg, transparent, #f4c430, transparent);
-    mix-blend-mode: overlay;
-    filter: blur(8px);
-    transform: skewX(-12deg) translateX(-100%);
-  }
-  .lux-hero-sub {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 6px;
-    color: #f4c430;
-    margin-top: 20px;
-    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  /* 2. Product Rotation Styles */
-  .rotation-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 1200px;
-    height: 100%;
-    padding: 0 40px;
+  .pfs-center-wrapper {
     position: relative;
-  }
-  @media (min-width: 991px) {
-    .rotation-container {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-  .rotation-product-wrap {
-    position: relative;
-    width: 80vw;
-    max-width: 480px;
-    aspect-ratio: 3/4;
+    width: {{ section.settings.image_width }}px;
+    max-width: 90%;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 2;
   }
-  .rot-img {
-    position: absolute;
+
+  .pfs-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
+    max-height: 70vh;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+    transform: rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }});
+    {% if section.settings.floating_animation %}
+      animation: pfsFloat 5s ease-in-out infinite;
+    {% endif %}
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .pfs-image.fading {
     opacity: 0;
-    will-change: opacity, transform;
-    filter: brightness(0.95);
-  }
-  .rot-img.active {
-    opacity: 1;
-  }
-  .rot-glow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 0 0 60px rgba(0,0,0,0.85);
-    border-radius: 8px;
-    pointer-events: none;
-  }
-  .rotation-info {
-    max-width: 400px;
-    text-align: center;
-    margin-top: 30px;
-  }
-  @media (min-width: 991px) {
-    .rotation-info {
-      text-align: left;
-      margin-top: 0;
-    }
-  }
-  .section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    color: #ffffff;
-    margin: 0 0 16px 0;
-    letter-spacing: 2px;
-  }
-  .section-desc {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #a0a0a0;
-    line-height: 1.6;
-    letter-spacing: 1px;
+    transform: rotate({{ section.settings.image_rotation }}deg) scale(0.95);
   }
 
-  /* 3. Detail Zoom Styles */
-  .zoom-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @keyframes pfsFloat {
+    0% { transform: translateY(0px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+    50% { transform: translateY(-15px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
+    100% { transform: translateY(0px) rotate({{ section.settings.image_rotation }}deg) scale({{ section.settings.image_scale }}); }
   }
-  .zoom-img-wrap {
-    width: 100%;
-    height: 100%;
-    clip-path: inset(20% 20% 20% 20%);
-    transform: scale(0.85);
-    will-change: transform, clip-path, filter;
-  }
-  .zoom-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .zoom-vignette {
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.95);
-    pointer-events: none;
-  }
-  .zoom-overlay-text {
+
+  .pfs-bg-glow {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
-    mix-blend-mode: difference;
+    width: 60vh;
+    height: 60vh;
+    border-radius: 50%;
+    background: radial-gradient(circle, {{ section.settings.glow_color }} 0%, transparent 65%);
+    opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 1.5 }};
+    filter: blur(60px);
+    z-index: 1;
     pointer-events: none;
-    z-index: 10;
+    {% if section.settings.glow_animation %}
+      animation: pfsPulse 4s ease-in-out infinite alternate;
+    {% endif %}
   }
-  .zoom-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(1.8rem, 5vw, 3.5rem);
-    color: #f4c430;
-    letter-spacing: 4px;
-    display: block;
-    text-shadow: 0 0 15px rgba(244, 196, 48, 0.4);
-  }
-  .zoom-sub {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: #ffffff;
-    letter-spacing: 3px;
-    margin-top: 12px;
-    display: block;
-    text-transform: uppercase;
+  
+  .pfs-bottom-glow {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 400px;
+    height: 8px;
+    background: #ffffff; /* Bright core */
+    border-radius: 50%;
+    box-shadow: 
+      0 0 20px 8px {{ section.settings.glow_color }},
+      0 0 60px 20px {{ section.settings.glow_color }},
+      0 0 120px 40px {{ section.settings.glow_color }};
+    opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 2.5 }};
+    z-index: 1;
+    pointer-events: none;
   }
 
-  /* 4. Callout Styles */
-  .callouts-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 1200px;
-    height: 100%;
-    padding: 0 40px;
-    gap: 40px;
-  }
-  @media (min-width: 991px) {
-    .callouts-container {
-      flex-direction: row;
-      justify-content: space-between;
-      gap: 0;
-    }
-  }
-  .callouts-visual {
-    position: relative;
-    width: 75vw;
-    max-width: 440px;
-    aspect-ratio: 1/1;
+  .pfs-circle-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vh;
+    height: 70vh;
+    max-width: 800px;
+    max-height: 800px;
     border-radius: 50%;
-    border: 1px solid rgba(244, 196, 48, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: 1px solid rgba(212, 175, 55, 0.2); /* Soft Gold */
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.08) inset, 0 0 20px rgba(212, 175, 55, 0.05);
+    z-index: 1;
+    pointer-events: none;
   }
-  .callouts-visual img {
-    width: 85%;
-    height: 85%;
-    object-fit: cover;
-    border-radius: 50%;
+
+  @keyframes pfsPulse {
+    0% { opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 0.8 }}; transform: translate(-50%, -50%) scale(0.95); }
+    100% { opacity: {{ section.settings.glow_opacity | divided_by: 100.0 | times: 1.2 }}; transform: translate(-50%, -50%) scale(1.05); }
   }
-  .callouts-text-wrap {
-    max-width: 450px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+
+  /* Hotspots */
+  .pfs-pointer {
+    position: absolute;
+    z-index: 10;
+    transition: opacity 0.4s ease;
+    /* Hidden by default, shown by JS if matches current view */
+    opacity: 0;
+    pointer-events: none;
   }
-  .callout-item {
-    opacity: 0.25;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-  .callout-item.active {
+  
+  .pfs-pointer.active-view {
     opacity: 1;
-    transform: translateY(0);
+    pointer-events: auto;
+    {% if section.settings.pointer_animation %}
+      animation: pfsFadeIn 1s ease forwards;
+    {% endif %}
   }
-  .callout-item h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
-    font-weight: 800;
-    color: #f4c430;
-    margin: 0 0 8px 0;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+
+  .pfs-dot {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    width: 14px;
+    height: 14px;
+    background-color: var(--dot-color, #D4AF37);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--dot-color, #D4AF37), 0 0 20px var(--dot-color, #D4AF37);
+    cursor: pointer;
+    z-index: 2;
+    {% if section.settings.pointer_animation %}
+      animation: pfsDotPulse 2s infinite;
+    {% endif %}
+    transition: transform 0.3s ease;
   }
-  .callout-item p {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #cccccc;
-    line-height: 1.5;
-    margin: 0;
+
+  .pfs-pointer:hover .pfs-dot {
+    transform: scale(1.2);
+  }
+
+  @keyframes pfsDotPulse {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+  }
+
+  .pfs-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--line-length, 100px);
+    height: 2px;
+    background: var(--dot-color, #D4AF37);
+    box-shadow: 0 0 8px var(--dot-color, #D4AF37);
+    border-radius: 2px;
+    transform-origin: 0 0;
+    transform: rotate(var(--line-angle, 0deg));
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .pfs-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .pfs-pointer:hover .pfs-line::after {
+    transform: translateX(0);
+  }
+
+  /* AUTO-ALIGNING TEXT CSS TRICKS */
+  .pfs-content {
+    position: absolute;
+    width: var(--title-width, 220px);
+    text-align: var(--text-align, left);
+    /* Calculate precise end of line using sin/cos */
+    left: calc(var(--line-length) * cos(var(--line-angle)));
+    top: calc(var(--line-length) * sin(var(--line-angle)));
+    /* Offset so text aligns correctly with line end */
+    transform: translate(var(--tx), -50%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .pfs-pointer:hover .pfs-content {
+    opacity: 1;
+  }
+
+  .pfs-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--title-color, #F4C430);
+    margin-bottom: 8px;
+    line-height: 1.2;
     letter-spacing: 0.5px;
   }
 
-  /* 5. Design Story Styles */
-  .story-sec {
-    text-align: center;
-  }
-  .constellation-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(244, 196, 48, 0.03) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 1;
-  }
-  .story-content {
-    position: relative;
-    z-index: 2;
-    max-width: 600px;
-    padding: 0 24px;
-  }
-  .story-subtitle {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: #a0a0a0;
-    letter-spacing: 4px;
-    display: block;
-    margin-bottom: 12px;
-  }
-  .story-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: #ffffff;
-    margin: 0;
-    letter-spacing: 3px;
-  }
-  .story-divider {
-    width: 60px;
-    height: 1px;
-    background: #f4c430;
-    margin: 24px auto;
-  }
-  .story-desc {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #d0d0d0;
+  .pfs-subtitle {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--subtitle-color, #CCCCCC);
     line-height: 1.6;
-    letter-spacing: 1px;
   }
 
-  /* 6. Lifestyle Reveal Styles */
-  .lifestyle-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 0 40px;
-  }
   @media (min-width: 991px) {
-    .lifestyle-container {
-      flex-direction: row;
-      justify-content: space-between;
-      max-width: 1200px;
+    .pfs-title {
+      font-family: 'Orbitron', 'Rajdhani', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(244, 196, 48, 0.3);
     }
-  }
-  .lifestyle-media-wrap {
-    position: relative;
-    width: 80vw;
-    max-width: 440px;
-    aspect-ratio: 3/4;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .life-product {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 5;
-    will-change: opacity, transform;
-  }
-  .life-photo {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    z-index: 4;
-    will-change: opacity, scale;
-  }
-  .life-overlay {
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
-    z-index: 6;
-  }
-  .lifestyle-info {
-    max-width: 400px;
-    text-align: center;
-    margin-top: 30px;
-  }
-  @media (min-width: 991px) {
-    .lifestyle-info {
-      text-align: left;
-      margin-top: 0;
+
+    .pfs-subtitle {
+      font-family: 'Orbitron', 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
-  }
-  .lifestyle-info h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 24px;
-    color: #f4c430;
-    margin: 0 0 16px 0;
-    letter-spacing: 2px;
-  }
-  .lifestyle-info p {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #a0a0a0;
-    line-height: 1.6;
-    letter-spacing: 1px;
   }
 
-  /* 7. Product Showcase Styles */
-  .showcase-sec {
-    background: #000;
-  }
-  .showcase-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1200px;
-  }
-  .showcase-spotlight {
-    position: absolute;
-    top: -20%;
-    width: 60vw;
-    height: 60vh;
-    background: radial-gradient(circle at center, rgba(244, 196, 48, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .showcase-carousel {
-    position: relative;
-    width: 100%;
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .showcase-card {
-    position: absolute;
-    width: 70vw;
-    max-width: 360px;
-    aspect-ratio: 3/4;
-    border-radius: 8px;
-    overflow: hidden;
-    will-change: transform, opacity, filter;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .showcase-card img {
-    width: 100%;
-    height: 85%;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  .showcase-card h4 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-top: 16px;
-    color: #ffffff;
-    opacity: 0.7;
-    transition: color 0.4s, opacity 0.4s;
-  }
-  .showcase-card:hover h4 {
-    color: #f4c430;
-    opacity: 1;
+  @keyframes pfsFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
-  /* 8. Explorer Styles */
-  .explorer-sec {
-    background: #000000;
+  /* Navigation */
+  .pfs-nav {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    z-index: 20;
   }
-  .explorer-container {
-    max-width: 1000px;
-    width: 100%;
-    text-align: center;
-    padding: 0 40px;
-  }
-  .explorer-tag {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: #f4c430;
-    letter-spacing: 4px;
-    display: block;
-    margin-bottom: 12px;
-  }
-  .explorer-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    color: #ffffff;
-    margin-bottom: 48px;
-    letter-spacing: 2px;
-  }
-  .explorer-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  @media (min-width: 768px) {
-    .explorer-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  .zodiac-node {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 30px 20px;
-    border-radius: 8px;
+
+  .pfs-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    background: transparent;
+    color: #D4AF37;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  .zodiac-star {
-    font-size: 12px;
-    color: rgba(244, 196, 48, 0.3);
-    transition: color 0.4s, transform 0.4s;
-  }
-  .zodiac-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    color: #ffffff;
-    opacity: 0.7;
-    transition: all 0.4s;
-  }
-  .zodiac-node:hover {
-    border-color: rgba(244, 196, 48, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(244, 196, 48, 0.1);
-    background: rgba(244, 196, 48, 0.02);
-    transform: translateY(-4px);
-  }
-  .zodiac-node:hover .zodiac-star {
-    color: #f4c430;
-    transform: rotate(45deg) scale(1.2);
-  }
-  .zodiac-node:hover .zodiac-name {
-    color: #f4c430;
-    opacity: 1;
+    transition: all 0.3s ease;
   }
 
-  /* 9. Luxury Ending Styles */
-  .ending-sec {
-    height: 100vh;
+  .pfs-nav-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
   }
-  .ending-content {
-    text-align: center;
+  
+  .pfs-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
   }
-  .ending-logo-wrap {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    margin-bottom: 24px;
+
+  /* Mobile Accordion */
+  .pfs-mobile-accordion {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    z-index: 20;
   }
-  .ending-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(3.5rem, 10vw, 7.5rem);
-    letter-spacing: 0.25em;
-    color: #ffffff;
-    margin: 0;
-    text-shadow: 0 0 25px rgba(244, 196, 48, 0.2);
+
+  .pfs-accordion-item {
+    display: none; /* hidden by default based on active view */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 0;
   }
-  .ending-logo-sweep {
-    position: absolute;
-    inset: 0;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, #f4c430, transparent);
-    mix-blend-mode: overlay;
-    filter: blur(6px);
-    transform: skewX(-12deg) translateX(-100%);
+  
+  .pfs-accordion-item.active-view {
+    display: block;
   }
-  .ending-tagline {
-    font-family: 'Rajdhani', sans-serif;
+
+  .pfs-accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #D4AF37;
+    font-size: 18px;
     font-weight: 700;
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-    color: #f4c430;
-    letter-spacing: 5px;
-    margin: 0 0 40px 0;
-    text-shadow: 0 0 10px rgba(244, 196, 48, 0.25);
+    cursor: pointer;
   }
-  .ending-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #f4c430 0%, #D4A017 100%);
-    color: #000000;
-    text-decoration: none;
-    padding: 16px 40px;
-    border-radius: 4px;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 13px;
-    letter-spacing: 2px;
-    box-shadow: 0 4px 20px rgba(244, 196, 48, 0.25);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  .pfs-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    color: #D5D5D5;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 0;
   }
-  .ending-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(244, 196, 48, 0.45);
-    background: linear-gradient(135deg, #FFD700 0%, #f4c430 100%);
+
+  .pfs-accordion-item.active .pfs-accordion-body {
+    max-height: 200px;
+    padding-top: 10px;
   }
-</style>
+
+  @media (max-width: 990px) {
+    .pfs-section-{{ section.id }} {
+      height: auto;
+      min-height: 100vh;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 60px;
+    }
+    .pfs-center-wrapper {
+      width: 90%;
+      margin-bottom: 40px;
+    }
+    .pfs-pointer.active-view {
+      display: none; /* Hide standard pointers on mobile */
+    }
+    .pfs-mobile-accordion {
+      display: block;
+    }
+    .pfs-pointer.mobile-visible {
+      display: block !important;
+      opacity: 1 !important;
+    }
+    .pfs-pointer.mobile-visible .pfs-line, 
+    .pfs-pointer.mobile-visible .pfs-content {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<section class="pfs-section-{{ section.id }}" id="pfs-{{ section.id }}">
+  <div class="pfs-container">
+    
+    <div class="pfs-center-wrapper">
+      <div class="pfs-bg-glow"></div>
+      <div class="pfs-circle-line"></div>
+      
+      {%- liquid
+        assign active_image = section.settings.main_image
+        if section.settings.current_image == 'back' and section.settings.back_image != blank
+          assign active_image = section.settings.back_image
+        elsif section.settings.current_image == 'side' and section.settings.side_image != blank
+          assign active_image = section.settings.side_image
+        elsif section.settings.current_image == 'zoom' and section.settings.zoom_image != blank
+          assign active_image = section.settings.zoom_image
+        elsif section.settings.current_image == 'hover' and section.settings.hover_image != blank
+          assign active_image = section.settings.hover_image
+        endif
+      -%}
+
+      <!-- Placeholder structure if no images -->
+      {% if active_image != blank %}
+        <img id="pfs-main-image" src="{{ active_image | image_url: width: 1200 }}" class="pfs-image" loading="lazy" />
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'pfs-image placeholder-svg' }}
+      {% endif %}
+
+      <div class="pfs-bottom-glow"></div>
+
+      <!-- Hotspots -->
+      {% for block in section.blocks limit: section.settings.pointer_count %}
+        {% if block.settings.enable %}
+          {%- liquid
+            if block.settings.content_position == 'left'
+              assign angle = 180
+              assign align = 'right'
+              assign tx = 'calc(-100% - 15px)'
+            else
+              assign angle = 0
+              assign align = 'left'
+              assign tx = '15px'
+            endif
+          -%}
+          <div class="pfs-pointer {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
+               data-index="{{ forloop.index0 }}" 
+               data-view="{{ block.settings.image_view }}"
+               data-block-id="{{ block.id }}"
+               style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%; 
+                      --dot-color: {{ block.settings.glow_color }};
+                      --line-length: {{ block.settings.line_length }}px;
+                      --line-angle: {{ angle }}deg;
+                      --title-width: {{ block.settings.title_width }}px;
+                      --text-align: {{ align }};
+                      --title-color: {{ block.settings.title_color }};
+                      --subtitle-color: {{ block.settings.subtitle_color }};
+                      --tx: {{ tx }};" 
+               {{ block.shopify_attributes }}>
+            
+            <div class="pfs-dot"></div>
+            <div class="pfs-line"></div>
+            <div class="pfs-content">
+              <div class="pfs-title">{{ block.settings.title }}</div>
+              <div class="pfs-subtitle">{{ block.settings.subtitle }}</div>
+            </div>
+            
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Mobile Accordion -->
+  <div class="pfs-mobile-accordion">
+    {% for block in section.blocks limit: section.settings.pointer_count %}
+      {% if block.settings.enable %}
+        <div class="pfs-accordion-item {% if block.settings.image_view == section.settings.current_image %}active-view{% endif %}" 
+             data-index="{{ forloop.index0 }}" 
+             data-view="{{ block.settings.image_view }}">
+          <div class="pfs-accordion-header">
+            <span>{{ block.settings.title }}</span>
+            <span class="pfs-accordion-icon">+</span>
+          </div>
+          <div class="pfs-accordion-body">
+            {{ block.settings.subtitle }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Optional Bottom Nav -->
+  {% if section.settings.show_nav %}
+    <div class="pfs-nav">
+      <button class="pfs-nav-btn" id="pfs-prev">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="pfs-nav-btn" id="pfs-next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  {% endif %}
+</section>
+
+<!-- Data for JS -->
+<script type="application/json" id="pfs-images-data">
+  {
+    "front": {% if section.settings.main_image %}"{{ section.settings.main_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "back": {% if section.settings.back_image %}"{{ section.settings.back_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "side": {% if section.settings.side_image %}"{{ section.settings.side_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "zoom": {% if section.settings.zoom_image %}"{{ section.settings.zoom_image | image_url: width: 1200 }}"{% else %}null{% endif %},
+    "hover": {% if section.settings.hover_image %}"{{ section.settings.hover_image | image_url: width: 1200 }}"{% else %}null{% endif %}
+  }
+</script>
 
 <script>
-  (function() {
-    let showInitialized = false;
+  function initPFS() {
+    // Accordion Logic
+    const accordions = document.querySelectorAll('.pfs-accordion-item');
+    const pointers = document.querySelectorAll('.pfs-pointer');
 
-    function initLuxuryShowcase() {
-      if (showInitialized) return;
-
-      // Ensure GSAP and ScrollTrigger are loaded
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        setTimeout(initLuxuryShowcase, 100);
-        return;
-      }
-
-      showInitialized = true;
-      gsap.registerPlugin(ScrollTrigger);
-
-      // 1. Lenis Smooth Scroll Initialisation
-      let lenis;
-      if (typeof Lenis !== 'undefined') {
-        lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          gestureOrientation: 'vertical',
-          smoothWheel: true
+    accordions.forEach(acc => {
+      acc.addEventListener('click', function() {
+        const isActive = this.classList.contains('active');
+        
+        accordions.forEach(a => {
+          a.classList.remove('active');
+          a.querySelector('.pfs-accordion-icon').innerText = '+';
         });
+        
+        pointers.forEach(p => p.classList.remove('mobile-visible'));
 
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Connect Lenis to ScrollTrigger
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => {
-          lenis.raf(time * 1000);
-        });
-        gsap.ticker.lagSmoothing(0);
-      }
-
-      // -- 0. STORY TIMELINE ACTIVE STATE TRACKING --
-      const nodes = gsap.utils.toArray('.timeline-node');
-      nodes.forEach((node) => {
-        const targetId = node.getAttribute('data-target');
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          ScrollTrigger.create({
-            trigger: targetElement,
-            start: 'top 50%',
-            end: 'bottom 50%',
-            onEnter: () => updateTimelineNode(node),
-            onEnterBack: () => updateTimelineNode(node)
-          });
-        }
-
-        // Timeline Node Clickable Scrolling
-        node.addEventListener('click', () => {
-          const targetEl = document.getElementById(targetId);
-          if (targetEl && lenis) {
-            lenis.scrollTo(targetEl, { offset: 0, duration: 1.5 });
-          }
-        });
-      });
-
-      function updateTimelineNode(activeNode) {
-        nodes.forEach(n => n.classList.remove('active'));
-        activeNode.classList.add('active');
-      }
-
-      // -- 1. HERO LOGO ANIMATIONS --
-      const heroTimeline = gsap.timeline();
-      heroTimeline.fromTo('.lux-hero-logo',
-        { opacity: 0, scale: 0.9, filter: 'blur(10px)' },
-        { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 2.2, ease: 'power3.out', delay: 0.4 }
-      );
-      heroTimeline.fromTo('.lux-hero-logo-sweep',
-        { x: '-100%', opacity: 0 },
-        { x: '200%', opacity: 0.8, duration: 1.8, ease: 'power2.inOut' },
-        '-=1.4'
-      );
-
-      gsap.to('.lux-hero-logo', {
-        scrollTrigger: {
-          trigger: '#sec-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2
-        },
-        y: -120,
-        scale: 0.82,
-        opacity: 0,
-        filter: 'blur(5px)',
-        ease: 'power2.inOut'
-      });
-
-      // -- 2. INTERACTIVE PRODUCT ROTATION (PINNED) --
-      const rotTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#sec-rotation',
-          start: 'top top',
-          end: '+=200%',
-          pin: true,
-          scrub: 1
-        }
-      });
-
-      const rotImages = gsap.utils.toArray('.rot-img');
-      if (rotImages.length >= 4) {
-        // Initial setup
-        gsap.set(rotImages[0], { opacity: 1 });
-        gsap.set(rotImages[1], { opacity: 0 });
-        gsap.set(rotImages[2], { opacity: 0 });
-        gsap.set(rotImages[3], { opacity: 0 });
-
-        rotTimeline
-          // Front -> 45deg
-          .to(rotImages[0], { opacity: 0, duration: 0.5 }, 0)
-          .to(rotImages[1], { opacity: 1, duration: 0.5 }, 0)
-          // 45deg -> Side
-          .to(rotImages[1], { opacity: 0, duration: 0.5 }, 1)
-          .to(rotImages[2], { opacity: 1, duration: 0.5 }, 1)
-          // Side -> Back
-          .to(rotImages[2], { opacity: 0, duration: 0.5 }, 2)
-          .to(rotImages[3], { opacity: 1, duration: 0.5 }, 2);
-      }
-
-      // -- 3. FABRIC DETAIL ZOOM (PINNED) --
-      const zoomTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#sec-zoom',
-          start: 'top top',
-          end: '+=200%',
-          pin: true,
-          scrub: 1.2
-        }
-      });
-
-      gsap.set('#zoom-image-wrapper', { scale: 0.85, clipPath: 'inset(20% 20% 20% 20%)' });
-      zoomTimeline
-        .to('#zoom-image-wrapper', { scale: 1.2, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'power2.inOut' }, 0)
-        .to('.zoom-overlay-text', { opacity: 1, y: -20, duration: 1 }, 0.5)
-        .to('#zoom-image-wrapper', { opacity: 0.3, filter: 'blur(8px)', duration: 0.5 }, 1.5);
-
-      // -- 4. INTERACTIVE FEATURE CALLOUTS (PINNED) --
-      const calloutTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#sec-callouts',
-          start: 'top top',
-          end: '+=250%',
-          pin: true,
-          scrub: 1
-        }
-      });
-
-      const calloutItems = gsap.utils.toArray('.callout-item');
-      calloutItems.forEach((item, index) => {
-        if (index > 0) {
-          calloutTimeline.to(calloutItems[index - 1], { opacity: 0.1, y: -10, duration: 0.5 }, index * 1)
-            .to(item, { className: 'callout-item active', duration: 0.5 }, index * 1);
-        }
-      });
-
-      // -- 5. DESIGN STORY REVEAL --
-      gsap.fromTo('.story-content',
-        { y: 50, opacity: 0 },
-        {
-          scrollTrigger: {
-            trigger: '#sec-story',
-            start: 'top 70%',
-            end: 'bottom 80%',
-            scrub: 1.2
-          },
-          y: 0,
-          opacity: 1,
-          duration: 1
-        }
-      );
-
-      // -- 6. LIFESTYLE REVEAL (PINNED) --
-      const lifeTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#sec-lifestyle',
-          start: 'top top',
-          end: '+=150%',
-          pin: true,
-          scrub: 1.2
-        }
-      });
-
-      lifeTimeline
-        .to('.life-product', { opacity: 0, scale: 0.95, duration: 0.8, ease: 'power2.inOut' }, 0)
-        .to('.life-photo', { opacity: 1, scale: 1.05, duration: 1, ease: 'power2.out' }, 0.2)
-        .fromTo('.lifestyle-info', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.4);
-
-      // -- 7. PRODUCT SHOWCASE (PINNED CAROUSEL) --
-      const showcaseCards = gsap.utils.toArray('.showcase-card');
-      if (showcaseCards.length >= 3) {
-        const [sc1, sc2, sc3] = showcaseCards;
-        const isMobile = window.innerWidth < 768;
-        const scOffset = isMobile ? 85 : 120;
-        const scDoubleOffset = scOffset * 2;
-
-        gsap.set(sc1, { xPercent: 0, scale: 1, zIndex: 3, filter: 'brightness(1) blur(0px)', opacity: 1 });
-        gsap.set(sc2, { xPercent: scOffset, scale: 0.8, zIndex: 2, filter: 'brightness(0.35) blur(4px)', opacity: 0.65 });
-        gsap.set(sc3, { xPercent: scDoubleOffset, scale: 0.6, zIndex: 1, filter: 'brightness(0.15) blur(8px)', opacity: 0 });
-
-        const showTimeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: '#sec-showcase',
-            start: 'top top',
-            end: '+=250%',
-            pin: true,
-            scrub: 1.2
-          }
-        });
-
-        showTimeline
-          .to(sc1, { xPercent: -scOffset, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0)
-          .to(sc2, { xPercent: 0, scale: 1, filter: 'brightness(1) blur(0px)', opacity: 1, ease: 'power2.inOut' }, 0)
-          .to(sc3, { xPercent: scOffset, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0)
+        if (!isActive) {
+          this.classList.add('active');
+          this.querySelector('.pfs-accordion-icon').innerText = '-';
           
-          .to(sc1, { xPercent: -scDoubleOffset, scale: 0.6, filter: 'brightness(0.15) blur(8px)', opacity: 0, ease: 'power2.inOut' }, 1)
-          .to(sc2, { xPercent: -scOffset, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 1)
-          .to(sc3, { xPercent: 0, scale: 1, filter: 'brightness(1) blur(0px)', opacity: 1, ease: 'power2.inOut' }, 1);
+          const index = this.getAttribute('data-index');
+          const matchingPointer = document.querySelector(`.pfs-pointer[data-index="${index}"]`);
+          if (matchingPointer) {
+            matchingPointer.classList.add('mobile-visible');
+          }
+        }
+      });
+    });
 
-        showTimeline.to({}, { duration: 0.4 });
+    // Multi-View Logic
+    const imagesData = JSON.parse(document.getElementById('pfs-images-data').innerText);
+    const availableViews = Object.keys(imagesData).filter(key => imagesData[key] !== null);
+    
+    // Start with the initial view set by admin, or fallback to first available
+    let currentViewIndex = availableViews.indexOf('{{ section.settings.current_image }}');
+    if (currentViewIndex === -1 && availableViews.length > 0) currentViewIndex = 0;
+
+    const prevBtn = document.getElementById('pfs-prev');
+    const nextBtn = document.getElementById('pfs-next');
+    const mainImage = document.getElementById('pfs-main-image');
+
+    function updateView() {
+      if (availableViews.length === 0) return;
+      const currentView = availableViews[currentViewIndex];
+      
+      // Update Image with transition
+      if (mainImage) {
+        mainImage.classList.add('fading');
+        setTimeout(() => {
+          mainImage.src = imagesData[currentView];
+          mainImage.classList.remove('fading');
+        }, 300); // Wait for fade out
       }
 
-      // -- 9. LUXURY ENDING --
-      const endTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#sec-ending',
-          start: 'top 60%',
-          end: 'bottom bottom',
-          scrub: 1.2
+      // Update Pointers & Accordions
+      pointers.forEach(p => {
+        if (p.getAttribute('data-view') === currentView) {
+          p.classList.add('active-view');
+        } else {
+          p.classList.remove('active-view', 'mobile-visible');
         }
       });
 
-      endTimeline.fromTo('.ending-logo',
-        { opacity: 0, scale: 0.9, filter: 'blur(8px)' },
-        { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.5, ease: 'power2.out' }
-      );
-      endTimeline.fromTo('.ending-logo-sweep',
-        { x: '-100%', opacity: 0 },
-        { x: '200%', opacity: 0.8, duration: 1.4, ease: 'power2.inOut' },
-        '<'
-      );
-      endTimeline.fromTo('.ending-tagline',
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-        '>-0.4'
-      );
-      endTimeline.fromTo('.ending-btn',
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-        '>-0.4'
-      );
+      accordions.forEach(a => {
+        if (a.getAttribute('data-view') === currentView) {
+          a.classList.add('active-view');
+        } else {
+          a.classList.remove('active-view', 'active');
+          a.querySelector('.pfs-accordion-icon').innerText = '+';
+        }
+      });
     }
 
-    // Interactive Floating Particles Simulation
-    function initParticles() {
-      const canvas = document.getElementById('lux-particles');
-      if (!canvas) return;
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (availableViews.length > 0) {
+          currentViewIndex = (currentViewIndex - 1 + availableViews.length) % availableViews.length;
+          updateView();
+        }
+      });
+      nextBtn.addEventListener('click', () => {
+        if (availableViews.length > 0) {
+          currentViewIndex = (currentViewIndex + 1) % availableViews.length;
+          updateView();
+        }
+      });
+    }
+  }
 
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+  initPFS();
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initPFS();
+    }
+  });
 
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-
-      const PARTICLE_COUNT = 150;
-      const particles = [];
-
-      const goldColors = ['rgba(244,196,48,', 'rgba(255,215,0,', 'rgba(212,160,23,'];
-      const whiteColors = ['rgba(255,255,255,', 'rgba(240,240,240,', 'rgba(220,220,220,'];
-
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const isGold = Math.random() > 0.4;
-        const colorBase = isGold
-          ? goldColors[Math.floor(Math.random() * goldColors.length)]
-          : whiteColors[Math.floor(Math.random() * whiteColors.length)];
-
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          z: Math.random(),
-          vx: (Math.random() - 0.5) * 0.15,
-          vy: (Math.random() - 0.5) * 0.1 - 0.05,
-          size: Math.random() * 1.5 + 0.3,
-          opacity: Math.random() * 0.4 + 0.1,
-          color: colorBase,
-          phase: Math.random() * Math.PI * 2,
-          speed: Math.random() * 0.002 + 0.001
+  // Auto-switch image when admin selects a block
+  document.addEventListener('shopify:block:select', function(event) {
+    const blockId = event.detail.blockId;
+    const selectedPointer = document.querySelector(`.pfs-pointer[data-block-id="${blockId}"]`);
+    if (selectedPointer) {
+      const targetView = selectedPointer.getAttribute('data-view');
+      const availableViews = Object.keys(JSON.parse(document.getElementById('pfs-images-data').innerText)).filter(key => JSON.parse(document.getElementById('pfs-images-data').innerText)[key] !== null);
+      const targetIndex = availableViews.indexOf(targetView);
+      
+      const mainImage = document.getElementById('pfs-main-image');
+      if (targetIndex !== -1) {
+        // Force switch without relying on closure variables
+        mainImage.src = JSON.parse(document.getElementById('pfs-images-data').innerText)[targetView];
+        
+        document.querySelectorAll('.pfs-pointer').forEach(p => {
+          if (p.getAttribute('data-view') === targetView) p.classList.add('active-view');
+          else p.classList.remove('active-view');
         });
       }
-
-      let mouseX = 0, mouseY = 0, scrollY = 0, time = 0;
-
-      window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX - width / 2) / width;
-        mouseY = (e.clientY - height / 2) / height;
-      });
-
-      window.addEventListener('scroll', () => {
-        scrollY = window.scrollY;
-      }, { passive: true });
-
-      window.addEventListener('resize', () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        time += 1;
-        ctx.clearRect(0, 0, width, height);
-
-        const parallaxOffsetY = -(scrollY * 0.25);
-
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-
-          p.x += p.vx + Math.sin(time * p.speed + p.phase) * 0.06;
-          p.y += p.vy + Math.cos(time * p.speed * 0.7 + p.phase) * 0.05;
-
-          const depthFactor = p.z * 7;
-          const px = p.x + mouseX * depthFactor;
-          const py = p.y + mouseY * depthFactor + parallaxOffsetY * p.z;
-
-          if (p.x < -20) p.x = width + 20;
-          if (p.x > width + 20) p.x = -20;
-          if (p.y < -height * 0.2) p.y = height + 20;
-          if (p.y > height + 20) p.y = -height * 0.2;
-
-          const pulse = Math.sin(time * p.speed * 1.6 + p.phase) * 0.1;
-          const finalOpacity = Math.max(0, Math.min(1, p.opacity + pulse));
-          const size = p.size * (0.6 + p.z * 0.8);
-
-          const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 2.5);
-          grad.addColorStop(0, p.color + finalOpacity + ')');
-          grad.addColorStop(0.5, p.color + finalOpacity * 0.3 + ')');
-          grad.addColorStop(1, p.color + '0)');
-
-          ctx.beginPath();
-          ctx.arc(px, py, size * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = grad;
-          ctx.fill();
-
-          ctx.beginPath();
-          ctx.arc(px, py, size * 0.5, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + Math.min(1, finalOpacity * 1.5) + ')';
-          ctx.fill();
-        }
-      }
-      animate();
     }
-
-    // Initialize triggers
-    window.addEventListener('DOMContentLoaded', () => {
-      initLuxuryShowcase();
-      initParticles();
-    });
-    window.addEventListener('load', () => {
-      initLuxuryShowcase();
-    });
-  })();
+  });
 </script>
 
 {% schema %}
 {
-  "name": "Luxury Scroll Experience",
+  "name": "Product Feature Showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Front Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "back_image",
+      "label": "Back Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "zoom_image",
+      "label": "Zoom Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hover_image",
+      "label": "Hover Image"
+    },
+    {
+      "type": "select",
+      "id": "current_image",
+      "label": "Admin Preview Active Image",
+      "options": [
+        { "value": "front", "label": "Front" },
+        { "value": "back", "label": "Back" },
+        { "value": "side", "label": "Side" },
+        { "value": "zoom", "label": "Zoom" },
+        { "value": "hover", "label": "Hover" }
+      ],
+      "default": "front",
+      "info": "This determines which image and features show first on load."
+    },
+    {
+      "type": "header",
+      "content": "Image Styling"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Width",
+      "default": 680
+    },
+    {
+      "type": "number",
+      "id": "image_rotation",
+      "label": "Image Rotation (deg)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_scale",
+      "min": 0.5,
+      "max": 2.0,
+      "step": 0.1,
+      "label": "Image Scale",
+      "default": 1.0
+    },
+    {
+      "type": "header",
+      "content": "Background & Glow"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#070707"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow Color",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "range",
+      "id": "glow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Glow Opacity",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Animations & Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "floating_animation",
+      "label": "Enable Image Floating Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "glow_animation",
+      "label": "Enable Glow Pulse Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pointer_animation",
+      "label": "Enable Pointer Animations",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation Buttons",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pointer_count",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "label": "Max Pointers to Show",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Point",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "label": "Enable Feature",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "image_view",
+          "label": "Show on which image?",
+          "options": [
+            { "value": "front", "label": "Front" },
+            { "value": "back", "label": "Back" },
+            { "value": "side", "label": "Side" },
+            { "value": "zoom", "label": "Zoom" },
+            { "value": "hover", "label": "Hover" }
+          ],
+          "default": "front"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Cotton"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "240 GSM Super Combed Cotton for everyday comfort."
+        },
+        {
+          "type": "range",
+          "id": "dot_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Dot X Position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "dot_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Dot Y Position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "line_length",
+          "min": 0,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "label": "Line Length",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content Position",
+          "options": [
+            { "value": "right", "label": "Right of Dot" },
+            { "value": "left", "label": "Left of Dot" }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "range",
+          "id": "title_width",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "label": "Text Container Width",
+          "default": 220
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#D4AF37"
+        },
+        {
+          "type": "color",
+          "id": "subtitle_color",
+          "label": "Subtitle Color",
+          "default": "#D5D5D5"
+        },
+        {
+          "type": "color",
+          "id": "glow_color",
+          "label": "Dot/Line Glow Color",
+          "default": "#D4AF37"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Luxury Scroll Experience"
+      "name": "Product Feature Showcase",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "image_view": "front",
+            "title": "Premium Cotton",
+            "subtitle": "240 GSM Super Combed Cotton for everyday comfort.",
+            "dot_x": 30,
+            "dot_y": 60,
+            "line_length": 80,
+            "content_position": "left"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "image_view": "back",
+            "title": "Ribbed Neck",
+            "subtitle": "Stretch resistant rib.",
+            "dot_x": 60,
+            "dot_y": 20,
+            "line_length": 80,
+            "content_position": "right"
+          }
+        }
+      ]
     }
   ]
 }
