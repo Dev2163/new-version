@@ -1,0 +1,912 @@
+{% comment %}
+  ONE9 Luxury Streetwear - Cinematic Scroll Story Section (GSAP & Lenis)
+{% endcomment %}
+
+<!-- External Libraries (GSAP, ScrollTrigger, Lenis) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+
+<div id="one9-story-container" class="one9-story-wrap">
+  <!-- Scroll Progress Indicator -->
+  <div class="story-scroll-progress">
+    <div id="story-progress-bar" class="story-progress-bar"></div>
+  </div>
+
+  <!-- Interactive Canvas Particle Field -->
+  <canvas id="story-particles" class="story-particles-canvas"></canvas>
+
+  <!-- 1. Hero Section -->
+  <section class="story-hero-section story-panel">
+    <div class="story-hero-logo-wrap">
+      <h1 class="story-hero-logo">ONE9</h1>
+      <div class="story-hero-logo-sweep"></div>
+    </div>
+  </section>
+
+  <!-- 2. Product Carousel Section (Pinned) -->
+  <section id="story-carousel-trigger" class="story-carousel-section">
+    <div class="story-carousel-container">
+      <!-- Ambient Spotlight -->
+      <div class="story-carousel-spotlight"></div>
+      
+      <!-- Carousel Cards -->
+      <div class="story-carousel-cards-wrap">
+        <div class="story-carousel-card" data-idx="0">
+          <img src="{{ 'product-hoodie.jpg' | asset_url }}" alt="ONE9 Hoodie" loading="eager" width="500" height="667">
+          <div class="story-card-vignette"></div>
+        </div>
+        <div class="story-carousel-card" data-idx="1">
+          <img src="{{ 'product-tee.jpg' | asset_url }}" alt="ONE9 Graphic Tee" loading="eager" width="500" height="667">
+          <div class="story-card-vignette"></div>
+        </div>
+        <div class="story-carousel-card" data-idx="2">
+          <img src="{{ 'product-joggers.jpg' | asset_url }}" alt="ONE9 Joggers" loading="eager" width="500" height="667">
+          <div class="story-card-vignette"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Detail Crossfade Section (Pinned) -->
+  <section id="story-detail-trigger" class="story-detail-section">
+    <div class="story-detail-container">
+      <div id="story-detail-wrapper" class="story-detail-image-wrapper">
+        <img class="story-detail-img active" src="{{ 'detail-1.jpg' | asset_url }}" alt="Detail 1" loading="lazy" width="800" height="800">
+        <img class="story-detail-img" src="{{ 'detail-2.jpg' | asset_url }}" alt="Detail 2" loading="lazy" width="800" height="800">
+        <img class="story-detail-img" src="{{ 'detail-3.jpg' | asset_url }}" alt="Detail 3" loading="lazy" width="800" height="800">
+        <div class="story-detail-vignette"></div>
+      </div>
+      <!-- Ambient Text -->
+      <div class="story-detail-text">
+        <p class="story-detail-italic">Woven Intention</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Story Reveal Section -->
+  <section id="story-reveal-trigger" class="story-reveal-section story-panel">
+    <!-- Emerging Background Image -->
+    <div class="story-reveal-bg">
+      <img id="story-reveal-bg-img" src="{{ 'product-hoodie.jpg' | asset_url }}" alt="Aquarius Hoodie" loading="lazy" width="800" height="800">
+      <div class="story-reveal-overlay"></div>
+    </div>
+    <!-- Story Text Content -->
+    <div class="story-reveal-content">
+      <h2 class="story-reveal-title text-reveal">Aquarius</h2>
+      <p class="story-reveal-subtitle text-reveal">"Inspired by the timeless flow of knowledge and creativity."</p>
+      <div class="story-reveal-meta text-reveal">
+        <span>Premium heavyweight cotton</span>
+        <span>Designed for everyday luxury</span>
+        <span class="story-reveal-limited">Limited Edition</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Collection Showcase -->
+  <section id="story-showcase-trigger" class="story-showcase-section">
+    <div class="story-showcase-container">
+      <div class="story-showcase-grid">
+        <!-- Item 1 -->
+        <div class="story-showcase-item">
+          <div class="story-showcase-img-wrap">
+            <img src="{{ 'product-hoodie.jpg' | asset_url }}" alt="Aquarius Hoodie" loading="lazy" width="400" height="533">
+            <div class="story-showcase-glow"></div>
+          </div>
+          <h3 class="story-showcase-title">Aquarius Hoodie</h3>
+        </div>
+        <!-- Item 2 -->
+        <div class="story-showcase-item">
+          <div class="story-showcase-img-wrap">
+            <img src="{{ 'product-tee.jpg' | asset_url }}" alt="Aquarius Tee" loading="lazy" width="400" height="533">
+            <div class="story-showcase-glow"></div>
+          </div>
+          <h3 class="story-showcase-title">Aquarius Tee</h3>
+        </div>
+        <!-- Item 3 -->
+        <div class="story-showcase-item">
+          <div class="story-showcase-img-wrap">
+            <img src="{{ 'product-joggers.jpg' | asset_url }}" alt="Aquarius Joggers" loading="lazy" width="400" height="533">
+            <div class="story-showcase-glow"></div>
+          </div>
+          <h3 class="story-showcase-title">Aquarius Joggers</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Brand Ending Section -->
+  <section id="story-ending-trigger" class="story-ending-section story-panel">
+    <div class="story-ending-logo-wrap">
+      <h2 class="story-ending-logo">ONE9</h2>
+      <div class="story-ending-logo-sweep"></div>
+    </div>
+    <p id="story-ending-tagline" class="story-ending-tagline">
+      <span>W</span><span>e</span><span>a</span><span>r</span><span>&nbsp;</span><span>Y</span><span>o</span><span>u</span><span>r</span><span>&nbsp;</span><span>S</span><span>t</span><span>o</span><span>r</span><span>y</span>
+    </p>
+  </section>
+</div>
+
+<style>
+  /* Base Reset inside container */
+  .one9-story-wrap {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Custom Scrollbar hide */
+  .one9-story-wrap ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Scroll Progress Line */
+  .story-scroll-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    z-index: 99999;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  .story-progress-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #C9A96E;
+    transform: scaleY(0);
+    transform-origin: top;
+    will-change: transform;
+  }
+
+  /* Particle Canvas */
+  .story-particles-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  .story-panel {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* 1. Hero Styles */
+  .story-hero-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .story-hero-logo-wrap {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    will-change: transform;
+  }
+  .story-hero-logo {
+    font-family: 'Orbitron', 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(4rem, 12vw, 9rem);
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 0 20px rgba(201, 169, 170, 0.15);
+    line-height: 1.1;
+  }
+  .story-hero-logo-sweep {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #C9A96E, transparent);
+    opacity: 0.8;
+    mix-blend-mode: overlay;
+    filter: blur(8px);
+    transform: skewX(-12deg) translateX(-100%);
+  }
+
+  /* 2. Product Carousel Styles */
+  .story-carousel-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    overflow: hidden;
+  }
+  .story-carousel-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 1400px;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+  }
+  .story-carousel-spotlight {
+    position: absolute;
+    top: -20%;
+    right: 20%;
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0) 70%);
+    pointer-events: none;
+    z-index: 20;
+  }
+  .story-carousel-cards-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .story-carousel-card {
+    position: absolute;
+    width: 80vw;
+    max-width: 420px;
+    aspect-ratio: 3/4;
+    will-change: transform, opacity, filter;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .story-carousel-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .story-card-vignette {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.85);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* 3. Detail Crossfade Styles */
+  .story-detail-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    overflow: hidden;
+    background: #000;
+  }
+  .story-detail-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .story-detail-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    clip-path: inset(20% 20% 20% 20%);
+    transform: scale(0.85);
+    will-change: transform, clip-path, opacity, filter;
+    transition: clip-path 0.1s ease, transform 0.1s ease;
+  }
+  @media (min-width: 769px) {
+    .story-detail-image-wrapper {
+      width: 75vw;
+      height: 75vh;
+    }
+  }
+  .story-detail-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .story-detail-img.active {
+    opacity: 1;
+  }
+  .story-detail-vignette {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .story-detail-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    opacity: 0.55;
+    z-index: 10;
+  }
+  .story-detail-italic {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #ffffff;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+
+  /* 4. Story Reveal Styles */
+  .story-reveal-section {
+    position: relative;
+    width: 100%;
+    height: 140vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+    overflow: hidden;
+  }
+  .story-reveal-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .story-reveal-bg-img {
+    width: 120vw;
+    max-width: none;
+    object-cover: cover;
+    mix-blend-mode: screen;
+    will-change: transform, opacity, filter;
+  }
+  @media (min-width: 769px) {
+    .story-reveal-bg-img {
+      width: 60vw;
+    }
+  }
+  .story-reveal-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, #000, transparent, #000);
+  }
+  .story-reveal-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 650px;
+    padding: 0 24px;
+    gap: 30px;
+  }
+  .story-reveal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.1em;
+  }
+  .story-reveal-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    color: #C9A96E;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .story-reveal-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .story-reveal-limited {
+    color: #ffffff;
+    margin-top: 14px;
+    font-weight: 600;
+  }
+
+  /* 5. Showcase Styles */
+  .story-showcase-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 10;
+    padding: 100px 0;
+    display: flex;
+    align-items: center;
+  }
+  .story-showcase-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .story-showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  @media (min-width: 769px) {
+    .story-showcase-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+    }
+  }
+  .story-showcase-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    will-change: transform, opacity, filter;
+  }
+  .story-showcase-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+  .story-showcase-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .story-showcase-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,169,110,0.18) 0%, rgba(0,0,0,0) 75%);
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 1.2s ease;
+  }
+  .story-showcase-item:hover .story-showcase-img-wrap img {
+    transform: scale(1.05);
+  }
+  .story-showcase-item:hover .story-showcase-glow {
+    opacity: 1;
+  }
+  .story-showcase-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    color: #ffffff;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.1em;
+    margin: 0;
+    opacity: 0.8;
+    transition: opacity 0.4s;
+  }
+  .story-showcase-item:hover .story-showcase-title {
+    opacity: 1;
+  }
+
+  /* 6. Brand Ending Styles */
+  .story-ending-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .story-ending-logo-wrap {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 24px;
+    will-change: transform;
+  }
+  .story-ending-logo {
+    font-family: 'Orbitron', 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    letter-spacing: 0.25em;
+    color: #ffffff;
+    margin: 0;
+  }
+  .story-ending-logo-sweep {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #C9A96E, transparent);
+    opacity: 0.8;
+    mix-blend-mode: overlay;
+    filter: blur(6px);
+    transform: skewX(-12deg) translateX(-100%);
+  }
+  .story-ending-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    color: #C9A96E;
+    letter-spacing: 0.2em;
+    margin: 0;
+  }
+  .story-ending-tagline span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(10px);
+    will-change: transform, opacity;
+  }
+</style>
+
+<script>
+  (function() {
+    function initCinematicStory() {
+      // 1. Lenis Smooth Scroll Initialisation
+      let lenis;
+      if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          gestureOrientation: 'vertical',
+          smoothWheel: true
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
+
+      // 2. GSAP & ScrollTrigger Configuration
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        setTimeout(initCinematicStory, 100);
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Track Lenis Scroll in ScrollTrigger
+      if (lenis) {
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+      }
+
+      // -- 1. HERO LOGO ANIMATIONS --
+      const heroTimeline = gsap.timeline();
+      heroTimeline.fromTo('.story-hero-logo',
+        { opacity: 0, scale: 0.9, filter: 'blur(10px)' },
+        { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 2.2, ease: 'power3.out', delay: 0.4 }
+      );
+      heroTimeline.fromTo('.story-hero-logo-sweep',
+        { x: '-100%', opacity: 0 },
+        { x: '200%', opacity: 0.8, duration: 1.8, ease: 'power2.inOut' },
+        '-=1.4'
+      );
+
+      gsap.to('.story-hero-logo', {
+        scrollTrigger: {
+          trigger: '.story-hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
+        },
+        y: -120,
+        scale: 0.82,
+        opacity: 0,
+        filter: 'blur(5px)',
+        ease: 'power2.inOut'
+      });
+
+      // -- 2. CAROUSEL PARALLAX / PINNING --
+      const carouselCards = gsap.utils.toArray('.story-carousel-card');
+      if (carouselCards.length >= 3) {
+        const [c1, c2, c3] = carouselCards;
+
+        // Set initial positions
+        gsap.set(c1, { xPercent: 0, scale: 1, zIndex: 3, filter: 'brightness(1) blur(0px)', opacity: 1 });
+        gsap.set(c2, { xPercent: 120, scale: 0.8, zIndex: 2, filter: 'brightness(0.35) blur(4px)', opacity: 0.65 });
+        gsap.set(c3, { xPercent: 240, scale: 0.6, zIndex: 1, filter: 'brightness(0.15) blur(8px)', opacity: 0 });
+
+        const carouselTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: '#story-carousel-trigger',
+            start: 'top top',
+            end: '+=250%',
+            pin: true,
+            scrub: 1.2
+          }
+        });
+
+        // Frame 1 -> Frame 2
+        carouselTimeline.to(c1, { xPercent: -120, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0)
+          .to(c2, { xPercent: 0, scale: 1, filter: 'brightness(1) blur(0px)', opacity: 1, ease: 'power2.inOut' }, 0)
+          .to(c3, { xPercent: 120, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0);
+
+        // Frame 2 -> Frame 3
+        carouselTimeline.to(c1, { xPercent: -240, scale: 0.6, filter: 'brightness(0.15) blur(8px)', opacity: 0, ease: 'power2.inOut' }, 1)
+          .to(c2, { xPercent: -120, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 1)
+          .to(c3, { xPercent: 0, scale: 1, filter: 'brightness(1) blur(0px)', opacity: 1, ease: 'power2.inOut' }, 1);
+
+        carouselTimeline.to({}, { duration: 0.4 });
+      }
+
+      // -- 3. DETAIL IMAGES PIN & CROSSFADE --
+      const detailTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#story-detail-trigger',
+          start: 'top top',
+          end: '+=200%',
+          pin: true,
+          scrub: 1.2
+        }
+      });
+
+      const detailImages = gsap.utils.toArray('.story-detail-img');
+      if (detailImages.length >= 3) {
+        // Initial zoom / scale states
+        gsap.set('#story-detail-wrapper', { scale: 0.8, clipPath: 'inset(20% 20% 20% 20%)' });
+        gsap.set(detailImages[0], { opacity: 1, scale: 1 });
+        gsap.set(detailImages[1], { opacity: 0, scale: 1.12 });
+        gsap.set(detailImages[2], { opacity: 0, scale: 1.12 });
+
+        // Phase 1: Expand Clip
+        detailTimeline.to('#story-detail-wrapper', { scale: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 1, ease: 'power2.inOut' }, 0)
+          .to(detailImages[0], { scale: 1.08, duration: 1, ease: 'none' }, 0)
+          
+          // Phase 2: Fade 1 -> 2
+          .to(detailImages[0], { opacity: 0, duration: 0.5 }, 1)
+          .to(detailImages[1], { opacity: 1, scale: 1, duration: 1, ease: 'power1.out' }, 1)
+
+          // Phase 3: Fade 2 -> 3
+          .to(detailImages[1], { opacity: 0, duration: 0.5 }, 2)
+          .to(detailImages[2], { opacity: 1, scale: 1, duration: 1, ease: 'power1.out' }, 2)
+
+          // Phase 4: Exit Blur
+          .to('#story-detail-wrapper', { opacity: 0.25, filter: 'blur(8px)', duration: 0.5, ease: 'power2.inOut' }, 3);
+      }
+
+      // -- 4. STORY TEXT / BG IMAGE REVEAL --
+      const revealTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#story-reveal-trigger',
+          start: 'top center',
+          end: 'bottom bottom',
+          scrub: 1.2
+        }
+      });
+
+      revealTimeline.fromTo('#story-reveal-bg-img',
+        { y: 80, opacity: 0, filter: 'blur(8px)', scale: 1.1 },
+        { y: 0, opacity: 0.35, filter: 'blur(0px)', scale: 1, duration: 1, ease: 'power2.out' }
+      );
+
+      const revealParagraphs = gsap.utils.toArray('.text-reveal');
+      revealParagraphs.forEach((el, index) => {
+        revealTimeline.fromTo(el,
+          { y: 35, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' },
+          `>-0.5`
+        );
+      });
+
+      // -- 5. COLLECTION SHOWCASE ENTRY --
+      const showcaseTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#story-showcase-trigger',
+          start: 'top 60%',
+          end: 'bottom 85%',
+          scrub: 1.2
+        }
+      });
+
+      const showcaseItems = gsap.utils.toArray('.story-showcase-item');
+      showcaseItems.forEach((item, index) => {
+        showcaseTimeline.fromTo(item,
+          { y: 120, opacity: 0, scale: 0.92, filter: 'blur(8px)' },
+          { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1, ease: 'power2.out' },
+          index * 0.25
+        );
+      });
+
+      // -- 6. BRAND ENDING --
+      const endingTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#story-ending-trigger',
+          start: 'top 55%',
+          end: 'bottom bottom',
+          scrub: 1.2
+        }
+      });
+
+      endingTimeline.fromTo('.story-ending-logo',
+        { opacity: 0, scale: 0.9, filter: 'blur(6px)' },
+        { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1, ease: 'power2.out' }
+      );
+
+      endingTimeline.fromTo('.story-ending-logo-sweep',
+        { x: '-100%', opacity: 0 },
+        { x: '200%', opacity: 0.8, duration: 1.4, ease: 'power2.inOut' },
+        '<'
+      );
+
+      const taglineChars = gsap.utils.toArray('#story-ending-tagline span');
+      endingTimeline.fromTo(taglineChars,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' },
+        '>-0.4'
+      );
+
+      // -- 7. SCROLL PROGRESS TRACKING --
+      gsap.to('#story-progress-bar', {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#one9-story-container',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true
+        }
+      });
+    }
+
+    // Canvas Particles Simulation
+    function initParticles() {
+      const canvas = document.getElementById('story-particles');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      const PARTICLE_COUNT = 140;
+      const particles = [];
+
+      const goldColors = ['rgba(201,169,110,', 'rgba(220,190,130,', 'rgba(180,150,90,'];
+      const whiteColors = ['rgba(255,255,255,', 'rgba(240,240,240,', 'rgba(220,220,220,'];
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const isGold = Math.random() > 0.4;
+        const colorBase = isGold
+          ? goldColors[Math.floor(Math.random() * goldColors.length)]
+          : whiteColors[Math.floor(Math.random() * whiteColors.length)];
+
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+
+        particles.push({
+          x,
+          y,
+          z: Math.random(),
+          vx: (Math.random() - 0.5) * 0.12,
+          vy: (Math.random() - 0.5) * 0.1 - 0.04,
+          size: Math.random() * 1.5 + 0.3,
+          opacity: Math.random() * 0.4 + 0.1,
+          color: colorBase,
+          phase: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.0025 + 0.001
+        });
+      }
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let scrollY = 0;
+      let time = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - width / 2) / width;
+        mouseY = (e.clientY - height / 2) / height;
+      });
+
+      window.addEventListener('scroll', () => {
+        scrollY = window.scrollY;
+      }, { passive: true });
+
+      window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 1;
+
+        ctx.clearRect(0, 0, width, height);
+        const parallaxOffsetY = -(scrollY * 0.2);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+
+          // Sinusoidal drift movement
+          p.x += p.vx + Math.sin(time * p.speed + p.phase) * 0.06;
+          p.y += p.vy + Math.cos(time * p.speed * 0.65 + p.phase) * 0.05;
+
+          // Parallax effect calculations
+          const depthFactor = p.z * 6;
+          const px = p.x + mouseX * depthFactor;
+          const py = p.y + mouseY * depthFactor + parallaxOffsetY * p.z;
+
+          // Wrapping bounds
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -height * 0.2) p.y = height + 20;
+          if (p.y > height + 20) p.y = -height * 0.2;
+
+          const pulse = Math.sin(time * p.speed * 1.8 + p.phase) * 0.12;
+          const finalOpacity = Math.max(0, Math.min(1, p.opacity + pulse));
+          const size = p.size * (0.5 + p.z * 0.8);
+
+          // Outer Glow Gradient
+          const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 2.5);
+          grad.addColorStop(0, p.color + finalOpacity + ')');
+          grad.addColorStop(0.5, p.color + finalOpacity * 0.35 + ')');
+          grad.addColorStop(1, p.color + '0)');
+
+          ctx.beginPath();
+          ctx.arc(px, py, size * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+
+          // Core dot
+          ctx.beginPath();
+          ctx.arc(px, py, size * 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + Math.min(1, finalOpacity * 1.6) + ')';
+          ctx.fill();
+        }
+      }
+
+      animate();
+    }
+
+    // Initialize all components after document loads
+    window.addEventListener('DOMContentLoaded', () => {
+      initCinematicStory();
+      initParticles();
+    });
+
+    window.addEventListener('load', () => {
+      initCinematicStory();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cinematic Story",
+  "presets": [
+    {
+      "name": "Cinematic Story"
+    }
+  ]
+}
+{% endschema %}
