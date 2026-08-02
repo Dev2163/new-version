@@ -649,10 +649,15 @@
       if (carouselCards.length >= 3) {
         const [c1, c2, c3] = carouselCards;
 
+        // Dynamic offset based on screen width for mobile responsiveness
+        const isMobile = window.innerWidth < 768;
+        const offsetVal = isMobile ? 85 : 120;
+        const doubleOffsetVal = offsetVal * 2;
+
         // Set initial positions
         gsap.set(c1, { xPercent: 0, scale: 1, zIndex: 3, filter: 'brightness(1) blur(0px)', opacity: 1 });
-        gsap.set(c2, { xPercent: 120, scale: 0.8, zIndex: 2, filter: 'brightness(0.35) blur(4px)', opacity: 0.65 });
-        gsap.set(c3, { xPercent: 240, scale: 0.6, zIndex: 1, filter: 'brightness(0.15) blur(8px)', opacity: 0 });
+        gsap.set(c2, { xPercent: offsetVal, scale: 0.8, zIndex: 2, filter: 'brightness(0.35) blur(4px)', opacity: 0.65 });
+        gsap.set(c3, { xPercent: doubleOffsetVal, scale: 0.6, zIndex: 1, filter: 'brightness(0.15) blur(8px)', opacity: 0 });
 
         const carouselTimeline = gsap.timeline({
           scrollTrigger: {
@@ -665,13 +670,13 @@
         });
 
         // Frame 1 -> Frame 2
-        carouselTimeline.to(c1, { xPercent: -120, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0)
+        carouselTimeline.to(c1, { xPercent: -offsetVal, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0)
           .to(c2, { xPercent: 0, scale: 1, filter: 'brightness(1) blur(0px)', opacity: 1, ease: 'power2.inOut' }, 0)
-          .to(c3, { xPercent: 120, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0);
+          .to(c3, { xPercent: offsetVal, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 0);
 
         // Frame 2 -> Frame 3
-        carouselTimeline.to(c1, { xPercent: -240, scale: 0.6, filter: 'brightness(0.15) blur(8px)', opacity: 0, ease: 'power2.inOut' }, 1)
-          .to(c2, { xPercent: -120, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 1)
+        carouselTimeline.to(c1, { xPercent: -doubleOffsetVal, scale: 0.6, filter: 'brightness(0.15) blur(8px)', opacity: 0, ease: 'power2.inOut' }, 1)
+          .to(c2, { xPercent: -offsetVal, scale: 0.8, filter: 'brightness(0.35) blur(4px)', opacity: 0.65, ease: 'power2.inOut' }, 1)
           .to(c3, { xPercent: 0, scale: 1, filter: 'brightness(1) blur(0px)', opacity: 1, ease: 'power2.inOut' }, 1);
 
         carouselTimeline.to({}, { duration: 0.4 });
@@ -794,6 +799,31 @@
           scrub: true
         }
       });
+
+      // -- 8. MANUAL HEADER SCROLL DIRECTION SYNC FOR LENIS --
+      const headerComp = document.querySelector('header-component');
+      if (headerComp) {
+        let lastST = 0;
+        window.addEventListener('scroll', () => {
+          const st = window.pageYOffset || document.documentElement.scrollTop;
+          if (st <= 15) {
+            headerComp.dataset.scrollDirection = 'none';
+            headerComp.dataset.stickyState = 'inactive';
+          } else if (st < lastST) {
+            // Scrolling up -> show header
+            headerComp.dataset.scrollDirection = 'up';
+            headerComp.dataset.stickyState = 'active';
+            headerComp.classList.add('shopify-section-header-sticky');
+            const parentSection = headerComp.closest('#shopify-section-header');
+            if (parentSection) parentSection.classList.add('shopify-section-header-sticky');
+          } else {
+            // Scrolling down -> hide header
+            headerComp.dataset.scrollDirection = 'down';
+            headerComp.dataset.stickyState = 'idle';
+          }
+          lastST = st <= 0 ? 0 : st;
+        }, { passive: true });
+      }
     }
 
     // Canvas Particles Simulation
