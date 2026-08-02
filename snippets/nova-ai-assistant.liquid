@@ -52,13 +52,8 @@
         </div>
       </div>
 
-      <!-- Controls: Language Selector + Close -->
+      <!-- Controls: Close -->
       <div class="nova-ai-panel__controls">
-        <div class="nova-ai-lang-selector" title="Select Language">
-          <button type="button" class="lang-btn active" data-lang="en">EN</button>
-          <button type="button" class="lang-btn" data-lang="hi">HI</button>
-          <button type="button" class="lang-btn" data-lang="gu">GUJ</button>
-        </div>
         <button 
           id="nova-ai-close" 
           type="button" 
@@ -371,32 +366,7 @@
     flex-shrink: 0;
   }
 
-  /* Language Selector */
-  .nova-ai-lang-selector {
-    display: flex;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(244, 196, 48, 0.3);
-    border-radius: 6px;
-    padding: 2px;
-  }
 
-  .lang-btn {
-    background: transparent;
-    border: none;
-    color: #CCC;
-    font-size: 9px;
-    font-weight: 700;
-    padding: 3px 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .lang-btn.active {
-    background: #F4C430;
-    color: #000000;
-    font-weight: 900;
-  }
 
   .nova-ai-panel__close {
     background: rgba(255, 255, 255, 0.08);
@@ -776,39 +746,17 @@
     const quickRepliesContainer = document.getElementById('nova-ai-quick-replies');
     const form = document.getElementById('nova-ai-form');
     const input = document.getElementById('nova-ai-input');
-    const langBtns = document.querySelectorAll('.lang-btn');
-
-    // Language Switcher
-    langBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        langBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentLang = btn.dataset.lang;
-        addBotMessage(getLangWelcomeMsg(currentLang), [], getLangQuickReplies(currentLang));
-      });
-    });
-
     function getLangWelcomeMsg(lang) {
-      if (lang === 'hi') {
-        return "नमस्ते! मैं NovaAI हूँ, आपका Streetwear AI Assistant। आज मैं आपकी क्या मदद कर सकता हूँ? Fits, Orders या Discounts?";
-      } else if (lang === 'gu') {
-        return "નમસ્તે! હું NovaAI છું, તમારો Streetwear AI Assistant. આજે હું તમને કેવી રીતે મદદ કરી શકું? Order Tracking, Sizes કે Offers?";
-      }
       return "Yo! I'm NovaAI, your ONE9 streetwear sales assistant. Looking for fresh oversized fits, order updates, or discount codes?";
     }
 
     function getLangQuickReplies(lang) {
-      if (lang === 'hi') {
-        return ["👕 Trending Fits", "📦 Order Track", "🔥 Drop 002", "🏷️ Discount Code"];
-      } else if (lang === 'gu') {
-        return ["👕 Top Items", "📦 Tracking", "🔥 Drop 002", "🏷️ Offers"];
-      }
       return ["👕 Trending Fits", "📦 Track Order", "🔥 Drop 002", "🏷️ Discount Codes"];
     }
 
     function initWelcome() {
       if (messagesContainer && messagesContainer.children.length === 0) {
-        addBotMessage(getLangWelcomeMsg(currentLang), [], getLangQuickReplies(currentLang));
+        addBotMessage(getLangWelcomeMsg('en'), [], getLangQuickReplies('en'));
       }
     }
 

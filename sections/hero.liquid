@@ -1,3 +1,7 @@
+{%- if section.settings.image != blank -%}
+  <link rel="preload" as="image" href="{{ section.settings.image | image_url: width: 1000 }}" imagesrcset="{{ section.settings.image | image_url: width: 375 }} 375w, {{ section.settings.image | image_url: width: 550 }} 550w, {{ section.settings.image | image_url: width: 750 }} 750w, {{ section.settings.image | image_url: width: 1000 }} 1000w, {{ section.settings.image | image_url: width: 1400 }} 1400w" imagesizes="(min-width: 990px) 50vw, 100vw">
+{%- endif -%}
+
 <div class="custom-hero-container-{{ section.id }}">
   <!-- HERO PART -->
   <div class="custom-hero-{{ section.id }}">
