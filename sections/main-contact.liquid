@@ -1,16 +1,18 @@
 {% comment %}
-  ONE9 Luxury Streetwear - Contact & Support Section (Gold, Black & White Palette)
+  ONE9 Luxury Streetwear - Contact & Support Section (Gold, Black & White Palette) - Ultra Luxury Edition
 {% endcomment %}
 
-<div class="main-contact section-{{ section.id }}" style="background-color: #050505; color: #ffffff; padding: 60px 0;">
-  <div class="page-width">
+<div class="main-contact section-{{ section.id }}" style="background-color: #050505; color: #ffffff; padding: 80px 0; position: relative; overflow: hidden;">
+  <!-- Subtle background ambient glow -->
+  <div class="contact-bg-glow"></div>
+
+  <div class="page-width" style="position: relative; z-index: 2;">
     <!-- Heading -->
-    <div style="text-align: center; max-width: 700px; margin: 0 auto 56px auto;">
-      <span style="font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; color: #f4c430; letter-spacing: 2.5px; text-transform: uppercase;">24/7 CONCIERGE & SUPPORT</span>
-      <h1 style="font-family: 'Orbitron', sans-serif; font-size: clamp(30px, 5vw, 48px); font-weight: 900; text-transform: uppercase; margin: 12px 0 18px 0; color: #ffffff; letter-spacing: 1px; text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);">
-        GET IN TOUCH
-      </h1>
-      <p style="font-family: 'Rajdhani', sans-serif; font-size: 16px; color: #a0a0a0;">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 64px auto;">
+      <span class="contact-pre-title">24/7 CONCIERGE & SUPPORT</span>
+      <h1 class="contact-main-title">GET IN TOUCH</h1>
+      <div class="contact-title-separator"></div>
+      <p class="contact-desc">
         Have questions about sizing, orders, or worldwide shipping? Our client support team is here to assist you.
       </p>
     </div>
@@ -24,88 +26,91 @@
         <!-- Contact Channels Cards -->
         <div style="display: flex; flex-direction: column; gap: 20px;">
           <!-- Direct WhatsApp -->
-          <div class="glass-panel" style="padding: 24px; border-radius: 12px; display: flex; align-items: center; gap: 18px; transition: border-color 0.3s;">
-            <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(37, 211, 102, 0.12); color: #25D366; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <a href="https://wa.me/447000000000" target="_blank" class="contact-card glass-panel">
+            <div class="contact-icon-wrap whatsapp-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
               </svg>
             </div>
-            <div>
-              <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px;">WHATSAPP VIP CHAT</div>
-              <div style="font-family: 'Rajdhani', sans-serif; font-size: 13px; color: #a0a0a0; margin-top: 2px;">Instant responses for VIP inquiries</div>
-              <a href="https://wa.me/447000000000" target="_blank" style="color: #25D366; font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; text-decoration: none; margin-top: 6px; display: inline-block;">Message on WhatsApp &rarr;</a>
+            <div class="contact-card-info">
+              <div class="contact-card-title">WHATSAPP VIP CHAT</div>
+              <div class="contact-card-sub">Instant responses for VIP inquiries</div>
+              <span class="contact-card-action whatsapp-color">Message on WhatsApp &rarr;</span>
             </div>
-          </div>
+          </a>
 
           <!-- Email Concierge -->
-          <div class="glass-panel" style="padding: 24px; border-radius: 12px; display: flex; align-items: center; gap: 18px; transition: border-color 0.3s;">
-            <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(244, 196, 48, 0.12); color: #f4c430; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <a href="mailto:support@one9clothing.com" class="contact-card glass-panel">
+            <div class="contact-icon-wrap email-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
             </div>
-            <div>
-              <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px;">CLIENT CARE EMAIL</div>
-              <div style="font-family: 'Rajdhani', sans-serif; font-size: 13px; color: #a0a0a0; margin-top: 2px;">support@one9clothing.com</div>
-              <a href="mailto:support@one9clothing.com" style="color: #f4c430; font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; text-decoration: none; margin-top: 6px; display: inline-block;">Send an Email &rarr;</a>
+            <div class="contact-card-info">
+              <div class="contact-card-title">CLIENT CARE EMAIL</div>
+              <div class="contact-card-sub">support@one9clothing.com</div>
+              <span class="contact-card-action gold-color">Send an Email &rarr;</span>
             </div>
-          </div>
+          </a>
         </div>
 
         <!-- FAQ Accordion -->
-        <div class="glass-panel" style="padding: 32px; border-radius: 12px;">
-          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; color: #ffffff; text-transform: uppercase; margin-bottom: 24px; letter-spacing: 1px;">
+        <div class="glass-panel faq-box">
+          <h3 class="faq-box-title">
             FREQUENTLY ASKED QUESTIONS
           </h3>
-          <div style="display: flex; flex-direction: column; gap: 18px;">
-            <details style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;">
-              <summary style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: #f4c430; cursor: pointer; outline: none; list-style: none;">
-                ✦ WHAT IS THE SHIPPING TIME FOR ORDERS?
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <details class="faq-details">
+              <summary class="faq-summary">
+                <span>WHAT IS THE SHIPPING TIME FOR ORDERS?</span>
+                <span class="faq-icon">✦</span>
               </summary>
-              <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; margin-top: 10px; line-height: 1.6;">
-                Domestic express orders take 1-3 business days. International orders typically arrive within 3-7 business days via priority DHL/FedEx.
-              </p>
+              <div class="faq-content">
+                <p>Domestic express orders take 1-3 business days. International orders typically arrive within 3-7 business days via priority DHL/FedEx.</p>
+              </div>
             </details>
 
-            <details style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;">
-              <summary style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: #f4c430; cursor: pointer; outline: none; list-style: none;">
-                ✦ HOW DO I RETURN OR EXCHANGE AN ITEM?
+            <details class="faq-details">
+              <summary class="faq-summary">
+                <span>HOW DO I RETURN OR EXCHANGE AN ITEM?</span>
+                <span class="faq-icon">✦</span>
               </summary>
-              <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; margin-top: 10px; line-height: 1.6;">
-                We offer a 30-day money-back return policy. Simply submit your order number in our online returns portal.
-              </p>
+              <div class="faq-content">
+                <p>We offer a 30-day money-back return policy. Simply submit your order number in our online returns portal.</p>
+              </div>
             </details>
 
-            <details style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;">
-              <summary style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: #f4c430; cursor: pointer; outline: none; list-style: none;">
-                ✦ ARE YOUR PRODUCTS 100% ORIGINAL?
+            <details class="faq-details">
+              <summary class="faq-summary">
+                <span>ARE YOUR PRODUCTS 100% ORIGINAL?</span>
+                <span class="faq-icon">✦</span>
               </summary>
-              <p style="font-family: 'Rajdhani', sans-serif; font-size: 14px; color: #b0b0b0; margin-top: 10px; line-height: 1.6;">
-                Yes, all ONE9 products are 100% original, designed in-house and manufactured with custom serial authentication tags.
-              </p>
+              <div class="faq-content">
+                <p>Yes, all ONE9 products are 100% original, designed in-house and manufactured with custom serial authentication tags.</p>
+              </div>
             </details>
           </div>
         </div>
       </div>
 
       <!-- Right Column: Interactive Form -->
-      <div class="glass-panel" style="padding: 40px; border-radius: 12px;">
-        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; color: #ffffff; text-transform: uppercase; margin-bottom: 24px; letter-spacing: 1px;">
+      <div class="glass-panel form-box">
+        <h3 class="form-box-title">
           SEND A MESSAGE
         </h3>
         
         {%- form 'contact', id: 'ContactForm', class: 'contact-form-style' -%}
           {%- if form.posted_successfully? -%}
-            <div class="form-status form-status-success" tabindex="-1" autofocus style="color: #25D366; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+            <div class="form-status form-status-success" tabindex="-1" autofocus style="color: #25D366; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               Thanks for contacting us. We'll get back to you shortly!
             </div>
           {%- elsif form.errors -%}
-            <div class="form-status form-status-error" style="color: #ff4d4d; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 20px;">
-              <h2 style="font-size: 16px; margin: 0 0 8px 0;">Please adjust the following:</h2>
+            <div class="form-status form-status-error" style="color: #ff4d4d; font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-bottom: 24px;">
+              <h2 style="font-size: 16px; margin: 0 0 8px 0; font-family: 'Orbitron', sans-serif;">Please adjust the following:</h2>
               {{ form.errors | default_errors }}
             </div>
           {%- endif -%}
@@ -125,7 +130,7 @@
             <input type="tel" id="ContactForm-phone" name="contact[phone]" class="theme-input" placeholder="Enter your phone number (optional)">
           </div>
 
-          <div class="input-group">
+          <div class="input-group" style="margin-bottom: 28px;">
             <label for="ContactForm-body" class="input-label">MESSAGE / INQUIRY</label>
             <textarea id="ContactForm-body" name="contact[body]" rows="6" class="theme-input theme-textarea" placeholder="How can we help you?" required></textarea>
           </div>
@@ -139,6 +144,20 @@
 </div>
 
 <style>
+  /* Ambient Background Glow */
+  .contact-bg-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(circle, rgba(244, 196, 48, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Grid and Column Heights */
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -149,68 +168,262 @@
       grid-template-columns: 1fr 1.2fr;
     }
   }
-  .theme-input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-    padding: 14px 16px;
-    color: #ffffff;
+
+  /* Text & Title Styling */
+  .contact-pre-title {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    outline: none;
-    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 700;
+    color: #f4c430;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .contact-main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(32px, 5.5vw, 52px);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+  }
+  .contact-title-separator {
+    width: 50px;
+    height: 2px;
+    background: #f4c430;
+    margin: 18px auto;
+    box-shadow: 0 0 8px rgba(244, 196, 48, 0.5);
+  }
+  .contact-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    color: #b0b0b0;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Luxury Card styles */
+  .contact-card {
+    text-decoration: none;
+    padding: 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
   }
-  .theme-input:focus {
-    border-color: #f4c430;
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 0 10px rgba(244, 196, 48, 0.15);
+  .contact-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(244, 196, 48, 0.3) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(244, 196, 48, 0.1);
   }
-  .input-group {
-    margin-bottom: 20px;
+  .contact-icon-wrap {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease;
+  }
+  .contact-card:hover .contact-icon-wrap {
+    transform: scale(1.08);
+  }
+  .whatsapp-icon {
+    background: rgba(37, 211, 102, 0.08);
+    color: #25D366;
+    border-color: rgba(37, 211, 102, 0.2);
+  }
+  .email-icon {
+    background: rgba(244, 196, 48, 0.08);
+    color: #f4c430;
+    border-color: rgba(244, 196, 48, 0.2);
+  }
+  .contact-card-info {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+  }
+  .contact-card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.8px;
+  }
+  .contact-card-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    color: #a0a0a0;
+    margin-top: 4px;
+  }
+  .contact-card-action {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 8px;
+    display: inline-block;
+  }
+  .whatsapp-color { color: #25D366; }
+  .gold-color { color: #f4c430; }
+
+  /* FAQ Accordion Box */
+  .faq-box {
+    padding: 36px;
+    border-radius: 12px;
+    background: rgba(10, 10, 10, 0.9) !important;
+  }
+  .faq-box-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0 0 28px 0;
+    letter-spacing: 1.5px;
+    border-left: 2px solid #f4c430;
+    padding-left: 12px;
+  }
+  .faq-details {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  .faq-summary {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s;
+  }
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-summary:hover {
+    color: #f4c430;
+  }
+  .faq-icon {
+    font-size: 10px;
+    color: #f4c430;
+    transition: transform 0.4s ease;
+  }
+  details[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+  details[open] .faq-summary {
+    color: #f4c430;
+    margin-bottom: 12px;
+  }
+  .faq-content {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    color: #b0b0b0;
+    line-height: 1.6;
+    animation: slideDown 0.3s ease;
+  }
+  .faq-content p {
+    margin: 0;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Form Container */
+  .form-box {
+    padding: 40px;
+    border-radius: 12px;
+    background: rgba(10, 10, 10, 0.9) !important;
+  }
+  .form-box-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0 0 28px 0;
+    letter-spacing: 1.5px;
+    border-left: 2px solid #f4c430;
+    padding-left: 12px;
+  }
+
+  /* Input Fields Custom Design */
+  .input-group {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   .input-label {
     font-family: 'Orbitron', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 1px;
-    color: #a0a0a0;
+    letter-spacing: 1.2px;
+    color: #888888;
+  }
+  .theme-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 15px 16px;
+    color: #ffffff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-sizing: border-box;
+  }
+  .theme-input::placeholder {
+    color: #555555;
+    opacity: 1;
+  }
+  .theme-input:focus {
+    border-color: #f4c430;
+    background: rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 0 15px rgba(244, 196, 48, 0.12);
   }
   .theme-textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 140px;
   }
+
+  /* Premium Submit Button */
   .submit-btn-gold {
     width: 100%;
     background: linear-gradient(135deg, #f4c430 0%, #D4A017 100%);
     color: #000000;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 16px 20px;
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
     font-size: 14px;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(244, 196, 48, 0.3);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(244, 196, 48, 0.25);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     text-transform: uppercase;
   }
   .submit-btn-gold:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 22px rgba(244, 196, 48, 0.5);
+    box-shadow: 0 8px 30px rgba(244, 196, 48, 0.45);
     background: linear-gradient(135deg, #FFD700 0%, #f4c430 100%);
   }
-  .glass-panel:hover {
-    border-color: rgba(244, 196, 48, 0.2) !important;
-  }
-  details summary::-webkit-details-marker {
-    display: none;
+  .submit-btn-gold:active {
+    transform: translateY(0);
   }
 </style>
 

@@ -583,7 +583,19 @@
 
 <script>
   (function() {
+    let storyInitialized = false;
+
     function initCinematicStory() {
+      if (storyInitialized) return;
+
+      // 2. GSAP & ScrollTrigger Configuration
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        setTimeout(initCinematicStory, 100);
+        return;
+      }
+
+      storyInitialized = true;
+
       // 1. Lenis Smooth Scroll Initialisation
       let lenis;
       if (typeof Lenis !== 'undefined') {
@@ -599,12 +611,6 @@
           requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
-      }
-
-      // 2. GSAP & ScrollTrigger Configuration
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        setTimeout(initCinematicStory, 100);
-        return;
       }
 
       gsap.registerPlugin(ScrollTrigger);
