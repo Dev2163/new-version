@@ -1,5 +1,5 @@
 {%- if section.settings.image != blank -%}
-  <link rel="preload" as="image" href="{{ section.settings.image | image_url: width: 1000, format: 'webp' }}" imagesrcset="{{ section.settings.image | image_url: width: 375, format: 'webp' }} 375w, {{ section.settings.image | image_url: width: 550, format: 'webp' }} 550w, {{ section.settings.image | image_url: width: 750, format: 'webp' }} 750w, {{ section.settings.image | image_url: width: 1000, format: 'webp' }} 1000w, {{ section.settings.image | image_url: width: 1400, format: 'webp' }} 1400w" imagesizes="(min-width: 990px) 50vw, 100vw">
+  <link rel="preload" as="image" href="{{ section.settings.image | image_url: width: 1000, format: 'webp' }}" imagesrcset="{{ section.settings.image | image_url: width: 375, format: 'webp' }} 375w, {{ section.settings.image | image_url: width: 550, format: 'webp' }} 550w, {{ section.settings.image | image_url: width: 750, format: 'webp' }} 750w, {{ section.settings.image | image_url: width: 1000, format: 'webp' }} 1000w, {{ section.settings.image | image_url: width: 1400, format: 'webp' }} 1400w" imagesizes="(min-width: 990px) 50vw, (min-width: 768px) 100vw, 85vw">
 {%- endif -%}
 
 <div class="custom-hero-container-{{ section.id }}">
@@ -64,7 +64,7 @@
               loading: 'eager',
               fetchpriority: 'high',
               widths: '375, 550, 750, 1000, 1400',
-              sizes: '(min-width: 990px) 50vw, 100vw',
+              sizes: '(min-width: 990px) 50vw, (min-width: 768px) 100vw, 85vw',
               width: section.settings.image.width,
               height: section.settings.image.height,
               alt: section.settings.title | escape
@@ -109,7 +109,7 @@
           <div class="thumbnail-strip-{{ section.id }}__image-wrapper">
             {% if block.settings.image != blank %}
               {% assign thumb_img_class = 'thumbnail-strip-' | append: section.id | append: '__image' %}
-              {{ block.settings.image | image_url: width: 400 | image_tag: class: thumb_img_class, loading: 'lazy', fetchpriority: 'low' }}
+              {{ block.settings.image | image_url: width: 400, format: 'webp' | image_tag: class: thumb_img_class, loading: 'lazy', fetchpriority: 'low' }}
             {% else %}
               {% assign thumb_placeholder_class = 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' %}
               {{ 'product-1' | placeholder_svg_tag: thumb_placeholder_class }}

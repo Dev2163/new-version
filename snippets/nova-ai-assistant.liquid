@@ -205,6 +205,11 @@
     opacity: 0.3;
     filter: blur(8px);
     z-index: -1;
+    /* Pulsing animation is gated until widget is deferred-loaded */
+    animation: none;
+  }
+
+  .nova-ai-fab.nova-ai-ready .nova-ai-fab__glow {
     animation: novaGlowPulse 3.5s infinite linear;
   }
 
@@ -705,6 +710,7 @@
 
     if (fab.dataset.initialized === 'true') return;
     fab.dataset.initialized = 'true';
+    fab.classList.add('nova-ai-ready');
 
     // Store Catalog Data from System Prompt
     const CATALOG = [
