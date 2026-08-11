@@ -1001,10 +1001,21 @@
     };
   }
 
-  initNovaAI();
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNovaAI);
+  // Defer NovaAI initialization until the page has fully loaded to improve LCP/FID
+  function scheduleInit() {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        setTimeout(initNovaAI, 1000);
+      });
+    } else {
+      setTimeout(initNovaAI, 1500);
+    }
   }
-  window.addEventListener('load', initNovaAI);
+
+  if (document.readyState === 'complete') {
+    scheduleInit();
+  } else {
+    window.addEventListener('load', scheduleInit);
+  }
 })();
 </script>

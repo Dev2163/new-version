@@ -1,5 +1,5 @@
 {%- if section.settings.image != blank -%}
-  <link rel="preload" as="image" href="{{ section.settings.image | image_url: width: 1000 }}" imagesrcset="{{ section.settings.image | image_url: width: 375 }} 375w, {{ section.settings.image | image_url: width: 550 }} 550w, {{ section.settings.image | image_url: width: 750 }} 750w, {{ section.settings.image | image_url: width: 1000 }} 1000w, {{ section.settings.image | image_url: width: 1400 }} 1400w" imagesizes="(min-width: 990px) 50vw, 100vw">
+  <link rel="preload" as="image" href="{{ section.settings.image | image_url: width: 1000, format: 'webp' }}" imagesrcset="{{ section.settings.image | image_url: width: 375, format: 'webp' }} 375w, {{ section.settings.image | image_url: width: 550, format: 'webp' }} 550w, {{ section.settings.image | image_url: width: 750, format: 'webp' }} 750w, {{ section.settings.image | image_url: width: 1000, format: 'webp' }} 1000w, {{ section.settings.image | image_url: width: 1400, format: 'webp' }} 1400w" imagesizes="(min-width: 990px) 50vw, 100vw">
 {%- endif -%}
 
 <div class="custom-hero-container-{{ section.id }}">
@@ -58,7 +58,7 @@
         <div class="custom-hero-{{ section.id }}__image-glow">
           {%- if section.settings.image != blank -%}
             {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image' %}
-            {{ section.settings.image | image_url: width: 1000 | image_tag: 
+            {{ section.settings.image | image_url: width: 1000, format: 'webp' | image_tag: 
               class: hero_img_class, 
               id: 'heroMainImage',
               loading: 'eager',
