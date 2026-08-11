@@ -271,24 +271,29 @@
           }
         }
 
-        // Wait for page load
-        window.addEventListener('load', () => {
-          const elapsedTime = Date.now() - startTime;
-          if (elapsedTime >= minDuration) {
+        function startExitTimer() {
+          const elapsed = Date.now() - startTime;
+          if (elapsed >= minDuration) {
             triggerExit();
           } else {
-            setTimeout(triggerExit, minDuration - elapsedTime);
+            setTimeout(triggerExit, minDuration - elapsed);
           }
-        });
+        }
 
-        // Backup in case load event already fired
-        if (document.readyState === 'complete') {
-          const elapsedTime = Date.now() - startTime;
-          if (elapsedTime >= minDuration) {
-            triggerExit();
+        function waitForHeroThenExit() {
+          const heroImg = document.getElementById('heroMainImage');
+          if (heroImg && !heroImg.complete) {
+            heroImg.addEventListener('load', startExitTimer, { once: true });
+            heroImg.addEventListener('error', startExitTimer, { once: true });
           } else {
-            setTimeout(triggerExit, minDuration - elapsedTime);
+            startExitTimer();
           }
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', waitForHeroThenExit);
+        } else {
+          waitForHeroThenExit();
         }
 
         // Safety fallback: maximum display duration
