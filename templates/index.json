@@ -65,16 +65,47 @@
     "cinematic_collections_section": {
       "type": "cinematic-collections",
       "blocks": {
+        "collection_hD47kf": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_09_06_31_PM.png",
+            "custom_title": "Universe Collection",
+            "button_text": "Explore Collection"
+          }
+        },
+        "collection_RyAVrP": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_09_06_31_PM.png",
+            "custom_title": "Streetwear Collection",
+            "button_text": "Explore Collection"
+          }
+        },
+        "collection_J6Twj8": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_09_08_19_PM.png",
+            "custom_title": "History Collection",
+            "button_text": "Explore Collection"
+          }
+        },
         "collection_1": {
           "type": "collection",
           "settings": {
-            "collection": "find-your-zodiac",
-            "custom_title": "",
+            "collection": "",
+            "image": "shopify://shop_images/cosmic_tshirt_product_1783308296927.jpg",
+            "custom_title": "Travel Collection",
             "button_text": "Explore Collection"
           }
         }
       },
       "block_order": [
+        "collection_hD47kf",
+        "collection_RyAVrP",
+        "collection_J6Twj8",
         "collection_1"
       ],
       "settings": {
