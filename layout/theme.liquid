@@ -81,8 +81,6 @@
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
 
-    <!-- ═══ SCROLL PROGRESS BAR ═══ -->
-    <div id="scroll-progress-bar" aria-hidden="true"></div>
 
     <!-- ═══ SCROLL TO TOP BUTTON ═══ -->
     <button id="scroll-to-top" aria-label="Back to top" title="Back to top">
@@ -92,34 +90,6 @@
     </button>
 
     <style>
-      /* ══════════════════════════════════════════
-         SCROLL PROGRESS BAR
-      ══════════════════════════════════════════ */
-      #scroll-progress-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 3px;
-        background: linear-gradient(90deg, #f4c430 0%, #ffdd70 50%, #f4a800 100%);
-        z-index: 99999;
-        border-radius: 0 3px 3px 0;
-        box-shadow: 0 0 10px rgba(244, 196, 48, 0.7), 0 0 20px rgba(244, 196, 48, 0.4);
-        transition: width 0.08s linear;
-        pointer-events: none;
-      }
-      #scroll-progress-bar::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 8px;
-        height: 8px;
-        background: #f4c430;
-        border-radius: 50%;
-        box-shadow: 0 0 8px 3px rgba(244, 196, 48, 0.9);
-      }
 
       /* ══════════════════════════════════════════
          SCROLL TO TOP BUTTON
@@ -216,7 +186,6 @@
           transform: none !important;
           transition: none !important;
         }
-        #scroll-progress-bar { display: none; }
       }
     </style>
     <div id="header-group">
@@ -326,20 +295,7 @@
       'use strict';
 
       /* ─────────────────────────────────────────
-         1.  SCROLL PROGRESS BAR
-      ───────────────────────────────────────── */
-      var progressBar = document.getElementById('scroll-progress-bar');
-
-      function updateProgress() {
-        if (!progressBar) return;
-        var scrollTop    = window.scrollY || document.documentElement.scrollTop;
-        var docHeight    = document.documentElement.scrollHeight - window.innerHeight;
-        var pct          = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = pct.toFixed(2) + '%';
-      }
-
-      /* ─────────────────────────────────────────
-         2.  SCROLL-TO-TOP BUTTON
+         1.  SCROLL-TO-TOP BUTTON
       ───────────────────────────────────────── */
       var scrollBtn = document.getElementById('scroll-to-top');
 
@@ -446,7 +402,6 @@
       window.addEventListener('scroll', function () {
         if (!ticking) {
           window.requestAnimationFrame(function () {
-            updateProgress();
             toggleScrollBtn();
             ticking = false;
           });
@@ -458,7 +413,6 @@
          5.  INIT
       ───────────────────────────────────────── */
       function init() {
-        updateProgress();
         toggleScrollBtn();
         applyRevealClasses();
         initRevealObserver();
