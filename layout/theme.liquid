@@ -49,6 +49,12 @@
     
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
+    
+    <!-- GSAP & ScrollTrigger Premium Animation libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="{{ 'premium-animations.js' | asset_url }}" defer="defer"></script>
+    
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
 
@@ -66,11 +72,14 @@
         const isHomepage = {{ template == 'index' | json }};
         const forceSplash = new URLSearchParams(window.location.search).get('test_splash') === 'true';
         if (isHomepage || forceSplash) {
+          // TEST MODE: Session check temporarily disabled so you can always see the splash screen during development.
+          /*
           try {
             if (!forceSplash && sessionStorage.getItem('one9_splash_shown')) {
               document.documentElement.classList.add('one9-splash-skip');
             }
           } catch(e) {}
+          */
         } else {
           document.documentElement.classList.add('one9-splash-skip');
         }

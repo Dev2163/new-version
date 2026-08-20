@@ -440,10 +440,10 @@
   header-component[data-scroll-direction="up"],
   header-component[data-scroll-direction="down"],
   sticky-header.is-sticky header-component {
-    background-color: rgba(10, 10, 10, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    background-color: transparent !important; /* 100% transparent for glass effect */
+    backdrop-filter: blur(18px) !important; /* Strong glass blur */
+    -webkit-backdrop-filter: blur(18px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
 
   /* 3. Typography: Small Uppercase Sans-Serif */

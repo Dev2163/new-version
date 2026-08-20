@@ -125,6 +125,58 @@
   </div>
 </div>
 
+<script>
+  (function() {
+    function initBestSellers() {
+      const section = document.querySelector('.best-sellers-wrapper');
+      if (!section || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+      
+      gsap.fromTo(section.querySelector('.best-sellers__heading'), 
+        { opacity: 0, y: 30 },
+        { 
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8
+        }
+      );
+
+      gsap.fromTo(section.querySelectorAll('.best-sellers__card'), 
+        { opacity: 0, y: 50, scale: 0.95 },
+        { 
+          scrollTrigger: {
+            trigger: section.querySelector('.best-sellers__grid'),
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          },
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out"
+        }
+      );
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBestSellers);
+    } else {
+      initBestSellers();
+    }
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.target.classList.contains('best-sellers-wrapper') || event.target.querySelector('.best-sellers-wrapper')) {
+        initBestSellers();
+      }
+    });
+  })();
+</script>
+
 {% stylesheet %}
   .best-sellers-wrapper {
     width: 100%;

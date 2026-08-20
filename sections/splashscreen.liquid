@@ -7,20 +7,26 @@
   {%- if show_splash -%}
     <div id="one9-splash-screen" class="one9-splash" style="background-color: {{ section.settings.bg_color }};">
       <div class="one9-splash-content">
-        {%- assign logo_text = section.settings.logo_text | default: 'ONE9' -%}
-        <h1 class="one9-splash-logo" style="color: {{ section.settings.logo_color }};">
-          {%- if logo_text == 'ONE9' -%}
-            <span class="letter" style="--letter-idx: 0;">O</span>
-            <span class="letter" style="--letter-idx: 1;">N</span>
-            <span class="letter" style="--letter-idx: 2;">E</span>
-            <span class="letter" style="--letter-idx: 3;">9</span>
-          {%- else -%}
-            {%- assign logo_chars = logo_text | split: "" -%}
-            {%- for char in logo_chars -%}
-              <span class="letter" style="--letter-idx: {{ forloop.index0 }}">{{ char }}</span>
-            {%- endfor -%}
-          {%- endif -%}
-        </h1>
+        {%- if settings.logo != blank -%}
+          <div class="one9-splash-logo-img-wrap">
+            <img src="{{ settings.logo | image_url: width: 500 }}" class="one9-splash-logo-img" alt="{{ shop.name | escape }}">
+          </div>
+        {%- else -%}
+          {%- assign logo_text = section.settings.logo_text | default: 'ONE9' -%}
+          <h1 class="one9-splash-logo" style="color: {{ section.settings.logo_color }};">
+            {%- if logo_text == 'ONE9' -%}
+              <span class="letter" style="--letter-idx: 0;">O</span>
+              <span class="letter" style="--letter-idx: 1;">N</span>
+              <span class="letter" style="--letter-idx: 2;">E</span>
+              <span class="letter" style="--letter-idx: 3;">9</span>
+            {%- else -%}
+              {%- assign logo_chars = logo_text | split: "" -%}
+              {%- for char in logo_chars -%}
+                <span class="letter" style="--letter-idx: {{ forloop.index0 }}">{{ char }}</span>
+              {%- endfor -%}
+            {%- endif -%}
+          </h1>
+        {%- endif -%}
         
         <div class="one9-splash-line-wrapper">
           <div class="one9-splash-line" style="background-color: {{ section.settings.line_color }};"></div>
@@ -80,6 +86,30 @@
       }
 
       /* Logo styling */
+      .one9-splash-logo-img-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 260px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: one9LogoImgFadeSlideUp 800ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      }
+
+      .one9-splash-logo-img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      @keyframes one9LogoImgFadeSlideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       .one9-splash-logo {
         display: flex;
         justify-content: center;
@@ -228,12 +258,14 @@
         const forceSplash = urlParams.get('test_splash') === 'true';
 
         // Check if we should skip the splash screen
+        /*
         if (!forceSplash && !testMode) {
           if (showOnce && sessionStorage.getItem('one9_splash_shown')) {
             document.documentElement.classList.add('one9-splash-skip');
             return;
           }
         }
+        */
 
         // Apply scroll lock to body
         document.body.classList.add('one9-splash-active');

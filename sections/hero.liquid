@@ -3,932 +3,645 @@
 {%- endif -%}
 
 <div class="custom-hero-container-{{ section.id }}">
-  <!-- HERO PART -->
-  <div class="custom-hero-{{ section.id }}">
+  <!-- FIXED/STICKY CINEMATIC VIEWPORT STAGE -->
+  <div class="hero-sticky-stage-{{ section.id }}">
     
-    <!-- Main Content Row (Flex reversed if image is left) -->
-    <div class="custom-hero-{{ section.id }}__content-row {% if section.settings.image_position == 'left' %}image-left{% endif %}">
-      
-      <div class="custom-hero-{{ section.id }}__left-wrapper">
-        <!-- Far Left Sidebar -->
-        <div class="one9-vertical-brand">
-          <div class="letter-container" style="display: flex; flex-direction: column; align-items: center;">
-            {% assign brand_letters = section.settings.vertical_text | split: "," %}
-            {% for letter in brand_letters %}
-              <span class="letter">{{ letter }}</span>
-            {% endfor %}
-          </div>
-          <div class="zodiac-icon">
-            <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Top dots -->
-              <circle cx="22" cy="7" r="1.5" fill="#F4C430" />
-              <circle cx="15" cy="8.5" r="1.5" fill="#F4C430" />
-              <circle cx="29" cy="8.5" r="1.5" fill="#F4C430" />
-              <circle cx="9" cy="13" r="1.5" fill="#F4C430" />
-              <circle cx="35" cy="13" r="1.5" fill="#F4C430" />
-              
-              <!-- Blinking Eye Group -->
-              <g class="eye-blink-anim">
-                <path d="M6 22 Q22 6 38 22 Q22 38 6 22 Z" stroke="#F4C430" stroke-width="2.5" fill="none" />
-                <circle cx="22" cy="22" r="4.5" stroke="#F4C430" stroke-width="2.5" fill="none" />
-                <circle cx="22" cy="22" r="2" fill="#F4C430" />
-              </g>
+    <!-- Large Background Typography Layer -->
+    <div class="hero-editorial-bg-text-wrap-{{ section.id }}">
+      <div class="hero-editorial-bg-text-1">Wear your</div>
+      <div class="hero-editorial-bg-text-2">universe</div>
+    </div>
 
-              <!-- Bottom dots -->
-              <circle cx="22" cy="37" r="1.5" fill="#F4C430" />
-              <circle cx="15" cy="35.5" r="1.5" fill="#F4C430" />
-              <circle cx="29" cy="35.5" r="1.5" fill="#F4C430" />
-              <circle cx="9" cy="31" r="1.5" fill="#F4C430" />
-              <circle cx="35" cy="31" r="1.5" fill="#F4C430" />
-            </svg>
-          </div>
-          <div class="gold-line"></div>
-        </div>
-        
-        <!-- Text Column -->
-        <div class="custom-hero-{{ section.id }}__main">
-          <h1 class="custom-hero-{{ section.id }}__title">{{ section.settings.title }}</h1>
-          <p class="custom-hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
-          <a href="{{ section.settings.button_link }}" class="custom-hero-{{ section.id }}__button">{{ section.settings.button_text }}</a>
-        </div>
+    <!-- Left Vertical Indicator -->
+    <div class="hero-left-indicator-{{ section.id }}">
+      <div class="indicator-text-{{ section.id }}">
+        <span>O</span><span>N</span><span>E</span><span>9</span>
       </div>
+      <div class="indicator-icon-{{ section.id }}">
+        <svg viewBox="0 0 40 40" width="32" height="32" fill="currentColor">
+          <!-- Top dots -->
+          <circle cx="12" cy="8" r="1.5" />
+          <circle cx="20" cy="6" r="1.5" />
+          <circle cx="28" cy="8" r="1.5" />
+          <circle cx="35" cy="14" r="1.5" />
+          <circle cx="5" cy="14" r="1.5" />
+          <!-- Bottom dots -->
+          <circle cx="12" cy="32" r="1.5" />
+          <circle cx="20" cy="34" r="1.5" />
+          <circle cx="28" cy="32" r="1.5" />
+          <circle cx="35" cy="26" r="1.5" />
+          <circle cx="5" cy="26" r="1.5" />
+          
+          <!-- Blinking Eye -->
+          <g class="blinking-eye">
+            <path d="M 0 20 Q 20 14 40 20 Q 20 26 0 20 Z" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="20" cy="20" r="3" fill="currentColor" />
+          </g>
+        </svg>
+      </div>
+      <div class="indicator-track-{{ section.id }}">
+        <div class="indicator-progress-{{ section.id }}"></div>
+      </div>
+    </div>
+
+    <!-- Pinned Visual campaign content -->
+    <div class="hero-campaign-stage-{{ section.id }}">
       
-      <!-- Image Column -->
-      <div class="custom-hero-{{ section.id }}__image-col">
-        <div class="custom-hero-{{ section.id }}__image-glow">
+      <!-- Central Model Image Container -->
+      <div class="hero-model-viewport-{{ section.id }}">
+        <div class="hero-image-wrapper-{{ section.id }}">
           {%- if section.settings.image != blank -%}
-            {% assign hero_img_class = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image' %}
-            {{ section.settings.image | image_url: width: 1000, format: 'webp' | image_tag: 
-              class: hero_img_class, 
-              id: 'heroMainImage',
-              loading: 'eager',
-              fetchpriority: 'high',
-              widths: '375, 550, 750, 1000, 1400',
-              sizes: '(min-width: 990px) 50vw, (min-width: 768px) 100vw, 85vw',
-              width: section.settings.image.width,
-              height: section.settings.image.height,
-              alt: section.settings.title | escape
-            }}
+            <img src="{{ section.settings.image | image_url: width: 1200 }}" id="heroMainImage" class="campaign-stage-img-{{ section.id }} is-active" data-index="0" alt="Campaign Focus">
           {%- else -%}
-            {% assign hero_img_class_placeholder = 'custom-hero-' | append: section.id | append: '__image custom-hero-slideshow-image custom-hero-' | append: section.id | append: '__image--placeholder' %}
-            {{ 'lifestyle-1' | placeholder_svg_tag: hero_img_class_placeholder }}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'campaign-stage-img placeholder is-active' }}
           {%- endif -%}
+
+          {% for block in section.blocks %}
+            {% if block.type == 'thumbnail' %}
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1200 }}" class="campaign-stage-img-{{ section.id }}" data-index="{{ forloop.index }}" alt="{{ block.settings.product_name | escape }}">
+              {% endif %}
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
       
-    </div>
-  </div>
 
-  <!-- MARQUEE PART -->
-  {% if section.settings.show_marquee %}
-  <div class="custom-marquee-{{ section.id }}">
-    <div class="custom-marquee-{{ section.id }}__track">
-      <div class="custom-marquee-{{ section.id }}__content">
-        {%- for i in (1..10) -%}
-          <span class="custom-marquee-{{ section.id }}__text">{{ section.settings.marquee_text }}</span>
-          <span class="custom-marquee-{{ section.id }}__icon">✦</span>
-        {%- endfor -%}
-      </div>
-      <div class="custom-marquee-{{ section.id }}__content">
-        {%- for i in (1..10) -%}
-          <span class="custom-marquee-{{ section.id }}__text">{{ section.settings.marquee_text }}</span>
-          <span class="custom-marquee-{{ section.id }}__icon">✦</span>
-        {%- endfor -%}
+
+    </div>
+
+    <!-- Bottom tab pills indicator (Fades in dynamically on scroll) -->
+    <div class="campaign-bottom-nav-{{ section.id }}">
+      <div class="campaign-nav-container-{{ section.id }}">
+        <span class="campaign-nav-pill-{{ section.id }} is-active" data-index="0">Intro</span>
+        {% for block in section.blocks %}
+          {% if block.type == 'thumbnail' %}
+            <span class="campaign-nav-pill-{{ section.id }}" data-index="{{ forloop.index }}">{{ block.settings.product_name }}</span>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
-  </div>
-  {% endif %}
 
-  <!-- THUMBNAIL STRIP PART -->
-  {% if section.blocks.size > 0 %}
-  <div class="thumbnail-strip-{{ section.id }}">
-    <div class="thumbnail-strip-{{ section.id }}__container">
-      {% for block in section.blocks %}
-        {% if block.type == 'thumbnail' %}
-        <a href="{{ block.settings.product_url | default: '#' }}" class="thumbnail-strip-{{ section.id }}__card" {{ block.shopify_attributes }}>
-          <div class="thumbnail-strip-{{ section.id }}__image-wrapper">
-            {% if block.settings.image != blank %}
-              {% assign thumb_img_class = 'thumbnail-strip-' | append: section.id | append: '__image' %}
-              {{ block.settings.image | image_url: width: 400, format: 'webp' | image_tag: class: thumb_img_class, loading: 'lazy', fetchpriority: 'low' }}
-            {% else %}
-              {% assign thumb_placeholder_class = 'thumbnail-strip-' | append: section.id | append: '__image thumbnail-strip-' | append: section.id | append: '__placeholder' %}
-              {{ 'product-1' | placeholder_svg_tag: thumb_placeholder_class }}
-            {% endif %}
-            <div class="thumbnail-strip-{{ section.id }}__hover-name">
-              {{ block.settings.product_name | default: 'Libra Balance Oversized Tee' }}
-            </div>
-          </div>
-          <div class="thumbnail-strip-{{ section.id }}__info">
-            <div class="thumbnail-strip-{{ section.id }}__color-wrap">
-              <span class="thumbnail-strip-{{ section.id }}__dot" style="background-color: {{ block.settings.color_hex }};"></span>
-              <span class="thumbnail-strip-{{ section.id }}__text">{{ block.settings.color_name }}</span>
-            </div>
-            <span class="thumbnail-strip-{{ section.id }}__price">{{ block.settings.price }}</span>
-          </div>
-        </a>
-        {% endif %}
-      {% endfor %}
-    </div>
   </div>
-  {% endif %}
 </div>
 
 <style>
-
+  /* Sticky Scroll Range Container */
   .custom-hero-container-{{ section.id }} {
-    width: 100%;
-    background-color: {{ section.settings.bg_color }};
-    overflow: hidden;
-  }
-
-  /* --- HERO CSS --- */
-  .custom-hero-{{ section.id }} {
     position: relative;
     width: 100%;
-    min-height: 700px;
-    display: flex;
-    color: {{ section.settings.text_color }};
+    height: 480vh; /* scroll range distance for animation scrub */
+    background-color: {{ section.settings.bg_color | default: '#0a0a0a' }};
   }
 
-  .custom-hero-{{ section.id }}__left-wrapper {
-    flex: 1.2;
+  /* Sticky Cinematic Viewport */
+  .hero-sticky-stage-{{ section.id }} {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
     display: flex;
-    flex-direction: row;
-    align-items: center; /* Center vertically relative to each other */
-    padding-left: 28px; /* Left padding for the whole block */
-    max-width: 900px;
+    justify-content: center;
+    align-items: center;
+    background-color: {{ section.settings.bg_color | default: '#0a0a0a' }};
   }
 
-  .one9-vertical-brand {
+  /* Left Vertical Indicator */
+  .hero-left-indicator-{{ section.id }} {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #F4C430;
-    margin-right: 48px; /* Space between sidebar and text */
-    flex-shrink: 0;
+    z-index: 50;
   }
 
-  .one9-vertical-brand .letter {
-    font-family: "Orbitron", "Rajdhani", sans-serif;
-    font-size: 36px;
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: 1px;
-    color: #F4C430;
-    text-shadow: 0 0 15px rgba(244, 196, 48, 0.25);
-    display: block;
-    text-transform: uppercase;
-  }
-
-  .one9-vertical-brand .zodiac-icon {
-    width: 28px;
-    height: 28px;
-    margin-top: 24px;
-    margin-bottom: 24px;
+  .indicator-text-{{ section.id }} {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: -2px; /* Very tight spacing */
+    font-family: 'Michroma', 'Orbitron', 'Audiowide', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 0.9;
+    color: {{ section.settings.accent_color | default: '#F4C430' }};
+    text-shadow: 0 0 15px rgba(244, 196, 48, 0.2);
+    margin-bottom: 35px;
   }
 
-  .one9-vertical-brand .gold-line {
-    width: 2px;
-    height: 160px; /* Slightly longer to match image */
-    background: #F4C430;
-    box-shadow: 0 0 8px rgba(244, 196, 48, 0.22);
+  .indicator-text-{{ section.id }} span {
+    display: block;
   }
 
-  .custom-hero-{{ section.id }}__content-row {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+  .indicator-icon-{{ section.id }} {
+    color: {{ section.settings.accent_color | default: '#F4C430' }};
+    margin-bottom: 35px;
+    filter: drop-shadow(0 0 8px rgba(244, 196, 48, 0.4));
   }
-  .custom-hero-{{ section.id }}__content-row.image-left {
-    flex-direction: row-reverse;
-  }
-  
-  .eye-blink-anim {
-    transform-origin: 22px 22px;
+
+  .blinking-eye {
+    transform-origin: 20px 20px;
     animation: eyeBlink 4s infinite;
   }
-  
+
   @keyframes eyeBlink {
-    0%, 93%, 100% { transform: scaleY(1); }
-    96.5% { transform: scaleY(0.1); }
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
   }
-  
-  .custom-hero-{{ section.id }}__main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 40px;
-  }
-  
-  .custom-hero-{{ section.id }}__image-col {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    padding: 0;
+
+  .indicator-track-{{ section.id }} {
+    width: 2px;
+    height: 180px;
+    background: rgba(255,255,255,0.1);
     position: relative;
-    overflow: hidden;
+    border-radius: 2px;
   }
-  
-  .custom-hero-{{ section.id }}__image-glow {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 25%, transparent 55%);
-  }
-  
-  .custom-hero-{{ section.id }}__image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    z-index: 2;
-    position: relative;
-    transition: opacity 0.5s ease;
-    transform: scale(0.9);
-    transform-origin: center;
-  }
-  
-  .custom-hero-{{ section.id }}__title {
-    font-size: {{ section.settings.heading_size }}px;
-    font-weight: 900;
-    line-height: 1.05;
-    text-transform: uppercase;
-    margin: 0 0 24px 0;
-    color: {{ section.settings.heading_color }};
-    font-family: "Orbitron", "Rajdhani", sans-serif;
-    letter-spacing: 1px;
-    white-space: pre-line;
-    text-shadow: 0 0 15px {{ section.settings.heading_color | color_modify: 'alpha', 0.25 }};
-    text-align: center;
-  }
-  .custom-hero-{{ section.id }}__subtitle {
-    font-size: {{ section.settings.subheading_size }}px;
-    color: {{ section.settings.accent_color }};
-    margin: 0 0 48px 0;
-    font-family: "Orbitron", "Rajdhani", sans-serif;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: 1px;
-    text-shadow: 0 0 8px {{ section.settings.accent_color | color_modify: 'alpha', 0.2 }};
-  }
-  .custom-hero-{{ section.id }}__button {
-    display: inline-block;
-    background: linear-gradient(135deg, {{ section.settings.accent_color }} 0%, #D4A017 100%);
-    color: #000000;
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 1.125rem;
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
-    padding: 16px 52px;
-    text-decoration: none;
-    border-radius: 6px;
-    box-shadow: 0 0 30px {{ section.settings.accent_color | color_modify: 'alpha', 0.5 }}, 0 0 10px {{ section.settings.accent_color | color_modify: 'alpha', 0.3 }};
-    align-self: center;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    letter-spacing: 1.5px;
-    position: relative;
-    overflow: hidden;
-  }
-  .custom-hero-{{ section.id }}__button::before {
-    content: '';
+
+  .indicator-progress-{{ section.id }} {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transform: rotate(30deg) translateX(-100%);
-    transition: transform 0.6s ease;
-  }
-  .custom-hero-{{ section.id }}__button:hover {
-    box-shadow: 0 0 45px {{ section.settings.accent_color | color_modify: 'alpha', 0.95 }}, 0 0 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.7 }};
-    transform: translateY(-4px) scale(1.04);
-    background: linear-gradient(135deg, #FFD700 0%, {{ section.settings.accent_color }} 100%);
-  }
-  .custom-hero-{{ section.id }}__button:hover::before {
-    transform: rotate(30deg) translateX(100%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: {{ section.settings.accent_color | default: '#F4C430' }};
+    border-radius: 2px;
+    box-shadow: 0 0 10px {{ section.settings.accent_color | default: '#F4C430' }};
   }
 
-  /* --- MARQUEE CSS --- */
-  .custom-marquee-{{ section.id }} {
-    width: 100%;
-    background-color: {{ section.settings.marquee_bg_color }};
-    overflow: hidden;
-    padding: 12px 0;
-    position: relative;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .custom-marquee-{{ section.id }}__track {
-    display: flex;
-    width: max-content;
-    animation: marquee-scroll-{{ section.id }} {{ section.settings.marquee_speed }}s linear infinite;
-  }
-  .custom-marquee-{{ section.id }}__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  .custom-marquee-{{ section.id }}__text {
-    color: {{ section.settings.marquee_text_color }};
-    font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    white-space: nowrap;
-    margin: 0 24px;
-  }
-  .custom-marquee-{{ section.id }}__icon {
-    color: {{ section.settings.marquee_text_color }};
-    font-size: 12px;
-  }
-  @keyframes marquee-scroll-{{ section.id }} {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* --- THUMBNAIL STRIP CSS --- */
-  .thumbnail-strip-{{ section.id }} {
-    background-color: transparent;
-    padding: 20px 40px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .thumbnail-strip-{{ section.id }}__container {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .thumbnail-strip-{{ section.id }}__card {
-    flex: 1 1 25%;
-    max-width: 280px;
-    background-color: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-  }
-  .thumbnail-strip-{{ section.id }}__card:hover {
-    transform: scale(1.03);
-    border-color: {{ section.settings.accent_color }};
-    box-shadow: 0 4px 20px {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }};
-  }
-  .thumbnail-strip-{{ section.id }}__image-wrapper {
-    width: 100%;
-    aspect-ratio: 1 / 1.1;
-    overflow: hidden;
-    position: relative;
-  }
-  .thumbnail-strip-{{ section.id }}__hover-name {
+  /* Massive Editorial Typography Layer (Behind Model) */
+  .hero-editorial-bg-text-wrap-{{ section.id }} {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.7);
-    color: #FFFFFF;
-    padding: 20px;
-    font-size: 16px;
-    font-weight: 700;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    padding-bottom: 40px;
   }
-  .thumbnail-strip-{{ section.id }}__card:hover .thumbnail-strip-{{ section.id }}__hover-name {
+  
+  .hero-editorial-bg-text-1,
+  .hero-editorial-bg-text-2 {
+    font-family: 'Orbitron', 'Archivo Black', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+
+  .hero-editorial-bg-text-1 {
+    font-size: clamp(50px, 12vw, 170px);
+    color: #ffffff;
+    opacity: 1; /* Bright default */
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4), 0 0 70px rgba(255, 255, 255, 0.2); /* Glow effect */
+  }
+
+  .hero-editorial-bg-text-2 {
+    font-size: clamp(45px, 10vw, 140px);
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.75); /* Bright outline */
     opacity: 1;
   }
-  .thumbnail-strip-{{ section.id }}__image {
+
+  /* Campaign Stage and Layout */
+  .hero-campaign-stage-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  /* Model Viewport Frame - Portrait aspect ratio to fully fit models */
+  .hero-model-viewport-{{ section.id }} {
+    position: absolute;
+    width: clamp(160px, 20vw, 290px); /* Reduced size */
+    aspect-ratio: 0.68; /* Slightly less tall */
+    z-index: 2;
+    overflow: hidden;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    transition: box-shadow 0.5s ease;
+  }
+
+  .hero-image-wrapper-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .campaign-stage-img-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  .thumbnail-strip-{{ section.id }}__placeholder {
-    fill: #333;
-    background: {{ section.settings.card_bg_color }};
-  }
-  .thumbnail-strip-{{ section.id }}__info {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: {{ section.settings.card_bg_color }};
-  }
-  .thumbnail-strip-{{ section.id }}__color-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .thumbnail-strip-{{ section.id }}__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.2);
+    object-position: top center; /* Prevents the head from being cut off */
     display: block;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.02);
+    z-index: 1;
   }
-  .thumbnail-strip-{{ section.id }}__text {
-    color: {{ section.settings.text_color }};
-    font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    font-size: 14px;
+
+  .campaign-stage-img-{{ section.id }}.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  /* Foreground Overlay Details */
+  .hero-editorial-overlay-{{ section.id }} {
+    position: absolute;
+    left: 8%;
+    bottom: 12%;
+    max-width: 500px;
+    z-index: 3;
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .campaign-overlay-title-{{ section.id }} {
+    font-family: 'Oswald', 'Archivo Black', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 5vw, 62px);
+    line-height: 1.05;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color | default: '#F4C430' }};
+    letter-spacing: -0.01em;
+  }
+
+  .campaign-overlay-subtitle-{{ section.id }} {
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(14px, 1.8vw, 18px);
     font-weight: 500;
+    line-height: 1.5;
+    margin: 0 0 28px 0;
+    color: {{ section.settings.text_secondary_color | default: '#B0B0B0' }};
+  }
+
+  .campaign-cta-button-{{ section.id }} {
+    display: inline-block;
+    background: {{ section.settings.accent_color | default: '#F4C430' }};
+    color: #000000;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    padding: 16px 36px;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .campaign-cta-button-{{ section.id }}:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  /* Bottom Pills Navigation Indicators */
+  .campaign-bottom-nav-{{ section.id }} {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .campaign-nav-container-{{ section.id }} {
+    display: flex;
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 40px;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .campaign-nav-pill-{{ section.id }} {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-  }
-  .thumbnail-strip-{{ section.id }}__price {
-    color: {{ section.settings.text_color | color_modify: 'alpha', 0.8 }};
-    font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
+    color: #888888;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
   }
 
-  /* --- RESPONSIVE CSS --- */
-  @media (max-width: 1200px) {
-    .custom-hero-{{ section.id }}__title { font-size: 4rem; }
+  .campaign-nav-pill-{{ section.id }}.is-active,
+  .campaign-nav-pill-{{ section.id }}:hover {
+    background: #ffffff;
+    color: #000000;
   }
+
+  /* Responsive Adjustments */
   @media (max-width: 990px) {
-    .custom-hero-{{ section.id }}__title { font-size: 3.5rem; }
-    .custom-hero-{{ section.id }}__subtitle { font-size: 1.15rem; }
-    .custom-hero-{{ section.id }}__button { padding: 14px 40px; font-size: 1rem; }
+    .hero-model-viewport-{{ section.id }} {
+      width: clamp(200px, 40vw, 340px); /* Reduced for tablet */
+    }
+    .hero-editorial-overlay-{{ section.id }} {
+      left: 5%;
+      bottom: 8%;
+    }
   }
-  @media (max-width: 768px) {
-    /* Header overrides on mobile Index for ONE9 premium look */
-    #shopify-section-header,
-    #shopify-section-header .header-wrapper,
-    #shopify-section-header sticky-header,
-    #shopify-section-header .header__row {
-      background-color: #0A0A0A !important;
-    }
-    
-    #header-component {
-      background-color: #0A0A0A !important;
-      border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-    }
-    
-    /* Make icons/hamburger white */
-    #header-component svg path,
-    #header-component svg circle,
-    #header-component svg line {
-      stroke: #FFFFFF !important;
-    }
-    
-    /* Cart count badge to match theme */
-    .cart-count-bubble {
-      background-color: #F4C430 !important;
-      color: #000000 !important;
-      font-weight: 800 !important;
-    }
 
-    /* Hero Layout: Mobile-first 390x844 responsive */
-    .custom-hero-{{ section.id }} {
-      display: block !important;
-      position: relative !important;
-      width: 100% !important;
-      height: 560px !important;
-      min-height: 560px !important;
-      background-color: #0A0A0A !important;
-      overflow: hidden !important;
+  @media (max-width: 767px) {
+    .hero-editorial-bg-text-wrap-{{ section.id }} {
+      padding-bottom: 100px;
     }
-
-    /* Keep vertical ONE9 branding on far-left but smaller, not overlapping, cleared from header */
-    .one9-vertical-brand {
-      position: absolute !important;
-      left: 16px !important;
-      top: 76px !important; /* Pushed down below fixed header to prevent cutoff */
-      z-index: 5 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      width: 40px !important;
-      padding: 0 !important;
+    .hero-model-viewport-{{ section.id }} {
+      width: clamp(180px, 55vw, 260px); /* Reduced for mobile */
+      aspect-ratio: 0.72;
     }
-    
-    .one9-vertical-brand .letter-container {
-      margin-bottom: 8px !important;
+    .hero-left-indicator-{{ section.id }} {
+      display: none; /* Hide complex indicator on mobile to save space */
     }
-    
-    .one9-vertical-brand .letter {
-      font-size: 20px !important; /* Smaller on mobile */
-      line-height: 0.95 !important;
-      text-shadow: 0 0 8px rgba(244, 196, 48, 0.18) !important;
+    .hero-editorial-overlay-{{ section.id }} {
+      width: 90%;
+      left: 5%;
+      bottom: 12%;
+      text-align: center;
     }
-    
-    .one9-vertical-brand .zodiac-icon {
-      width: 20px !important;
-      height: 20px !important;
-      margin-top: 12px !important;
-      margin-bottom: 8px !important;
+    .campaign-bottom-nav-{{ section.id }} {
+      bottom: 15px;
+      width: 95%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      justify-content: center;
     }
-    
-    .one9-vertical-brand .zodiac-icon svg {
-      width: 20px !important;
-      height: 20px !important;
+    .campaign-nav-container-{{ section.id }} {
+      padding: 4px;
+      gap: 4px;
+      flex-wrap: nowrap;
     }
-    
-    .one9-vertical-brand .gold-line {
-      width: 1px !important;
-      height: 90px !important;
-      background-color: #F4C430 !important;
-      box-shadow: 0 0 6px rgba(244, 196, 48, 0.22) !important;
-    }
-
-    /* Model image centered in upper portion */
-    .custom-hero-{{ section.id }}__content-row {
-      display: block !important;
-      position: relative !important;
-      width: 100% !important;
-      height: 100% !important;
-    }
-    
-    .custom-hero-{{ section.id }}__image-col {
-      position: absolute !important;
-      top: 50px !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      width: 85% !important;
-      height: 65% !important;
-      z-index: 1 !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      overflow: hidden !important;
-    }
-    
-    /* Radial & Linear Gradients to seamlessly blend centered model with background */
-    .custom-hero-{{ section.id }}__image-col::before {
-      content: '' !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      height: 30% !important;
-      background: linear-gradient(to bottom, #0A0A0A 0%, transparent 100%) !important;
-      z-index: 3 !important;
-      pointer-events: none !important;
-    }
-    
-    .custom-hero-{{ section.id }}__image-col::after {
-      content: '' !important;
-      position: absolute !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      height: 45% !important;
-      background: linear-gradient(to top, #0A0A0A 0%, transparent 100%) !important;
-      z-index: 3 !important;
-      pointer-events: none !important;
-    }
-
-    .custom-hero-{{ section.id }}__image {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      object-position: center 10% !important;
-    }
-
-    /* Headline centered on lower section */
-    .custom-hero-{{ section.id }}__main {
-      position: absolute !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      z-index: 4 !important;
-      padding: 0px 20px 48px 20px !important;
-      box-sizing: border-box !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-    }
-
-    .custom-hero-{{ section.id }}__title {
-      font-size: 22px !important;
-      line-height: 1.15 !important;
-      margin-bottom: 12px !important;
-      text-transform: uppercase !important;
-      font-family: 'Orbitron', 'Rajdhani', sans-serif !important;
-      font-weight: 900 !important;
-      color: #FFFFFF !important;
-      letter-spacing: 1px !important;
-      white-space: pre-line !important;
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.35) !important;
-      text-align: center !important;
-    }
-
-    .custom-hero-{{ section.id }}__subtitle {
-      font-size: 13px !important;
-      line-height: 1.45 !important;
-      margin-bottom: 24px !important;
-      color: #C0C0C0 !important;
-      font-family: 'Orbitron', 'Rajdhani', sans-serif !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.5px !important;
-      max-width: 320px !important;
-      text-align: center !important;
-    }
-
-    /* Gold CTA button with pulse glow & hover animation - centered */
-    .custom-hero-{{ section.id }}__button {
-      align-self: center !important;
-      padding: 14px 40px !important;
-      font-size: 13px !important;
-      font-weight: 900 !important;
-      font-family: 'Orbitron', 'Rajdhani', sans-serif !important;
-      background: linear-gradient(135deg, #F4C430 0%, #D4A017 100%) !important;
-      color: #000000 !important;
-      border-radius: 6px !important;
-      box-shadow: 0 0 25px rgba(244, 196, 48, 0.6), 0 0 10px rgba(244, 196, 48, 0.4) !important;
-      letter-spacing: 1.5px !important;
-      text-transform: uppercase !important;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-      position: relative !important;
-      overflow: hidden !important;
-    }
-
-    .custom-hero-{{ section.id }}__button::before {
-      content: '' !important;
-      position: absolute !important;
-      top: -50% !important;
-      left: -50% !important;
-      width: 200% !important;
-      height: 200% !important;
-      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent) !important;
-      transform: rotate(30deg) translateX(-100%) !important;
-      transition: transform 0.6s ease !important;
-    }
-
-    .custom-hero-{{ section.id }}__button:hover,
-    .custom-hero-{{ section.id }}__button:active {
-      transform: translateY(-3px) scale(1.03) !important;
-      box-shadow: 0 0 35px rgba(244, 196, 48, 0.9), 0 0 15px rgba(244, 196, 48, 0.7) !important;
-      background: linear-gradient(135deg, #FFD700 0%, #F4C430 100%) !important;
-    }
-
-    .custom-hero-{{ section.id }}__button:hover::before,
-    .custom-hero-{{ section.id }}__button:active::before {
-      transform: rotate(30deg) translateX(100%) !important;
-    }
-
-    /* Below Hero: Horizontal scrollable jacket variants */
-    .thumbnail-strip-{{ section.id }} {
-      padding: 24px 20px !important;
-      background-color: #0A0A0A !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__container {
-      justify-content: flex-start !important;
-      overflow-x: auto !important;
-      scroll-snap-type: x mandatory !important;
-      padding-bottom: 8px !important;
-      -webkit-overflow-scrolling: touch !important;
-      display: flex !important;
-      gap: 16px !important;
-    }
-    
-    /* Hide scrollbar completely across all browsers */
-    .thumbnail-strip-{{ section.id }}__container {
-      -ms-overflow-style: none !important; /* IE/Edge */
-      scrollbar-width: none !important; /* Firefox */
-    }
-    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar,
-    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-thumb,
-    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-track,
-    .thumbnail-strip-{{ section.id }}__container::-webkit-scrollbar-button {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      background: transparent !important;
-      opacity: 0 !important;
-    }
-    
-    /* Rounded variant cards */
-    .thumbnail-strip-{{ section.id }}__card {
-      flex: 0 0 62% !important; /* 62% width so next card is partially visible */
-      scroll-snap-align: start !important;
-      border-radius: 12px !important;
-      border: 1px solid rgba(255, 255, 255, 0.06) !important;
-      background-color: #111111 !important;
-      overflow: hidden !important;
-      display: flex !important;
-      flex-direction: column !important;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
-    }
-
-    .thumbnail-strip-{{ section.id }}__card:active,
-    .thumbnail-strip-{{ section.id }}__card:hover {
-      border-color: #F4C430 !important;
-      box-shadow: 0 4px 15px rgba(244, 196, 48, 0.15) !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__image-wrapper {
-      border-radius: 12px 12px 0 0 !important;
-      aspect-ratio: 1 / 1.15 !important;
-      overflow: hidden !important;
-      width: 100% !important;
-      position: relative !important;
-    }
-
-    .thumbnail-strip-{{ section.id }}__hover-name {
-      position: absolute !important;
-      inset: 0 !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      background: rgba(0, 0, 0, 0.7) !important;
-      color: #FFFFFF !important;
-      padding: 20px !important;
-      font-size: 16px !important;
-      font-weight: 700 !important;
-      text-align: center !important;
-      opacity: 0 !important;
-      transition: opacity 0.3s ease !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__card:hover .thumbnail-strip-{{ section.id }}__hover-name {
-      opacity: 1 !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__info {
-      padding: 12px 14px !important;
-      background-color: #111111 !important;
-      border-radius: 0 0 12px 12px !important;
-      display: flex !important;
-      flex-direction: row !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      box-sizing: border-box !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__color-wrap {
-      display: flex !important;
-      align-items: center !important;
-      gap: 6px !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__dot {
-      width: 8px !important;
-      height: 8px !important;
-      border-radius: 50% !important;
-      display: block !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__text {
-      font-size: 11px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.5px !important;
-      color: #FFFFFF !important;
-    }
-    
-    .thumbnail-strip-{{ section.id }}__price {
-      font-size: 11px !important;
-      font-weight: 500 !important;
-      color: #B0B0B0 !important;
+    .campaign-nav-pill-{{ section.id }} {
+      padding: 8px 12px;
+      font-size: 9px;
     }
   }
 </style>
 
+{% if section.blocks.size > 0 %}
+<script>
+  (function() {
+    function initCampaignHero() {
+      const container = document.querySelector('.custom-hero-container-{{ section.id }}');
+      if (!container) return;
+
+      const heroImage = container.querySelector('#heroCampaignImage');
+      const title = container.querySelector('.campaign-overlay-title-{{ section.id }}');
+      const subtitle = container.querySelector('.campaign-overlay-subtitle-{{ section.id }}');
+      const button = container.querySelector('.campaign-cta-button-{{ section.id }}');
+      const viewport = container.querySelector('.hero-model-viewport-{{ section.id }}');
+      const overlay = container.querySelector('.hero-editorial-overlay-{{ section.id }}');
+      const bgText1 = container.querySelector('.hero-editorial-bg-text-1');
+      const bgText2 = container.querySelector('.hero-editorial-bg-text-2');
+      const bottomNav = container.querySelector('.campaign-bottom-nav-{{ section.id }}');
+      const pills = container.querySelectorAll('.campaign-nav-pill-{{ section.id }}');
+      const indicatorProgress = container.querySelector('.indicator-progress-{{ section.id }}');
+
+      const originalTitle = title ? title.innerHTML : "";
+      const originalSubtitle = subtitle ? subtitle.innerHTML : "";
+
+      // Load steps data
+      const blockData = [];
+      {% for block in section.blocks %}
+        {% if block.type == 'thumbnail' %}
+          blockData.push({
+            image: "{{ block.settings.image | image_url: width: 1200 }}",
+            name: "{{ block.settings.product_name | escape }}",
+            price: "{{ block.settings.price | escape }}",
+            url: "{{ block.settings.product_url | default: '#' }}"
+          });
+        {% endif %}
+      {% endfor %}
+
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+      // 1. Entrance Initial Splash Reveal - Model first, then text stagger
+      gsap.set(container, { opacity: 0 });
+      gsap.set([bgText1, bgText2], { y: 40, opacity: 0 });
+      
+      gsap.timeline()
+        .to(container, { opacity: 1, duration: 1.0, ease: "power2.out" })
+        .to([bgText1, bgText2], { y: 0, opacity: 1, stagger: 0.3, duration: 1.2, ease: "power3.out" }, "-=0.4");
+
+      // Helper function to smooth crossfade campaign image
+      const glowWrapper = container.querySelector('.hero-image-wrapper-{{ section.id }}');
+      // Layered static images list
+      const stageImages = container.querySelectorAll('.campaign-stage-img-{{ section.id }}');
+      function showImageAtIndex(idx) {
+        stageImages.forEach(img => {
+          if (parseInt(img.getAttribute('data-index')) === idx) {
+            img.classList.add('is-active');
+          } else {
+            img.classList.remove('is-active');
+          }
+        });
+      }
+
+      // 2. Master Pinned Campaign Timeline (Scroll = Animation Timeline)
+      const campaignTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.5 // Increased for buttery smooth cinematic delay
+        }
+      });
+
+      // Step 1: Continuous Zoom & Parallax for model and background text
+      campaignTl.to(viewport, { scale: 1.30, ease: "none" }, 0);
+      campaignTl.to(bgText1, { yPercent: -12, ease: "none" }, 0);
+      campaignTl.to(bgText2, { yPercent: 12, ease: "none" }, 0);
+      campaignTl.to(bottomNav, { autoAlpha: 1, y: -10, duration: 0.3 }, 0.1);
+      
+      // Animate the vertical progress bar based on total timeline duration
+      campaignTl.to(indicatorProgress, { height: "100%", ease: "none" }, 0);
+
+      // Step 2 & 3: Staggered loops through the campaign blocks
+      const stepsCount = blockData.length;
+      if (stepsCount > 0) {
+        blockData.forEach((data, index) => {
+          campaignTl.to({}, {
+            duration: 0.5,
+            onStart: () => {
+              showImageAtIndex(index + 1);
+
+              gsap.killTweensOf([bgText1, bgText2], "opacity");
+              // Cinematic morph transition of typography: fade out, swap, fade in
+              gsap.timeline()
+                .to([bgText1, bgText2], { opacity: 0, duration: 0.22, ease: "power2.inOut" })
+                .call(() => {
+                  const words = data.name.split(' ');
+                  if (bgText1) bgText1.innerHTML = words[0] || "";
+                  if (bgText2) bgText2.innerHTML = words.slice(1).join(' ') || "";
+                })
+                .to(bgText1, { opacity: 0.18, duration: 0.38, ease: "power3.out" })
+                .to(bgText2, { opacity: 0.35, duration: 0.38, ease: "power3.out" }, "-=0.25");
+
+              pills.forEach((p, pi) => {
+                if (pi === index + 1) p.classList.add('is-active');
+                else p.classList.remove('is-active');
+              });
+            },
+            onReverseComplete: () => {
+              gsap.killTweensOf([bgText1, bgText2], "opacity");
+              
+              if (index === 0) {
+                // Restore intro splash with cinematic transition
+                gsap.timeline()
+                  .to([bgText1, bgText2], { opacity: 0, duration: 0.22, ease: "power2.inOut" })
+                  .call(() => {
+                    if (bgText1) bgText1.innerHTML = "Wear your";
+                    if (bgText2) bgText2.innerHTML = "universe";
+                    showImageAtIndex(0);
+                  })
+                  .to(bgText1, { opacity: 1, duration: 0.4, ease: "power3.out" })
+                  .to(bgText2, { opacity: 1, duration: 0.4, ease: "power3.out" }, "-=0.2");
+                
+                pills.forEach((p, pi) => {
+                  if (pi === 0) p.classList.add('is-active');
+                  else p.classList.remove('is-active');
+                });
+              } else {
+                const prev = blockData[index - 1];
+                showImageAtIndex(index);
+
+                gsap.timeline()
+                  .to([bgText1, bgText2], { opacity: 0, duration: 0.22, ease: "power2.inOut" })
+                  .call(() => {
+                    const prevWords = prev.name.split(' ');
+                    if (bgText1) bgText1.innerHTML = prevWords[0] || "";
+                    if (bgText2) bgText2.innerHTML = prevWords.slice(1).join(' ') || "";
+                  })
+                  .to(bgText1, { opacity: 0.18, duration: 0.38, ease: "power3.out" })
+                  .to(bgText2, { opacity: 0.35, duration: 0.38, ease: "power3.out" }, "-=0.25");
+
+                pills.forEach((p, pi) => {
+                  if (pi === index) p.classList.add('is-active');
+                  else p.classList.remove('is-active');
+                });
+              }
+            }
+          }, stepProgressTime(index));
+        });
+      }
+
+      function stepProgressTime(index) {
+        // Returns percentage-mapped progression times
+        return 0.8 + index * 0.9;
+      }
+
+      // Step 4: Final zoom toward the footwear focus (85% -> 100%)
+      const lastTriggerPoint = 0.8 + (stepsCount - 1) * 0.9 + 0.4;
+      campaignTl.to(viewport, {
+        scale: 1.45,
+        yPercent: -15, // Camera moves down looking toward shoes
+        ease: "power2.inOut",
+        duration: 1.0
+      }, lastTriggerPoint);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCampaignHero);
+    } else {
+      initCampaignHero();
+    }
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}' || event.target.querySelector('.custom-hero-container-{{ section.id }}')) {
+        initCampaignHero();
+      }
+    });
+  })();
+</script>
+{% endif %}
+
 {% schema %}
 {
-  "name": "ONE9 Complete Hero",
+  "name": "ONE9 Cinematic Stage Hero",
   "settings": [
-    {
-      "type": "header",
-      "content": "Hero Settings"
-    },
     {
       "type": "text",
       "id": "vertical_text",
-      "label": "Vertical Brand Text (Comma separated)",
+      "label": "Vertical Text",
       "default": "O,N,E,9"
     },
     {
-      "type": "textarea",
+      "type": "text",
       "id": "title",
-      "label": "Heading",
-      "default": "INSULATED JACKET\nFOR EVERYDAY WEAR"
+      "label": "Hero Title",
+      "default": "Wear your universe"
     },
     {
-      "type": "range",
-      "id": "heading_size",
-      "label": "Heading Size (Desktop)",
-      "min": 20,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 56
-    },
-    {
-      "type": "textarea",
+      "type": "text",
       "id": "subtitle",
-      "label": "Subheading",
+      "label": "Hero Subtitle",
       "default": "Engineered for warmth. Designed for movement."
     },
     {
-      "type": "range",
-      "id": "subheading_size",
-      "label": "Subheading Size",
-      "min": 12,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "default": 20
+      "type": "image_picker",
+      "id": "image",
+      "label": "Initial Campaign Image"
     },
     {
       "type": "text",
       "id": "button_text",
-      "label": "Button Text",
+      "label": "CTA Text",
       "default": "SHOP NOW"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button Link"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Hero Image"
-    },
-    {
-      "type": "select",
-      "id": "image_position",
-      "label": "Image Position",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "right"
-    },
-    {
-      "type": "header",
-      "content": "Marquee Settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_marquee",
-      "label": "Show Marquee",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "marquee_text",
-      "label": "Marquee Text",
-      "default": "BUILT DIFFERENT. WORN EVERYWHERE."
-    },
-    {
-      "type": "range",
-      "id": "marquee_speed",
-      "label": "Marquee Speed",
-      "min": 10,
-      "max": 60,
-      "step": 2,
-      "default": 30
-    },
-    {
-      "type": "header",
-      "content": "Colors"
+      "label": "CTA Link"
     },
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Main Background Color",
+      "label": "Background Color",
       "default": "#0A0A0A"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent / Button Color",
+      "label": "Accent Color",
       "default": "#F4C430"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Primary Text Color",
+      "label": "Text Color",
       "default": "#FFFFFF"
     },
     {
@@ -942,66 +655,30 @@
       "id": "heading_color",
       "label": "Heading Color",
       "default": "#F4C430"
-    },
-    {
-      "type": "color",
-      "id": "subheading_color",
-      "label": "Subheading Color",
-      "default": "#B0B0B0"
-    },
-    {
-      "type": "color",
-      "id": "marquee_bg_color",
-      "label": "Marquee Background",
-      "default": "#111111"
-    },
-    {
-      "type": "color",
-      "id": "marquee_text_color",
-      "label": "Marquee Text Color",
-      "default": "#8A7B5C"
-    },
-    {
-      "type": "color",
-      "id": "card_bg_color",
-      "label": "Thumbnail Card Background",
-      "default": "#1A1A1A"
     }
   ],
   "blocks": [
     {
       "type": "thumbnail",
-      "name": "Thumbnail Card",
+      "name": "Campaign Slide Block",
       "limit": 4,
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Jacket Image"
+          "label": "Model Image"
         },
         {
           "type": "text",
           "id": "product_name",
-          "label": "Product Name",
-          "default": "Libra Balance Oversized Tee"
-        },
-        {
-          "type": "text",
-          "id": "color_name",
-          "label": "Color Name",
-          "default": "Black"
-        },
-        {
-          "type": "color",
-          "id": "color_hex",
-          "label": "Color Swatch",
-          "default": "#000000"
+          "label": "Model Name",
+          "default": "Denim Defined"
         },
         {
           "type": "text",
           "id": "price",
-          "label": "Price",
-          "default": "£129.99"
+          "label": "Sub-label / Price",
+          "default": "Model Showcase"
         },
         {
           "type": "url",
@@ -1013,44 +690,14 @@
   ],
   "presets": [
     {
-      "name": "ONE9 Complete Hero",
+      "name": "ONE9 Cinematic Stage Hero",
       "category": "Custom",
       "blocks": [
-        { "type": "thumbnail", "settings": { "color_name": "Black", "color_hex": "#000000", "price": "£129.99" } },
-        { "type": "thumbnail", "settings": { "color_name": "Olive", "color_hex": "#556b2f", "price": "£129.99" } },
-        { "type": "thumbnail", "settings": { "color_name": "Brown", "color_hex": "#5c4033", "price": "£129.99" } },
-        { "type": "thumbnail", "settings": { "color_name": "Sand", "color_hex": "#c2b280", "price": "£129.99" } }
+        { "type": "thumbnail", "settings": { "product_name": "Denim Defined", "price": "Model Showcase" } },
+        { "type": "thumbnail", "settings": { "product_name": "Bold Baggy", "price": "Campaign Look 2" } },
+        { "type": "thumbnail", "settings": { "product_name": "Cargo Classic", "price": "Campaign Look 3" } }
       ]
     }
   ]
 }
 {% endschema %}
-
-{% if section.blocks.size > 0 %}
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const heroImage = document.getElementById('heroMainImage');
-    if (!heroImage) return;
-
-    const images = [];
-    {% for block in section.blocks %}
-      {% if block.type == 'thumbnail' and block.settings.image != blank %}
-        images.push("{{ block.settings.image | image_url: width: 1200 }}");
-      {% endif %}
-    {% endfor %}
-
-    if (images.length > 1) {
-      let currentIndex = 0;
-      setInterval(() => {
-        heroImage.style.opacity = '0.7';
-        setTimeout(() => {
-          currentIndex = (currentIndex + 1) % images.length;
-          heroImage.src = images[currentIndex];
-          heroImage.removeAttribute('srcset');
-          heroImage.style.opacity = '1';
-        }, 500); // Wait for fade out
-      }, 4000); // Change image every 4 seconds
-    }
-  });
-</script>
-{% endif %}

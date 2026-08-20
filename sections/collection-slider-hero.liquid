@@ -613,6 +613,86 @@
     const thumbnails = section.querySelectorAll('.ph-thumb');
     const paginations = section.querySelectorAll('.ph-page-num');
     
+    // GSAP Cinematic Entrance Sequence and Scroll Timeline
+    if (typeof gsap !== 'undefined') {
+      // 1. Entrance Animations
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.2 } });
+      
+      gsap.set(section.querySelector('.ph-bg-text'), { opacity: 0, scale: 0.85 });
+      gsap.set(section.querySelectorAll('.ph-panel'), { scaleY: 0, transformOrigin: 'top' });
+      gsap.set(section.querySelector('.ph-main-image-wrap'), { scale: 0.6, opacity: 0, rotation: -12 });
+      gsap.set(section.querySelector('.ph-subtitle-wrap'), { x: -40, opacity: 0 });
+      gsap.set([section.querySelector('.ph-title-1'), section.querySelector('.ph-title-2')], { y: 50, opacity: 0 });
+      gsap.set(section.querySelector('.ph-desc'), { y: 30, opacity: 0 });
+      gsap.set(section.querySelectorAll('.ph-mid-feat'), { x: -30, opacity: 0 });
+      gsap.set(section.querySelectorAll('.ph-thumb'), { scale: 0.6, opacity: 0 });
+      gsap.set(section.querySelectorAll('.ph-bot-feat'), { y: 30, opacity: 0 });
+
+      tl.to(section.querySelector('.ph-bg-text'), { opacity: 0.12, scale: 1, duration: 2.0 })
+        .to(section.querySelectorAll('.ph-panel'), { scaleY: 1, stagger: 0.12 }, "-=1.6")
+        .to(section.querySelector('.ph-main-image-wrap'), { scale: 1, opacity: 1, rotation: 0, duration: 1.5, ease: 'elastic.out(0.8, 0.6)' }, "-=1.2")
+        .to(section.querySelector('.ph-subtitle-wrap'), { x: 0, opacity: 1 }, "-=1.1")
+        .to([section.querySelector('.ph-title-1'), section.querySelector('.ph-title-2')], { y: 0, opacity: 1, stagger: 0.15 }, "-=1.0")
+        .to(section.querySelector('.ph-desc'), { y: 0, opacity: 1 }, "-=0.8")
+        .to(section.querySelectorAll('.ph-mid-feat'), { x: 0, opacity: 1, stagger: 0.12 }, "-=0.8")
+        .to(section.querySelectorAll('.ph-thumb'), { scale: 1, opacity: 1, stagger: 0.08 }, "-=0.8")
+        .to(section.querySelectorAll('.ph-bot-feat'), { y: 0, opacity: 1, stagger: 0.12 }, "-=0.8");
+
+      // 2. Scroll Transformation Timeline (Scroll = Animation Timeline)
+      if (typeof ScrollTrigger !== 'undefined') {
+        gsap.to(mainImage, {
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          },
+          scale: 1.18,
+          rotation: 12,
+          y: 60,
+          ease: 'none'
+        });
+
+        gsap.to(section.querySelector('.ph-bg-text'), {
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          },
+          y: -120,
+          opacity: 0.03,
+          scale: 1.12,
+          ease: 'none'
+        });
+
+        gsap.to(section.querySelector('.ph-left-content'), {
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          },
+          y: -40,
+          opacity: 0.25,
+          ease: 'none'
+        });
+
+        gsap.to(section.querySelectorAll('.ph-bot-feat'), {
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          },
+          y: 40,
+          opacity: 0.1,
+          stagger: 0.05,
+          ease: 'none'
+        });
+      }
+    }
+
     if (thumbnails.length === 0) return;
 
     let currentIndex = 0;

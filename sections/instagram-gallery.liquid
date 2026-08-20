@@ -64,6 +64,44 @@
   }
 </style>
 
+<script>
+  (function() {
+    function initInstagram() {
+      const section = document.querySelector('.instagram-gallery.section-{{ section.id }}');
+      if (!section || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+      gsap.fromTo(section.querySelectorAll('.insta-card'), 
+        { opacity: 0, y: 40, scale: 0.94 },
+        {
+          scrollTrigger: {
+            trigger: section.querySelector('.insta-grid'),
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          },
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out"
+        }
+      );
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initInstagram);
+    } else {
+      initInstagram();
+    }
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initInstagram();
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Instagram Gallery",

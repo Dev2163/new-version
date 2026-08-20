@@ -188,6 +188,44 @@
   }
 </style>
 
+<script>
+  (function() {
+    function initReviews() {
+      const section = document.querySelector('.customer-reviews.section-{{ section.id }}');
+      if (!section || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+      gsap.fromTo(section.querySelectorAll('.review-card-item'), 
+        { opacity: 0, y: 40, scale: 0.96 },
+        {
+          scrollTrigger: {
+            trigger: section.querySelector('.reviews-grid-{{ section.id }}'),
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          },
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.12,
+          duration: 0.8,
+          ease: "power2.out"
+        }
+      );
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initReviews);
+    } else {
+      initReviews();
+    }
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initReviews();
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Customer Reviews",

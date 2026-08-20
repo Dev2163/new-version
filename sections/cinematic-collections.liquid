@@ -1,0 +1,345 @@
+{%- style -%}
+  .cinematic-collections-wrapper-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    /* Dynamically set height based on number of blocks for scrolling distance */
+    height: calc({{ section.blocks.size | plus: 1 }} * 100vh);
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  .cinematic-sticky-stage-{{ section.id }} {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  /* Large Background Typography */
+  .cinematic-bg-text-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .cinematic-bg-heading-{{ section.id }} {
+    font-family: 'Orbitron', 'Archivo Black', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(60px, 15vw, 250px);
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.1);
+    white-space: nowrap;
+    opacity: 1;
+  }
+
+  /* Collection Images Viewport */
+  .cinematic-viewport-{{ section.id }} {
+    position: relative;
+    width: clamp(280px, 35vw, 500px);
+    aspect-ratio: 0.75;
+    z-index: 2;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+  }
+
+  .cinematic-image-wrapper-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cinematic-img-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cinematic-img-{{ section.id }}.is-active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+  }
+
+  /* Overlay Collection Title */
+  .cinematic-info-{{ section.id }} {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .cinematic-title-{{ section.id }} {
+    font-family: 'Oswald', 'Archivo Black', sans-serif;
+    font-size: clamp(32px, 5vw, 70px);
+    font-weight: 800;
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+  }
+
+  .cinematic-explore-{{ section.id }} {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color | default: '#F4C430' }};
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    display: inline-block;
+    pointer-events: auto;
+    text-decoration: none;
+  }
+
+  /* Dots Navigation */
+  .cinematic-dots-{{ section.id }} {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 4;
+  }
+
+  .cinematic-dot-{{ section.id }} {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.3);
+    transition: 0.3s;
+  }
+
+  .cinematic-dot-{{ section.id }}.is-active {
+    background-color: {{ section.settings.accent_color | default: '#F4C430' }};
+    transform: scale(1.5);
+    box-shadow: 0 0 10px {{ section.settings.accent_color | default: '#F4C430' }};
+  }
+
+  @media (max-width: 767px) {
+    .cinematic-viewport-{{ section.id }} {
+      width: clamp(240px, 75vw, 320px);
+      aspect-ratio: 0.8;
+    }
+    .cinematic-info-{{ section.id }} {
+      left: 5%;
+      bottom: 8%;
+    }
+    .cinematic-dots-{{ section.id }} {
+      right: 15px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="cinematic-collections-wrapper-{{ section.id }}" id="CinematicCollections-{{ section.id }}">
+  <div class="cinematic-sticky-stage-{{ section.id }}">
+    
+    <!-- Background Text -->
+    <div class="cinematic-bg-text-{{ section.id }}">
+      <div class="cinematic-bg-heading-{{ section.id }}">{{ section.settings.bg_text }}</div>
+    </div>
+
+    <!-- Images Stage -->
+    <div class="cinematic-viewport-{{ section.id }}">
+      <div class="cinematic-image-wrapper-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% assign collection = block.settings.collection %}
+          {% assign img = block.settings.image | default: collection.featured_image %}
+          
+          <img src="{{ img | image_url: width: 1000 }}" 
+               class="cinematic-img-{{ section.id }} {% if forloop.first %}is-active{% endif %}" 
+               data-index="{{ forloop.index0 }}"
+               alt="{{ collection.title | escape }}">
+        {% endfor %}
+        
+        {% if section.blocks.size == 0 %}
+          {{ 'collection-1' | placeholder_svg_tag: 'cinematic-img placeholder is-active' }}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Foreground Info -->
+    <div class="cinematic-info-{{ section.id }}">
+      <h2 class="cinematic-title-{{ section.id }}" id="CinematicTitle-{{ section.id }}">
+        {% if section.blocks.size > 0 %}
+          {{ section.blocks.first.settings.collection.title | default: 'Collection' }}
+        {% else %}
+          OUR COLLECTIONS
+        {% endif %}
+      </h2>
+      <a href="{% if section.blocks.size > 0 %}{{ section.blocks.first.settings.collection.url }}{% else %}#{% endif %}" 
+         class="cinematic-explore-{{ section.id }}" 
+         id="CinematicLink-{{ section.id }}">
+        Explore Collection
+      </a>
+    </div>
+
+    <!-- Dots -->
+    <div class="cinematic-dots-{{ section.id }}">
+      {% for block in section.blocks %}
+        <div class="cinematic-dot-{{ section.id }} {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    function initCinematicCollections() {
+      const section = document.getElementById('CinematicCollections-{{ section.id }}');
+      if (!section) return;
+
+      const viewport = section.querySelector('.cinematic-viewport-{{ section.id }}');
+      const bgText = section.querySelector('.cinematic-bg-heading-{{ section.id }}');
+      const title = document.getElementById('CinematicTitle-{{ section.id }}');
+      const link = document.getElementById('CinematicLink-{{ section.id }}');
+      const images = section.querySelectorAll('.cinematic-img-{{ section.id }}');
+      const dots = section.querySelectorAll('.cinematic-dot-{{ section.id }}');
+
+      if (images.length <= 1) return; // Need at least 2 for scrolling effect
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+      // Extract data
+      const data = [];
+      {% for block in section.blocks %}
+        data.push({
+          title: {{ block.settings.collection.title | default: 'Collection ' | append: forloop.index | json }},
+          url: {{ block.settings.collection.url | default: '#' | json }}
+        });
+      {% endfor %}
+
+      function showIndex(idx) {
+        images.forEach((img, i) => {
+          if (i === idx) img.classList.add('is-active');
+          else img.classList.remove('is-active');
+        });
+        
+        dots.forEach((dot, i) => {
+          if (i === idx) dot.classList.add('is-active');
+          else dot.classList.remove('is-active');
+        });
+
+        // Animate text change
+        gsap.to(title, { opacity: 0, y: -10, duration: 0.2, onComplete: () => {
+          title.textContent = data[idx].title;
+          link.href = data[idx].url;
+          gsap.to(title, { opacity: 1, y: 0, duration: 0.3 });
+        }});
+      }
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.0
+        }
+      });
+
+      // Background text parallax
+      tl.to(bgText, { xPercent: -20, ease: "none" }, 0);
+
+      // Create sequence
+      const numItems = data.length;
+      for (let i = 0; i < numItems - 1; i++) {
+        // We use an empty tween to mark the time for this step
+        tl.to({}, {
+          duration: 1,
+          onStart: () => showIndex(i + 1),
+          onReverseComplete: () => showIndex(i)
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCinematicCollections);
+    } else {
+      initCinematicCollections();
+    }
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initCinematicCollections();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cinematic Collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "bg_text",
+      "label": "Background Text",
+      "default": "COLLECTIONS"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#F4C430"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Override Image (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cinematic Collections",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}
