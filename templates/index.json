@@ -12,11 +12,20 @@
     "hero_p9CmMG": {
       "type": "hero",
       "blocks": {
+        "thumbnail_78Xrye": {
+          "type": "thumbnail",
+          "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_09_01_50_PM.png",
+            "product_name": "Universe Collection",
+            "price": "Model Showcase",
+            "product_url": ""
+          }
+        },
         "thumbnail_DtyX6E": {
           "type": "thumbnail",
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_09_01_50_PM.png",
-            "product_name": "travling",
+            "product_name": "Travel Collection",
             "price": "£129.99",
             "product_url": ""
           }
@@ -25,7 +34,7 @@
           "type": "thumbnail",
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_08_51_23_PM.png",
-            "product_name": "Libra Balance Oversized Tee",
+            "product_name": "History Collection",
             "price": "£129.99",
             "product_url": ""
           }
@@ -34,13 +43,14 @@
           "type": "thumbnail",
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4__2026__08_15_24_PM-removebg-preview.png",
-            "product_name": "Libra Balance Oversized Tee",
+            "product_name": "Streetwear Collection",
             "price": "£129.99",
             "product_url": ""
           }
         }
       },
       "block_order": [
+        "thumbnail_78Xrye",
         "thumbnail_DtyX6E",
         "thumbnail_RhwfNV",
         "thumbnail_AFGmXA"
@@ -49,6 +59,63 @@
       "settings": {
         "image": "shopify://shop_images/ChatGPT_Image_Jul_4__2026__08_15_24_PM-removebg-preview.png",
         "bg_color": "#0a0a0a",
+        "accent_color": "#f4c430"
+      }
+    },
+    "cinematic_collections_section": {
+      "type": "cinematic-collections",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "find-your-zodiac",
+            "custom_title": "",
+            "button_text": "Explore Collection"
+          }
+        }
+      },
+      "block_order": [
+        "collection_1"
+      ],
+      "settings": {
+        "bg_text_top": "OUR",
+        "bg_text_bottom": "COLLECTIONS",
+        "top_text_align": "flex-start",
+        "bottom_text_align": "center",
+        "bg_color": "#000000",
+        "accent_color": "#f4c430"
+      }
+    },
+    "cinematic_footwear_section": {
+      "type": "cinematic-footwear",
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "native-bombay-blues",
+            "custom_title": "",
+            "button_text": "Shop Now"
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "unisex-sundowner-denim-sneaker-1",
+            "custom_title": "",
+            "button_text": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2"
+      ],
+      "settings": {
+        "bg_text_top": "OUR",
+        "bg_text_bottom": "OUR FOOTWEAR",
+        "top_text_align": "flex-start",
+        "bottom_text_align": "center",
+        "bg_color": "#000000",
         "accent_color": "#f4c430"
       }
     },
@@ -165,6 +232,10 @@
     "best_sellers_section": {
       "type": "best-sellers",
       "settings": {
+        "bg_text_top": "BEST",
+        "bg_text_bottom": "SELLERS",
+        "top_text_align": "flex-start",
+        "bottom_text_align": "flex-start",
         "view_all_text": "VIEW ALL PRODUCTS",
         "view_all_link": "",
         "collection": "find-your-zodiac",
@@ -437,49 +508,6 @@
       "name": "t:names.hero",
       "settings": {
         "bg_color": "#0a0a0a",
-        "accent_color": "#f4c430"
-      }
-    },
-    "cinematic_collections_section": {
-      "type": "cinematic-collections",
-      "blocks": {
-        "collection_1": {
-          "type": "collection",
-          "settings": {
-            "collection": "find-your-zodiac"
-          }
-        }
-      },
-      "block_order": [
-        "collection_1"
-      ],
-      "settings": {
-        "bg_color": "#000000",
-        "accent_color": "#f4c430"
-      }
-    },
-    "cinematic_footwear_section": {
-      "type": "cinematic-footwear",
-      "blocks": {
-        "product_1": {
-          "type": "product",
-          "settings": {
-            "product": "native-bombay-blues"
-          }
-        },
-        "product_2": {
-          "type": "product",
-          "settings": {
-            "product": "unisex-sundowner-denim-sneaker-1"
-          }
-        }
-      },
-      "block_order": [
-        "product_1",
-        "product_2"
-      ],
-      "settings": {
-        "bg_color": "#000000",
         "accent_color": "#f4c430"
       }
     },
