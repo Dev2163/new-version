@@ -9,6 +9,46 @@
   // Check reduced motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // 0. Initialize Lenis Smooth Scroll Globally
+  function initSmoothScroll() {
+    const Lenis = /** @type {any} */ (window).Lenis;
+    const ScrollTrigger = /** @type {any} */ (window).ScrollTrigger;
+
+    if (typeof Lenis !== 'undefined') {
+      if (window.hasOwnProperty('globalLenis')) return;
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: /** @param {number} t */ (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1.0,
+        smoothTouch: false,
+        infinite: false
+      });
+
+      Object.defineProperty(window, 'globalLenis', {
+        value: lenis,
+        writable: true,
+        configurable: true
+      });
+
+      /** @param {number} time */
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      if (typeof ScrollTrigger !== 'undefined') {
+        lenis.on('scroll', ScrollTrigger.update);
+      }
+      
+      console.log('Horizon Premium Animations: Global Lenis smooth scroll initialized.');
+    }
+  }
+
   // Initialize all interactive components
   function initPremiumAnimations() {
     if (prefersReducedMotion) {
@@ -16,6 +56,7 @@
       return;
     }
 
+    initSmoothScroll();
     init3DTilt();
     initMagneticButtons();
     initHeaderScrollEffect();

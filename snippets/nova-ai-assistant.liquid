@@ -476,6 +476,33 @@
     align-self: flex-end;
   }
 
+  /* Typing Indicator */
+  .typing-bubble {
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 18px !important;
+    background: var(--nova-bot-bubble);
+    border: 1px solid rgba(244, 196, 48, 0.25);
+    border-radius: 16px;
+    border-top-left-radius: 4px;
+    width: fit-content;
+  }
+  .typing-bubble .dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--nova-gold);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+  }
+  .typing-bubble .dot:nth-child(1) { animation-delay: -0.32s; }
+  .typing-bubble .dot:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+
   /* Product Card Grid inside Chat */
   .nova-products-grid {
     display: flex;
@@ -757,6 +784,7 @@
     const messagesContainer = document.getElementById('nova-ai-messages');
     const quickRepliesContainer = document.getElementById('nova-ai-quick-replies');
     const form = document.getElementById('nova-ai-form');
+    const GEMINI_API_KEY = {{ gemini_api_key | default: '' | json }};
     const input = document.getElementById('nova-ai-input');
     function getLangWelcomeMsg(lang) {
       return "Yo! I'm NovaAI, your ONE9 streetwear sales assistant. Looking for fresh oversized fits, order updates, or discount codes?";
@@ -785,9 +813,93 @@
       input.value = '';
 
       setTimeout(() => {
-        processUserQuery(query);
+        if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== '') {
+          processGeminiQuery(query);
+        } else {
+          processUserQuery(query);
+        }
       }, 450);
     });
+
+    function showTypingIndicator() {
+      removeTypingIndicator();
+      const msgHTML = `
+        <div id="nova-typing-indicator" class="nova-msg nova-msg--bot" style="margin-bottom: 8px;">
+          <div class="typing-bubble">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      `;
+      messagesContainer.insertAdjacentHTML('beforeend', msgHTML);
+      scrollToBottom();
+    }
+
+    function removeTypingIndicator() {
+      const indicator = document.getElementById('nova-typing-indicator');
+      if (indicator) indicator.remove();
+    }
+
+    function processGeminiQuery(query) {
+      showTypingIndicator();
+
+      const systemPrompt = `You are NovaAI, a luxury streetwear shopping assistant for the brand ONE9. 
+Respond in a friendly, helpful, short, streetwear-style tone.
+Active Store Catalog:
+${JSON.stringify(CATALOG, null, 2)}
+Upcoming Launch Drop 002:
+${JSON.stringify(LAUNCH, null, 2)}
+Available Order database:
+${JSON.stringify(ORDERS, null, 2)}
+
+Provide sizing advice, active coupons, or product recommendations based on this context. 
+If recommending products, mention their names exactly.
+Keep responses under 3 sentences unless listing details.`;
+
+      fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: query
+            }]
+          }],
+          systemInstruction: {
+            parts: [{
+              text: systemPrompt
+            }]
+          }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        removeTypingIndicator();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          const recommendedIds = [];
+          CATALOG.forEach(p => {
+            const cleanName = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const cleanText = text.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (cleanText.includes(cleanName) || text.toLowerCase().includes(p.name.toLowerCase())) {
+              recommendedIds.push(p.id);
+            }
+          });
+          
+          addBotMessage(text, recommendedIds);
+        } else {
+          processUserQuery(query);
+        }
+      })
+      .catch(err => {
+        console.error('Gemini API Error:', err);
+        removeTypingIndicator();
+        processUserQuery(query);
+      });
+    }
 
     function addUserMessage(text) {
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

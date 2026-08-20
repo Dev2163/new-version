@@ -1,13 +1,16 @@
-{% comment %}
-  ONE9 Luxury Streetwear - NovaAI AI Shopping Assistant Section Wrapper
-{% endcomment %}
-
-{% render 'nova-ai-assistant' %}
+{% render 'nova-ai-assistant', gemini_api_key: section.settings.gemini_api_key %}
 
 {% schema %}
 {
   "name": "NovaAI Shopping Assistant",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "gemini_api_key",
+      "label": "Gemini API Key",
+      "info": "Paste your Google Gemini API Key here to enable real-time Google AI chat. If left blank, it falls back to the rule-based assistant."
+    }
+  ],
   "presets": [
     {
       "name": "NovaAI Shopping Assistant"
