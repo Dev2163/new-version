@@ -125,12 +125,12 @@
     flex-direction: column;
     align-items: center;
     gap: -2px; /* Very tight spacing */
-    font-family: 'Michroma', 'Orbitron', 'Audiowide', sans-serif;
+    font-family: 'Orbitron', 'Archivo Black', sans-serif;
     font-weight: 900;
     font-size: 32px;
     line-height: 0.9;
     color: {{ section.settings.accent_color | default: '#F4C430' }};
-    text-shadow: 0 0 15px rgba(244, 196, 48, 0.2);
+    text-shadow: 0 0 15px rgba(244, 196, 48, 0.6), 0 0 30px rgba(244, 196, 48, 0.3);
     margin-bottom: 35px;
   }
 
@@ -266,59 +266,7 @@
     z-index: 2;
   }
 
-  /* Foreground Overlay Details */
-  .hero-editorial-overlay-{{ section.id }} {
-    position: absolute;
-    left: 8%;
-    bottom: 12%;
-    max-width: 500px;
-    z-index: 3;
-    color: {{ section.settings.text_color | default: '#ffffff' }};
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
 
-  .campaign-overlay-title-{{ section.id }} {
-    font-family: 'Oswald', 'Archivo Black', sans-serif;
-    font-weight: 800;
-    font-size: clamp(32px, 5vw, 62px);
-    line-height: 1.05;
-    margin: 0 0 16px 0;
-    text-transform: uppercase;
-    color: {{ section.settings.heading_color | default: '#F4C430' }};
-    letter-spacing: -0.01em;
-  }
-
-  .campaign-overlay-subtitle-{{ section.id }} {
-    font-family: 'Rajdhani', 'Inter', sans-serif;
-    font-size: clamp(14px, 1.8vw, 18px);
-    font-weight: 500;
-    line-height: 1.5;
-    margin: 0 0 28px 0;
-    color: {{ section.settings.text_secondary_color | default: '#B0B0B0' }};
-  }
-
-  .campaign-cta-button-{{ section.id }} {
-    display: inline-block;
-    background: {{ section.settings.accent_color | default: '#F4C430' }};
-    color: #000000;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 1px;
-    padding: 16px 36px;
-    border-radius: 4px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .campaign-cta-button-{{ section.id }}:hover {
-    background: #ffffff;
-    transform: translateY(-2px);
-  }
 
   /* Bottom Pills Navigation Indicators */
   .campaign-bottom-nav-{{ section.id }} {
@@ -368,10 +316,6 @@
     .hero-model-viewport-{{ section.id }} {
       width: clamp(200px, 40vw, 340px); /* Reduced for tablet */
     }
-    .hero-editorial-overlay-{{ section.id }} {
-      left: 5%;
-      bottom: 8%;
-    }
   }
 
   @media (max-width: 767px) {
@@ -384,12 +328,6 @@
     }
     .hero-left-indicator-{{ section.id }} {
       display: none; /* Hide complex indicator on mobile to save space */
-    }
-    .hero-editorial-overlay-{{ section.id }} {
-      width: 90%;
-      left: 5%;
-      bottom: 12%;
-      text-align: center;
     }
     .campaign-bottom-nav-{{ section.id }} {
       bottom: 15px;
@@ -418,20 +356,12 @@
       const container = document.querySelector('.custom-hero-container-{{ section.id }}');
       if (!container) return;
 
-      const heroImage = container.querySelector('#heroCampaignImage');
-      const title = container.querySelector('.campaign-overlay-title-{{ section.id }}');
-      const subtitle = container.querySelector('.campaign-overlay-subtitle-{{ section.id }}');
-      const button = container.querySelector('.campaign-cta-button-{{ section.id }}');
       const viewport = container.querySelector('.hero-model-viewport-{{ section.id }}');
-      const overlay = container.querySelector('.hero-editorial-overlay-{{ section.id }}');
       const bgText1 = container.querySelector('.hero-editorial-bg-text-1');
       const bgText2 = container.querySelector('.hero-editorial-bg-text-2');
       const bottomNav = container.querySelector('.campaign-bottom-nav-{{ section.id }}');
       const pills = container.querySelectorAll('.campaign-nav-pill-{{ section.id }}');
       const indicatorProgress = container.querySelector('.indicator-progress-{{ section.id }}');
-
-      const originalTitle = title ? title.innerHTML : "";
-      const originalSubtitle = subtitle ? subtitle.innerHTML : "";
 
       // Load steps data
       const blockData = [];
@@ -593,38 +523,9 @@
   "name": "ONE9 Cinematic Stage Hero",
   "settings": [
     {
-      "type": "text",
-      "id": "vertical_text",
-      "label": "Vertical Text",
-      "default": "O,N,E,9"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Hero Title",
-      "default": "Wear your universe"
-    },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Hero Subtitle",
-      "default": "Engineered for warmth. Designed for movement."
-    },
-    {
       "type": "image_picker",
       "id": "image",
       "label": "Initial Campaign Image"
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "label": "CTA Text",
-      "default": "SHOP NOW"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "CTA Link"
     },
     {
       "type": "color",
@@ -636,24 +537,6 @@
       "type": "color",
       "id": "accent_color",
       "label": "Accent Color",
-      "default": "#F4C430"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "text_secondary_color",
-      "label": "Secondary Text Color",
-      "default": "#B0B0B0"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
       "default": "#F4C430"
     }
   ],

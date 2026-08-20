@@ -20,98 +20,140 @@
     background-color: {{ section.settings.bg_color }};
   }
 
-  /* Large Background Typography */
-  .cinematic-bg-text-{{ section.id }} {
+  /* Large Background/Foreground Typography Wrapper */
+  .cinematic-text-layer-{{ section.id }} {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    z-index: 1;
     overflow: hidden;
+    text-align: center;
   }
-  
-  .cinematic-bg-heading-{{ section.id }} {
+
+  .cinematic-bg-text-wrap-{{ section.id }} {
+    z-index: 1; /* Behind cards */
+    align-items: {{ section.settings.bottom_text_align | default: 'center' }};
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .cinematic-fg-text-wrap-{{ section.id }} {
+    z-index: 1; /* Both lines of text now sit behind the cards */
+    align-items: {{ section.settings.top_text_align | default: 'flex-start' }};
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .cinematic-text-line-1-{{ section.id }},
+  .cinematic-text-line-2-{{ section.id }} {
     font-family: 'Orbitron', 'Archivo Black', sans-serif;
     font-weight: 900;
     text-transform: uppercase;
-    font-size: clamp(60px, 15vw, 250px);
-    color: transparent;
-    -webkit-text-stroke: 2px rgba(255,255,255,0.1);
+    line-height: 0.85;
+    letter-spacing: -0.01em;
     white-space: nowrap;
-    opacity: 1;
   }
 
-  /* Collection Images Viewport */
-  .cinematic-viewport-{{ section.id }} {
+  /* Solid glowing text (Top Line, Foreground) */
+  .cinematic-text-line-1-{{ section.id }} {
+    font-size: clamp(50px, 12vw, 170px);
+    color: #ffffff;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4), 0 0 70px rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+  }
+
+  /* Outline text (Bottom Line, Background) */
+  .cinematic-text-line-2-{{ section.id }} {
+    font-size: clamp(45px, 10vw, 140px);
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.75);
+    margin-top: 20px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Stack Container */
+  .cinematic-stack-container-{{ section.id }} {
     position: relative;
-    width: clamp(280px, 35vw, 500px);
-    aspect-ratio: 0.75;
-    z-index: 2;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+    width: clamp(160px, 20vw, 290px); /* Matches Hero sizing */
+    aspect-ratio: 0.68;
+    z-index: 2; /* Sits between text layers */
+    perspective: 1000px;
   }
 
-  .cinematic-image-wrapper-{{ section.id }} {
+  /* Individual Cards */
+  .cinematic-card-{{ section.id }} {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    transform-origin: center bottom;
+    will-change: transform, opacity;
   }
 
-  .cinematic-img-{{ section.id }} {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .cinematic-card-inner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px; /* Matches Hero's subtle rounding */
+    overflow: hidden;
+    background: #111111;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Card Image */
+  .cinematic-card-img-{{ section.id }} {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    opacity: 0;
-    transform: scale(1.1);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    object-position: top center;
   }
 
-  .cinematic-img-{{ section.id }}.is-active {
-    opacity: 1;
-    transform: scale(1);
-    z-index: 2;
-  }
-
-  /* Overlay Collection Title */
-  .cinematic-info-{{ section.id }} {
+  /* Card Content Overlay */
+  .cinematic-card-overlay-{{ section.id }} {
     position: absolute;
-    bottom: 10%;
-    left: 10%;
-    z-index: 3;
-    pointer-events: none;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #ffffff;
   }
 
-  .cinematic-title-{{ section.id }} {
+  .cinematic-card-title-{{ section.id }} {
     font-family: 'Oswald', 'Archivo Black', sans-serif;
-    font-size: clamp(32px, 5vw, 70px);
+    font-size: clamp(20px, 2.5vw, 32px);
     font-weight: 800;
     color: #ffffff;
     text-transform: uppercase;
-    line-height: 1;
-    margin: 0;
-    text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+    line-height: 1.1;
+    margin: 0 0 12px 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
 
-  .cinematic-explore-{{ section.id }} {
+  .cinematic-card-link-{{ section.id }} {
     font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 700;
     color: {{ section.settings.accent_color | default: '#F4C430' }};
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-top: 10px;
-    display: inline-block;
-    pointer-events: auto;
     text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+    width: fit-content;
+  }
+
+  .cinematic-card-link-{{ section.id }}:hover {
+    color: #ffffff;
   }
 
   /* Dots Navigation */
@@ -141,16 +183,20 @@
   }
 
   @media (max-width: 767px) {
-    .cinematic-viewport-{{ section.id }} {
-      width: clamp(240px, 75vw, 320px);
-      aspect-ratio: 0.8;
-    }
-    .cinematic-info-{{ section.id }} {
-      left: 5%;
-      bottom: 8%;
+    .cinematic-stack-container-{{ section.id }} {
+      width: clamp(180px, 55vw, 260px);
+      aspect-ratio: 0.72;
     }
     .cinematic-dots-{{ section.id }} {
       right: 15px;
+    }
+    .cinematic-text-line-1-{{ section.id }} {
+      font-size: clamp(40px, 10vw, 100px);
+      margin-bottom: 10px;
+    }
+    .cinematic-text-line-2-{{ section.id }} {
+      font-size: clamp(35px, 8vw, 80px);
+      margin-top: 10px;
     }
   }
 {%- endstyle -%}
@@ -158,44 +204,57 @@
 <div class="cinematic-collections-wrapper-{{ section.id }}" id="CinematicCollections-{{ section.id }}">
   <div class="cinematic-sticky-stage-{{ section.id }}">
     
-    <!-- Background Text -->
-    <div class="cinematic-bg-text-{{ section.id }}">
-      <div class="cinematic-bg-heading-{{ section.id }}">{{ section.settings.bg_text }}</div>
+    <!-- Background Text Layer (Behind Cards) -->
+    <div class="cinematic-text-layer-{{ section.id }} cinematic-bg-text-wrap-{{ section.id }}">
+      <!-- Empty space spacer to push the second line below the cards -->
+      <div style="font-size: clamp(50px, 12vw, 170px); line-height: 0.85; margin-bottom: 20px; visibility: hidden;">Spacer</div>
+      <div class="cinematic-text-line-2-{{ section.id }}">{{ section.settings.bg_text_bottom | default: 'COLLECTIONS' }}</div>
     </div>
 
-    <!-- Images Stage -->
-    <div class="cinematic-viewport-{{ section.id }}">
-      <div class="cinematic-image-wrapper-{{ section.id }}">
-        {% for block in section.blocks %}
-          {% assign collection = block.settings.collection %}
-          {% assign img = block.settings.image | default: collection.featured_image %}
-          
-          <img src="{{ img | image_url: width: 1000 }}" 
-               class="cinematic-img-{{ section.id }} {% if forloop.first %}is-active{% endif %}" 
-               data-index="{{ forloop.index0 }}"
-               alt="{{ collection.title | escape }}">
-        {% endfor %}
+    <!-- Cards Stack Stage -->
+    <div class="cinematic-stack-container-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% assign collection = block.settings.collection %}
+        {% assign img = block.settings.image | default: collection.featured_image %}
         
-        {% if section.blocks.size == 0 %}
-          {{ 'collection-1' | placeholder_svg_tag: 'cinematic-img placeholder is-active' }}
-        {% endif %}
-      </div>
+        <div class="cinematic-card-{{ section.id }}" 
+             data-index="{{ forloop.index0 }}" 
+             style="z-index: {{ section.blocks.size | minus: forloop.index0 }};"
+             {{ block.shopify_attributes }}>
+          <div class="cinematic-card-inner-{{ section.id }}">
+            {% if img != blank %}
+              <img src="{{ img | image_url: width: 800 }}" class="cinematic-card-img-{{ section.id }}" alt="{{ collection.title | escape }}">
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'cinematic-card-img-wrapper placeholder' }}
+            {% endif %}
+            <div class="cinematic-card-overlay-{{ section.id }}">
+              <h2 class="cinematic-card-title-{{ section.id }}">
+                {{ collection.title | default: 'Collection' }}
+              </h2>
+              <a href="{{ collection.url | default: '#' }}" class="cinematic-card-link-{{ section.id }}">
+                Explore Collection
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      
+      {% if section.blocks.size == 0 %}
+        <div class="cinematic-card-{{ section.id }}" style="z-index: 1;">
+          <div class="cinematic-card-inner-{{ section.id }}">
+            {{ 'collection-1' | placeholder_svg_tag: 'cinematic-card-img placeholder' }}
+            <div class="cinematic-card-overlay-{{ section.id }}">
+              <h2 class="cinematic-card-title-{{ section.id }}">Collection Title</h2>
+              <a href="#" class="cinematic-card-link-{{ section.id }}">Explore Collection</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
 
-    <!-- Foreground Info -->
-    <div class="cinematic-info-{{ section.id }}">
-      <h2 class="cinematic-title-{{ section.id }}" id="CinematicTitle-{{ section.id }}">
-        {% if section.blocks.size > 0 %}
-          {{ section.blocks.first.settings.collection.title | default: 'Collection' }}
-        {% else %}
-          OUR COLLECTIONS
-        {% endif %}
-      </h2>
-      <a href="{% if section.blocks.size > 0 %}{{ section.blocks.first.settings.collection.url }}{% else %}#{% endif %}" 
-         class="cinematic-explore-{{ section.id }}" 
-         id="CinematicLink-{{ section.id }}">
-        Explore Collection
-      </a>
+    <!-- Foreground Text Layer (In front of Cards) -->
+    <div class="cinematic-text-layer-{{ section.id }} cinematic-fg-text-wrap-{{ section.id }}">
+      <div class="cinematic-text-line-1-{{ section.id }}">{{ section.settings.bg_text_top | default: 'OUR' }}</div>
     </div>
 
     <!-- Dots -->
@@ -214,44 +273,29 @@
       const section = document.getElementById('CinematicCollections-{{ section.id }}');
       if (!section) return;
 
-      const viewport = section.querySelector('.cinematic-viewport-{{ section.id }}');
-      const bgText = section.querySelector('.cinematic-bg-heading-{{ section.id }}');
-      const title = document.getElementById('CinematicTitle-{{ section.id }}');
-      const link = document.getElementById('CinematicLink-{{ section.id }}');
-      const images = section.querySelectorAll('.cinematic-img-{{ section.id }}');
+      const textLine1 = section.querySelector('.cinematic-text-line-1-{{ section.id }}');
+      const textLine2 = section.querySelector('.cinematic-text-line-2-{{ section.id }}');
+      const cards = section.querySelectorAll('.cinematic-card-{{ section.id }}');
       const dots = section.querySelectorAll('.cinematic-dot-{{ section.id }}');
 
-      if (images.length <= 1) return; // Need at least 2 for scrolling effect
+      if (cards.length <= 1) return; // Need multiple cards for stack animation
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-      // Extract data
-      const data = [];
-      {% for block in section.blocks %}
-        data.push({
-          title: {{ block.settings.collection.title | default: 'Collection ' | append: forloop.index | json }},
-          url: {{ block.settings.collection.url | default: '#' | json }}
-        });
-      {% endfor %}
+      // 1. Initial Stack Setup (stagger cards backward with scaling and rotation)
+      cards.forEach((card, idx) => {
+        if (idx > 0) {
+          const scale = 1 - (idx * 0.04);
+          const translateY = idx * 12;
+          const rotation = idx % 2 === 0 ? 3 : -3;
+          gsap.set(card, {
+            scale: scale,
+            y: translateY,
+            rotation: rotation
+          });
+        }
+      });
 
-      function showIndex(idx) {
-        images.forEach((img, i) => {
-          if (i === idx) img.classList.add('is-active');
-          else img.classList.remove('is-active');
-        });
-        
-        dots.forEach((dot, i) => {
-          if (i === idx) dot.classList.add('is-active');
-          else dot.classList.remove('is-active');
-        });
-
-        // Animate text change
-        gsap.to(title, { opacity: 0, y: -10, duration: 0.2, onComplete: () => {
-          title.textContent = data[idx].title;
-          link.href = data[idx].url;
-          gsap.to(title, { opacity: 1, y: 0, duration: 0.3 });
-        }});
-      }
-
+      // 2. Timeline Trigger for Pinned Fly-off
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -261,19 +305,52 @@
         }
       });
 
-      // Background text parallax
-      tl.to(bgText, { xPercent: -20, ease: "none" }, 0);
+      // Parallax text scrolling in opposite directions!
+      tl.to(textLine1, { xPercent: -15, ease: "none" }, 0);
+      tl.to(textLine2, { xPercent: 15, ease: "none" }, 0);
 
-      // Create sequence
-      const numItems = data.length;
-      for (let i = 0; i < numItems - 1; i++) {
-        // We use an empty tween to mark the time for this step
-        tl.to({}, {
-          duration: 1,
-          onStart: () => showIndex(i + 1),
-          onReverseComplete: () => showIndex(i)
+      function updateActiveDot(activeIdx) {
+        dots.forEach((dot, dIdx) => {
+          if (dIdx === activeIdx) dot.classList.add('is-active');
+          else dot.classList.remove('is-active');
         });
       }
+
+      // Fly off cards one by one
+      cards.forEach((card, idx) => {
+        if (idx < cards.length - 1) {
+          const triggerTime = idx;
+
+          // Slide top card UP and out
+          tl.to(card, {
+            yPercent: -130,
+            rotation: idx % 2 === 0 ? -12 : 12,
+            opacity: 0,
+            ease: "power1.inOut",
+            duration: 1,
+            onStart: () => updateActiveDot(idx + 1),
+            onReverseComplete: () => updateActiveDot(idx)
+          }, triggerTime);
+
+          // Shift the rest of the stack forward
+          for (let nextIdx = idx + 1; nextIdx < cards.length; nextIdx++) {
+            const nextCard = cards[nextIdx];
+            const relativeStackPos = nextIdx - (idx + 1); // New rank in stack
+            
+            const newScale = 1 - (relativeStackPos * 0.04);
+            const newTranslateY = relativeStackPos * 12;
+            const newRotation = relativeStackPos === 0 ? 0 : (nextIdx % 2 === 0 ? 3 : -3);
+
+            tl.to(nextCard, {
+              scale: newScale,
+              y: newTranslateY,
+              rotation: newRotation,
+              ease: "power1.inOut",
+              duration: 1
+            }, triggerTime);
+          }
+        }
+      });
     }
 
     if (document.readyState === 'loading') {
@@ -296,9 +373,37 @@
   "settings": [
     {
       "type": "text",
-      "id": "bg_text",
-      "label": "Background Text",
+      "id": "bg_text_top",
+      "label": "Top Text (Foreground)",
+      "default": "OUR"
+    },
+    {
+      "type": "text",
+      "id": "bg_text_bottom",
+      "label": "Bottom Text (Background)",
       "default": "COLLECTIONS"
+    },
+    {
+      "type": "select",
+      "id": "top_text_align",
+      "label": "Top Text Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "bottom_text_align",
+      "label": "Bottom Text Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "color",

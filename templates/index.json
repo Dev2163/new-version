@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+
 {
   "sections": {
     "hero_p9CmMG": {
@@ -455,6 +447,51 @@
         "text_color": "#ffffff",
         "text_secondary_color": "#b0b0b0",
         "heading_color": "#f4c430"
+      }
+    },
+    "cinematic_collections_section": {
+      "type": "cinematic-collections",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "find-your-zodiac"
+          }
+        }
+      },
+      "block_order": [
+        "collection_1"
+      ],
+      "settings": {
+        "bg_text": "COLLECTIONS",
+        "bg_color": "#000000",
+        "accent_color": "#f4c430"
+      }
+    },
+    "cinematic_footwear_section": {
+      "type": "cinematic-footwear",
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "native-bombay-blues"
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "unisex-sundowner-denim-sneaker-1"
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2"
+      ],
+      "settings": {
+        "bg_text": "FOOTWEAR",
+        "bg_color": "#000000",
+        "accent_color": "#f4c430"
       }
     },
     "section_npVphq": {
@@ -1087,6 +1124,8 @@
   },
   "order": [
     "hero_p9CmMG",
+    "cinematic_collections_section",
+    "cinematic_footwear_section",
     "collection_slider_hero",
     "trust_badges_section",
     "footwear_picks_section",

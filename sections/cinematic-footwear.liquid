@@ -20,121 +20,170 @@
     background-color: {{ section.settings.bg_color }};
   }
 
-  /* Large Background Typography */
-  .cinematic-bg-text-{{ section.id }} {
+  /* Large Background/Foreground Typography Wrapper */
+  .cinematic-text-layer-{{ section.id }} {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    z-index: 1;
     overflow: hidden;
+    text-align: center;
   }
-  
-  .cinematic-bg-heading-{{ section.id }} {
+
+  .cinematic-bg-text-wrap-{{ section.id }} {
+    z-index: 1; /* Behind cards */
+    align-items: {{ section.settings.bottom_text_align | default: 'center' }};
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .cinematic-fg-text-wrap-{{ section.id }} {
+    z-index: 1; /* Both lines of text now sit behind the cards */
+    align-items: {{ section.settings.top_text_align | default: 'flex-start' }};
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .cinematic-text-line-1-{{ section.id }},
+  .cinematic-text-line-2-{{ section.id }} {
     font-family: 'Orbitron', 'Archivo Black', sans-serif;
     font-weight: 900;
     text-transform: uppercase;
-    font-size: clamp(60px, 15vw, 250px);
-    color: transparent;
-    -webkit-text-stroke: 2px rgba(255,255,255,0.1);
+    line-height: 0.85;
+    letter-spacing: -0.01em;
     white-space: nowrap;
-    opacity: 1;
   }
 
-  /* Footwear Images Viewport */
-  .cinematic-viewport-{{ section.id }} {
+  /* Solid glowing text (Top Line, Foreground) */
+  .cinematic-text-line-1-{{ section.id }} {
+    font-size: clamp(50px, 12vw, 170px);
+    color: #ffffff;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4), 0 0 70px rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+  }
+
+  /* Outline text (Bottom Line, Background) */
+  .cinematic-text-line-2-{{ section.id }} {
+    font-size: clamp(45px, 10vw, 140px);
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.75);
+    margin-top: 20px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Stack Container - Wide/Landscape for Shoes */
+  .cinematic-stack-container-{{ section.id }} {
     position: relative;
-    width: clamp(280px, 45vw, 600px);
-    aspect-ratio: 1;
+    width: clamp(280px, 35vw, 520px);
+    aspect-ratio: 1.25; /* Landscape ratio so horizontal shoes fit perfectly */
     z-index: 2;
+    perspective: 1000px;
+  }
+
+  /* Individual Cards */
+  .cinematic-card-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center bottom;
+    will-change: transform, opacity;
+  }
+
+  .cinematic-card-inner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
     overflow: hidden;
+    background: #111111;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Image Box wrapper */
+  .cinematic-card-img-wrap-{{ section.id }} {
+    flex: 1;
+    width: 100%;
+    background: #161616;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
   }
 
-  .cinematic-image-wrapper-{{ section.id }} {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .cinematic-img-{{ section.id }} {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  /* Contain the shoe image so it is never cropped */
+  .cinematic-card-img-{{ section.id }} {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
-    opacity: 0;
-    transform: scale(1.1) rotate(-5deg) translateY(20px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6));
+    transform: scale(1.1); /* Slight scaling for premium pop */
   }
 
-  .cinematic-img-{{ section.id }}.is-active {
-    opacity: 1;
-    transform: scale(1) rotate(0) translateY(0);
-    z-index: 2;
-  }
-
-  /* Overlay Product Title & Price */
-  .cinematic-info-{{ section.id }} {
-    position: absolute;
-    bottom: 10%;
-    left: 10%;
-    z-index: 3;
-    pointer-events: none;
+  /* Footwear Info Details Box (Bottom of Card) */
+  .cinematic-card-info-box-{{ section.id }} {
+    padding: 24px;
+    background: #111111;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    border-top: 1px solid rgba(255,255,255,0.05);
   }
 
-  .cinematic-title-{{ section.id }} {
+  .cinematic-card-title-{{ section.id }} {
     font-family: 'Oswald', 'Archivo Black', sans-serif;
-    font-size: clamp(28px, 4vw, 60px);
+    font-size: clamp(18px, 2.2vw, 30px);
     font-weight: 800;
     color: #ffffff;
     text-transform: uppercase;
     line-height: 1.1;
     margin: 0;
-    text-shadow: 0 5px 20px rgba(0,0,0,0.8);
-    max-width: 600px;
   }
-  
-  .cinematic-price-{{ section.id }} {
+
+  .cinematic-card-footer-row-{{ section.id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .cinematic-card-price-{{ section.id }} {
     font-family: 'Rajdhani', sans-serif;
-    font-size: clamp(20px, 2.5vw, 36px);
+    font-size: clamp(16px, 1.8vw, 24px);
     font-weight: 700;
     color: {{ section.settings.accent_color | default: '#F4C430' }};
     margin: 0;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.8);
   }
 
-  .cinematic-explore-{{ section.id }} {
+  .cinematic-card-link-{{ section.id }} {
     font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 700;
-    color: #ffffff;
+    color: #000000;
     background: {{ section.settings.accent_color | default: '#F4C430' }};
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 4px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-top: 10px;
-    display: inline-block;
-    pointer-events: auto;
     text-decoration: none;
-    width: fit-content;
-    color: #000;
+    display: inline-block;
     transition: 0.3s;
+    width: fit-content;
   }
 
-  .cinematic-explore-{{ section.id }}:hover {
+  .cinematic-card-link-{{ section.id }}:hover {
     background: #ffffff;
   }
 
@@ -165,15 +214,23 @@
   }
 
   @media (max-width: 767px) {
-    .cinematic-viewport-{{ section.id }} {
-      width: clamp(240px, 75vw, 320px);
-    }
-    .cinematic-info-{{ section.id }} {
-      left: 5%;
-      bottom: 8%;
+    .cinematic-stack-container-{{ section.id }} {
+      width: clamp(240px, 80vw, 360px);
+      aspect-ratio: 1.2;
     }
     .cinematic-dots-{{ section.id }} {
       right: 15px;
+    }
+    .cinematic-text-line-1-{{ section.id }} {
+      font-size: clamp(40px, 10vw, 100px);
+      margin-bottom: 10px;
+    }
+    .cinematic-text-line-2-{{ section.id }} {
+      font-size: clamp(35px, 8vw, 80px);
+      margin-top: 10px;
+    }
+    .cinematic-card-info-box-{{ section.id }} {
+      padding: 16px;
     }
   }
 {%- endstyle -%}
@@ -181,51 +238,69 @@
 <div class="cinematic-footwear-wrapper-{{ section.id }}" id="CinematicFootwear-{{ section.id }}">
   <div class="cinematic-sticky-stage-{{ section.id }}">
     
-    <!-- Background Text -->
-    <div class="cinematic-bg-text-{{ section.id }}">
-      <div class="cinematic-bg-heading-{{ section.id }}">{{ section.settings.bg_text }}</div>
+    <!-- Background Text Layer (Behind Cards) -->
+    <div class="cinematic-text-layer-{{ section.id }} cinematic-bg-text-wrap-{{ section.id }}">
+      <!-- Empty space spacer to push the second line below the cards -->
+      <div style="font-size: clamp(50px, 12vw, 170px); line-height: 0.85; margin-bottom: 20px; visibility: hidden;">Spacer</div>
+      <div class="cinematic-text-line-2-{{ section.id }}">{{ section.settings.bg_text_bottom | default: 'OUR FOOTWEAR' }}</div>
     </div>
 
-    <!-- Images Stage -->
-    <div class="cinematic-viewport-{{ section.id }}">
-      <div class="cinematic-image-wrapper-{{ section.id }}">
-        {% for block in section.blocks %}
-          {% assign product = block.settings.product %}
-          {% assign img = product.featured_image %}
-          
-          <img src="{{ img | image_url: width: 1000 }}" 
-               class="cinematic-img-{{ section.id }} {% if forloop.first %}is-active{% endif %}" 
-               data-index="{{ forloop.index0 }}"
-               alt="{{ product.title | escape }}">
-        {% endfor %}
+    <!-- Cards Stack Stage -->
+    <div class="cinematic-stack-container-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        {% assign img = product.featured_image %}
         
-        {% if section.blocks.size == 0 %}
-          {{ 'product-1' | placeholder_svg_tag: 'cinematic-img placeholder is-active' }}
-        {% endif %}
-      </div>
+        <div class="cinematic-card-{{ section.id }}" 
+             data-index="{{ forloop.index0 }}" 
+             style="z-index: {{ section.blocks.size | minus: forloop.index0 }};"
+             {{ block.shopify_attributes }}>
+          <div class="cinematic-card-inner-{{ section.id }}">
+            <div class="cinematic-card-img-wrap-{{ section.id }}">
+              {% if img != blank %}
+                <img src="{{ img | image_url: width: 800 }}" class="cinematic-card-img-{{ section.id }}" alt="{{ product.title | escape }}">
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'cinematic-card-img placeholder' }}
+              {% endif %}
+            </div>
+            <div class="cinematic-card-info-box-{{ section.id }}">
+              <h2 class="cinematic-card-title-{{ section.id }}">
+                {{ product.title | default: 'Footwear Pick' }}
+              </h2>
+              <div class="cinematic-card-footer-row-{{ section.id }}">
+                <p class="cinematic-card-price-{{ section.id }}">
+                  {{ product.price | money }}
+                </p>
+                <a href="{{ product.url | default: '#' }}" class="cinematic-card-link-{{ section.id }}">
+                  Shop Now
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      
+      {% if section.blocks.size == 0 %}
+        <div class="cinematic-card-{{ section.id }}" style="z-index: 1;">
+          <div class="cinematic-card-inner-{{ section.id }}">
+            <div class="cinematic-card-img-wrap-{{ section.id }}">
+              {{ 'product-1' | placeholder_svg_tag: 'cinematic-card-img placeholder' }}
+            </div>
+            <div class="cinematic-card-info-box-{{ section.id }}">
+              <h2 class="cinematic-card-title-{{ section.id }}">Footwear Title</h2>
+              <div class="cinematic-card-footer-row-{{ section.id }}">
+                <p class="cinematic-card-price-{{ section.id }}">$99.00</p>
+                <a href="#" class="cinematic-card-link-{{ section.id }}">Shop Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
 
-    <!-- Foreground Info -->
-    <div class="cinematic-info-{{ section.id }}">
-      <h2 class="cinematic-title-{{ section.id }}" id="CinematicFWTitle-{{ section.id }}">
-        {% if section.blocks.size > 0 %}
-          {{ section.blocks.first.settings.product.title | default: 'Footwear Name' }}
-        {% else %}
-          FOOTWEAR PICKS
-        {% endif %}
-      </h2>
-      <p class="cinematic-price-{{ section.id }}" id="CinematicFWPrice-{{ section.id }}">
-        {% if section.blocks.size > 0 %}
-          {{ section.blocks.first.settings.product.price | money }}
-        {% else %}
-          $99.00
-        {% endif %}
-      </p>
-      <a href="{% if section.blocks.size > 0 %}{{ section.blocks.first.settings.product.url }}{% else %}#{% endif %}" 
-         class="cinematic-explore-{{ section.id }}" 
-         id="CinematicFWLink-{{ section.id }}">
-        Shop Now
-      </a>
+    <!-- Foreground Text Layer (In front of Cards) -->
+    <div class="cinematic-text-layer-{{ section.id }} cinematic-fg-text-wrap-{{ section.id }}">
+      <div class="cinematic-text-line-1-{{ section.id }}">{{ section.settings.bg_text_top | default: 'OUR' }}</div>
     </div>
 
     <!-- Dots -->
@@ -244,47 +319,29 @@
       const section = document.getElementById('CinematicFootwear-{{ section.id }}');
       if (!section) return;
 
-      const viewport = section.querySelector('.cinematic-viewport-{{ section.id }}');
-      const bgText = section.querySelector('.cinematic-bg-heading-{{ section.id }}');
-      const title = document.getElementById('CinematicFWTitle-{{ section.id }}');
-      const price = document.getElementById('CinematicFWPrice-{{ section.id }}');
-      const link = document.getElementById('CinematicFWLink-{{ section.id }}');
-      const images = section.querySelectorAll('.cinematic-img-{{ section.id }}');
+      const textLine1 = section.querySelector('.cinematic-text-line-1-{{ section.id }}');
+      const textLine2 = section.querySelector('.cinematic-text-line-2-{{ section.id }}');
+      const cards = section.querySelectorAll('.cinematic-card-{{ section.id }}');
       const dots = section.querySelectorAll('.cinematic-dot-{{ section.id }}');
 
-      if (images.length <= 1) return; // Need at least 2 for scrolling effect
+      if (cards.length <= 1) return; // Need multiple cards for stack animation
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-      // Extract data
-      const data = [];
-      {% for block in section.blocks %}
-        data.push({
-          title: {{ block.settings.product.title | default: 'Product ' | append: forloop.index | json }},
-          price: {{ block.settings.product.price | money | json }},
-          url: {{ block.settings.product.url | default: '#' | json }}
-        });
-      {% endfor %}
+      // 1. Initial Stack Setup (stagger cards backward with scaling and rotation)
+      cards.forEach((card, idx) => {
+        if (idx > 0) {
+          const scale = 1 - (idx * 0.04);
+          const translateY = idx * 12;
+          const rotation = idx % 2 === 0 ? 3 : -3;
+          gsap.set(card, {
+            scale: scale,
+            y: translateY,
+            rotation: rotation
+          });
+        }
+      });
 
-      function showIndex(idx) {
-        images.forEach((img, i) => {
-          if (i === idx) img.classList.add('is-active');
-          else img.classList.remove('is-active');
-        });
-        
-        dots.forEach((dot, i) => {
-          if (i === idx) dot.classList.add('is-active');
-          else dot.classList.remove('is-active');
-        });
-
-        // Animate text change
-        gsap.to([title, price], { opacity: 0, y: -10, duration: 0.2, onComplete: () => {
-          title.textContent = data[idx].title;
-          price.textContent = data[idx].price;
-          link.href = data[idx].url;
-          gsap.to([title, price], { opacity: 1, y: 0, duration: 0.3, stagger: 0.05 });
-        }});
-      }
-
+      // 2. Timeline Trigger for Pinned Fly-off
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -294,18 +351,52 @@
         }
       });
 
-      // Background text parallax
-      tl.to(bgText, { xPercent: -20, ease: "none" }, 0);
+      // Parallax text scrolling in opposite directions!
+      tl.to(textLine1, { xPercent: -15, ease: "none" }, 0);
+      tl.to(textLine2, { xPercent: 15, ease: "none" }, 0);
 
-      // Create sequence
-      const numItems = data.length;
-      for (let i = 0; i < numItems - 1; i++) {
-        tl.to({}, {
-          duration: 1,
-          onStart: () => showIndex(i + 1),
-          onReverseComplete: () => showIndex(i)
+      function updateActiveDot(activeIdx) {
+        dots.forEach((dot, dIdx) => {
+          if (dIdx === activeIdx) dot.classList.add('is-active');
+          else dot.classList.remove('is-active');
         });
       }
+
+      // Fly off cards one by one
+      cards.forEach((card, idx) => {
+        if (idx < cards.length - 1) {
+          const triggerTime = idx;
+
+          // Slide top card UP and out
+          tl.to(card, {
+            yPercent: -130,
+            rotation: idx % 2 === 0 ? -12 : 12,
+            opacity: 0,
+            ease: "power1.inOut",
+            duration: 1,
+            onStart: () => updateActiveDot(idx + 1),
+            onReverseComplete: () => updateActiveDot(idx)
+          }, triggerTime);
+
+          // Shift the rest of the stack forward
+          for (let nextIdx = idx + 1; nextIdx < cards.length; nextIdx++) {
+            const nextCard = cards[nextIdx];
+            const relativeStackPos = nextIdx - (idx + 1); // New rank in stack
+            
+            const newScale = 1 - (relativeStackPos * 0.04);
+            const newTranslateY = relativeStackPos * 12;
+            const newRotation = relativeStackPos === 0 ? 0 : (nextIdx % 2 === 0 ? 3 : -3);
+
+            tl.to(nextCard, {
+              scale: newScale,
+              y: newTranslateY,
+              rotation: newRotation,
+              ease: "power1.inOut",
+              duration: 1
+            }, triggerTime);
+          }
+        }
+      });
     }
 
     if (document.readyState === 'loading') {
@@ -328,9 +419,37 @@
   "settings": [
     {
       "type": "text",
-      "id": "bg_text",
-      "label": "Background Text",
-      "default": "FOOTWEAR"
+      "id": "bg_text_top",
+      "label": "Top Text (Foreground)",
+      "default": "OUR"
+    },
+    {
+      "type": "text",
+      "id": "bg_text_bottom",
+      "label": "Bottom Text (Background)",
+      "default": "OUR FOOTWEAR"
+    },
+    {
+      "type": "select",
+      "id": "top_text_align",
+      "label": "Top Text Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "bottom_text_align",
+      "label": "Bottom Text Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "color",
