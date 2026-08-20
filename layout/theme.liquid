@@ -80,6 +80,145 @@
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
+    <!-- ═══ SCROLL PROGRESS BAR ═══ -->
+    <div id="scroll-progress-bar" aria-hidden="true"></div>
+
+    <!-- ═══ SCROLL TO TOP BUTTON ═══ -->
+    <button id="scroll-to-top" aria-label="Back to top" title="Back to top">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <style>
+      /* ══════════════════════════════════════════
+         SCROLL PROGRESS BAR
+      ══════════════════════════════════════════ */
+      #scroll-progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, #f4c430 0%, #ffdd70 50%, #f4a800 100%);
+        z-index: 99999;
+        border-radius: 0 3px 3px 0;
+        box-shadow: 0 0 10px rgba(244, 196, 48, 0.7), 0 0 20px rgba(244, 196, 48, 0.4);
+        transition: width 0.08s linear;
+        pointer-events: none;
+      }
+      #scroll-progress-bar::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        background: #f4c430;
+        border-radius: 50%;
+        box-shadow: 0 0 8px 3px rgba(244, 196, 48, 0.9);
+      }
+
+      /* ══════════════════════════════════════════
+         SCROLL TO TOP BUTTON
+      ══════════════════════════════════════════ */
+      #scroll-to-top {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #111111;
+        color: #f4c430;
+        border: 1.5px solid rgba(244, 196, 48, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 9990;
+        opacity: 0;
+        transform: translateY(16px) scale(0.85);
+        transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        pointer-events: none;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+      }
+      #scroll-to-top.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+      #scroll-to-top:hover {
+        background: #f4c430;
+        color: #111111;
+        border-color: #f4c430;
+        box-shadow: 0 6px 28px rgba(244, 196, 48, 0.45), 0 2px 8px rgba(0,0,0,0.3);
+        transform: translateY(-3px) scale(1.05);
+      }
+      #scroll-to-top:active {
+        transform: translateY(0) scale(0.97);
+      }
+
+      /* ══════════════════════════════════════════
+         SCROLL REVEAL — base states
+      ══════════════════════════════════════════ */
+      .sr-fade-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+      }
+      .sr-fade-up.sr-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .sr-fade-left {
+        opacity: 0;
+        transform: translateX(-40px);
+        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+      }
+      .sr-fade-left.sr-visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .sr-fade-right {
+        opacity: 0;
+        transform: translateX(40px);
+        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+      }
+      .sr-fade-right.sr-visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .sr-scale-in {
+        opacity: 0;
+        transform: scale(0.92);
+        transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22,1,0.36,1);
+      }
+      .sr-scale-in.sr-visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+      /* Stagger delay helpers */
+      .sr-delay-1 { transition-delay: 0.08s !important; }
+      .sr-delay-2 { transition-delay: 0.16s !important; }
+      .sr-delay-3 { transition-delay: 0.24s !important; }
+      .sr-delay-4 { transition-delay: 0.32s !important; }
+      .sr-delay-5 { transition-delay: 0.40s !important; }
+
+      /* Respect reduced-motion preferences */
+      @media (prefers-reduced-motion: reduce) {
+        .sr-fade-up, .sr-fade-left, .sr-fade-right, .sr-scale-in {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+        #scroll-progress-bar { display: none; }
+      }
+    </style>
     <div id="header-group">
       {% sections 'header-group' %}
     </div>
@@ -178,5 +317,165 @@
     {% render 'mobile-bottom-nav' %}
     {% section 'recent-purchase-popup' %}
     {% section 'nova-ai-assistant' %}
+
+    <!-- ═══════════════════════════════════════════════════
+         ONE9 — SCROLL PROGRESS + REVEAL ANIMATIONS
+    ═══════════════════════════════════════════════════ -->
+    <script>
+    (function () {
+      'use strict';
+
+      /* ─────────────────────────────────────────
+         1.  SCROLL PROGRESS BAR
+      ───────────────────────────────────────── */
+      var progressBar = document.getElementById('scroll-progress-bar');
+
+      function updateProgress() {
+        if (!progressBar) return;
+        var scrollTop    = window.scrollY || document.documentElement.scrollTop;
+        var docHeight    = document.documentElement.scrollHeight - window.innerHeight;
+        var pct          = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = pct.toFixed(2) + '%';
+      }
+
+      /* ─────────────────────────────────────────
+         2.  SCROLL-TO-TOP BUTTON
+      ───────────────────────────────────────── */
+      var scrollBtn = document.getElementById('scroll-to-top');
+
+      function toggleScrollBtn() {
+        if (!scrollBtn) return;
+        var show = (window.scrollY || document.documentElement.scrollTop) > 300;
+        scrollBtn.classList.toggle('is-visible', show);
+      }
+
+      if (scrollBtn) {
+        scrollBtn.addEventListener('click', function () {
+          // Use Lenis smooth scroll if available, otherwise native
+          if (window.lenis) {
+            window.lenis.scrollTo(0, { duration: 1.2, easing: function(t){ return 1 - Math.pow(1 - t, 4); } });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      }
+
+      /* ─────────────────────────────────────────
+         3.  SCROLL REVEAL (IntersectionObserver)
+         Automatically tags common section elements
+         and reveals them as they enter the viewport
+      ───────────────────────────────────────── */
+      var srSelectors = [
+        /* Headings */
+        '.shopify-section h2',
+        '.shopify-section h3',
+        /* Product cards */
+        '.product-card',
+        '.card--product',
+        /* Feature / why-choose cards */
+        '.why-choose-card-item',
+        /* Worn Worldwide cards */
+        '.ww-card',
+        /* Generic media-with-content blocks */
+        '.media-with-content__media',
+        '.media-with-content__content',
+        /* Best seller / product list */
+        '.best-sellers__item',
+        /* Review cards */
+        '.review-card',
+        /* Blog post cards */
+        '.blog-post-card',
+        /* Trust / badge items */
+        '.trust-badge',
+        /* Marquee parent */
+        '.marquee-wrapper',
+        /* Footer columns */
+        'footer .footer__column'
+      ];
+
+      function applyRevealClasses() {
+        srSelectors.forEach(function (sel) {
+          document.querySelectorAll(sel).forEach(function (el, idx) {
+            // Skip if already tagged
+            if (el.classList.contains('sr-fade-up') || el.classList.contains('sr-scale-in')) return;
+            // Cards scale in, headings slide up, others fade up
+            if (
+              sel.includes('card') ||
+              sel.includes('Card') ||
+              sel.includes('badge') ||
+              sel.includes('review')
+            ) {
+              el.classList.add('sr-scale-in');
+            } else {
+              el.classList.add('sr-fade-up');
+            }
+            // Stagger up to 5 siblings
+            var delay = Math.min(idx % 6, 5);
+            if (delay > 0) el.classList.add('sr-delay-' + delay);
+          });
+        });
+      }
+
+      function initRevealObserver() {
+        if (!('IntersectionObserver' in window)) {
+          // Fallback: show everything immediately
+          document.querySelectorAll('.sr-fade-up,.sr-fade-left,.sr-fade-right,.sr-scale-in').forEach(function(el){
+            el.classList.add('sr-visible');
+          });
+          return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('sr-visible');
+              observer.unobserve(entry.target); // fire once
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.sr-fade-up,.sr-fade-left,.sr-fade-right,.sr-scale-in').forEach(function (el) {
+          observer.observe(el);
+        });
+      }
+
+      /* ─────────────────────────────────────────
+         4.  BIND SCROLL EVENT (passive + rAF throttle)
+      ───────────────────────────────────────── */
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateProgress();
+            toggleScrollBtn();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      /* ─────────────────────────────────────────
+         5.  INIT
+      ───────────────────────────────────────── */
+      function init() {
+        updateProgress();
+        toggleScrollBtn();
+        applyRevealClasses();
+        initRevealObserver();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+      // Re-init after Shopify section changes in editor
+      document.addEventListener('shopify:section:load', function () {
+        applyRevealClasses();
+        initRevealObserver();
+      });
+    })();
+    </script>
   </body>
 </html>
