@@ -841,62 +841,80 @@
       if (indicator) indicator.remove();
     }
 
+    // Chat history for multi-turn Gemini conversation
+    const chatHistory = [];
+
     function processGeminiQuery(query) {
       showTypingIndicator();
 
-      const systemPrompt = `You are NovaAI, a luxury streetwear shopping assistant for the brand ONE9. 
-Respond in a friendly, helpful, short, streetwear-style tone.
+      const systemPrompt = `You are NovaAI, a luxury streetwear shopping assistant for the brand ONE9.
+Respond in a friendly, helpful, short, streetwear-style tone. Use emojis occasionally.
 Active Store Catalog:
 ${JSON.stringify(CATALOG, null, 2)}
-Upcoming Launch Drop 002:
+Upcoming Launch — Drop 002:
 ${JSON.stringify(LAUNCH, null, 2)}
-Available Order database:
+Order Tracking Database:
 ${JSON.stringify(ORDERS, null, 2)}
+Active Coupons:
+${JSON.stringify(COUPONS, null, 2)}
 
-Provide sizing advice, active coupons, or product recommendations based on this context. 
-If recommending products, mention their names exactly.
-Keep responses under 3 sentences unless listing details.`;
+Rules:
+- Recommend products by their exact catalog names.
+- For sizing: ask height & weight if not given.
+- For orders: ask for order number (format ONE9-XXXX).
+- Keep replies under 3 sentences unless listing products.
+- Currency: use £ for prices.`;
 
-      fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      // Add current user message to history
+      chatHistory.push({ role: 'user', parts: [{ text: query }] });
+
+      fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: query
-            }]
-          }],
-          systemInstruction: {
-            parts: [{
-              text: systemPrompt
-            }]
-          }
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: chatHistory
         })
       })
       .then(res => res.json())
       .then(data => {
         removeTypingIndicator();
+
+        // Handle API errors
+        if (data.error) {
+          console.error('Gemini API Error:', data.error.message);
+          chatHistory.pop(); // remove failed message from history
+          addBotMessage(`⚠️ AI Engine issue: ${data.error.message}. Switching to built-in assistant...`, []);
+          setTimeout(() => processUserQuery(query), 500);
+          return;
+        }
+
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (text) {
+          // Save assistant reply to history for context
+          chatHistory.push({ role: 'model', parts: [{ text }] });
+
+          // Keep history manageable (last 10 turns = 20 messages)
+          if (chatHistory.length > 20) chatHistory.splice(0, 2);
+
+          // Detect product mentions in AI reply
           const recommendedIds = [];
           CATALOG.forEach(p => {
-            const cleanName = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-            const cleanText = text.toLowerCase().replace(/[^a-z0-9]/g, '');
-            if (cleanText.includes(cleanName) || text.toLowerCase().includes(p.name.toLowerCase())) {
+            if (text.toLowerCase().includes(p.name.toLowerCase())) {
               recommendedIds.push(p.id);
             }
           });
-          
+
           addBotMessage(text, recommendedIds);
         } else {
+          chatHistory.pop();
           processUserQuery(query);
         }
       })
       .catch(err => {
-        console.error('Gemini API Error:', err);
+        console.error('Gemini Fetch Error:', err);
         removeTypingIndicator();
+        chatHistory.pop();
         processUserQuery(query);
       });
     }
