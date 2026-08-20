@@ -392,32 +392,28 @@
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_10_03_30_PM.png",
-            "title": "Awards & Glory",
-            "text": "We've racked up so many awards, we're considering getting a second shelf — and maybe a third just in case."
+            "title": "Awards & Glory"
           }
         },
         "post_2": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/cosmic_tshirt_product_1783308296927.jpg",
-            "title": "Global Streets",
-            "text": "Spotted in 80+ cities worldwide. ONE9 is streetwear without borders."
+            "title": "Global Streets"
           }
         },
         "post_3": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/zodiac_hoodie_model_1783308287015.jpg",
-            "title": "Creative Collabs",
-            "text": "Art meets apparel. Our collaborations redefine the culture every season."
+            "title": "Creative Collabs"
           }
         },
         "post_4": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/futuristic_streetwear_model_1783308307965.jpg",
-            "title": "Community Drops",
-            "text": "Limited drops made for and by the community. Tag us to be featured."
+            "title": "Community Drops"
           }
         }
       },
@@ -428,13 +424,8 @@
         "post_4"
       ],
       "settings": {
-        "title": "WORN WORLDWIDE",
-        "subtitle": "COMMUNITY & CULTURE",
-        "bg_word": "WORN WORLDWIDE",
-        "bg_color": "#e8e6e1",
-        "text_color": "#111111",
-        "padding_top": 80,
-        "padding_bottom": 120
+        "bg_color": "#080808",
+        "text_color": "#ffffff"
       }
     },
     "hero_w7HaTj": {
