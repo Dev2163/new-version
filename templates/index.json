@@ -17,8 +17,6 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_09_01_50_PM.png",
             "product_name": "travling",
-            "color_name": "Black",
-            "color_hex": "#000000",
             "price": "£129.99",
             "product_url": ""
           }
@@ -28,8 +26,6 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_08_51_23_PM.png",
             "product_name": "Libra Balance Oversized Tee",
-            "color_name": "Black",
-            "color_hex": "#000000",
             "price": "£129.99",
             "product_url": ""
           }
@@ -39,8 +35,6 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4__2026__08_15_24_PM-removebg-preview.png",
             "product_name": "Libra Balance Oversized Tee",
-            "color_name": "Black",
-            "color_hex": "#000000",
             "price": "£129.99",
             "product_url": ""
           }
@@ -55,25 +49,15 @@
       "settings": {
         "vertical_text": "O,N,E,9",
         "title": "Wear your\nuniverse",
-        "heading_size": 66,
         "subtitle": "Engineered for warmth. Designed for movement.",
-        "subheading_size": 16,
+        "image": "shopify://shop_images/ChatGPT_Image_Jul_4__2026__08_15_24_PM-removebg-preview.png",
         "button_text": "SHOP NOW",
         "button_link": "",
-        "image": "shopify://shop_images/ChatGPT_Image_Jul_4__2026__08_15_24_PM-removebg-preview.png",
-        "image_position": "right",
-        "show_marquee": true,
-        "marquee_text": "BUILT DIFFERENT. WORN EVERYWHERE.",
-        "marquee_speed": 30,
         "bg_color": "#0a0a0a",
         "accent_color": "#f4c430",
         "text_color": "#ffffff",
         "text_secondary_color": "#b0b0b0",
-        "heading_color": "#f6f6f6",
-        "subheading_color": "#f4c430",
-        "marquee_bg_color": "#111111",
-        "marquee_text_color": "#8a7b5c",
-        "card_bg_color": "#1a1a1a"
+        "heading_color": "#f6f6f6"
       }
     },
     "collection_slider_hero": {
@@ -463,24 +447,14 @@
       "settings": {
         "vertical_text": "O,N,E,9",
         "title": "INSULATED JACKET\nFOR EVERYDAY WEAR",
-        "heading_size": 56,
         "subtitle": "Engineered for warmth. Designed for movement.",
-        "subheading_size": 20,
         "button_text": "SHOP NOW",
         "button_link": "",
-        "image_position": "right",
-        "show_marquee": true,
-        "marquee_text": "BUILT DIFFERENT. WORN EVERYWHERE.",
-        "marquee_speed": 30,
         "bg_color": "#0a0a0a",
         "accent_color": "#f4c430",
         "text_color": "#ffffff",
         "text_secondary_color": "#b0b0b0",
-        "heading_color": "#f4c430",
-        "subheading_color": "#b0b0b0",
-        "marquee_bg_color": "#111111",
-        "marquee_text_color": "#8a7b5c",
-        "card_bg_color": "#1a1a1a"
+        "heading_color": "#f4c430"
       }
     },
     "section_npVphq": {
