@@ -144,12 +144,14 @@
 
   .cinematic-card-title-{{ section.id }} {
     font-family: 'Oswald', 'Archivo Black', sans-serif;
-    font-size: clamp(18px, 2.2vw, 30px);
+    font-size: clamp(16px, 2vw, 24px); /* Optimized to look unified and fit layout */
     font-weight: 800;
     color: #ffffff;
     text-transform: uppercase;
-    line-height: 1.1;
+    line-height: 1.2;
     margin: 0;
+    word-break: keep-all; /* Prevents splitting words mid-letter */
+    overflow-wrap: break-word; /* Allows safe word wrapping */
   }
 
   .cinematic-card-footer-row-{{ section.id }} {
@@ -265,14 +267,14 @@
             </div>
             <div class="cinematic-card-info-box-{{ section.id }}">
               <h2 class="cinematic-card-title-{{ section.id }}">
-                {{ product.title | default: 'Footwear Pick' }}
+                {{ block.settings.custom_title | default: product.title | default: 'Footwear Pick' }}
               </h2>
               <div class="cinematic-card-footer-row-{{ section.id }}">
                 <p class="cinematic-card-price-{{ section.id }}">
                   {{ product.price | money }}
                 </p>
                 <a href="{{ product.url | default: '#' }}" class="cinematic-card-link-{{ section.id }}">
-                  Shop Now
+                  {{ block.settings.button_text | default: 'Shop Now' }}
                 </a>
               </div>
             </div>
@@ -473,6 +475,18 @@
           "type": "product",
           "id": "product",
           "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title (Optional)",
+          "info": "Overrides the default product title"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Link Text",
+          "default": "Shop Now"
         }
       ]
     }
