@@ -437,8 +437,8 @@
                   if (bgText1) bgText1.innerHTML = words[0] || "";
                   if (bgText2) bgText2.innerHTML = words.slice(1).join(' ') || "";
                 })
-                .to(bgText1, { opacity: 0.18, duration: 0.38, ease: "power3.out" })
-                .to(bgText2, { opacity: 0.35, duration: 0.38, ease: "power3.out" }, "-=0.25");
+                .to(bgText1, { opacity: 1, duration: 0.38, ease: "power3.out" })
+                .to(bgText2, { opacity: 1, duration: 0.38, ease: "power3.out" }, "-=0.25");
 
               pills.forEach((p, pi) => {
                 if (pi === index + 1) p.classList.add('is-active');
@@ -475,8 +475,8 @@
                     if (bgText1) bgText1.innerHTML = prevWords[0] || "";
                     if (bgText2) bgText2.innerHTML = prevWords.slice(1).join(' ') || "";
                   })
-                  .to(bgText1, { opacity: 0.18, duration: 0.38, ease: "power3.out" })
-                  .to(bgText2, { opacity: 0.35, duration: 0.38, ease: "power3.out" }, "-=0.25");
+                  .to(bgText1, { opacity: 1, duration: 0.38, ease: "power3.out" })
+                  .to(bgText2, { opacity: 1, duration: 0.38, ease: "power3.out" }, "-=0.25");
 
                 pills.forEach((p, pi) => {
                   if (pi === index) p.classList.add('is-active');
