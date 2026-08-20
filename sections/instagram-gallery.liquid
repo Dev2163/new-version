@@ -1,426 +1,516 @@
 {% comment %}
-  ONE9 / WORN WORLDWIDE — Scroll-Stacked Card Deck Section
-  Inspired by cinematic agency layouts: cards fan out on scroll
+  ONE9 / WORN WORLDWIDE — Floating Scroll Parallax Showcase
+  Inspired by premium agency grid layouts (Tints Studio style)
+  Floating card items move up and down at different speeds on scroll.
 {% endcomment %}
 
+<!-- Cursive Google Font for Signature -->
+<link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&display=swap" rel="stylesheet">
+
 {% liquid
-  assign bg_color      = section.settings.bg_color      | default: '#e8e6e1'
-  assign text_color    = section.settings.text_color     | default: '#111111'
-  assign heading_text  = section.settings.title          | default: 'WORN WORLDWIDE'
-  assign sub_text      = section.settings.subtitle       | default: 'COMMUNITY & CULTURE'
+  assign bg_color         = section.settings.bg_color         | default: '#080808'
+  assign text_color       = section.settings.text_color       | default: '#ffffff'
+  assign heading_text     = section.settings.title            | default: 'ONE9 IS A LUXURY STREETWEAR STUDIO EMPOWERING INDIVIDUALS TO SHAPE THE FUTURE OF STREET CULTURE.'
+  assign signature_text   = section.settings.signature_text   | default: 'One9. Studio'
 %}
 
 <section
-  class="worn-worldwide-section section-{{ section.id }}"
-  id="worn-worldwide-{{ section.id }}"
-  aria-label="{{ heading_text }}"
+  class="ww-parallax-section section-{{ section.id }}"
+  id="ww-parallax-{{ section.id }}"
+  style="background-color: {{ bg_color }}; color: {{ text_color }};"
+  aria-label="Worn Worldwide"
 >
+  {%- comment -%} Subtle dot grid background pattern {%- endcomment -%}
+  <div class="ww-grid-bg" aria-hidden="true"></div>
 
-  {%- comment -%} ── Giant Background Letterform ── {%- endcomment -%}
-  <div class="ww-bg-text" aria-hidden="true">
-    {{ section.settings.bg_word | default: 'WORN WORLDWIDE' }}
-  </div>
+  <div class="ww-parallax-container">
+    
+    {%- comment -%} ── Central Main Heading ── {%- endcomment -%}
+    <div class="ww-center-content">
+      <h2 class="ww-main-heading">
+        {{ heading_text }}
+      </h2>
+      {%- if signature_text != blank -%}
+        <div class="ww-signature">
+          {{ signature_text }}
+        </div>
+      {%- endif -%}
+    </div>
 
-  {%- comment -%} ── Section Label ── {%- endcomment -%}
-  <div class="ww-label-row">
-    <span class="ww-eyebrow">{{ sub_text }}</span>
-    <span class="ww-eyebrow">{{ heading_text }}</span>
-  </div>
-
-  {%- comment -%} ── Sticky Card Stack ── {%- endcomment -%}
-  <div class="ww-stack-wrapper">
-    <div class="ww-cards-pin">
-
+    {%- comment -%} ── Floating Parallax Cards ── {%- endcomment -%}
+    <div class="ww-cards-wrapper">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
+          {% liquid
+            assign speed        = block.settings.speed | default: 1
+            assign left         = block.settings.desktop_left | default: 10
+            assign top          = block.settings.desktop_top | default: 10
+            assign width        = block.settings.card_width | default: 20
+            assign card_style   = block.settings.card_style | default: 'light'
+          %}
           <div
-            class="ww-card"
-            data-index="{{ forloop.index0 }}"
-            data-total="{{ section.blocks.size }}"
+            class="ww-floating-card ww-style-{{ card_style }} block-{{ block.id }}"
+            data-speed="{{ speed }}"
+            style="--desktop-left: {{ left }}%; --desktop-top: {{ top }}%; --card-width: {{ width }}%;"
             {{ block.shopify_attributes }}
           >
             <div class="ww-card-inner">
-              <div class="ww-card-media">
+              
+              {%- if card_style == 'light' or card_style == 'dark' or card_style == 'glass' -%}
+                {%- comment -%} Top Bar metadata & number {%- endcomment -%}
+                <div class="ww-card-top-bar">
+                  <span class="ww-card-meta-desc">{{ block.settings.meta_description }}</span>
+                  {%- if block.settings.show_number and block.settings.number != blank -%}
+                    <span class="ww-card-num">{{ block.settings.number }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- comment -%} Main Card Media {%- endcomment -%}
+              <div class="ww-card-image-box">
                 {%- if block.settings.image != blank -%}
                   <img
                     src="{{ block.settings.image | image_url: width: 800 }}"
-                    alt="{{ block.settings.title | default: heading_text }}"
+                    alt="{{ block.settings.title | default: 'ONE9 Showcase' }}"
                     loading="lazy"
                     width="800"
-                    height="600"
+                    height="1000"
                   >
                 {%- else -%}
-                  <div class="ww-card-placeholder">
-                    {{ 'lifestyle-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+                  <div class="ww-card-image-placeholder">
+                    {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
                   </div>
                 {%- endif -%}
               </div>
-              <div class="ww-card-body">
-                {%- if block.settings.title != blank -%}
-                  <h3 class="ww-card-title">{{ block.settings.title }}</h3>
-                {%- endif -%}
-                {%- if block.settings.text != blank -%}
-                  <p class="ww-card-text">{{ block.settings.text }}</p>
-                {%- endif -%}
-              </div>
+
+              {%- if card_style == 'light' or card_style == 'dark' or card_style == 'glass' -%}
+                {%- comment -%} Bottom Bar title {%- endcomment -%}
+                <div class="ww-card-bottom-bar">
+                  <h3 class="ww-card-caption-title">{{ block.settings.title }}</h3>
+                </div>
+              {%- endif -%}
+
             </div>
           </div>
         {%- endfor -%}
 
       {%- else -%}
-        {%- comment -%} ── Default Demo Cards ── {%- endcomment -%}
-        {%- assign demo_titles = 'Community Drops,Global Streets,Creative Collabs,Culture & Kicks' | split: ',' -%}
-        {%- assign demo_texts = 'From Tokyo to Lagos — ONE9 is made for every timezone.,Spotted in 80+ cities worldwide. This is streetwear without borders.,Art meets apparel. Our collabs redefine the culture.,Where sneaker culture and luxury streetwear collide.' | split: ',' -%}
-        {%- for i in (1..4) -%}
-          {%- assign demo_product = collections.all.products[forloop.index0] -%}
-          <div
-            class="ww-card"
-            data-index="{{ forloop.index0 }}"
-            data-total="4"
-          >
-            <div class="ww-card-inner">
-              <div class="ww-card-media">
-                {%- if demo_product and demo_product.featured_media -%}
-                  <img
-                    src="{{ demo_product.featured_media | image_url: width: 800 }}"
-                    alt="{{ demo_titles[forloop.index0] }}"
-                    loading="lazy"
-                    width="800"
-                    height="600"
-                  >
-                {%- else -%}
-                  <div class="ww-card-placeholder">
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                  </div>
-                {%- endif -%}
-              </div>
-              <div class="ww-card-body">
-                <h3 class="ww-card-title">{{ demo_titles[forloop.index0] }}</h3>
-                <p class="ww-card-text">{{ demo_texts[forloop.index0] }}</p>
-              </div>
+        {%- comment -%} Demo cards looking exactly like the agency showcase screenshot {%- endcomment -%}
+        
+        <!-- Card 1: Tote (Left column, Mid-Top) -->
+        <div class="ww-floating-card ww-style-dark" data-speed="0.8" style="--desktop-left: 10%; --desktop-top: 15%; --card-width: 24%;">
+          <div class="ww-card-inner">
+            <div class="ww-card-image-box">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+            <div class="ww-card-bottom-bar">
+              <h3 class="ww-card-caption-title">Par Swam Tote</h3>
             </div>
           </div>
-        {%- endfor -%}
+        </div>
+
+        <!-- Card 2: Pants (Right column, Top) -->
+        <div class="ww-floating-card ww-style-light" data-speed="-1.2" style="--desktop-left: 68%; --desktop-top: 5%; --card-width: 25%;">
+          <div class="ww-card-inner">
+            <div class="ww-card-top-bar">
+              <span class="ww-card-meta-desc">Heavyweight premium twill cotton fit.</span>
+              <span class="ww-card-num">01</span>
+            </div>
+            <div class="ww-card-image-box">
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+            <div class="ww-card-bottom-bar">
+              <h3 class="ww-card-caption-title">Imogene + Willie Studio</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Jeans Close-up (Center Column, top offset) -->
+        <div class="ww-floating-card ww-style-image_only" data-speed="1.8" style="--desktop-left: 42%; --desktop-top: -12%; --card-width: 18%;">
+          <div class="ww-card-inner">
+            <div class="ww-card-image-box">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Business Card style (Left Column, bottom) -->
+        <div class="ww-floating-card ww-style-dark" data-speed="-0.7" style="--desktop-left: 12%; --desktop-top: 75%; --card-width: 20%;">
+          <div class="ww-card-inner">
+            <div class="ww-card-image-box">
+              {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+            <div class="ww-card-bottom-bar">
+              <h3 class="ww-card-caption-title">Par Swam Branding</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Mobile Screen (Right Column, bottom) -->
+        <div class="ww-floating-card ww-style-image_only" data-speed="1.5" style="--desktop-left: 70%; --desktop-top: 70%; --card-width: 22%;">
+          <div class="ww-card-inner">
+            <div class="ww-card-image-box">
+              {{ 'lifestyle-3' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          </div>
+        </div>
+
       {%- endif -%}
-
     </div>
-  </div>
 
+  </div>
 </section>
 
 <style>
-  /* ── Base ── */
-  .worn-worldwide-section {
+  /* ── Section Wrapper & Grid Background ── */
+  .ww-parallax-section {
     position: relative;
-    background-color: {{ bg_color }};
-    color: {{ text_color }};
     overflow: hidden;
-    padding-top: {{ section.settings.padding_top | default: 80 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | default: 120 }}px;
-    min-height: 100vh;
-  }
-
-  /* ── Giant BG Word ── */
-  .ww-bg-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(60px, 11vw, 140px);
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
-    font-weight: 900;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: rgba(0, 0, 0, 0.06);
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
-    letter-spacing: -2px;
-    line-height: 1;
-  }
-
-  /* ── Label Row ── */
-  .ww-label-row {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 clamp(20px, 5vw, 80px);
-    margin-bottom: clamp(40px, 6vw, 80px);
-  }
-
-  .ww-eyebrow {
-    font-family: 'Rajdhani', 'Orbitron', sans-serif;
-    font-size: clamp(11px, 1.2vw, 14px);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: {{ text_color }};
-    opacity: 0.5;
-  }
-
-  /* ── Stack Wrapper / Pin Container ── */
-  .ww-stack-wrapper {
-    position: relative;
-    z-index: 2;
+    padding: 120px 0;
+    min-height: 120vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 clamp(20px, 4vw, 60px);
   }
 
-  .ww-cards-pin {
+  .ww-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
+    background-size: 32px 32px;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ww-parallax-container {
     position: relative;
     width: 100%;
-    max-width: 480px;
-    height: clamp(520px, 70vh, 680px);
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 40px;
+    z-index: 2;
   }
 
-  /* ── Individual Card ── */
-  .ww-card {
+  /* ── Central Headline ── */
+  .ww-center-content {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 3;
+    pointer-events: none; /* Let clicks pass through to background/cards if needed */
+  }
+
+  .ww-main-heading {
+    font-family: 'Orbitron', 'Inter', sans-serif;
+    font-size: clamp(24px, 4.2vw, 44px);
+    font-weight: 800;
+    line-height: 1.25;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.5px;
+    word-wrap: break-word;
+  }
+
+  .ww-signature {
+    font-family: 'Herr Von Muellerhoff', cursive;
+    font-size: clamp(48px, 6vw, 72px);
+    color: #f4c430;
+    line-height: 1;
+    margin-top: 10px;
+    transform: rotate(-3deg);
+  }
+
+  /* ── Floating Cards ── */
+  .ww-cards-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22), 0 8px 20px rgba(0, 0, 0, 0.12);
-    transform-origin: bottom center;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .ww-floating-card {
+    position: absolute;
+    left: var(--desktop-left);
+    top: var(--desktop-top);
+    width: var(--card-width);
+    pointer-events: auto;
     will-change: transform;
+    transition: box-shadow 0.3s ease;
   }
-
-  .ww-card:hover {
-    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.32), 0 12px 28px rgba(0, 0, 0, 0.16);
-  }
-
-  /* Default stacking positions set by JS, but we pre-set CSS for no-JS fallback */
-  .ww-card[data-index="0"] { z-index: 4; transform: rotate(-6deg) translateX(-20px); }
-  .ww-card[data-index="1"] { z-index: 3; transform: rotate(-2deg) translateX(-8px); }
-  .ww-card[data-index="2"] { z-index: 2; transform: rotate(2deg) translateX(8px); }
-  .ww-card[data-index="3"] { z-index: 1; transform: rotate(6deg) translateX(20px); }
-  .ww-card[data-index="4"] { z-index: 0; transform: rotate(9deg) translateX(32px); }
 
   .ww-card-inner {
     display: flex;
     flex-direction: column;
-    height: 100%;
-  }
-
-  /* ── Card Media ── */
-  .ww-card-media {
-    flex: 1;
+    border-radius: 16px;
     overflow: hidden;
-    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   }
 
-  .ww-card-media img {
+  .ww-card-image-box {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
+    overflow: hidden;
+    background: #111;
   }
 
-  .ww-card:hover .ww-card-media img {
+  .ww-card-image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .ww-floating-card:hover .ww-card-image-box img {
     transform: scale(1.04);
   }
 
-  .ww-card-placeholder {
+  .ww-card-image-placeholder {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 4/5;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    background: #1a1a1a;
+  }
+  
+  .ww-card-image-placeholder svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.15;
   }
 
-  .ww-card-placeholder svg {
-    width: 100%;
-    height: 100%;
-    opacity: 0.3;
-  }
+  /* ── Card Style Variations ── */
 
-  /* ── Card Body (dark footer) ── */
-  .ww-card-body {
-    background: #111111;
-    padding: 20px 22px 24px;
-    flex-shrink: 0;
+  /* Light Card Style */
+  .ww-style-light .ww-card-inner {
+    background: #f7f7f7;
+    color: #111111;
   }
-
-  .ww-card-title {
-    font-family: 'Orbitron', 'Rajdhani', sans-serif;
-    font-size: clamp(14px, 2vw, 18px);
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 8px 0;
+  .ww-style-light .ww-card-top-bar {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .ww-style-light .ww-card-meta-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #666666;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    line-height: 1.2;
   }
-
-  .ww-card-text {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: clamp(12px, 1.4vw, 14px);
-    color: rgba(255, 255, 255, 0.6);
+  .ww-style-light .ww-card-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #111111;
+  }
+  .ww-style-light .ww-card-bottom-bar {
+    padding: 16px 20px;
+  }
+  .ww-style-light .ww-card-caption-title {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #111111;
     margin: 0;
-    line-height: 1.55;
   }
 
-  /* ── Active Card (front) highlight ── */
-  .ww-card.is-active {
-    z-index: 10 !important;
-    transform: rotate(0deg) translateX(0) translateY(-12px) !important;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.36);
+  /* Dark Card Style */
+  .ww-style-dark .ww-card-inner {
+    background: #121212;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .ww-style-dark .ww-card-top-bar {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .ww-style-dark .ww-card-meta-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .ww-style-dark .ww-card-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #f4c430;
+  }
+  .ww-style-dark .ww-card-bottom-bar {
+    padding: 16px 20px;
+  }
+  .ww-style-dark .ww-card-caption-title {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0;
   }
 
-  /* ── Responsive ── */
+  /* Glass Card Style */
+  .ww-style-glass .ww-card-inner {
+    background: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .ww-style-glass .ww-card-top-bar {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .ww-style-glass .ww-card-meta-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .ww-style-glass .ww-card-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #f4c430;
+  }
+  .ww-style-glass .ww-card-bottom-bar {
+    padding: 16px 20px;
+  }
+  .ww-style-glass .ww-card-caption-title {
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  /* Image Only Style */
+  .ww-style-image_only .ww-card-inner {
+    background: transparent;
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
+  }
+  .ww-style-image_only .ww-card-image-box {
+    border-radius: 16px;
+  }
+
+  /* ── Responsive Mobile States ── */
+  @media (max-width: 991px) {
+    .ww-floating-card {
+      width: calc(var(--card-width) * 1.25);
+    }
+  }
+
   @media (max-width: 768px) {
-    .ww-label-row {
-      flex-direction: column;
-      gap: 6px;
-      text-align: center;
+    .ww-parallax-section {
+      min-height: auto;
+      padding: 80px 0;
+      display: block;
     }
 
-    .ww-cards-pin {
-      max-width: 340px;
-      height: clamp(420px, 80vw, 540px);
+    .ww-parallax-container {
+      padding: 0 20px;
     }
 
-    .ww-bg-text {
-      font-size: clamp(48px, 14vw, 80px);
+    .ww-cards-wrapper {
+      position: relative;
+      inset: auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+      pointer-events: auto;
     }
-  }
 
-  @media (max-width: 480px) {
-    .ww-cards-pin {
-      max-width: 300px;
-      height: clamp(380px, 90vw, 480px);
+    .ww-floating-card {
+      position: relative;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      transform: none !important;
+    }
+
+    .ww-style-image_only {
+      grid-column: span 1;
+    }
+
+    .ww-floating-card:nth-child(3) {
+      grid-column: span 2;
     }
   }
 </style>
 
 <script>
-(function () {
+(function() {
   'use strict';
 
-  function initWornWorldwide(sectionId) {
-    const section   = document.getElementById('worn-worldwide-' + sectionId);
-    if (!section) return;
+  function initParallaxShowcase() {
+    const section = document.querySelector('.ww-parallax-section');
+    if (!section || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-    const cards = Array.from(section.querySelectorAll('.ww-card'));
-    if (!cards.length) return;
+    // Check if on mobile view to avoid complex parallax positioning
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
 
-    const total = cards.length;
+    const cards = section.querySelectorAll('.ww-floating-card');
 
-    // ── Rotations & offsets for a natural spread ──
-    const angles  = [-8, -3,  1,  5,  9, 13];
-    const offsetsX = [-26, -10, 4, 18, 30, 42];
-    const offsetsY = [  0,  -4, -6, -8, -8, -6];
+    cards.forEach(card => {
+      const speed = parseFloat(card.dataset.speed) || 1;
 
-    function applyStack() {
-      cards.forEach(function (card, i) {
-        const angle = angles[i] || (i * 4 - 4);
-        const ox    = offsetsX[i] || (i * 14 - 14);
-        const oy    = offsetsY[i] || 0;
-        card.style.transform =
-          'rotate(' + angle + 'deg) translate(' + ox + 'px, ' + oy + 'px)';
-        card.style.zIndex = total - i;
-        card.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease';
-      });
-    }
-
-    function bringToFront(clickedIndex) {
-      // Remove active from all
-      cards.forEach(function (c) { c.classList.remove('is-active'); });
-
-      // Re-stack from the clicked card forward
-      const shifted = cards.slice(clickedIndex).concat(cards.slice(0, clickedIndex));
-      shifted.forEach(function (card, i) {
-        const angle = angles[i] || (i * 4 - 4);
-        const ox    = offsetsX[i] || (i * 14 - 14);
-        const oy    = offsetsY[i] || 0;
-        card.style.transform =
-          'rotate(' + angle + 'deg) translate(' + ox + 'px, ' + oy + 'px)';
-        card.style.zIndex = total - i;
-      });
-
-      // Lift top card
-      cards[clickedIndex].style.transform = 'rotate(0deg) translate(0px, -14px)';
-      cards[clickedIndex].style.zIndex    = total + 1;
-      cards[clickedIndex].classList.add('is-active');
-    }
-
-    // ── Apply initial stack ──
-    applyStack();
-
-    // ── Click to cycle ──
-    cards.forEach(function (card, i) {
-      card.addEventListener('click', function () {
-        bringToFront(i);
-      });
+      // Clean animation mapping: scroll triggers vertical floating movement
+      gsap.fromTo(card, 
+        {
+          y: -100 * speed
+        },
+        {
+          y: 100 * speed,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+          }
+        }
+      );
     });
+  }
 
-    // ── GSAP ScrollTrigger entrance animation (if available) ──
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.fromTo(
-        section.querySelector('.ww-cards-pin'),
-        { opacity: 0, y: 60, scale: 0.93 },
-        {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          },
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1,
-          ease: 'power3.out'
-        }
-      );
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initParallaxShowcase);
+  } else {
+    initParallaxShowcase();
+  }
 
-      // Cards fan in sequentially on scroll
-      gsap.fromTo(
-        cards,
-        { opacity: 0, y: 80 },
-        {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 75%',
-            toggleActions: 'play none none reverse'
-          },
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.9,
-          ease: 'back.out(1.4)'
-        }
-      );
-    } else {
-      // Fallback: simple CSS fade-in
-      section.style.opacity = '1';
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initParallaxShowcase();
     }
-  }
-
-  // ── Init ──
-  function ready(fn) {
-    if (document.readyState !== 'loading') { fn(); }
-    else { document.addEventListener('DOMContentLoaded', fn); }
-  }
-
-  ready(function () {
-    initWornWorldwide('{{ section.id }}');
   });
 
-  document.addEventListener('shopify:section:load', function (e) {
-    if (e.detail.sectionId === '{{ section.id }}') {
-      initWornWorldwide('{{ section.id }}');
-    }
+  window.addEventListener('resize', function() {
+    // Re-verify layouts on resize
+    ScrollTrigger.refresh();
   });
 })();
 </script>
@@ -430,78 +520,115 @@
   "name": "Worn Worldwide",
   "settings": [
     {
-      "type": "text",
-      "id": "title",
-      "label": "Heading",
-      "default": "WORN WORLDWIDE"
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "ONE9 IS A LUXURY STREETWEAR STUDIO EMPOWERING INDIVIDUALS TO SHAPE THE FUTURE OF STREET CULTURE."
     },
     {
       "type": "text",
-      "id": "subtitle",
-      "label": "Eyebrow Label",
-      "default": "COMMUNITY & CULTURE"
-    },
-    {
-      "type": "text",
-      "id": "bg_word",
-      "label": "Giant Background Word",
-      "default": "WORN WORLDWIDE",
-      "info": "Large decorative text in the background"
+      "id": "signature_text",
+      "label": "Signature Word",
+      "default": "One9. Studio"
     },
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#e8e6e1"
+      "default": "#080808"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#111111"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 20,
-      "max": 140,
-      "step": 10,
-      "unit": "px",
-      "label": "Top Padding",
-      "default": 80
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 20,
-      "max": 160,
-      "step": 10,
-      "unit": "px",
-      "label": "Bottom Padding",
-      "default": 120
+      "default": "#ffffff"
     }
   ],
   "blocks": [
     {
       "type": "card",
-      "name": "Community Card",
+      "name": "Floating Card",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Photo"
+          "label": "Card Image"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Card Title",
-          "default": "Community Drops"
+          "default": "Imogene + Willie Studio"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Corner Number",
+          "default": "01"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_number",
+          "label": "Show Number",
+          "default": true
         },
         {
           "type": "textarea",
-          "id": "text",
-          "label": "Description",
-          "default": "From Tokyo to Lagos — ONE9 is made for every timezone."
+          "id": "meta_description",
+          "label": "Top Metadata",
+          "default": "Heavyweight premium cotton construction."
+        },
+        {
+          "type": "select",
+          "id": "card_style",
+          "label": "Card Style",
+          "options": [
+            { "value": "light", "label": "Light" },
+            { "value": "dark", "label": "Dark" },
+            { "value": "glass", "label": "Frosted Glass" },
+            { "value": "image_only", "label": "Image Only (No text)" }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "range",
+          "id": "speed",
+          "min": -3.0,
+          "max": 3.0,
+          "step": 0.1,
+          "label": "Parallax Speed",
+          "info": "Negative values move in opposite scroll direction",
+          "default": 1.0
+        },
+        {
+          "type": "range",
+          "id": "desktop_left",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Desktop Left Offset",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "desktop_top",
+          "min": -20,
+          "max": 80,
+          "step": 1,
+          "unit": "%",
+          "label": "Desktop Top Offset",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "card_width",
+          "min": 10,
+          "max": 50,
+          "step": 1,
+          "unit": "%",
+          "label": "Desktop Width",
+          "default": 20
         }
       ]
     }
@@ -513,29 +640,57 @@
         {
           "type": "card",
           "settings": {
-            "title": "Awards & Glory",
-            "text": "We've racked up so many awards, we're considering getting a second shelf — and maybe a third just in case."
+            "title": "Imogene + Willie Studio",
+            "number": "01",
+            "card_style": "light",
+            "speed": -1.2,
+            "desktop_left": 68,
+            "desktop_top": 5,
+            "card_width": 25
           }
         },
         {
           "type": "card",
           "settings": {
-            "title": "Global Streets",
-            "text": "Spotted in 80+ cities worldwide. ONE9 is streetwear without borders."
+            "title": "Par Swam Tote",
+            "number": "02",
+            "card_style": "dark",
+            "speed": 0.8,
+            "desktop_left": 10,
+            "desktop_top": 15,
+            "card_width": 24
           }
         },
         {
           "type": "card",
           "settings": {
-            "title": "Creative Collabs",
-            "text": "Art meets apparel. Our collaborations redefine the culture every season."
+            "card_style": "image_only",
+            "speed": 1.8,
+            "desktop_left": 42,
+            "desktop_top": -12,
+            "card_width": 18
           }
         },
         {
           "type": "card",
           "settings": {
-            "title": "Community Drops",
-            "text": "Limited drops made for and by the community. Tag us to be featured."
+            "title": "Par Swam Branding",
+            "number": "03",
+            "card_style": "dark",
+            "speed": -0.7,
+            "desktop_left": 12,
+            "desktop_top": 75,
+            "card_width": 20
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_style": "image_only",
+            "speed": 1.5,
+            "desktop_left": 70,
+            "desktop_top": 70,
+            "card_width": 22
           }
         }
       ]

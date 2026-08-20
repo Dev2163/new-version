@@ -392,28 +392,54 @@
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jul_4_2026_10_03_30_PM.png",
-            "title": "Awards & Glory"
+            "title": "Awards & Glory",
+            "number": "01",
+            "meta_description": "Special edition releases & collaborations.",
+            "card_style": "dark",
+            "speed": 0.8,
+            "desktop_left": 10,
+            "desktop_top": 15,
+            "card_width": 24
           }
         },
         "post_2": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/cosmic_tshirt_product_1783308296927.jpg",
-            "title": "Global Streets"
+            "title": "Global Streets",
+            "number": "02",
+            "meta_description": "Heavyweight premium cotton fit.",
+            "card_style": "light",
+            "speed": -1.2,
+            "desktop_left": 68,
+            "desktop_top": 5,
+            "card_width": 25
           }
         },
         "post_3": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/zodiac_hoodie_model_1783308287015.jpg",
-            "title": "Creative Collabs"
+            "title": "Creative Collabs",
+            "card_style": "image_only",
+            "speed": 1.8,
+            "desktop_left": 42,
+            "desktop_top": -12,
+            "card_width": 18
           }
         },
         "post_4": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/futuristic_streetwear_model_1783308307965.jpg",
-            "title": "Community Drops"
+            "title": "Community Drops",
+            "number": "03",
+            "meta_description": "Limited numbered batch releases.",
+            "card_style": "dark",
+            "speed": -0.7,
+            "desktop_left": 12,
+            "desktop_top": 75,
+            "card_width": 20
           }
         }
       },
@@ -424,6 +450,8 @@
         "post_4"
       ],
       "settings": {
+        "heading_text": "ONE9 IS A LUXURY STREETWEAR STUDIO EMPOWERING INDIVIDUALS TO SHAPE THE FUTURE OF STREET CULTURE.",
+        "signature_text": "One9. Studio",
         "bg_color": "#080808",
         "text_color": "#ffffff"
       }
