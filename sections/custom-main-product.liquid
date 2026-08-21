@@ -454,11 +454,29 @@
           submitBtn.innerHTML = 'ADDED! ✓';
         }
 
-        // Notify theme of cart update
-        document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
-        
-        // Open Cart Drawer instantly
-        window.ONE9_OpenCartDrawer();
+        // Dispatch the theme's native 'cart:update' event so CartItemsComponent
+        // re-renders the drawer contents and CartDrawerComponent can auto-open.
+        const cartEvent = new Event('cart:update', { bubbles: true });
+        cartEvent.detail = {
+          resource: data,
+          data: {
+            source: 'custom-product-form',
+            itemCount: Number(formData.get('quantity')) || 1
+          }
+        };
+        document.dispatchEvent(cartEvent);
+
+        // Open the cart drawer using the native component method
+        const cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else if (cartDrawer && typeof cartDrawer.showDialog === 'function') {
+          cartDrawer.showDialog();
+        } else {
+          // Fallback: click the trigger button
+          const trigger = document.querySelector('[data-testid="cart-drawer-trigger"]');
+          if (trigger) trigger.click();
+        }
 
         setTimeout(() => {
           if (submitBtn) submitBtn.innerHTML = originalText;
