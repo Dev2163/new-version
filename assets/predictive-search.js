@@ -389,9 +389,11 @@ class PredictiveSearchComponent extends Component {
     url.searchParams.delete('page');
 
     const emptySectionMarkup = await sectionRenderer.getSectionHTML(emptySectionId, false, url);
-    const parsedEmptySectionMarkup = new DOMParser()
-      .parseFromString(emptySectionMarkup, 'text/html')
-      .querySelector('.predictive-search-empty-section');
+    const parsedDoc = new DOMParser().parseFromString(emptySectionMarkup, 'text/html');
+    let parsedEmptySectionMarkup = parsedDoc.querySelector('.predictive-search-empty-section');
+    if (!parsedEmptySectionMarkup) {
+      parsedEmptySectionMarkup = parsedDoc.getElementById('predictive-search-results') || parsedDoc.body.firstElementChild;
+    }
 
     if (!parsedEmptySectionMarkup) throw new Error('No empty section markup found');
 
