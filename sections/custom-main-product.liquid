@@ -441,9 +441,16 @@
         submitBtn.innerHTML = 'ADDING...';
       }
 
-      const formData = new FormData(productForm);
+      const cartItemsComp = document.querySelector('cart-items-component');
+      const sectionId = cartItemsComp ? cartItemsComp.dataset.sectionId : null;
 
-      // Step 1: Add item to cart using proven FormData approach
+      const formData = new FormData(productForm);
+      if (sectionId) {
+        formData.append('sections', sectionId);
+        formData.append('sections_url', window.location.pathname);
+      }
+
+      // Step 1: Add item to cart using proven FormData approach with inline section rendering request
       fetch('/cart/add.js', {
         method: 'POST',
         body: formData
@@ -458,11 +465,20 @@
           submitBtn.innerHTML = 'ADDED! ✓';
         }
 
-        // Step 2: Refresh cart drawer content via Section Rendering API
-        const cartItemsComp = document.querySelector('cart-items-component');
-        const sectionId = cartItemsComp ? cartItemsComp.dataset.sectionId : null;
-
-        if (sectionId) {
+        // Step 2: Refresh cart drawer content using rendered section HTML from the response
+        if (data.sections && sectionId && data.sections[sectionId]) {
+          const freshHtml = data.sections[sectionId];
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(freshHtml, 'text/html');
+          const freshComp = doc.querySelector('cart-items-component');
+          if (freshComp && cartItemsComp) {
+            cartItemsComp.innerHTML = freshComp.innerHTML;
+            // Also remove empty class from dialog
+            const dialog = document.querySelector('.cart-drawer__dialog');
+            if (dialog) dialog.classList.remove('cart-drawer--empty');
+          }
+        } else if (sectionId) {
+          // Fallback: fetch section rendering API if not returned directly in response
           fetch('/?sections=' + sectionId)
             .then(r => r.json())
             .then(sections => {
@@ -473,7 +489,6 @@
                 const freshComp = doc.querySelector('cart-items-component');
                 if (freshComp) {
                   cartItemsComp.innerHTML = freshComp.innerHTML;
-                  // Also remove empty class from dialog
                   const dialog = document.querySelector('.cart-drawer__dialog');
                   if (dialog) dialog.classList.remove('cart-drawer--empty');
                 }
