@@ -890,7 +890,7 @@ Rules:
       // Add current user message to history
       chatHistory.push({ role: 'user', content: query });
 
-      const modelName = {{ openrouter_model | default: 'google/gemini-2.0-flash-exp:free' | json }};
+      const modelName = {{ openrouter_model | default: 'openrouter/free' | json }};
 
       fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',

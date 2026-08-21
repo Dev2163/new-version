@@ -19,12 +19,6 @@
         "show_socials": true,
         "instagram_link": "",
         "whatsapp_link": "",
-        "tiktok_link": "",
-        "twitter_link": "",
-        "youtube_link": "",
-        "show_newsletter": true,
-        "newsletter_heading": "SUBSCRIBE TO THE DROP",
-        "newsletter_subtext": "<p>Be the first to know about new collections, sales, and events.</p>",
         "shop_heading": "SHOP",
         "shop_menu": "",
         "help_heading": "HELP",
@@ -39,9 +33,7 @@
         "btn_link": "",
         "copyright_text": "© 2026 ONE9 Streetwear. All rights reserved.",
         "bg_color": "#0a0a0a",
-        "text_color": "#e0e0e0",
-        "accent_color": "#f4c430",
-        "show_payment_icons": true
+        "text_color": "#e0e0e0"
       }
     },
     "footer_utilities": {
@@ -51,10 +43,7 @@
     },
     "nova_ai_assistant": {
       "type": "nova-ai-assistant",
-      "settings": {
-        "openrouter_api_key": "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",
-        "openrouter_model": "google/gemini-2.0-flash-exp:free"
-      }
+      "settings": {}
     }
   },
   "order": [
