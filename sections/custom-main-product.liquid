@@ -443,7 +443,7 @@
 
   // Bulletproof Cart Drawer Opener Helper
   window.ONE9_OpenCartDrawer = function() {
-    const trigger = document.querySelector('[data-testid="cart-drawer-trigger"], .header-actions__action, button[aria-haspopup="dialog"]');
+    const trigger = document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], cart-icon, .action__cart');
     if (trigger) {
       trigger.click();
     }

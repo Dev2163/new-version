@@ -381,7 +381,7 @@
       if (typeof window.ONE9_OpenCartDrawer === 'function') {
         window.ONE9_OpenCartDrawer();
       } else {
-        document.querySelector('[data-testid="cart-drawer-trigger"], .header-actions__action')?.click();
+        document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], cart-icon, .action__cart')?.click();
       }
 
       setTimeout(() => {
