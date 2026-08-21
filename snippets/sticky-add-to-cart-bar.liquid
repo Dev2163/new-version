@@ -366,23 +366,66 @@
     btn.style.opacity = '0.75';
     btn.querySelector('.btn-text').textContent = 'Adding...';
 
-    fetch('/cart/add.js', {
+    const cartItemsComp = document.querySelector('cart-items-component');
+    const sectionId = cartItemsComp ? cartItemsComp.dataset.sectionId : null;
+
+    const formData = new FormData();
+    formData.append('id', variantId);
+    formData.append('quantity', currentQty);
+    if (sectionId) {
+      formData.append('sections', sectionId);
+      formData.append('sections_url', window.location.pathname);
+    }
+
+    fetch('/cart/add', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: parseInt(variantId), quantity: currentQty })
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'text/html'
+      },
+      body: formData
     })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error('Cart add failed: ' + res.status);
+      return res.json();
+    })
     .then(data => {
       btn.style.opacity = '1';
       btn.querySelector('.btn-text').textContent = 'Added! ✓';
-      document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
       
-      // Open Cart Drawer
-      if (typeof window.ONE9_OpenCartDrawer === 'function') {
-        window.ONE9_OpenCartDrawer();
-      } else {
-        document.querySelector('cart-drawer-component button, [data-testid="cart-drawer-trigger"], cart-icon, .action__cart')?.click();
+      // Refresh cart drawer content using rendered section HTML from the response
+      if (data.sections && sectionId && data.sections[sectionId]) {
+        const freshHtml = data.sections[sectionId];
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(freshHtml, 'text/html');
+        const freshComp = doc.querySelector('cart-items-component');
+        if (freshComp && cartItemsComp) {
+          cartItemsComp.innerHTML = freshComp.innerHTML;
+          // Also remove empty class from dialog
+          const dialog = document.querySelector('.cart-drawer__dialog');
+          if (dialog) dialog.classList.remove('cart-drawer--empty');
+        }
       }
+
+      // Update cart count badges
+      fetch('/cart.js')
+        .then(r => r.json())
+        .then(cart => {
+          document.querySelectorAll('.cart-bubble__text, .mobile-bottom-nav__badge').forEach(el => {
+            el.textContent = cart.item_count;
+          });
+        })
+        .catch(() => {});
+
+      // Open Cart Drawer
+      setTimeout(() => {
+        const cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else if (cartDrawer && typeof cartDrawer.showDialog === 'function') {
+          cartDrawer.showDialog();
+        }
+      }, 300);
 
       setTimeout(() => {
         if (btn && btn.querySelector('.btn-text')) {
@@ -390,7 +433,8 @@
         }
       }, 2000);
     })
-    .catch(() => {
+    .catch((err) => {
+      console.error('Sticky Cart add error:', err);
       window.location.href = `/cart/add?id=${variantId}&quantity=${currentQty}`;
     });
   };
