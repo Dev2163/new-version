@@ -454,7 +454,8 @@
       fetch('/cart/add', {
         method: 'POST',
         headers: {
-          'X-Requested-With': 'XMLHttpRequest'
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'text/html'
         },
         body: formData
       })
