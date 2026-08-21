@@ -424,7 +424,7 @@
             "card_style": "image_only",
             "speed": 1.8,
             "desktop_left": 42,
-            "desktop_top": -12,
+            "desktop_top": 10,
             "card_width": 18
           }
         },
@@ -438,7 +438,7 @@
             "card_style": "dark",
             "speed": -0.7,
             "desktop_left": 12,
-            "desktop_top": 75,
+            "desktop_top": 48,
             "card_width": 20
           }
         }

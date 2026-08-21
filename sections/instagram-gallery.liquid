@@ -1,7 +1,7 @@
 {% comment %}
-  ONE9 / WORN WORLDWIDE — Floating Scroll Parallax Showcase
+  ONE9 / WORN WORLDWIDE — Pinned Scroll Staged Showcase
   Inspired by premium agency grid layouts (Tints Studio style)
-  Floating card items move up and down at different speeds on scroll.
+  The section pins on scroll, and cards reveal/exit one-by-one.
 {% endcomment %}
 
 <!-- Cursive Google Font for Signature -->
@@ -10,7 +10,7 @@
 {% liquid
   assign bg_color         = section.settings.bg_color         | default: '#080808'
   assign text_color       = section.settings.text_color       | default: '#ffffff'
-  assign heading_text     = section.settings.title            | default: 'ONE9 IS A LUXURY STREETWEAR STUDIO EMPOWERING INDIVIDUALS TO SHAPE THE FUTURE OF STREET CULTURE.'
+  assign heading_text     = section.settings.heading_text     | default: 'ONE9 IS A LUXURY STREETWEAR STUDIO EMPOWERING INDIVIDUALS TO SHAPE THE FUTURE OF STREET CULTURE.'
   assign signature_text   = section.settings.signature_text   | default: 'One9. Studio'
 %}
 
@@ -37,7 +37,7 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%} ── Floating Parallax Cards ── {%- endcomment -%}
+    {%- comment -%} ── Pinned Parallax Cards ── {%- endcomment -%}
     <div class="ww-cards-wrapper">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
@@ -126,7 +126,7 @@
         </div>
 
         <!-- Card 3: Jeans Close-up (Center Column, top offset) -->
-        <div class="ww-floating-card ww-style-image_only" data-speed="1.8" style="--desktop-left: 42%; --desktop-top: -12%; --card-width: 18%;">
+        <div class="ww-floating-card ww-style-image_only" data-speed="1.8" style="--desktop-left: 42%; --desktop-top: 10%; --card-width: 18%;">
           <div class="ww-card-inner">
             <div class="ww-card-image-box">
               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -135,7 +135,7 @@
         </div>
 
         <!-- Card 4: Business Card style (Left Column, bottom) -->
-        <div class="ww-floating-card ww-style-dark" data-speed="-0.7" style="--desktop-left: 12%; --desktop-top: 75%; --card-width: 20%;">
+        <div class="ww-floating-card ww-style-dark" data-speed="-0.7" style="--desktop-left: 12%; --desktop-top: 48%; --card-width: 20%;">
           <div class="ww-card-inner">
             <div class="ww-card-image-box">
               {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -147,7 +147,7 @@
         </div>
 
         <!-- Card 5: Mobile Screen (Right Column, bottom) -->
-        <div class="ww-floating-card ww-style-image_only" data-speed="1.5" style="--desktop-left: 70%; --desktop-top: 70%; --card-width: 22%;">
+        <div class="ww-floating-card ww-style-image_only" data-speed="1.5" style="--desktop-left: 70%; --desktop-top: 45%; --card-width: 22%;">
           <div class="ww-card-inner">
             <div class="ww-card-image-box">
               {{ 'lifestyle-3' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -166,8 +166,7 @@
   .ww-parallax-section {
     position: relative;
     overflow: hidden;
-    padding: 120px 0;
-    min-height: 120vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -184,12 +183,16 @@
   }
 
   .ww-parallax-container {
-    position: relative;
+    position: absolute;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 40px;
     z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* ── Central Headline ── */
@@ -199,7 +202,7 @@
     margin: 0 auto;
     text-align: center;
     z-index: 3;
-    pointer-events: none; /* Let clicks pass through to background/cards if needed */
+    pointer-events: none;
   }
 
   .ww-main-heading {
@@ -238,7 +241,7 @@
     width: var(--card-width);
     pointer-events: auto;
     will-change: transform;
-    transition: box-shadow 0.3s ease;
+    opacity: 0; /* Animated via GSAP */
   }
 
   .ww-card-inner {
@@ -423,13 +426,17 @@
 
   @media (max-width: 768px) {
     .ww-parallax-section {
+      height: auto;
       min-height: auto;
       padding: 80px 0;
       display: block;
     }
 
     .ww-parallax-container {
+      position: relative;
       padding: 0 20px;
+      height: auto;
+      display: block;
     }
 
     .ww-cards-wrapper {
@@ -448,6 +455,7 @@
       top: auto !important;
       width: 100% !important;
       transform: none !important;
+      opacity: 1 !important; /* Always visible on mobile grid */
     }
 
     .ww-style-image_only {
@@ -468,32 +476,72 @@
     const section = document.querySelector('.ww-parallax-section');
     if (!section || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-    // Check if on mobile view to avoid complex parallax positioning
+    // Disable desktop pinning timeline on mobile to preserve layout
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
-    const cards = section.querySelectorAll('.ww-floating-card');
+    const cards = Array.from(section.querySelectorAll('.ww-floating-card'));
+    if (!cards.length) return;
 
-    cards.forEach(card => {
-      const speed = parseFloat(card.dataset.speed) || 1;
-
-      // Clean animation mapping: scroll triggers vertical floating movement
-      gsap.fromTo(card, 
-        {
-          y: -100 * speed
-        },
-        {
-          y: 100 * speed,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-          }
-        }
-      );
+    // Create a pinned timeline
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=220%",
+        scrub: 1.2,
+        pin: true,
+        anticipatePin: 1
+      }
     });
+
+    if (cards.length >= 4) {
+      // 1. Initial State Settings (All cards offscreen or transparent)
+      // Card 1 & 2 start below the view
+      gsap.set([cards[0], cards[1]], { y: "100vh", opacity: 0 });
+      // Card 3 starts above the view
+      gsap.set(cards[2], { y: "-100vh", opacity: 0 });
+      // Card 4 starts below the view
+      gsap.set(cards[3], { y: "100vh", opacity: 0 });
+      
+      // If there is a 5th card, set it below too
+      if (cards[4]) {
+        gsap.set(cards[4], { y: "100vh", opacity: 0 });
+      }
+
+      // 2. Timeline Sequence animations mapping the scroll phases
+      tl
+        // Phase 1: Card 1 & 2 glide in from bottom
+        .to([cards[0], cards[1]], { y: "0vh", opacity: 1, duration: 1.5, ease: "power2.out" })
+        .to({}, { duration: 0.8 }) // Hold phase 1
+
+        // Phase 2: Card 1 & 2 exit upwards, Card 3 glides down from top
+        .to([cards[0], cards[1]], { y: "-100vh", opacity: 0, duration: 1.5, ease: "power2.in" })
+        .to(cards[2], { y: "0vh", opacity: 1, duration: 1.5, ease: "power2.out" }, "<")
+        .to({}, { duration: 0.8 }) // Hold phase 2
+
+        // Phase 3: Card 3 exits upwards, Card 4 (and 5) glide up from bottom
+        .to(cards[2], { y: "-100vh", opacity: 0, duration: 1.5, ease: "power2.in" });
+
+      if (cards[4]) {
+        tl.to([cards[3], cards[4]], { y: "0vh", opacity: 1, duration: 1.5, ease: "power2.out" }, "<")
+          .to({}, { duration: 0.8 }) // Hold phase 3
+          .to([cards[3], cards[4]], { y: "-100vh", opacity: 0, duration: 1.2, ease: "power2.in" });
+      } else {
+        tl.to(cards[3], { y: "0vh", opacity: 1, duration: 1.5, ease: "power2.out" }, "<")
+          .to({}, { duration: 0.8 }) // Hold phase 3
+          .to(cards[3], { y: "-100vh", opacity: 0, duration: 1.2, ease: "power2.in" });
+      }
+
+    } else {
+      // Simple fallback stagger if there are fewer than 4 cards
+      cards.forEach((card, i) => {
+        gsap.set(card, { y: "100vh", opacity: 0 });
+        tl.to(card, { y: "0vh", opacity: 1, duration: 1.5, ease: "power2.out" })
+          .to({}, { duration: 0.6 })
+          .to(card, { y: "-100vh", opacity: 0, duration: 1.5, ease: "power2.in" });
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
@@ -509,7 +557,6 @@
   });
 
   window.addEventListener('resize', function() {
-    // Re-verify layouts on resize
     ScrollTrigger.refresh();
   });
 })();
@@ -667,7 +714,7 @@
             "card_style": "image_only",
             "speed": 1.8,
             "desktop_left": 42,
-            "desktop_top": -12,
+            "desktop_top": 10,
             "card_width": 18
           }
         },
@@ -679,7 +726,7 @@
             "card_style": "dark",
             "speed": -0.7,
             "desktop_left": 12,
-            "desktop_top": 75,
+            "desktop_top": 48,
             "card_width": 20
           }
         },
@@ -689,7 +736,7 @@
             "card_style": "image_only",
             "speed": 1.5,
             "desktop_left": 70,
-            "desktop_top": 70,
+            "desktop_top": 45,
             "card_width": 22
           }
         }
