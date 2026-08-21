@@ -79,7 +79,8 @@
       "nova-ai-assistant": {
         "type": "nova-ai-assistant",
         "settings": {
-          "gemini_api_key": ""
+          "openrouter_api_key": "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",
+          "openrouter_model": "openrouter/free"
         }
       }
     },
