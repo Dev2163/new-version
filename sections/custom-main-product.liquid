@@ -443,81 +443,67 @@
 
       const formData = new FormData(productForm);
 
-      // Find the cart drawer's section ID for Section Rendering API
-      const cartItemsComp = document.querySelector('cart-items-component');
-      const drawerSectionId = cartItemsComp ? cartItemsComp.dataset.sectionId : null;
-
-      // Build request body - include sections param to get fresh cart HTML back
-      const bodyObj = {};
-      formData.forEach((value, key) => { bodyObj[key] = value; });
-      if (drawerSectionId) {
-        bodyObj.sections = drawerSectionId;
-        bodyObj.sections_url = window.location.pathname;
-      }
-
+      // Step 1: Add item to cart using proven FormData approach
       fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(bodyObj)
+        body: formData
       })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Cart add failed: ' + res.status);
+        return res.json();
+      })
       .then(data => {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = 'ADDED! ✓';
         }
 
-        // If we got sections HTML back, directly update the cart drawer DOM
-        if (data.sections && drawerSectionId && data.sections[drawerSectionId]) {
-          const freshHtml = data.sections[drawerSectionId];
-          // Parse the fresh HTML and extract the cart-items-component content
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(freshHtml, 'text/html');
-          const freshCartItems = doc.querySelector('cart-items-component');
-          if (freshCartItems && cartItemsComp) {
-            cartItemsComp.innerHTML = freshCartItems.innerHTML;
-          }
-        } else {
-          // Fallback: re-fetch the full section via Section Rendering API
-          if (drawerSectionId) {
-            fetch(window.location.pathname + '?sections=' + drawerSectionId)
-              .then(r => r.json())
-              .then(sections => {
-                if (sections[drawerSectionId]) {
-                  const parser = new DOMParser();
-                  const doc = parser.parseFromString(sections[drawerSectionId], 'text/html');
-                  const freshCartItems = doc.querySelector('cart-items-component');
-                  if (freshCartItems && cartItemsComp) {
-                    cartItemsComp.innerHTML = freshCartItems.innerHTML;
-                  }
+        // Step 2: Refresh cart drawer content via Section Rendering API
+        const cartItemsComp = document.querySelector('cart-items-component');
+        const sectionId = cartItemsComp ? cartItemsComp.dataset.sectionId : null;
+
+        if (sectionId) {
+          fetch('/?sections=' + sectionId)
+            .then(r => r.json())
+            .then(sections => {
+              const freshHtml = sections[sectionId];
+              if (freshHtml && cartItemsComp) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(freshHtml, 'text/html');
+                const freshComp = doc.querySelector('cart-items-component');
+                if (freshComp) {
+                  cartItemsComp.innerHTML = freshComp.innerHTML;
+                  // Also remove empty class from dialog
+                  const dialog = document.querySelector('.cart-drawer__dialog');
+                  if (dialog) dialog.classList.remove('cart-drawer--empty');
                 }
-              })
-              .catch(() => {});
-          }
+              }
+            })
+            .catch(e => console.error('Section refresh failed:', e));
         }
 
-        // Update header cart bubble count
-        fetch('/cart.js').then(r => r.json()).then(cart => {
-          document.querySelectorAll('.cart-bubble__text, .mobile-bottom-nav__badge').forEach(el => {
-            el.textContent = cart.item_count;
-          });
-          // Remove --empty class from cart drawer dialog if items exist
-          if (cart.item_count > 0) {
-            const dialog = document.querySelector('.cart-drawer__dialog');
-            if (dialog) dialog.classList.remove('cart-drawer--empty');
-          }
-        }).catch(() => {});
+        // Step 3: Update cart count badges
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => {
+            document.querySelectorAll('.cart-bubble__text, .mobile-bottom-nav__badge').forEach(el => {
+              el.textContent = cart.item_count;
+            });
+          })
+          .catch(() => {});
 
-        // Open the cart drawer
-        const cartDrawer = document.querySelector('cart-drawer-component');
-        if (cartDrawer && typeof cartDrawer.open === 'function') {
-          cartDrawer.open();
-        } else if (cartDrawer && typeof cartDrawer.showDialog === 'function') {
-          cartDrawer.showDialog();
-        } else {
-          const trigger = document.querySelector('[data-testid="cart-drawer-trigger"]');
-          if (trigger) trigger.click();
-        }
+        // Step 4: Open the cart drawer
+        setTimeout(() => {
+          const cartDrawer = document.querySelector('cart-drawer-component');
+          if (cartDrawer && typeof cartDrawer.open === 'function') {
+            cartDrawer.open();
+          } else if (cartDrawer && typeof cartDrawer.showDialog === 'function') {
+            cartDrawer.showDialog();
+          } else {
+            const trigger = document.querySelector('[data-testid="cart-drawer-trigger"]');
+            if (trigger) trigger.click();
+          }
+        }, 300);
 
         setTimeout(() => {
           if (submitBtn) submitBtn.innerHTML = originalText;
