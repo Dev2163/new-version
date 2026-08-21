@@ -78,7 +78,10 @@
       },
       "nova-ai-assistant": {
         "type": "nova-ai-assistant",
-        "settings": {}
+        "settings": {
+          "openrouter_api_key": "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",
+          "openrouter_model": "openrouter/free"
+        }
       }
     },
     "content_for_index": [],
