@@ -451,8 +451,11 @@
       }
 
       // Step 1: Add item to cart using proven FormData approach with inline section rendering request
-      fetch('/cart/add.js', {
+      fetch('/cart/add', {
         method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
         body: formData
       })
       .then(res => {
