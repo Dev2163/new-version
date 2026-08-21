@@ -784,20 +784,20 @@
     const messagesContainer = document.getElementById('nova-ai-messages');
     const quickRepliesContainer = document.getElementById('nova-ai-quick-replies');
     const form = document.getElementById('nova-ai-form');
-    const GEMINI_API_KEY = {{ gemini_api_key | default: '' | json }};
+    const OPENROUTER_API_KEY = {{ openrouter_api_key | default: '' | json }};
     const input = document.getElementById('nova-ai-input');
     const engineTag = document.getElementById('nova-ai-engine-tag');
     const statusText = document.getElementById('nova-ai-status-text');
 
-    if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== '') {
+    if (OPENROUTER_API_KEY && OPENROUTER_API_KEY.trim() !== '') {
       if (engineTag) {
-        engineTag.textContent = 'GEMINI AI';
+        engineTag.textContent = 'OPENROUTER AI';
         engineTag.style.background = 'rgba(244, 196, 48, 0.2)';
         engineTag.style.color = '#F4C430';
         engineTag.style.borderColor = 'rgba(244, 196, 48, 0.4)';
       }
       if (statusText) {
-        statusText.innerHTML = 'Online &bull; Live Gemini Mode';
+        statusText.innerHTML = 'Online &bull; Live AI Mode';
       }
     } else {
       if (engineTag) {
@@ -825,10 +825,7 @@
       }
     }
 
-    // Auto load welcome message
-    initWelcome();
-
-    // Handle Form Submit
+    // Au    // Handle Form Submit
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
       const query = input.value.trim();
@@ -838,8 +835,8 @@
       input.value = '';
 
       setTimeout(() => {
-        if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== '') {
-          processGeminiQuery(query);
+        if (OPENROUTER_API_KEY && OPENROUTER_API_KEY.trim() !== '') {
+          processOpenRouterQuery(query);
         } else {
           processUserQuery(query);
         }
@@ -866,10 +863,10 @@
       if (indicator) indicator.remove();
     }
 
-    // Chat history for multi-turn Gemini conversation
+    // Chat history for multi-turn OpenRouter conversation
     const chatHistory = [];
 
-    function processGeminiQuery(query) {
+    function processOpenRouterQuery(query) {
       showTypingIndicator();
 
       const systemPrompt = `You are NovaAI, a luxury streetwear shopping assistant for the brand ONE9.
@@ -891,14 +888,24 @@ Rules:
 - Currency: use £ for prices.`;
 
       // Add current user message to history
-      chatHistory.push({ role: 'user', parts: [{ text: query }] });
+      chatHistory.push({ role: 'user', content: query });
 
-      fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      const modelName = {{ openrouter_model | default: 'google/gemini-2.0-flash-exp:free' | json }};
+
+      fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+          'HTTP-Referer': 'https://one9.uk',
+          'X-Title': 'ONE9 Streetwear'
+        },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemPrompt }] },
-          contents: chatHistory
+          model: modelName,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...chatHistory
+          ]
         })
       })
       .then(res => res.json())
@@ -907,9 +914,9 @@ Rules:
 
         // Handle API errors
         if (data.error) {
-          console.error('Gemini API Error:', data.error.message);
+          console.error('OpenRouter API Error:', data.error.message || data.error);
           chatHistory.pop(); // remove failed message from history
-          addBotMessage(`⚠️ AI Engine issue: ${data.error.message}. Switching to built-in assistant...`, []);
+          addBotMessage(`⚠️ AI Engine issue: ${data.error.message || 'Error occurred'}. Switching to built-in assistant...`, []);
           
           if (engineTag) {
             engineTag.textContent = 'KEY ERROR';
@@ -925,10 +932,10 @@ Rules:
           return;
         }
 
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        const text = data.choices?.[0]?.message?.content;
         if (text) {
           // Save assistant reply to history for context
-          chatHistory.push({ role: 'model', parts: [{ text }] });
+          chatHistory.push({ role: 'assistant', content: text });
 
           // Keep history manageable (last 10 turns = 20 messages)
           if (chatHistory.length > 20) chatHistory.splice(0, 2);
@@ -948,7 +955,7 @@ Rules:
         }
       })
       .catch(err => {
-        console.error('Gemini Fetch Error:', err);
+        console.error('OpenRouter Fetch Error:', err);
         removeTypingIndicator();
         chatHistory.pop();
         
