@@ -44,10 +44,10 @@
         <div class="nova-ai-panel__info">
           <div class="nova-ai-panel__title-row">
             <span class="nova-ai-panel__name">NovaAI</span>
-            <span class="nova-ai-panel__tag">STREETWEAR AI</span>
+            <span id="nova-ai-engine-tag" class="nova-ai-panel__tag">STREETWEAR AI</span>
           </div>
           <div class="nova-ai-panel__status">
-            <span class="status-dot"></span> Online &amp; Ready
+            <span class="status-dot"></span> <span id="nova-ai-status-text">Online &amp; Ready</span>
           </div>
         </div>
       </div>
@@ -786,6 +786,31 @@
     const form = document.getElementById('nova-ai-form');
     const GEMINI_API_KEY = {{ gemini_api_key | default: '' | json }};
     const input = document.getElementById('nova-ai-input');
+    const engineTag = document.getElementById('nova-ai-engine-tag');
+    const statusText = document.getElementById('nova-ai-status-text');
+
+    if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== '') {
+      if (engineTag) {
+        engineTag.textContent = 'GEMINI AI';
+        engineTag.style.background = 'rgba(244, 196, 48, 0.2)';
+        engineTag.style.color = '#F4C430';
+        engineTag.style.borderColor = 'rgba(244, 196, 48, 0.4)';
+      }
+      if (statusText) {
+        statusText.innerHTML = 'Online &bull; Live Gemini Mode';
+      }
+    } else {
+      if (engineTag) {
+        engineTag.textContent = 'LOCAL ENGINE';
+        engineTag.style.background = 'rgba(255, 255, 255, 0.05)';
+        engineTag.style.color = '#888888';
+        engineTag.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+      }
+      if (statusText) {
+        statusText.innerHTML = 'Online &bull; Local Backup Mode';
+      }
+    }
+
     function getLangWelcomeMsg(lang) {
       return "Yo! I'm NovaAI, your ONE9 streetwear sales assistant. Looking for fresh oversized fits, order updates, or discount codes?";
     }
@@ -885,6 +910,17 @@ Rules:
           console.error('Gemini API Error:', data.error.message);
           chatHistory.pop(); // remove failed message from history
           addBotMessage(`⚠️ AI Engine issue: ${data.error.message}. Switching to built-in assistant...`, []);
+          
+          if (engineTag) {
+            engineTag.textContent = 'KEY ERROR';
+            engineTag.style.background = 'rgba(255, 77, 77, 0.15)';
+            engineTag.style.color = '#ff4d4d';
+            engineTag.style.borderColor = 'rgba(255, 77, 77, 0.3)';
+          }
+          if (statusText) {
+            statusText.innerHTML = 'Online &bull; Local Backup Active';
+          }
+          
           setTimeout(() => processUserQuery(query), 500);
           return;
         }
@@ -915,6 +951,17 @@ Rules:
         console.error('Gemini Fetch Error:', err);
         removeTypingIndicator();
         chatHistory.pop();
+        
+        if (engineTag) {
+          engineTag.textContent = 'CONN ERROR';
+          engineTag.style.background = 'rgba(255, 77, 77, 0.15)';
+          engineTag.style.color = '#ff4d4d';
+          engineTag.style.borderColor = 'rgba(255, 77, 77, 0.3)';
+        }
+        if (statusText) {
+          statusText.innerHTML = 'Online &bull; Local Backup Active';
+        }
+        
         processUserQuery(query);
       });
     }
